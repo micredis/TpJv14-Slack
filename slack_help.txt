@@ -1,0 +1,20 @@
+Grigory Kislin [7:40 PM]
+joined #slack_help.
+
+Grigory Kislin [7:40 PM]
+set the channel purpose: Slack help
+
+Grigory Kislin [7:43 PM]
+отключение email нотификаций:  Rpeference->Notification->Nothing
+https://get.slack.help/hc/en-us/articles/201649273-Configuring-email-notifications
+Slack Help Center
+Email notifications
+Did you know you can download the Slack app on your iOS, Android, or Windows Phone device to get notifications while you're on the go? When you're not actively using Slack, you can also get email a...
+Форматирование сообщений: https://get.slack.help/hc/en-us/articles/202288908-Format-your-messages
+Slack Help Center
+Format your messages
+Adding text formatting to your Slack messages is easy! Here's a handy selection of formatting options that you can use on desktop and mobile.  The following formatting options work as described whe...
+
+
+Vitaly [9:44 PM]
+joined #slack_help along with 18 others.
