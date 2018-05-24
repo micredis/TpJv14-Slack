@@ -101,3 +101,34 @@ Vangelis Kondratevi [1:48 AM]
 GitHub
 JavaOPs/topjava
 topjava - Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery
+
+fbochkarev [2 days ago]
+Выдаёт в какой момент?
+
+
+Vangelis Kondratevi [2 days ago]
+Когда запускаю мейн
+
+
+fbochkarev [2 days ago]
+У тебя в main package прописан?
+
+
+fbochkarev [2 days ago]
+Всё, как тут? https://github.com/JavaOPs/topjava/blob/master/src/main/java/ru/javawebinar/topjava/Main.java
+GitHub
+JavaOPs/topjava
+topjava - Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery
+ 
+
+
+Vangelis Kondratevi [2 days ago]
+Да, прописан и правильно. Я сейчас к сожалению не могу посмотреть, не за компом. Посмотрю вечером. Но я форкал этот проект, поэтому будет все точно так же, как и по ссылке.
+
+
+fbochkarev [2 days ago]
+Если прочитать ошибку, у тебя идея не может найти или запустить class ru.javawebinar.topjava.Main
+
+
+fbochkarev [2 days ago]
+А sdk подключена? Принтскрин кинь. (edited)
