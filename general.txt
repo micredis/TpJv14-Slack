@@ -132,3 +132,13 @@ fbochkarev [2 days ago]
 
 fbochkarev [2 days ago]
 А sdk подключена? Принтскрин кинь. (edited)
+
+
+Grigory Kislin [11:59 AM]
+по idea, если кончились полгода:
+1. у jetbrains после активации купона на шесть бесплатных месяцев достаточно оплатить ещё шесть месяцев
+   подписки и ты получишь бесплатную резервную бессрочную лицензию на версию IntelliJ IDEA Ultimate: https://www.jetbrains.com/store/?fromMenu#edition=personal
+2. на https://welcome.stepik.org находите курсы от JetBrains
+https://stepik.org/course/6858/syllabus
+https://stepik.org/course/2403
+решаете 2-3 задачки, получаете ключ на 3 мес, повторять можно сколько угодно раз (edited)
