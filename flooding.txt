@@ -9,3 +9,28 @@ set the channel topic: оффтопик
 
 Katherine [7:02 AM]
 joined #flooding along with 10 others.
+
+Vitaly [4:47 PM]
+знатоки wildcard, хелп
+`List<? extends Number> numbers = new ArrayList<>();`
+и второй вариант:
+`List<? super Number> numbers = new ArrayList<>();`
+добавляем элементы:
+` numbers.add(1);
+  numbers.add(1L);
+  numbers.add(1f);` (edited)
+на варианте 1 - идея ругается, на 2 - все норм, хотя по логике - Integer ext Number, Double ext Number  и т.д.,  и уж никак не Integer super Number
+в чем подвох?
+
+shtramak [4:52 PM]
+Загугли PECS
+Producer - extends, consumer - super
+https://youtu.be/_0c9Fd9FacU
+YouTubeJUG .ru
+Александр Маторин — Неочевидные Дженерики
+
+
+
+Vitaly [4:54 PM]
+ага, спс, на хабре тоже нашел
+действительно неочевидные
