@@ -250,3 +250,66 @@ Vangelis Kondratevi [7:20 PM]
 
 LeoJames [7:20 PM]
 Всего хорошего
+
+Tim [3:48 PM]
+Всем привет
+
+alexv [9:26 PM]
+Привет ребят. Есть те кто сейчас готов начинать или уже начал?
+
+Avaaron [10:13 AM]
+привет
+
+Grigory Kislin [2:00 PM]
+@alexv лучше группой идти по новому проекту
+
+roma [3:23 PM]
+Всем приветы!
+
+allyonz [4:51 PM]
+Всем привет!
+
+Vangelis Kondratevi [11:46 PM]
+@alexv Я готов начинать, точнее уже начал, хотелось бы хорошо подготовиться и иметь запас времени))) Поэтому я за)))
+
+Avaaron [11:37 AM]
+я пока про гит читаю, смотрю пробую...много хитростей, надеюсь, немного осветят эту тему практически
+
+realcorwin [11:48 AM]
+посмотри FAQ Григория. больше ничего знать не нужно. остальное - факультативно
+
+Vitaly [2:37 PM]
+кто в курсе, как заставить hibernate показывать реальные запросы (со значениями) в консоли, вместо
+
+Vitaly [2:37 PM]
+uploaded this image: image.png 
+
+shtramak [2:46 PM]
+В конфиге пропиши
+`<property name="show_sql">true</property>`
+
+shtramak [2:46 PM]
+Скорей всего логгер trace левел нужен
+
+Vitaly [2:47 PM]
+стоит
+@shtramak commented on @Vitaly’s file image.png: В конфиге пропиши
+`<property name="show_sql">true</property>`
+Posted in #generalToday at 2:46 PM
+
+shtramak [2:47 PM]
+commented on Vitaly’s file image.png
+https://stackoverflow.com/questions/2536829/hibernate-show-real-sql
+shtramak [2:47 PM]
+я понял что ты имел ввиду...
+
+Vitaly [2:52 PM]
+@shtramak поставил trace, тут же куча мусора посыпалась в лог, но самого нужного так и нет, один в один все выводит как и раньше. Spring по идее никак не может мешать, я вот хз уже
+и в jpa тоже стоит вроде норм
+
+Vitaly [2:54 PM]
+uploaded this image: image.png 
+
+
+Vitaly [3:19 PM]
+попробую log4jdbc подключить, наверное так проще и быстрее будет
