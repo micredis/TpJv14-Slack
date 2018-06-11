@@ -34,3 +34,35 @@ YouTubeJUG .ru
 Vitaly [4:54 PM]
 ага, спс, на хабре тоже нашел
 действительно неочевидные
+
+
+Vitaly [5:01 PM]
+Знатоки Hibernate, хелп
+есть реализация JPA через Hibernate и Spring
+есть EntityManager
+
+Vitaly [5:03 PM]
+uploaded this image: image.png 
+
+
+Vitaly [5:04 PM]
+ставлю точку дебага, чтобы посмотреть что внутри EntityManager:
+
+Vitaly [5:05 PM]
+uploaded this image: image.png 
+
+
+Vitaly [5:06 PM]
+т.е. некая реализация FactoryBean, что и следовало ожидать, оно определено в xml
+собственно вопрос - в самом классе Local...EFean - нет реализаций методов EntityManager, для примера смотрим метод persist()
+
+Vitaly [5:10 PM]
+uploaded this image: image.png 
+
+
+Vitaly [5:10 PM]
+как так происходит, что за магия?
+и в списке классов, имплементирующих EntityManager не видно бина LocalContainerEntityManagerFactoryBean
+
+Vitaly [5:13 PM]
+uploaded this image: image.png 

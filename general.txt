@@ -313,3 +313,26 @@ uploaded this image: image.png
 
 Vitaly [3:19 PM]
 попробую log4jdbc подключить, наверное так проще и быстрее будет
+
+
+Grigory Kislin [12:34 AM]
+commented on Vitaly’s file image.png
+https://habr.com/post/266781/
+
+Vitaly [12:49 AM]
+@Grigory Kislin да, через log4jdbc пошло все норм, видно хоть что происходит
+
+Grigory Kislin [12:59 AM]
+я не разу его не юзал. в выпускном вживую один раз видел
+
+Vitaly [1:00 AM]
+uploaded this image: image.png 
+
+
+Vitaly [1:01 AM]
+uploaded this image: image.png 
+
+
+Vitaly [1:01 AM]
+упрощает жизнь. может конечно на более высоких уровнях что-то получше есть, но и это неплохо
+он как прокси оборачивает все jdbc запросы и пропускает через себя
