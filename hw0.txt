@@ -177,3 +177,125 @@ realcorwin [11:47 AM]
 
 Grigory Kislin [12:30 AM]
 + большие задачи можно распараллелисть одним словом parallel
+
+
+Alexander Pilipenko [1:49 PM]
+Нашел интересный материал
+https://programmingideaswithjake.wordpress.com/2015/12/19/313/
+Programming Ideas With JakeJacob Zimmerman
+How Java 8 Streams Work
+When I first laid eyes on Java 8's Stream API and found out that it worked lazily, I was blown away and utterly baffled. It didn't seem possible. Eventually, I was able to wrap my head around it. In this post, I'm going to go through and write up a simplified implementation, creating filter(), map(), and reduce().
+В виде вывода в нем написано следующее
+Starting at the base Stream of some collection, we call filter(), then map(), then reduce() on it. This results in calling reduce() from a MapStream wrapped around a FilterStream, wrapped around a basic Stream. For each iteration done inside of reduce(), it calls hasNext() on the MapStream (since the Stream is also the Iterator), which simply delegates to its wrapped Iterator, which is a FilterStream in this instance. The FilterStream loops through until it finds an object that passes the filter’s test or the end of the collection. During that looping, it uses the hasNext() and next() methods of its wrapped Iterator, which is just the base Stream in this case. It returns its calculated hasNext() value, passing it back up the chain, where it is used by reduce().
+
+Then reduce() needs the next() value. It goes through the same chain, delegating down the wrapper hierarchy until it gets a definitive answer that gets passed back up to it.
+Т.е. если верить этому сайту, то в случае .map .filter  .collect все будет сделано за 1 проход
+
+shtramak [2:12 PM]
+Все промежуточные операции, которые выполняются до терминальной - проходят за один проход по стриму... в принципе по стриму можно пройтись только один раз
+
+Artem [2:48 PM]
+@Alexander Pilipenko Большое спасибо!
+
+Но за один проход задача HW0 все равно не решается. Ну никак. Это противоречит логике. Мы в любом случае должны сначала пройти по ВСЕМУ списку чтобы сделать группировки и узнать количество калорий за ЦЕЛЫЙ ДЕНЬ за каждый день. - и это уже будет первый проход. И уже только потом фильтровать и из каждого объекта UserMeal делать объекты UserMealWithExceed. - и это второй проход.
+
+Да, можно сделать вложенный стрим, но в задании сказано, что нужно без вложенных.
+
+Да, можно придумать еще хитрые способы... Можно внутри класса UserMealWithExceed хранить статический список всех UserMealWithExceed (нам же не запрещали UserMealWithExceed изменять?!) и добавить конструктор, который будет принимать еще и значение дневной нормы калорий, в этом конструкторе будем перебирать весь список объектов UserMealWithExceed, отбирать по дате, если есть избыток по дневной норме калорий, то у всех объектов меняем exceed на значение true! Жесть, извращение и говнокод))) Но зато притянутое за уши решение в один проход в методе getFilteredWithExceeded будет работать. И да, все равно получается вложенный стрим/цикл, просто мы маскируем его внутрь UserMealWithExceed. (edited)
+
+Alexander Pilipenko [2:50 PM]
+Может меня и побьют, но в комментариях был намек на то, что код можно менять
+Т.е. читать как Нужно
+Ну и еще 1 намек. При указании сложности более большая поглощает более маленькие
+Более точно сказать не могу. Может я неправильно понимаю и все сделал неправильно. И вообще выгонят из группы
+
+Artem [2:54 PM]
+И "уволят" со стажировки еще до её начала)))))
+Да не, про изменение класса я и сам ранее написал :point_up_2:
+
+Про сложность не понял.. Что значит более большая поглощает более маленькую?)
+
+Alexander Pilipenko [2:55 PM]
+O(n) теоретически выполняется дольше чем O(log(n))
+Поэтому даже если сначала выполнилась операция O(log(n)), а за ней O(n), то общая сложность будет O(n) (edited)
+Это для последовательных операций
+Если Одна операция выполняет другую в цикле, то они перемножатся
+И будет O(n*log(n))
+Если операция O(1) - то она не повлияет ни на первый ни на второй случай. И при последовательной обработке и при обработке в цикле останется O(n) (edited)
+Может я и не прав, но нам так объясняли
+
+Stanislav [3:09 PM]
+uploaded this image: 20180611_180806.png 
+
+
+Stanislav [3:10 PM]
+O(n+n), O(n) ни как не получится
+
+Alexander Pilipenko [3:10 PM]
+Вот. А так как n - это просто какая-то величина, то O(A+B) = O(n)
+
+Stanislav [3:10 PM]
+да
+
+Alexander Pilipenko [3:11 PM]
+Индексы опускают
+
+Stanislav [3:11 PM]
++
+
+Alexander Pilipenko [3:11 PM]
+O(n+n) = O(2n) = O(n)
+В натации
+Но не в реальной работе
+А откуда картинка?
+
+Artem [3:12 PM]
+Хм))) В общем я понял. Все сделали примерно одинаково. Сначала собрали Мапу, потом с её помощью преобразовали элементы.
+
+Stanislav [3:13 PM]
+Карьера Программиста Г.Лакман Макдауэлл
+
+Alexander Pilipenko [3:13 PM]
+Спасибо
+Спойлер :slightly_smiling_face:
+
+Artem [3:14 PM]
+@Alexander Pilipenko Спойлер - это мне?))) Думаешь, удалить лучше?)
+
+Alexander Pilipenko [3:14 PM]
+Нет
+Я бы не удалял, а админ ветки потом сам решит
+
+Artem [3:17 PM]
+Ок, оставлю.
+И все равно это два прохода, а не один... в моем понимании. Вот такой я зануда..:upside_down_face: (edited)
+
+Alexander Pilipenko [3:18 PM]
+Можно за 1
+
+Artem [3:31 PM]
+Вторую неделю думаю и не понимаю как.. Похоже, что узнаю на первом занятии, где будет разбираться HW0.
+
+Tim [6:04 PM]
+два прохода - это тоже O(n)
+я не понял только одно - сделали hw0 и ждем теперь типа 28е число?
+
+Vitaly [6:06 PM]
+да
+на проверку только отправь
+
+Merkulov [7:26 PM]
+на проверку 21 нужно отправлять
+
+Avaaron [8:22 PM]
+цикл в цикле это 2 прохода? и сортировка компоратором считается за проход?
+
+shtramak [8:32 PM]
+Два цикла по отдельности это два прохода и O(n), а цикл в цикле это O(n2), сортировка по условию не требуется
+
+Avaaron [8:41 PM]
+ну, она мне была нужна (сортировка) , для исполнения задуманного
+
+Tanya [10:25 PM]
+те, у кого оплачена топджава с проверкой, могут на проверку сейчас отправлять
+если есть решение за один проход, но топджава без проверки ДЗ - то скидывайте ссылку на гитхаб мне в ЛС (edited)

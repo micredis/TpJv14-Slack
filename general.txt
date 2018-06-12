@@ -336,3 +336,94 @@ uploaded this image: image.png
 Vitaly [1:01 AM]
 упрощает жизнь. может конечно на более высоких уровнях что-то получше есть, но и это неплохо
 он как прокси оборачивает все jdbc запросы и пропускает через себя
+
+
+sergentum [12:00 PM]
+@Vitaly <logger name="org.hibernate.type" level="ALL" /> такой вариант подставляет рядом с выводом хибернейта значения, не так удобно как ждбс на твоих скринах, но тоже вариант
+
+Vitaly [12:10 PM]
+@sergentum попробую, спс
+
+sergentum [4:58 PM]
+https://github.com/sergentum/SoftLogicTest/blob/master/src/main/resources/spring/spring-db.xml
+помогите, пожалуйста, не понимаю.  Хочу сделать профили, добавил тег <beans profile="postgres"> и он пишет :
+Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'ru.sergentum.repository.UserRepository' available: expected at least 1 bean which qualifies as autowire candidate.
+А без этого тега все запускается и работает. Я не собираюсь конечно же все оборачивать в этот тег, это уже для наглядности, мне надо только датасорс в этот тег, но все выходит то же самое.
+GitHub
+sergentum/SoftLogicTest
+Contribute to SoftLogicTest development by creating an account on GitHub.
+
+Alexander Pilipenko [5:06 PM]
+http://www.baeldung.com/spring-nosuchbeandefinitionexception
+Baeldung
+Spring NoSuchBeanDefinitionException | Baeldung
+Causes and Solutions for the NoSuchBeanDefinitionException in Spring - "No qualifying bean of type", "No Bean Named", Proxied Beans, etc.
+Jul 5th, 2013
+http://www.baeldung.com/wp-content/uploads/2016/10/social-On-Spring-dark.jpg
+Hi i am getting below exception org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name ‘loginDaoImpl’: Unsatisfied dependency expressed through field ‘loginService’: Error creating bean with name ‘loginService’: Unsatisfied dependency expressed through field ‘userRepository’: No qualifying bean of type [com.demo.repository.UserRepository] found for dependency [com.demo.repository.UserRepository]: expected at least 1 bean which qualifies as autowire candidate for this dependency. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type [com.demo.repository.UserRepository] found for dependency [com.demo.repository.UserRepository]: expected at least 1 bean which qualifies as autowire candidate for this dependency. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name ‘loginService’: Unsatisfied dependency expressed… Read more »
+
+0 2 years ago
+Eugen Paraschiv
+Guest
+Eugen Paraschiv
+Well Jothi – it simply looks like your configuration isn’t picking up the the user repository as a bean. You can either define the bean manually, scan it in by package or, if it’s a Spring Data JPA bean – point to the package where these repositories are located in your configuration.
+Also, can you please edit your commend and remove the initial part of the execption, and just leave the NoSuchBeanDefinitionException in there?
+Hope that helps. Cheers,
+Eugen.
+Я со спрингом плотно не работал
+Может ссылка выше поможет
+
+Alexander Pilipenko [5:13 PM]
+И может я не прав, но где у тебя прописан бин UserRepository
+?
+
+Vitaly [5:18 PM]
+ага, бинов-реализаций репозитория вообще не видно ни одного, только интерфейсы
+
+Vitaly [5:19 PM]
+uploaded this image: image.png 
+
+
+Vitaly [5:19 PM]
+http://spring.io/blog/2011/02/11/spring-framework-3-1-m1-released
+раздел - "Enter bean definition profiles"
+а нет, я лошара, там не нужна имплементация, там же JpaRep
+но про профили вроде то
+
+Alexander Pilipenko [5:25 PM]
+А разве не должно быть что-то типа @Autowired @Qualifier
+?
+https://stackoverflow.com/questions/20333147/autowired-no-qualifying-bean-of-type-found-for-dependency
+Stack Overflow
+@Autowired - No qualifying bean of type found for dependency
+I've started my project by creating entities, services and JUnit tests for services using Spring and Hibernate. All of this works great. Then I've added spring-mvc to make this web application usin...
+
+sergentum [5:26 PM]
+нет, ребята, все работает без этого тега
+не должно быть там реализации и аннотаций тоже
+аннотации написаны там откуда имплемент
+кажется надо профили не только в иде клацать, но и в веб хмл прописывать
+
+Vitaly [7:24 PM]
+@sergentum https://www.youtube.com/watch?v=Wm6CDoI6Jps
+YouTubeJava Enterprise Online Обучение
+Профили в Spring и Maven: добавления HSQLDB.
+
+
+alexv [10:30 PM]
+uploaded and commented on this image: image.png 
+
+Нужна помощь. реквест к странице авторизации возвращает страницу доступную после авторизации, т.е. секьюрити не срабатывает.
+
+alexv [10:31 PM]
+https://github.com/Lolret/sweater
+GitHub
+Lolret/sweater
+Contribute to sweater development by creating an account on GitHub.
+
+Tanya [10:48 PM]
+давайте все таки то, что не относится напрямую к данному проекту писать в #random #flooding  и др. каналы (edited)
+
+
+Ramil [11:32 AM]
+всем чмоки в этом чяте
