@@ -299,3 +299,747 @@ Avaaron [8:41 PM]
 Tanya [10:25 PM]
 те, у кого оплачена топджава с проверкой, могут на проверку сейчас отправлять
 если есть решение за один проход, но топджава без проверки ДЗ - то скидывайте ссылку на гитхаб мне в ЛС (edited)
+
+
+Vadim [1:42 PM]
+Всем привет. Как думаете, должен ли метод getFilteredWithExceeded возвращать объекты UserMealWithExceed, у которых поле exceed == false? Мне кажется, что сама возможность наличия объекта, который называется WithExceed, но на самом деле exceed == false, не логична. Только мне так кажется?
+
+Vladimir Gorbatenko [2:02 PM]
+имеется в виду с полем, которое показывает "есть ли превышение"
+Vadim
+Всем привет. Как думаете, должен ли метод getFilteredWithExceeded возвращать объекты UserMealWithExceed, у которых поле exceed == false? Мне кажется, что сама возможность наличия объекта, который называется WithExceed, но на самом деле exceed == false, не логична. Только мне так кажется?
+Posted in #hw0Jun 12th
+
+Vadim [2:32 PM]
+Если объект называется приёмПищиСпривышением, то странно, что этот объект может существовать, когда превышения нет
+
+Vadim [2:57 PM]
+это, как минимум, не очевидно
+Vladimir Gorbatenko
+имеется в виду с полем, которое показывает "есть ли превышение"
+https://topjava14.slack.com/archives/CAJL007L3/p1528800127000066
+Posted in #hw0Jun 12th
+
+Vadim [3:11 PM]
+Мне кажется, что UserMealWithExceed не должен содержать поля exceed, т.к. оно уже исходя из названия должно быть true, и вообще зачем нам объекты UserMealWithExceed, у которых exceed == false. Как мы их используем?
+
+Vladimir Gorbatenko [3:14 PM]
+Exceeded  - это флаг. Сам класс - как адаптер.
+
+Stanislav [3:21 PM]
+UserMeal - это энтити, UserMealWithExceed - это ДТО. метод "getFilteredWithExceeded" - это мапер, удачное ли название метода, хз, можно было бы и по другому.
+
+AlxB [3:24 PM]
+@Vadim по простому. Есть флажек, который показывает переел ли пользователь. Хранить его бесмыслено, так как он вычисляем.
+
+Stanislav [3:25 PM]
+Я так понимаю что ему не нравится название метода. Исходя из названия, метод делает не то что в названии.
+
+Vadim [3:26 PM]
+аллилуйя
+Stanislav
+Я так понимаю что ему не нравится название метода. Исходя из названия, метод делает не то что в названии.
+Posted in #hw0Jun 12th
+
+Stanislav [3:27 PM]
+Переименуй в HW :wink: + в карму тебе будет...тут много к чему можно придраться, суть не в этом.
+
+Vadim [3:28 PM]
+Пусть будет ДТО, объясните, зачем объекты с exceed == false?
+Stanislav
+UserMeal - это энтити, UserMealWithExceed - это ДТО. метод "getFilteredWithExceeded" - это мапер, удачное ли название метода, хз, можно было бы и по другому.
+Posted in #hw0Jun 12th
+я не пытаюсь придираться, просто хочу разобраться, вполне допускаю, что я не прав или что-то не до конца понимаю
+
+Stanislav [3:30 PM]
+А ты смотрел готовое приложение? этот флаг определяет раскраску строки
+переел или нет и подкрашывается
+
+shtramak [3:32 PM]
+А еще у UserMealWithExceed все поля приватные и нет геттеров... )
+
+
+Stanislav [Jun 12th at 3:33 PM]
+in #hw0
+А еще много там чего нету) В реальной работе будете писать когда еще ни чего нету, одни заглушки...
+
+
+2 replies
+shtramak [3 days ago]
+в реальной работе по началу, как правило, колупаются в куче уже написанного легаси говнокода) А так, конечно понятно, что все будем дописывать... Просто DTO без доступа к полям совсем на него не похож)
+
+
+Stanislav [3 days ago]
+:slightly_smiling_face:
+
+
+Vadim [3:34 PM]
+Если бы все объекты UserMealWithExceed были бы с превышением, это было бы логично, а уж подкрасить их вряд ли сложно. Ну или назвать UserMealWithExceedField or UserMealWithExceedFlag
+
+Stanislav [3:35 PM]
+Как назвать корабль так он и поплывет :wink:
+
+Artem [4:46 PM]
+Про проверку домашек не совсем понял. Получается, что даже если подписка без проверки - все равн оотправлять на проверку надо?) Просто ревью не будет.. или как?)
+
+vch [4:57 PM]
+@Artem думаю, это касается только решения `Optional 2` в данном уроке... Впрочем, Григорий упоминал ещё `вклад в проект` - если ты сможешь придумать решение лучше чем его эталонное в каком-нибудь уроке или найдёшь ошибку в эталонном решении - вряд ли он откажется посмотреть. (edited)
+
+Artem [5:14 PM]
+@vch Спасибо
+
+e.pekhterev [2:23 PM]
+Всем привет)! Реализовал в цикле за 2 прохода (не понимаю, как можно сделать за один, ведь предварите @льно нужно подсчитать сколько калорий за день получается). Если у кото-то есть идеи, не отказался бы от подсказки.
+Да, я так понял, что раз у меня подписка без проверки и не лучшее решение, то и отправлять не нужно на проверку? (edited)
+
+Artem [2:26 PM]
+Да, если в два прохода, то можно пока и не отправлять. Говорят можно как-то в один. Вторую неделю думаю... чем больше думаю - тем больше понимаю, что нельзя в один проход сделать..) (edited)
+
+Stanislav [2:28 PM]
+Скорее всего не правильно сформулирована задача. Скорее всего имеется ввиду сложность O(n), а не сколько циклов. Уже выше обсуждалось, 2 цикла и 1 цикл в котором вложенный цикл это разные вещи.
+
+Artem [2:33 PM]
+Да не, мы уже 14-я группа, судя по url, не могли же задачу до 14-ой группы довести и до сих пор не доформулировать корректно.
+
+Stanislav [2:34 PM]
+Тогда есть еще мысль.Что это нормально т.к. на собеседовании-на реальной работе такое будет часто, скажут какую то *** сделать, а ты встанешь ступором и не будешь знать что ответить-написать.
+Я уже задачу на проверку сдавал, обсуждал с девушками (кто проверяет). Ни чего не сказали про 1 цикл (у меня решения О(n) что циклами, что стримами). Так что, не совсем корректно описана задача, хотя как выше написал, такое будет часто.
+
+Artem [2:39 PM]
+Т.е. несколькими стримами приняли как правильно решенную?)
+
+Stanislav [2:40 PM]
+На собеседовании вообще могут дичь какую нибудь спросить :slightly_smiling_face: и надо будет как то обьяснить-доказать что они спрашивают не правильно, что так не возможно, по таким то, таким причинам.
+Да, 1 стрим группирует по дате и каллориям, второй делает что уже надо (смотря на результат 1).
+это О(n)
+вернее О(n+n) но индексы опускаются, по этому О(n)
+
+Artem [2:42 PM]
+эээээ, но мне сказали, что это классическое решение в два прохода, а должно быть (если решать "optional 2") решение в один проход.)
+
+Stanislav [2:43 PM]
+тогда хз, мне не сказали что есть другое решение, но так же сказали классическое решение...лано, видно будет что они там напридумали в начальном уроке)
+
+Join_Selectovich [4:23 PM]
+Мне тоже сразу показалось что в 1 цикл нельзя решить, но через пару недель появилась идея как это можно попробовать сделать. буду пробовать )
+
+Artem [4:45 PM]
+@Join_Selectovich Ты вот зачем сейчас это написал?))) Ты либо делись, либо не сыпь соль на рану :smiley:
+
+Join_Selectovich [4:49 PM]
+Я уже засомневался .. что все-таки это можно сделать. но может как-то динамически рассчитывать значения и сразу в этом же цикле делать маркировку строк. (edited)
+
+Avaaron [6:59 PM]
+в итоге цикл в цикле будет
+я так решил
+
+
+Tanya [Jun 13th at 8:50 PM]
+in #hw0
+ДЗ принимается
+base - через циклы со сложностью O(N)
+optional - стримы  со сложностью O(N)
+optional 2 - один проход по mealList и сложность O(N) это уже чтобы поиграться, если есть время и желание + бонус, если получится
+
+
+
+1 reply
+Tim [23 hours ago]
+потом расскажете как можно за один проход? по мне это противоречит логике: 1 проход группировка по дням с подсчет калорий, второй проход - расставление true/false каждому приему пищи
+
+
+Vitaly [11:59 PM]
+кому интересно - сравните время выполнения своих методов getFilteredWithExceeded через циклы, и через стримы
+
+Tanya [12:24 AM]
+только сравнивать над не в лоб, а желательно с помощью подходящих инструментов, например JMH
+
+
+Grigory Kislin [1:15 PM]
+в лоб- это с потолка. нужно спец. инструменты на прогретой jvm
+
+Avaaron [1:32 PM]
+я возможно ошибаюсь, но в идее вроде бы есть пердустановленный мавен
+
+Alexander Pilipenko [2:16 PM]
+На моем варианте с 2 циклами или 2 стримами (реализуют похожую логику) в JMH получил такие результаты:
+# Run complete. Total time: 00:08:49
+
+Benchmark                                       (iterations)   Mode  Cnt       Score       Error  Units
+BenchMark.benchGetFilteredWithExceededByLoop               5  thrpt   20  862593.239 ± 29883.843  ops/s
+BenchMark.benchGetFilteredWithExceededByLoop              10  thrpt   20  469197.070 ± 12271.461  ops/s
+BenchMark.benchGetFilteredWithExceededByLoop              15  thrpt   20  294510.912 ± 13768.790  ops/s
+BenchMark.benchGetFilteredWithExceededByLoop              20  thrpt   20  226841.896 ±  4487.993  ops/s
+BenchMark.benchGetFilteredWithExceededByLoop              30  thrpt   20  150431.766 ±  3710.687  ops/s
+BenchMark.benchGetFilteredWithExceededByStream             5  thrpt   20  718339.870 ± 18108.173  ops/s
+BenchMark.benchGetFilteredWithExceededByStream            10  thrpt   20  408348.499 ± 16130.764  ops/s
+BenchMark.benchGetFilteredWithExceededByStream            15  thrpt   20  288469.300 ±  7000.323  ops/s
+BenchMark.benchGetFilteredWithExceededByStream            20  thrpt   20  252440.735 ±  3888.902  ops/s
+BenchMark.benchGetFilteredWithExceededByStream            30  thrpt   20  150050.116 ±  5572.242  ops/s
+iterations - количество заполненных дней в массиве (1 день = 3 приема пищи)
+
+Alexander Pilipenko [2:37 PM]
+# Run complete. Total time: 00:03:32
+
+Benchmark                                       (iterations)   Mode  Cnt     Score     Error  Units
+BenchMark.benchGetFilteredWithExceededByLoop             500  thrpt   20  5103.401 ±  56.740  ops/s
+BenchMark.benchGetFilteredWithExceededByLoop            1000  thrpt   20  2364.176 ±  13.455  ops/s
+BenchMark.benchGetFilteredWithExceededByStream           500  thrpt   20  6515.109 ± 163.518  ops/s
+BenchMark.benchGetFilteredWithExceededByStream          1000  thrpt   20  2717.628 ±  28.614  ops/s
+
+Vitaly [23 hours ago]
+как-то странно, у тебя ops/s почти равны у стримов и циклов
+
+
+Alexander Pilipenko [23 hours ago]
+На больших количествах стримы даже выиграли
+
+
+Vitaly [23 hours ago]
+просто у меня больше разница вышла между обычным циклом и стримом
+
+
+Alexander Pilipenko [23 hours ago]
+После первого урока могу скинуть код задания
+
+
+Alexander Pilipenko [23 hours ago]
+Или сейчас код запуска бенчмарка
+
+
+Alexander Pilipenko [23 hours ago]
+А на коком количестве записей ты тестировал?
+
+
+Vitaly [23 hours ago]
+мне код самих методов не нужен, скинь бенчмарк просто
+
+
+Vitaly [23 hours ago]
+сейчас мой бедный ноут дожжужит, скину
+
+
+Vitaly [23 hours ago]
+я вот по поводу Fork - не очень понял смысл
+
+
+Alexander Pilipenko [2:47 PM]
+added this Java snippet: BenchMark.java 
+package ru.javawebinar.topjava;
+​
+​
+​
+import com.google.common.hash.HashFunction;
+import com.google.common.hash.Hasher;
+import com.google.common.hash.Hashing;
+import org.openjdk.jmh.annotations.*;
+import ru.javawebinar.topjava.model.UserMeal;
+import ru.javawebinar.topjava.model.UserMealWithExceed;
+import ru.javawebinar.topjava.util.UserMealsUtil;
+​
+import java.nio.charset.Charset;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Month;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+​
+public class BenchMark {
+​
+  @State(Scope.Benchmark)
+  public static class ExecutionPlan {
+​
+    List<UserMeal> mealList;
+​
+    @Param({ "5", "10", "15", "20", "30" })
+    public int iterations;
+​
+    @Setup(Level.Invocation)
+    public void setUp() {
+​
+​
+      Random random = new Random();
+​
+      mealList = new ArrayList<>();
+      for (int i=1; i<iterations; i++) {
+        mealList.add(new UserMeal(LocalDateTime.of(2015, Month.MAY, i, 10, 0), "Завтрак", 300+i*14));
+        mealList.add(new UserMeal(LocalDateTime.of(2015, Month.MAY, i, 13, 0), "Обед", 500+i*10));
+        mealList.add(new UserMeal(LocalDateTime.of(2015, Month.MAY, i, 20, 0), "Ужин", 200+i*13));
+      }
+    }
+  }
+​
+  @Fork(value = 1, warmups = 1)
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @Warmup(iterations = 5)
+  public void benchGetFilteredWithExceededByStream(ExecutionPlan plan) {
+​
+    UserMealsUtil.getFilteredWithExceededByStream(plan.mealList, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
+​
+  }
+​
+  @Fork(value = 1, warmups = 1)
+  @Benchmark
+  @BenchmarkMode(Mode.Throughput)
+  @Warmup(iterations = 5)
+  public void benchGetFilteredWithExceededByLoop(ExecutionPlan plan) {
+​
+    UserMealsUtil.getFilteredWithExceededByLoop(plan.mealList, LocalTime.of(7, 0), LocalTime.of(12, 0), 2000);
+​
+  }
+​
+}
+
+
+Alexander Pilipenko [2:47 PM]
+added this Java snippet: BenchmarkRunner.java 
+package ru.javawebinar.topjava;
+​
+public class BenchmarkRunner {
+​
+  public static void main(String[] args) throws Exception {
+    org.openjdk.jmh.Main.main(args);
+  }
+​
+}
+Collapse 
+
+Alexander Pilipenko [2:47 PM]
+added this XML snippet: pom.xml 
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+​
+  <groupId>ru.javawebinar</groupId>
+  <artifactId>topjava</artifactId>
+  <packaging>jar</packaging>
+​
+  <version>1.0-SNAPSHOT</version>
+​
+  <name>Calories Management</name>
+  <url>http://topjava.herokuapp.com/</url>
+​
+  <properties>
+    <java.version>1.8</java.version>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
+​
+  <build>
+    <finalName>topjava</finalName>
+    <defaultGoal>install</defaultGoal>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.7.0</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+​
+  <dependencies>
+    <dependency>
+      <groupId>org.openjdk.jmh</groupId>
+      <artifactId>jmh-core</artifactId>
+      <version>1.19</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openjdk.jmh</groupId>
+      <artifactId>jmh-generator-annprocess</artifactId>
+      <version>1.19</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>18.0</version>
+    </dependency>
+​
+  </dependencies>
+​
+  <profiles>
+  </profiles>
+​
+  <dependencyManagement>
+  </dependencyManagement>
+</project>
+Collapse 
+
+Vitaly [2:56 PM]
+uploaded this image: image.png 
+
+
+Alexander Pilipenko [3:06 PM]
+Это на каком количестве записей?
+
+Vitaly [3:06 PM]
+5
+iteration
+2 дня, 6 записей
+
+Alexander Pilipenko [3:19 PM]
+Странно, что у тебя стримы на малом количестве быстрее
+# Run complete. Total time: 00:02:39
+
+Benchmark                                       (iterations)   Mode  Cnt        Score       Error  Units
+BenchMark.benchGetFilteredWithExceededByLoop               2  thrpt   40  1962076.081 ± 44780.327  ops/s
+BenchMark.benchGetFilteredWithExceededByStream             2  thrpt   40  1311009.308 ± 16205.788  ops/s
+
+Process finished with exit code 0
+Или это по среднему времени?
+
+Vitaly [3:20 PM]
+среднее
+Fork - value - это что? какой физический смысл?
+
+Alexander Pilipenko [3:22 PM]
+http://www.baeldung.com/java-microbenchmark-harness
+Baeldung
+Microbenchmarking with Java | Baeldung
+Learn about JMH, the Java Microbenchmark Harness.
+Jul 24th, 2017
+By using the @Fork annotation, we can set up how benchmark execution happens: the value parameter controls how many times the benchmark will be executed, and the warmup parameter controls how many times a benchmark will dry run before results are collected, for example:
+По среднему времени у меня не сработало :slightly_smiling_face:
+# Run complete. Total time: 00:02:38
+
+Benchmark                                       (iterations)  Mode  Cnt   Score    Error  Units
+BenchMark.benchGetFilteredWithExceededByLoop               2  avgt   40  ≈ 10⁻⁶            s/op
+BenchMark.benchGetFilteredWithExceededByStream             2  avgt   40  ≈ 10⁻⁶            s/op
+
+Vitaly [3:25 PM]
+поставь наносекунды, интересно ж
+он округлил просто сильно
+
+Alexander Pilipenko [3:30 PM]
+# Run complete. Total time: 00:02:39
+
+Benchmark                                       (iterations)  Mode  Cnt    Score    Error  Units
+BenchMark.benchGetFilteredWithExceededByLoop               2  avgt   40  523.923 ± 18.749  ns/op
+BenchMark.benchGetFilteredWithExceededByStream             2  avgt   40  749.729 ± 17.808  ns/op
+
+Vitaly [3:34 PM]
+ну да, примерно то же соотношение, что у меня
+
+
+Stanislav [Yesterday at 4:14 PM]
+in #hw0
+Я надеюсь решение в 1 проход (Option 2) не из разряда "не правильного программирования", типа, создать статическую мапу класса UserMeal и ложить туда суммированные калории по дням :slightly_smiling_face: А то такого г** можно много придумать.
+
+
+4 replies
+Tim [20 hours ago]
+это 2 прохода все равно, сначала надо заполнить мапу
+
+
+Stanislav [19 hours ago]
+В конструкторе...
+
+
+Grigory Kislin [19 hours ago]
+1. а почему  статическую мапу в  UserMeal? ее где угодно можно сделать
+2. и как она поможет?
+
+
+Stanislav [18 hours ago]
+Вообще мысль была, на этапе создания UserMeal как то суммировать калории (хэш, или вот статик мапу<Date, калории> на класс и в конструкторе заполнять). Но это ерунда 1. Нет уникальности, если объект был бы persist, но то же не то 2. Очищать мапу....в общем ерунда...
+Тут скорее всего или не правильно мы понимаем "Option 2" или не правильно сформулировано. 1 проход по листу UserMeal, O(n)...Можно при проходе запоминать калории и создавать DTO, как только привысил максимум калорий перебирать созданые DTO и изменить флаг. Но то же мне это не нравится, хотя и 1 проход пл листу с UserMeal, а вот сложность О я затрудняюсь измерить.
+
+
+Crazz [6:05 PM]
+как вариант можно складывать отфильтрованное в 2 захардкоженных списка - один exceed true, другой false
+
+Stanislav [6:39 PM]
+Тут не сам алгоритм, а структуру менять надо. 1 цикл, на первом проходе уже надо знать exceed или нет. Тот же exceed финальный, то есть потом не поменяешь (да и смысл, все равно если менять тот же цикл в цикле будет). Хэшировать на момент создания энтити тоже маразм....
+
+Andy Fleer [8:26 PM]
+Подскажите где есть внятное объяснение как прицепить JMH к проекту
+
+Alexander Pilipenko [9:13 PM]
+Выше был туториал
+
+Andy Fleer [9:59 PM]
+Уточню вопрос
+
+
+Andy Fleer [Yesterday at 9:59 PM]
+in #hw0
+import org.openjdk.jmh.annotations.Benchmark;
+идея не видит
+
+
+59 replies
+Vitaly [16 hours ago]
+зависимости в pom.xml поставил?
+
+
+Andy Fleer [15 hours ago]
+Да. Но вот сейчас доходит до меня, что OpenJDK это не то же что JDK от Oracle
+
+
+Andy Fleer [15 hours ago]
+похоже в этом дело
+
+
+Andy Fleer [15 hours ago]
+Так?
+
+
+Alexander Pilipenko [15 hours ago]
+Нет
+
+Alexander Pilipenko [15 hours ago]
+Когда пропишешь в pom.xml должны, потом нужно сделать maven -> reimport
+
+
+Alexander Pilipenko [15 hours ago]
+Будут скачаны необходимые jar файлы
+
+
+Alexander Pilipenko [15 hours ago]
+После этого все должно нормально быть
+
+Andy Fleer [15 hours ago]
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+
+   <groupId>jmh-test</groupId>
+   <artifactId>jmh-test</artifactId>
+   <version>1.0-SNAPSHOT</version>
+
+   <dependencies>
+       <dependency>
+           <groupId>org.openjdk.jmh</groupId>
+           <artifactId>jmh-core</artifactId>
+           <version>1.19</version>
+           <scope>system</scope>
+           <systemPath>${project.basedir}/src/main/resources/jmh-core-1.19.jar</systemPath>
+       </dependency>
+       <dependency>
+           <groupId>org.openjdk.jmh</groupId>
+           <artifactId>jmh-generator-annprocess</artifactId>
+           <version>1.19</version>
+           <scope>system</scope>
+           <systemPath>${project.basedir}/src/main/resources/jmh-generator-annprocess-1.19.jar</systemPath>
+       </dependency>
+   </dependencies>
+
+</project>
+
+
+Andy Fleer [15 hours ago]
+Всё так?
+
+
+Andy Fleer [15 hours ago]
+От реимпорта легче не становится
+
+
+Andy Fleer [15 hours ago]
+О!
+
+
+Andy Fleer [15 hours ago]
+Есть контакт
+
+
+Andy Fleer [14 hours ago]
+Я не реипортом jarы качал, а руками закинул в директорию resources и прописал к ним путь
+
+
+Andy Fleer [14 hours ago]
+Это был не лучший путь
+
+
+Andy Fleer [14 hours ago]
+А вообще какая общая стратегия? Добавляю JMH в рабочий проект или делаю тестовый проект, куда пересаживаю части для тестирования? Как опыт подсказывает? Как добрее и разумней?
+
+
+Alexander Pilipenko [14 hours ago]
+Разработчики рекомендуют отдельный MAVEN/GRADEL проект в который копируются jar c тестируемой частью (edited)
+
+
+Alexander Pilipenko [14 hours ago]
+А в pom.xml меня очень смущают строки  <systemPath>${project.basedir}/src/main/resources/jmh-core-1.19.jar</systemPath>
+
+
+Alexander Pilipenko [14 hours ago]
+Скорее всего не туда копировалось
+
+
+
+Vitaly [14 hours ago]
+я отходил, но вижу все решилось :grin:
+
+Vitaly [14 hours ago]
+@Andy Fleer искренне советую посмотреть/почитать про мавен, мне кажется здесь у вас пробел, это оч важный аспект
+
+
+Andy Fleer [14 hours ago]
+Однозначно пробел
+
+Vitaly [14 hours ago]
+можно сказать - бросьте все и займитесь, дальше будут везде зависимости, плагины, сборка проекта, и т.д., это правда просто, но будет отвлекать
+
+
+Andy Fleer [14 hours ago]
+Есть мысли о вменяемом ресурсе или учебном курсе на тему
+
+
+Andy Fleer [14 hours ago]
+Английский подходит
+
+Vitaly [14 hours ago]
+Ща
+
+Andy Fleer [14 hours ago]
+На Юдеми были курсы с Maven но кажется вместе с Nod-ом
+
+Vitaly [14 hours ago]
+https://proselyte.net/tutorials/maven/
+PROSELYTE
+Руководство по Maven (полная версия).
+Руководство по Maven (полная версия). Введение. Файл POM. Жизненный цикл сборки проектов. Профили сборки. Репозитории. Плагины. Создание проекта. Сборка и тестирование проекта. Внешние зависимости.… (16 kB)
+Mar 26th, 2016 at 10:24 PM
+
+
+Vitaly [14 hours ago]
+на ютубе море, на офиц сайте тоже есть достаточно много
+
+Andy Fleer [14 hours ago]
+Отлично
+
+Andy Fleer [14 hours ago]
+Изучу
+
+Vitaly [14 hours ago]
+на проселайт - основа есть в принципе
+
+Vitaly [14 hours ago]
+если мало будет: 
+https://www.tutorialspoint.com/maven/maven_overview.htm
+www.tutorialspoint.com
+Maven Overview
+Maven Overview - Learn Maven in simple and easy steps starting from basic to advanced concepts with examples including Overview, Environment Setup, POM, Build Life Cycle, Build profiles, Repositories, Plug-ins, Creating Project, Build & Test Project, External Dependencies, Project Documents, Project Templates, Snapshot, Build Automation, Dependency Management, Deployment Automation, Web Application, Eclipse IDE, Netbeans IDE, IntelliJ IDEA.
+
+
+Andy Fleer [14 hours ago]
+Как сконфигурировать проект чтобы запускался с Main в BenchMarkRunner
+
+
+Vitaly [14 hours ago]
+это отдельный учебник на 120 стр, с примерами, но на англ., но большая часть все равно стразу не нужна будет, все равно вылетит, лучше вернуться осознанно, когда что-нибудь не взлетит
+
+
+Andy Fleer [14 hours ago]
+Edit Configurations здесь другие (в Ultimate)
+
+
+Vitaly [14 hours ago]
+я в смятении..
+
+Vitaly [14 hours ago]
+вы про мавен архетип?
+
+
+Andy Fleer [14 hours ago]
+)))
+
+Andy Fleer [14 hours ago]
+Прости, дорогой))))
+
+
+Andy Fleer [14 hours ago]
+Я же мануал еще не прочитал))
+
+
+Andy Fleer [14 hours ago]
+Когда я создаю проект Maven
+
+
+Andy Fleer [14 hours ago]
+Накидываю туда несколько классов
+
+
+Andy Fleer [14 hours ago]
+В одном из них Main
+
+
+Andy Fleer [14 hours ago]
+как я говорю Maven где тот класс в котором нужный для запуска main
+
+
+Andy Fleer [14 hours ago]
+?
+
+Vitaly [14 hours ago]
+src/main/java ->> а дальше делай что хочешь, главное структура каталогов. мавен сам разберется
+
+
+Vitaly [14 hours ago]
+мавен не запускает класс
+
+
+Vitaly [14 hours ago]
+в данном случае, он просто обеспечивает библиотеки
+
+
+Vitaly [14 hours ago]
+1. сделать проект мавен
+
+
+Vitaly [14 hours ago]
+2. добавить в dependencies нужные библиотки, посмотреть чтобы подтянулись
+
+
+Vitaly [14 hours ago]
+3. все, делаешь классы
+
+Vitaly [14 hours ago]
+вот неплохое видео
+https://www.youtube.com/watch?v=gv60974ebDY
+YouTube Java Beginners Supplimentary Videos
+Maven: создание простейшего проекта
+ 
+
+
+Andy Fleer [14 hours ago]
+Заработало!!
+
+
+Andy Fleer [14 hours ago]
+Надо было в конфигурации поставить чекбокс  Resolve Workspace Artifacts
+
+
+Andy Fleer [14 hours ago]
+И жизнь наладилась
+
+
+Andy Fleer [14 hours ago]
+На примере работает
+
+
+Andy Fleer [14 hours ago]
+Спасибо большое
+
+
+Andy Fleer [14 hours ago]
+Завтра двинусь дальше
+
+
+Join_Selectovich [11:25 AM]
+Кто-нибудь правильно решил HW0 задачу за один проход по массиву? (edited)
+
+
+Grigory Kislin [1:56 PM]
+Коллеги, привет!
+@Join_Selectovich 1. да, решения есть. но до 28 не публикуем.
+2. разбор всех решений будет 28.06- на первом занятии
