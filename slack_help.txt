@@ -18,3 +18,13 @@ Adding text formatting to your Slack messages is easy! Here's a handy selection 
 
 Vitaly [9:44 PM]
 joined #slack_help along with 18 others.
+
+
+Sole Noid [9:50 PM]
+Почему я вижу в колонке слева только 5 каналов (# general, # git, # hw0, # idea, # slack_help) , a не 15?
+
+Daniel [9:56 PM]
+Тебе нужно присоединиться к другим каналам, чтобы они отображались в колонке.
+
+Grigory Kislin [12:08 AM]
+@Sole Noid 15 каналов в общей группе javaops (к ней можно приконнектится из своего профиля javaops)

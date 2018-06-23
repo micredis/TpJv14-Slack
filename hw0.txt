@@ -1426,3 +1426,564 @@ topjava - Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson
 
 tema.emelyan [10:13 AM]
 дело вкуса, мне соурс код нравится, Григорию видимо дефолтный не по душе. Я ещё в настройках люблю поставить отличие интерфейсов от классов по цвету, чтобы сходу понятно было кто есть кто, когда код читаешь
+
+
+Maxim Gusev [10:51 AM]
+added and commented on this Java snippet: Untitled 
+public static List<UserMealWithExceed> getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay)
+В каком промежутке времени нам нужно посчитать превышение калорий, т.е. зачем нужны startTime и endTime? Нам нужно учитывать приемы пищи, которые были осуществлены в каждый из дней в интервале (startTime, endTime)?
+
+Join_Selectovich [10:53 AM]
+да
+
+Maxim Gusev [10:55 AM]
+То есть, например, при интервале 10:00-18:00, если прием пищи был в 18:05, то он никак не учитывается и в return не попадает?
+Join_Selectovich
+да
+Posted in #hw0Jun 20th
+
+shtramak [10:55 AM]
+Нужно сосчитать сумму всех приемов пищи за каждый полный день и уже от этого ставить булеан переменную
+Но в результирующем листе будут приемы только в указанном диапазоне времени
+
+Maxim Gusev [11:00 AM]
+Понял, сначала считаем все превышения, а затем фильтруем в соответствии с заданным пользователем временем
+shtramak
+Нужно сосчитать сумму всех приемов пищи за каждый полный день и уже от этого ставить булеан переменную
+Posted in #hw0Jun 20th
+
+shtramak [11:04 AM]
+Ну типа того, но так ты себе делаешь задачу из 3 действий, типа сосчитать сумму, считать первышение/непревышение , фильтровать дату. Хотя 2 фильтра можно применять сразу
+
+Stanislav [11:06 AM]
+Действия: 1. Мапа<LocalDate, Integer> 2. Создаем DTO, флаг выставляем на основе мапы
+А вот задача по Option2, уже сложнее
+
+shtramak [11:07 AM]
+)) это ты уже решение сливаешь, эт неинтересно)
+
+Stanislav [11:07 AM]
+Да тут и идиот поймет - надеюсь ни кого не обидел...тут же все логически
+
+shtramak [11:08 AM]
+Грубо :(
+
+Stanislav [11:08 AM]
+А вот в 1 проход, надо менять структуру как то
+извиняюсь
+
+shtramak [11:08 AM]
+Люди слишком разные))
+
+Stanislav [11:08 AM]
+Извиняюсь, эмоции :disappointed:
+
+Ramil [11:09 AM]
+"Optional 2 (+5 бонусов)"
+что за бонусы?
+
+Stanislav [11:09 AM]
+В твоем профиле есть, уже обсуждали...грубо говоря "скидка на след. проекты"
+Не столь интересны бонусы, сколько, а сможешь ли...
+Сколько думал, не могу придумать решение Option2, уже и модель менял под себя хз, не нравятся мне решения...Интересно увидеть решение от проекта
+
+e.pekhterev [11:14 AM]
+а что ты менял и в каком классе конткретно?
+
+Stanislav [11:15 AM]
+Если подумать, 1 проход, 1 раз когда создаем DTO уже надо знать, превысили мы порог еду или нет. Значит где то надо это хранить, усложнять model DAO выходит за рамки парадигмы model DAO, делать какие то обертки то же ерунда какая то.
+
+e.pekhterev [11:15 AM]
+так то решение в один проход есть, но оно совсем не очевидное
+
+Stanislav [11:16 AM]
+Я писал в 1 проход, но в лучше случае O(n) в худшем (On*n), не вариант.
+
+e.pekhterev [11:16 AM]
+это не один проход))) это n в квадрате)
+
+Stanislav [11:17 AM]
+n2 = n*n  разве нет?)
+2 на верху не могу написать
+
+Join_Selectovich [11:17 AM]
+:grinning:
+
+e.pekhterev [11:17 AM]
+да, именно.
+по классике если делать, то в худшем случае будет 2*N
+
+Join_Selectovich [11:18 AM]
+обычно коэфициент вроде как опускают
+
+e.pekhterev [11:18 AM]
+я имел ввиду, что это не один проход, а на каждой итерации ты ещё раз беагешь по всему листу, это много-много много проходов
+
+Stanislav [11:18 AM]
+Хорошо, если кто-то написал, просто ответе на вопрос :slightly_smiling_face: при первом же создании DTO мы уже должны знать реальное значение flag?
+@e.pekhterev ты не правильно понял
+
+e.pekhterev [11:19 AM]
+нет, мы не должны знать)))
+
+Stanislav [11:20 AM]
+@e.pekhterev 1. Запоминаем каллории по датам + Создаем DTO 2. Бегаем по DTO и проставляем флаг....это не то же самое что и n2
+но в худшем случае n2
+
+Ramil [11:21 AM]
+что такое DTO?
+
+Stanislav [11:21 AM]
+Data Transfer Object   - в нашем случае UserMealWithExceed
+а UserMeal - это DAO модель
+
+e.pekhterev [11:22 AM]
+неправильное решение))
+
+Stanislav [11:22 AM]
+я вкурсе что не правильное)
+
+e.pekhterev [11:23 AM]
+я не просто так пишу, я сделал уже за один проход после маленькой (или большой) подсказки от Григория, но я не хочу её ретранслировать, так как вы не получите тогда кайфа от решения задачи по сравнению с тем, если бы сами дошли до этой идеи
+решение есть и очень простое, думайте)))
+
+Stanislav [11:25 AM]
+Я еще думал как бы реализовать внутриний класс у UserMeal и как то там это все замопинать...в общем слишком много уже перебрал, пока в голову ни чего не приходит
+
+e.pekhterev [11:25 AM]
+wrong)))
+
+Stanislav [11:26 AM]
+)
+
+e.pekhterev [11:26 AM]
+мы не должны менять базу, мы не будем в ней хранить инфу по превышению лимит
+а
+ведь лимит можно в любое время менять, и возможно он не будет глобальным для всех, а будет разный для всех
+так то всё правильно, один объект для получения данных из базы, другой - для отправки на jsp
+
+Stanislav [11:28 AM]
+:slightly_smiling_face:
+
+Alexander Pilipenko [11:29 AM]
+https://topjava14.slack.com/archives/CAJL007L3/p1529482912000181
+Stanislav
+Data Transfer Object   - в нашем случае UserMealWithExceed
+Posted in #hw0Jun 20th
+ИМХО это не DAO
+Скорее обезличенная entity, или по другому View Object
+
+Stanislav [11:30 AM]
+ну да, ентити, DAO паттерн который оперирует с энтити и базой)
+
+Alexander Pilipenko [11:30 AM]
+:slightly_smiling_face:
+
+Join_Selectovich [11:31 AM]
+емаё, ну как так можно?!
+Stanislav
+а UserMeal - это DAO модель
+Posted in #hw0Jun 20th
+
+Stanislav [11:32 AM]
+не придерайтесь)) энтити это
+
+tim [11:32 AM]
+Там подсказка есть в задании : 3: Правильная реализация должна быть простой и красивой, можно сделать 2-мя способами: через стримы и через циклы. Сложность должна быть O(N), т.е. без вложенных стримов и циклов.
+4: При реализации через циклы посмотрите в Map на методы getOrDefault или merge
+
+Stanislav [11:32 AM]
+тим уже все реализовали O(n), мы сейчас об Option2
+
+tim [11:32 AM]
+почитайте про   merge
+
+Alexander Pilipenko [11:33 AM]
+merge(K key, V value, BiFunction<? super V,? super V,? extends V> remappingFunction)
+If the specified key is not already associated with a value or is associated with null, associates it with the given non-null value.
+Это не решает проблемы Курицы и Яйца
+
+e.pekhterev [11:37 AM]
+и тут по идее один проход не получится, во всяком случае внутри функции тоже всё будет вертеться
+
+Stanislav [11:39 AM]
+задача то не все в одну строчку вместить, а 1 проход + O(n)
+
+tim [11:41 AM]
+Option 2 же и есть реализовать в   O(n)..?
+
+Andrew Kuzin [11:42 AM]
+в option 2 реализовать в один проход
+не путать со сложностью алгоритма
+
+tim [11:43 AM]
+У меня  Один проход - разбивка по дням, а второй - формирование UserMealWithExceed
+
+Andrew Kuzin [11:46 AM]
+ну это в худшем случае два прохода
+
+sky [1:05 PM]
+Вроде как указывалось, что 1 проход по mealList для option2 нужен. Если мы пройдемся потом по тому, что получено на 1ом проходе, это будет уже выход за рамки требований option2?
+
+Stanislav [1:06 PM]
+да
+
+sky [4:51 PM]
+Benchmark                                  (iterations)  Mode  Cnt     Score    Error  Units
+BenchMark.WithExceededBySecret             5  avgt   20     2,207 ±  0,048  ns/op
+BenchMark.WithExceededBySecret            10  avgt   20     2,136 ±  0,015  ns/op
+BenchMark.WithExceededBySecret            30  avgt   20     2,191 ±  0,046  ns/op
+BenchMark.WithExceededByStream           5  avgt   20   968,014 ±  4,208  ns/op
+BenchMark.WithExceededByStream       10  avgt   20  2016,356 ± 10,504 ns/op
+BenchMark.WithExceededByStream       30  avgt   20  5435,089 ± 26,267  ns/op
+
+Alexander Pilipenko [4:57 PM]
+Интересное решение. Не зависящее от размера обрабатываемого списка
+А можно прогнать бенчмарк на 100 или более записях?
+Что еще интереснее, так это, то что на большем количестве данных работает быстрее
+
+sky [5:08 PM]
+Benchmark                                    (iterations)  Mode  Cnt      Score    Error  Units
+BenchMark.WithExceededBySecret           100  avgt   20      2,146 ±  0,006  ns/op
+BenchMarkTest.WithExceededByStream      100  avgt   20  17711,930 ± 83,809  ns/op
+
+Alexander Pilipenko [5:11 PM]
+:open_mouth:
+Спасибо
+Надеюсь 28 покажут это решение. У него сложность постоянная. Круто
+
+Ma3stro [6:11 PM]
+У меня на стримах тоже решение значительно медленнее
+
+sky [6:46 PM]
+Беда еще походу в том, что то решение, которое все здесь описывают как очевидное и имеющее сложность якобы O(2*N)~О(N) (первый проход - мапа по дням + фильтрация,  второй - заполнение объектами нового типа (или вариации на эту тему)) по факту имеет сложность O(N*log(N)), так как время на выполнение операции возрастает с количеством итераций (судя по данным бенчмарков в ветке). А такое не тянет даже на решение уровня base, что уж говорить про optional2. Если кто решил с независимым, от количества итераций, временем в бенчмарке отзовитесь, возможно ли это в принципе.. (edited)
+
+Stanislav [6:50 PM]
+@sky 1. 1 цикл Группировка дни-сумма каллорий, сложность O(n+n) = O(n) 2. Option 2 решение есть 100%
+@sky не дописал, 1. 2 цикл
+Всего 2 цикла
+
+shtramak [6:51 PM]
+А кто сказал, что наверху решение о(1)?
+
+Stanislav [6:51 PM]
+O(1)? Это как :)
+
+shtramak [6:52 PM]
+Такой же о(н) просто эффективней
+
+Stanislav [6:52 PM]
+O(n) и O(1) разные вещи
+
+shtramak [6:52 PM]
+Да я не знаю, вон пишут «постоянное время»
+
+Stanislav [6:53 PM]
+O(n), где n это количество в списке
+
+
+sky [Jun 20th at 6:54 PM]
+in #hw0
+решения О(1) быть не может в данной ситуации
+А про решение с 2умя циклами я тоже думал, что получится О(N) а бенчмарк говорит что нет. Вопрос именно, чтоб в бенчмарке время на операцию не зависело от их количества
+
+
+2 replies
+shtramak [3 days ago]
+Без кода нельзя сказать, что у него такое же решение как у тебя
+
+
+sky [3 days ago]
+Мне было бы действительно интересно посмотреть на решения из 2ух циклов, которые прям кардинально будут отличатся от очевидного
+
+
+Stanislav [Jun 20th at 6:55 PM]
+in #hw0
+Я уже скилывал скрин
+
+
+2 replies
+sky [3 days ago]
+Вы тестировали свое решение с помощью JMH?
+
+
+Stanislav [3 days ago]
+Нет, не тестировал, мне это не зачем, я знаю какое отличие цикл в цикле от 2ух циклов
+
+
+Stanislav [6:57 PM]
+mentioned this image: 20180611_180806.png 
+
+
+Stanislav [6:58 PM]
+Не знаю что там бечмарк пишет, но когда 2 разных цикла  это O(n+n) = O(n)
+
+
+Alexander Pilipenko [9:13 PM]
+Benchmark                                  (iterations)  Mode  Cnt     Score    Error  Units
+BenchMark.WithExceededBySecret             5  avgt   20     2,207 ±  0,048  ns/op
+BenchMark.WithExceededBySecret            10  avgt   20     2,136 ±  0,015  ns/op
+BenchMark.WithExceededBySecret            30  avgt   20     2,191 ±  0,046  ns/op
+Время постоянное, взято из бенчмарков SKY (edited)
+https://topjava14.slack.com/archives/CAJL007L3/p1529502684000374
+sky
+Benchmark                                  (iterations)  Mode  Cnt     Score    Error  Units
+BenchMark.WithExceededBySecret             5  avgt   20     2,207 ±  0,048  ns/op
+BenchMark.WithExceededBySecret            10  avgt   20     2,136 ±  0,015  ns/op
+BenchMark.WithExceededBySecret            30  avgt   20     2,191 ±  0,046  ns/op
+BenchMark.WithExceededByStream           5  avgt   20   968,014 ±  4,208  ns/op
+BenchMark.WithExceededByStream       10  avgt   20  2016,356 ± 10,504 ns/op
+BenchMark.WithExceededByStream       30  avgt   20  5435,089 ± 26,267  ns/op
+Show less
+Posted in #hw0Jun 20th
+
+stea1th [9:21 PM]
+ессть тут кто нибудь?
+
+Alexander Pilipenko [9:22 PM]
++
+
+stea1th [9:22 PM]
+вопрос... почему у меня вечно крутится определение версии git?
+так же как и остановка этого определения
+
+Alexander Pilipenko [9:23 PM]
+Можно картинку или текст?
+
+stea1th [9:24 PM]
+Stopping -Identifying Git Version
+крутится уже хз сколько времени
+
+stea1th [9:30 PM]
+uploaded this image: Screenshot_1.png 
+
+
+stea1th [9:31 PM]
+вон внизу крутится, хотя вроде все правильно установлено
+
+Tanya [9:34 PM]
+попробуй File | Invalidate Caches/Restart
+
+stea1th [9:36 PM]
+о, заработало, сенькюю :slightly_smiling_face:
+
+Shumadan [12:42 AM]
+Подскажите, может сталкивались с такой проблемой, не могу накатить HW.patch  
+public class UserMeal {
+error: main/java/ru/javawebinar/topjava/Main.java: No such file or directory
+git вот такую штуку выкидывает, я уже не знаю что делать, все перепробовал
+
+Vitaly [3 days ago]
+класс Main не менял?
+
+
+Vitaly [3 days ago]
+вручную
+
+
+Shumadan [3 days ago]
+не менял, все делал по инструкции. через консоль так и не осилил, в итоге apply сделал через идею, там все прошло как по маслу
+
+
+Shumadan [3 days ago]
+но я потерял немного веры в хардкорные консольные утилиты...
+
+Tanya [3 days ago]
+а откуда ты патч накатываешь?
+
+
+Tanya [3 days ago]
+в какой папке  HW.patch?
+
+
+Shumadan [3 days ago]
+в корне проекта, HW.patch <- это файл Prepare_to_HW0.patch, пытался делать через git.BASH, командой ::  git apply HW.patch
+
+
+Tanya [3 days ago]
+скинь скрин из идеи со структурой проекта
+
+
+Shumadan [3 days ago]
+я уже загрузил патч средствами IDE, так что будем считать, что проблема решена (edited)
+
+
+Tanya [3 days ago]
+ок :slightly_smiling_face:
+
+
+Ilya Ivanchenko [4:34 PM]
+Привет всем
+
+Join_Selectovich [4:40 PM]
+привет
+
+Ramil [4:40 PM]
+q
+
+Gagarina6794 [4:44 PM]
+:woman-raising-hand:
+
+KaryNaiKo [7:24 PM]
+Что такое hw0?
+
+stea1th [7:28 PM]
+нулевое задание
+
+Stanislav [7:35 PM]
+@KaryNaiKo Home work 0
+
+
+KaryNaiKo [Jun 21st at 7:37 PM]
+in #hw0
+Делать его надо или ждать 28.06.18?
+
+
+1 reply
+e.pekhterev [1 day ago]
+нужно сделать до 28-го, если подписка с проверкой дз, то ещё и отправить на проверку нужно успеть.
+
+
+stea1th [9:17 PM]
+есть тут кто?
+
+Alexander Pilipenko [9:35 PM]
+Пока есть :slightly_smiling_face:
+
+stea1th [9:37 PM]
+кто сделал задание?
+
+Alexander Pilipenko [9:37 PM]
+Доктор, меня все игнорируют )
+Я сделал. А что?
+
+stea1th [9:38 PM]
+а кто оплатил проверку дз?
+меня да...все игнорируют
+
+Alexander Pilipenko [9:38 PM]
++
+Это был опрос?
+
+stea1th [9:39 PM]
+я весь в сомнениях
+
+
+vch [Jun 21st at 9:40 PM]
+in #hw0
+@stea1th Вряд ли кто превзойдёт твоё решение... O(n^4) - это редкость.
+
+
+3 replies
+realcorwin [1 day ago]
+Надо меньше жрать :wink: :rolling_on_the_floor_laughing:
+
+
+vch [1 day ago]
+Надо больше практиковаться... Теряю квалификацию. Выяснилось, что я ошибся, и там всего лишь O(N^2)
+
+
+realcorwin [1 day ago]
+ну, одно другому не мешает :wink:...
+
+
+stea1th [9:40 PM]
+а вы его смотрели?
+
+vch [9:42 PM]
+@stea1th иначе б не говорил
+
+Ma3stro [9:42 PM]
+N^4?!
+Такое бывает?
+
+stea1th [9:43 PM]
+а где ты его взял? :slightly_smiling_face:
+
+Alexander Pilipenko [9:43 PM]
+Бывает и O(n!)
+
+shtramak [9:45 PM]
+Здесь квантовый комп понадобится) Задача коммивояжера с userMealIsDelivered
+
+Alexander Pilipenko [9:45 PM]
+uploaded this image: image.png 
+
+
+agrusu [1:59 PM]
+Как проверить работает ли мое решение?
+Debuging :slightly_smiling_face: ?
+
+shtramak [2:01 PM]
+Залезть на сайт-пример на хероку
+В задании указан
+И там фильтром поиграться
+
+e.pekhterev [2:02 PM]
+и дебаг, и в мейне можешь сделать вывод результата вызова метода  getFilteredWithExceeded, только нужно переопределить метод toString() для UserMealWithExceed
+
+shtramak [2:02 PM]
+Валидатора нет, нужно самому понимать задачу и тесты самому писать
+
+agrusu [2:02 PM]
+адресс сайта?
+
+shtramak [2:03 PM]
+Лень искать
+
+agrusu [2:03 PM]
+Понятно.
+
+shtramak [2:03 PM]
+Посмотри в задании hw0
+
+agrusu [5:25 PM]
+там есть main(). Спасибо всем.
+
+Victor [12:54 AM]
+помогите кодом, как BenchMark этот запились побыстрому.:blush: пожалуйста
+мой на ERROR: Unable to find the resource: /META-INF/BenchmarkList ругается (edited)
+
+Victor [1:10 AM]
+:grin: сам сделал, не знаю, конечно правильно ли. Он у меня уже минут 10 комнату компом греет. Как им пользоваться то правильно?
+зы: ну не сам, конечно, в слаке код нашел и запустил...:sunglasses: (edited)
+
+Victor [1:50 AM]
+Я без стримов делал:
+BenchMark.benchGetFilteredWithExceededByStream             5  avgt    5  28137,970 ± 3497,744  ns/op
+BenchMark.benchGetFilteredWithExceededByStream            15  avgt    5  27639,453 ± 1546,556  ns/op
+BenchMark.benchGetFilteredWithExceededByStream            30  avgt    5  27755,354 ± 3644,982  ns/op
+На сколько это плохой результат, может кто оценить? (edited)
+
+shtramak [10:16 AM]
+блеять, у вас разный код, разные стенды, вы секундами меритесь.Для этого O нотацию и придумали
+
+Stanislav [10:17 AM]
++
+
+Max(O)n [10:18 AM]
+согласен
+
+Merkulov [2:33 PM]
+ребят, давайте уважать друг друга, не надо сквернословить...
+
+LeoJames [3:00 PM]
+Предлагаю решить спор как цивилизованные люди - поединком!
+Встретьтесь на кибер арене! Докажите чей дух и вера сильнее! Проигравший оплачивает победителю проверку д/з!
+Григорий будет судить и стримить!
+
+realcorwin [3:18 PM]
+"блеять" - это глагол. так овцы разговаривают :slightly_smiling_face:
+
+shtramak [4:07 PM]
+Так же хотел ответить, но подумал, что лучше просто проигнорить
+realcorwin
+"блеять" - это глагол. так овцы разговаривают :slightly_smiling_face:
+Posted in #hw0Today at 3:18 PM
+
+Victor [4:50 PM]
+Для парней, которые любят "блеять" есть отдельно #флуд. Если может кто ответить про суть benchmakr нормально, буду благодарен.
+
+shtramak [4:53 PM]
+Если ты поставишь себе i7, отключишь все сторонние процессы и запустишь бенчмарки, цифирьки будут другими, но станет ли от этого код лучше?
+Покупай проверку и сдавай на ревью, самый простой вариант получить вразумительный ответ
