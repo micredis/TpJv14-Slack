@@ -82,3 +82,23 @@ Alexander [1:56 PM]
 
 Alexander [8:13 PM]
 вопрос решился чз unset
+
+
+Andrey [9:48 AM]
+всем привет.у меня уже есть репозиторий топджава (раньше проходил). как правильно создать новый репозиторий для топджава14? При нажатии на fork меня просто перебрасывает на уже существующий проект. Может, создать локальную копию проекта, а потом настроить git в локальном проекте на свой проект(новый репозиторий топджава14) в GitHub?
+
+Alexander Pilipenko [10:23 AM]
+Нельзя сделать 2 и более форка, но можно сделать через git clone
+https://www.google.by/amp/s/alexisylchan.wordpress.com/2012/06/05/how-i-to-create-a-second-fork-of-a-github-repo/amp/
+Alexis Chan
+How I created a second fork of a Github repo
+Tried following the steps mentioned in http://alt.adrianshort.co.uk/blog/2011/11/08/create-multiple-forks-of-a-github-repo/ but it didn’t work for me for some reason. Documenting this for personal purposes.
+Was working on a new machine, so had to:
+Set up Git
+git config –global user.name “Username”
+git config –global user.email “youremail@yourdomain”
+ Show more
+Патчи должны работать
+
+Andrey [10:35 AM]
+спасибо, так и думал )
