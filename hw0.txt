@@ -2714,3 +2714,63 @@ Tanya [15 hours ago]
 Tanya [15 hours ago]
 если проверка оплачена, то в отд слаке
 если нет, то #test_review
+
+
+NikolayPotapov [9:32 PM]
+@Stanislav это был мой вопрос. Но ответ я уже нашел: .collect(Collectors.groupingBy(UserMeal::getDate, Collectors.summingInt(UserMeal::getCalories)))
+
+Stanislav [9:45 PM]
+Ok :)
+
+SergeyA [10:01 PM]
+Ого как тут оффтоппненько :yum:
+
+turhanow [11:16 AM]
+привет. кому то удалось решить бонусные HW?:slightly_smiling_face:
+
+Alexander Pilipenko [12:19 PM]
+Выше даже приводили бенчмарки
+
+a.beloglazov [2:07 PM]
+uploaded and commented on this image: Screenshot_1.png 
+
+Всем привет, наверное уже не актуально, все же интересна природа такой ошибки:
+Exception in thread "main" java.lang.IllegalStateException: Duplicate key 500
+Вроде дупликаты удаляются, это видно при дебаге, однако ошибка имеет место быть при обращении к элементам собранного листа
+
+a.beloglazov [2:08 PM]
+Т.е. собираем в ХэшСет, что бы удалить дупликаты, однако ошибка говорит о наличии дупликатов.
+
+
+shtramak [Today at 2:14 PM]
+in #hw0
+А у тебя самого не возникают сомнения насчет кода, когда ты создаешь сет из листа из листа?
+
+
+7 replies
+a.beloglazov [2 hours ago]
+Вроде создаю сет из листа, который маплю?
+
+
+a.beloglazov [2 hours ago]
+Для того, чтоб удалить дубликаты. (edited)
+
+
+tema.emelyan [2 hours ago]
+если ты говоришь .collect(Collectors.toList()) то тебе уже вернётся лист, не нужно из него делать новую коллекцию (edited)
+
+
+tema.emelyan [2 hours ago]
+помимо этого есть коллектор .toSet() который тебе вернёт сет
+
+
+shtramak [2 hours ago]
+Но сет по-моему тогда вернется HashSet. Это по-моему в доке на этот метод написано, читать надо
+
+
+a.beloglazov [2 hours ago]
+:thinking_face: Действительно. Попробую еще раз вечерком. Все же смущает именно ошибка Duplicate, хотя в дебаге их нет.
+
+
+tema.emelyan [1 hour ago]
+ты не туда смотришь в дебагере, у тебя ошибка на строке 31, а ты говоришь, что у тебя нет дубликатов на строке 28

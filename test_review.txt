@@ -1,0 +1,281 @@
+Tanya [9:21 AM]
+joined #test_review by invitation from Grigory Kislin, along with Katherine.
+
+Grigory Kislin [9:28 AM]
+*Бесплатное первое ревью HW0* (для тех у кого нет проверки), чтобы вы смогли оценить свои возможности и, если необходимо, взять себе проверку (все еще 8900р из личного профиля javaops)
+Напомню, что это самый эффективный способ научиться программировать
+
+Постите в этот канал ссылки на свои решения (*лучше сразу на UserMealUtils*)
+Напомню, что все остальные ДЗ существенно больше этого вводного занятия (edited)
+
+Ramil [9:35 AM]
+joined #test_review along with 4 others.
+
+
+Chensy [Jun 25th at 10:44 AM]
+in #test_review
+привет! гляньте мое HW0 плиз https://github.com/NataliePro/topjava/blob/HW0/src/main/java/ru/javawebinar/topjava/util/UserMealsUtil.java
+GitHub
+NataliePro/topjava
+topjava - Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery
+ 
+
+
+3 replies
+Stanislav [2 days ago]
+Стандартное решение через группировку, но 1. Не зачем создавать лист для возврата, посмотрите на map и collectors у стрима. 2. Меньше "шума", комментарии излишни (код не сложный), много пустых строк (что бы отделить одно от другого хватит и 1). На эту тему можно почитать книгу "Чистый код".
+
+
+Stanislav [2 days ago]
+Помимо стримов надо и через циклы сделать.
+
+
+Chensy [2 days ago]
+ок, спасибо, гляну
+
+
+Ramil [10:49 AM]
+ща
+
+Stanislav [10:49 AM]
+joined #test_review along with 8 others.
+
+
+Joanna [Jun 25th at 3:13 PM]
+in #test_review
+дз
+
+
+1 reply
+Stanislav [1 day ago]
+Все хорошо, стандартное решение, но за собой "муссор" (listWithExceed.forEach(System.out::println);) надо убирать + не плодить пустых строк где это не надо (в импорте и после return).
+
+Еще надо реализовать через циклы.
+
+
+Joanna [3:13 PM]
+https://github.com/JolaPsh/topjava/blob/HW0/src/main/java/ru/javawebinar/topjava/util/UserMealsUtil.java
+GitHub
+JolaPsh/topjava
+topjava - Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery
+
+pro [4:45 PM]
+joined #test_review along with 2 others.
+
+Mihail Kedel [5:49 PM]
+можно тестовый ревью https://github.com/BeaRRRRR/topjava/blob/HW0/src/main/java/ru/javawebinar/topjava/util/UserMealsUtil.java
+GitHub
+BeaRRRRR/topjava
+topjava - Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery
+
+
+Vlad [Jun 25th at 7:54 PM]
+in #test_review
+ДЗ
+https://github.com/Harudka/topjava/blob/HM0/src/main/java/ru/javawebinar/topjava/util/UserMealsUtil.java
+GitHub
+Harudka/topjava
+topjava - Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery
+ 
+
+
+1 reply
+Stanislav [1 day ago]
+1. У тебя реализация стримами (если смотреть на стрим преобразования в UserMealWithExceed ), а группировка по датам и сумме каллорий циклом (forEach это такой же цикл, но еще и с ограничениями как у стримов), так же ты ложишь-получаешь в мапу сам-ручками. У стримов есть возможность группировок ( https://annimon.com/article/2778 ).
+2. Зачем делать промежуточный List? Выглядет не красиво + излишний код, можно сразу return.
+
+В целом стандартное решение. Еще надо через простые циклы сделать.
+annimon.com
+Полное руководство по Java 8 Stream API в картинках и примерах
+1. Stream 2. Получение объекта Stream 3. Как работает стрим 4. Параллельные стримы 5. Стримы для примитивов 6. Операторы Stream API 6.1. Источники 6.2. Промежуточные операторы 6.3. Те (7 kB)
+Aug 9th, 2017 at 2:35 PM
+
+
+Victor_D [7:58 PM]
+groupingBy(...) и summingInt(...) под одним collect(...) тратят 2N времени?
+
+
+agrusu [Jun 25th at 8:44 PM]
+in #test_review
+Думаю что решил а один проход: https://github.com/agrusu/topjava.git
+GitHub
+agrusu/topjava
+topjava - Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery
+ 
+
+
+6 replies
+Stanislav [1 day ago]
+Это два прохода.
+
+
+Stanislav [1 day ago]
+1 проход до терминальной операции коллектора, второй по значениям мапы.
+
+
+agrusu [1 day ago]
+Не понятно, но да ладно :slightly_smiling_face:
+
+
+Stanislav [1 day ago]
+- Терминальные (terminal) — обрабатывают элементы и завершают работу стрима, так что терминальный оператор в цепочке может быть только один.
+
+collector - терминальная операция.
+
+
+Stanislav [1 day ago]
+https://annimon.com/article/2778
+annimon.com
+Полное руководство по Java 8 Stream API в картинках и примерах
+1. Stream 2. Получение объекта Stream 3. Как работает стрим 4. Параллельные стримы 5. Стримы для примитивов 6. Операторы Stream API 6.1. Источники 6.2. Промежуточные операторы 6.3. Те (7 kB)
+Aug 9th, 2017 at 2:35 PM
+ 
+
+
+agrusu [1 day ago]
+согласен
+
+
+agrusu [9:50 PM]
+https://github.com/agrusu/topjava/blob/HW0/src/main/java/ru/javawebinar/topjava/util/UserMealsUtil.java
+GitHub
+agrusu/topjava
+topjava - Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery
+
+dimlo [3:14 PM]
+Взгляните, пожалуйста, подходит ли такой вариант под решение в 1 проход:
+https://github.com/dimloru/topjava/tree/HW0/src/main/java/ru/javawebinar/topjava
+GitHub
+dimloru/topjava
+topjava - Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery
+
+svis [4:27 PM]
+Прошу посмотреть на два варианта решения
+Один стандартный, через стримы и мапу
+
+
+svis [Yesterday at 4:28 PM]
+in #test_review
+https://github.com/svis/topjava/blob/4fc1b95762f5c7b75cc95e07c2c1f1faddf681f6/src/main/java/ru/javawebinar/topjava/util/UserMealsUtil.java
+GitHub
+svis/topjava
+topjava - Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery
+ 
+
+
+5 replies
+vch [24 hours ago]
+Неправильно считаются калории за день и, соответственно, флаг exceed неверно проставляется
+
+
+svis [24 hours ago]
+почему неправильно?
+
+
+vch [24 hours ago]
+`превышает ли сумма калорий за весь день`. А ты суммируешь калории не за весь день, а только за маленький интервал с startTime по endTime
+
+
+svis [24 hours ago]
+да, я это сознательно сделал - мы отбрасываем в возвращаемом списке все записи с калориями вне окна измерения startTime endTime. Не уверен, что нам необходимо считать калории в отброшенных записях. Такое у меня в обоих вариантах. Но если считать все же необходимо - поправить недолго. Жду что скажет Татьяна
+
+
+vch [21 hours ago]
+Где-то была ссылка на выложенное демо-приложение Григория. Всегда можно провериться - совпадает ли твоё понимание ТЗ с его.
+
+
+svis [4:29 PM]
+Другой в один проход, без стримов, мап и прочего. Но он немного смишной ))
+
+
+svis [Yesterday at 4:29 PM]
+in #test_review
+https://github.com/svis/topjava/blob/42e0f0d88a0efe7dbf1b18a50d0b5fb969b22e3d/src/main/java/ru/javawebinar/topjava/util/UserMealsUtil.java
+GitHub
+svis/topjava
+topjava - Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery
+ 
+
+
+5 replies
+vch [24 hours ago]
+`13: Не полагайтесь в решении на то, что список будет подаваться отсортированным. Такого условия нет.`
+
+
+vch [24 hours ago]
+И мне кажется, функция упадёт, если в неё передать пустой mealList
+
+
+svis [23 hours ago]
+Спасибо, за комментарии.:slightly_smiling_face: Здесь предполагается, что записи одного дня сгруппированы, они могут быть не отсортированы внутри дня и могут быть не отсортированы дни. Если записи разных дней перемешаны, то такой способ конечно работать не будет
+
+
+vch [23 hours ago]
+У тебя необычный подход к пониманию ТЗ... В HW2 придётся тяжко.
+
+
+svis [23 hours ago]
+Проверил с пустым mealList - да, падает. Надо поправить.
+
+
+Егорро [5:45 PM]
+Приветствую! Прошу глянуть решение, в упор не представляю, как это сделать в один стрим (или условие недопонял:smiley:):
+https://github.com/Eroppo/topjava/blob/HW0/src/main/java/ru/javawebinar/topjava/util/UserMealsUtil.java
+GitHub
+Eroppo/topjava
+topjava - Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery
+
+zippospb [11:28 PM]
+Добрый вечер. Прошу посмотреть: https://github.com/zippospb/topjava/blob/HW0/src/main/java/ru/javawebinar/topjava/util/UserMealsUtil.java
+GitHub
+zippospb/topjava
+topjava - Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery
+
+
+Михаил [Yesterday at 11:39 PM]
+in #test_review
+Добрый вечер! Посмотрите и моё решение: https://github.com/curlymike/topjava14/blob/HW0/src/main/java/ru/javawebinar/topjava/util/UserMealsUtil.java
+GitHub
+curlymike/topjava14
+topjava14 - Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery
+ 
+
+
+1 reply
+vch [8 hours ago]
+Что-то с фильтрацией не то...
+Если есть завтрак в 10:00 и startTime=10:00, то в результирующем списке этого приёма пищи у тебя не будет.
+А в демоприложении Григория - будет.
+
+
+agrusu [Today at 2:42 PM]
+in #test_review
+I have make a test project to test if my solution make ONE passthrou collection or TWO steps to pass collection of meals. I seam it is ONE.
+
+https://github.com/agrusu/TestHomework00/tree/master
+GitHub
+agrusu/TestHomework00
+TestHomework00 - Javatop homework
+ 
+
+
+1 reply
+vch [1 hour ago]
+а разве не 3 прохода получается?
+
+
+Макс Куркудюк [Today at 3:42 PM]
+in #test_review
+Перевірте будь-ласка.
+https://github.com/Maks551/topjava/blob/HW0/src/main/java/ru/javawebinar/topjava/util/UserMealsUtil.java
+GitHub
+Maks551/topjava
+topjava - Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery
+ 
+(edited)
+
+
+1 reply
+vch [26 minutes ago]
+`forEach` вроде можно заменить на `map`
+Зачем нужен `.sorted`- понятно, но не создаст ли он сложность O(N*logN) ?

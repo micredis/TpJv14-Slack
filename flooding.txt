@@ -405,3 +405,15 @@ Ramil [12:08 PM]
 stea1th [12:40 PM]
 тебе заранее скажут, что у тебя не так
 по моему очень полезно
+
+
+Max(O)n [2:24 PM]
+vaadin 10 вышел, https://expensemanager-pro.demo.vaadin.com/
+expensemanager-pro.demo.vaadin.com
+Expense Manager
+Progressive Web App built using Polymer and Vaadin components
+https://vaadin.com/start кому интересно
+Vaadin
+Starter Packs | Vaadin
+Starter packs – Get up and running with ready templates.
+https://vaadin.com/images/social-media/vaadinffs-banner.png
