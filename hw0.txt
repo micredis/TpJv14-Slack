@@ -2774,3 +2774,486 @@ a.beloglazov [2 hours ago]
 
 tema.emelyan [1 hour ago]
 ты не туда смотришь в дебагере, у тебя ошибка на строке 31, а ты говоришь, что у тебя нет дубликатов на строке 28
+
+
+turhanow [Yesterday at 5:11 PM]
+in #hw0
+при реализации Optional2 менять поля  UserMealWithExceed можно? например использовать обвертки? (edited)
+
+
+2 replies
+vch [1 day ago]
+в Optional2 разрешено всё. И см. 1 пункт из "Замечания к HW0"
+
+
+turhanow [1 day ago]
+спасибо!
+
+
+matrocob [6:15 PM]
+Р
+
+
+e.pekhterev [Today at 12:05 PM]
+in #hw0
+Посмотрел объяснения по HW0 в один проход.
+Я что то не догоняю, где тут решение в один проход для метода getFilteredWithExceededInOnePass - тут четко 2 прохода
+на первом проходе формируем карту, на втором - итоговый лист.
+
+
+1 reply
+Merkulov [10 hours ago]
+какое видео?
+
+
+Stanislav [12:10 PM]
+а ты смотрел 1_3_HW0_Optional2?
+
+
+Stanislav [9 hours ago]
+Как можно было еще реализовать в общем O(n), а не с 1 проходом
+
+Stanislav [9 hours ago]
+Реализацию рекурсии я бы вообще убрал и не позорился, помимо переполнения так она еще и не thread save, а курс ориентирован на web.
+
+
+e.pekhterev [9 hours ago]
+елы, как метод называется?
+
+
+e.pekhterev [9 hours ago]
+и видео говорится мол всего один проход
+
+
+e.pekhterev [9 hours ago]
+getFilteredWithExceededInOnePass
+
+
+Stanislav [9 hours ago]
+где используют AtomicBoolean это реально самый нормальный, остальные не 1 проход.
+
+
+Stanislav [9 hours ago]
+с коллектором мне понравилось (хоть и не 1 проход). Collectors мощная штука, но не много сложновато в реализации, примеров мало встречал.
+
+
+e.pekhterev [9 hours ago]
+до коллектора (про Aggregate) в видео тоже пока не добрался, но по коду опять же не вижу ни разу, чтоб это был один проход
+
+
+Stanislav [9 hours ago]
+А в коде и нету)) только что посмотрел патч, в видео есть, а в коде нету.
+
+
+Stanislav [9 hours ago]
+Есть мысли, видео писались давно, зарефакторить (добавить) видео легко, а код нужно патчить + писать на странице что изменилось.
+
+vch [9 hours ago]
+в патчах есть метод `getFilteredWithExceededInOnePass2` через агрегаторы
+
+
+Stanislav [9 hours ago]
+и, только это не 1 проход
+
+
+vch [9 hours ago]
+не спорю. Но ты ж сказал, что его даже в коде нет.
+
+Stanislav [9 hours ago]
+читать надо внимательней, найди упоминание в коде  AtomicBoolean
+
+Stanislav [9 hours ago]
+вот этот метод использует 1 проход
+
+Stanislav [9 hours ago]
+он есть только в видео
+
+
+Merkulov [9 hours ago]
++
+
+
+Merkulov [9 hours ago]
+тоже заметил
+
+
+Merkulov [9 hours ago]
+я так понял там одно решение правильное это с Boolean
+
+Stanislav [9 hours ago]
+правильное по Option2 это  AtomicBoolean, все остальные реализации > 1 прохода
+
+
+Stanislav [9 hours ago]
+Хоть это не принципиально. По мне так  AtomicBoolean не очень красивая реализация, хоть и быстрее.
+
+
+Alexander Pilipenko [9 hours ago]
+AtomicBoolean - достаточно тормозная штука
+
+
+Stanislav [9 hours ago]
+ну он не просто же thread save
+
+
+Alexander Pilipenko [9 hours ago]
+А надо ли в этом методе thread save?
+
+Stanislav [9 hours ago]
+безопасные для потоков все тормознутые
+
+
+Stanislav [9 hours ago]
+конечно
+
+Stanislav [9 hours ago]
+веб же
+
+Alexander Pilipenko [9 hours ago]
+И что?
+
+Merkulov [9 hours ago]
+веб это не аргумент)
+
+
+Alexander Pilipenko [9 hours ago]
+Мы будем его выполнять для 1 пользователя
+
+
+Merkulov [9 hours ago]
+ага в рамках одной сесии
+
+
+Stanislav [9 hours ago]
+Этот метод делает DTO, к нему обращается много пользователей
+
+Alexander Pilipenko [9 hours ago]
+Да. Но конкуренции нет
+
+Alexander Pilipenko [9 hours ago]
+Мы не разделяем ресурсы
+
+Stanislav [9 hours ago]
+2000 пользователей зайдут на сайт и начнуть делать фильр, по твоей логике 2000 потоков будет? :slightly_smiling_face:
+
+
+Stanislav [9 hours ago]
+сервлеты знаете?
+
+
+Alexander Pilipenko [9 hours ago]
+200 пользователей зайдут и выберут разные фильтры
+
+Alexander Pilipenko [9 hours ago]
+Посчитается одинаково?
+
+
+Stanislav [9 hours ago]
+Возьми реализацию с рекурсией, где на уровне класса мапа
+
+
+Stanislav [9 hours ago]
+Представь 10 пользователей и они используют эту мпау
+
+Alexander Pilipenko [9 hours ago]
+В нашем случае будет 10 мап
+
+Stanislav [9 hours ago]
+с чего это
+
+Stanislav [9 hours ago]
+Если каждый раз создавать класс, то да, но тогда это переполнение
+
+
+Stanislav [9 hours ago]
+мильон пользователей = мильон классов,
+
+Alexander Pilipenko [9 hours ago]
+В твоем коде
+
+Alexander Pilipenko [9 hours ago]
+public static List<UserMealWithExceed> getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime,
+
+                                                                  LocalTime endTime, int caloriesPerDay) {
+
+       //You can also use guava
+
+       Map<LocalDate, Map.Entry<AtomicBoolean, Integer>> mem = new HashMap<>();
+
+
+Stanislav [9 hours ago]
+и
+
+
+Alexander Pilipenko [9 hours ago]
+При каждом вызове - новая мапа
+
+Stanislav [9 hours ago]
+ты не видишь конкуренции в реализации рекурсией?)
+
+Stanislav [9 hours ago]
+vbyenre
+
+
+Stanislav [9 hours ago]
+минутку
+
+
+Alexander Pilipenko [9 hours ago]
+Я про AtomicBoolean
+
+
+Alexander Pilipenko [9 hours ago]
+Рекурсию на работе не посмотрю
+
+
+Stanislav [9 hours ago]
+Ок, ты понимаешь модель памяти Java?
+
+Stanislav [9 hours ago]
+мапа локальная
+
+
+Stanislav [9 hours ago]
+на уровне метода
+
+Alexander Pilipenko [9 hours ago]
++
+
+Alexander Pilipenko [9 hours ago]
+Я про это и говорю
+
+Stanislav [9 hours ago]
+а в реализации рекурсией переменная (при чем простая! мапа) на уровне класса. Заходят 2 пользователя, делят эту мапу и при всем этом еще и всякая херь в эту мапу будет складываться. Делать для каждого пользователя новый объект класса?
+
+
+Stanislav [9 hours ago]
+класса MealsUtil
+
+Alexander Pilipenko [9 hours ago]
+Погоди
+
+Stanislav [9 hours ago]
+на видео время 4.03
+
+Alexander Pilipenko [9 hours ago]
+AtomicBoolean - достаточно тормозная штука
+
+
+Stanislav [11 minutes ago]
+ну он не просто же thread save
+
+
+Alexander Pilipenko [10 minutes ago]
+А надо ли в этом методе thread save?
+
+
+Stanislav [10 minutes ago]
+безопасные для потоков все тормознутые
+
+
+Stanislav [10 minutes ago]
+конечно
+
+
+Stanislav [10 minutes ago]
+веб же
+
+
+Alexander Pilipenko [9 hours ago]
+Вот начало переписки
+
+
+Alexander Pilipenko [9 hours ago]
+Т.е. мапа используется только 1 методом.
+
+
+Alexander Pilipenko [9 hours ago]
+Т.к. она локальная
+
+
+Alexander Pilipenko [9 hours ago]
+Правильно?
+
+Stanislav [9 hours ago]
+ясно))) мы друг друга не поняли...ну он не просто же thread save...это к тому что все реализации thread save тормозные по своей природе, даже если без синхронизации. АтомикБулен используеться просто что бы не делать новый класс обвертку (не плодить классы)
+
+
+Alexander Pilipenko [9 hours ago]
+Я туплю, или здесь можно было не  thread save использовать?
+
+
+Alexander Pilipenko [9 hours ago]
+Я про твою реализацию
+
+Stanislav [9 hours ago]
+Поле exceed у класса MealWithExceed можно не бозопасный от потока, там он не нужен, там нужна просто обвертка (для 1 прохода), но Boolean не подходит т.к. он не изменяемый так же как и все остальные типовые обвертки
+
+Alexander Pilipenko [9 hours ago]
+Это понятно
+
+Alexander Pilipenko [9 hours ago]
+Спасибо
+
+
+Stanislav [9 hours ago]
+ну ок))
+
+
+Alexander Pilipenko [9 hours ago]
+:slightly_smiling_face:
+
+
+Stanislav [9 hours ago]
+мы просто не правидьно друг друга поняли в начале
+
+Alexander Pilipenko [9 hours ago]
+А кода с рекурсией нигде нет?
+
+Stanislav [9 hours ago]
+только в видео, так же как и с 1 проходом
+
+
+Alexander Pilipenko [8 hours ago]
+Как мне кажется в рекурсии, тоже должна быть локальная переменная
+
+Stanislav [8 hours ago]
+Рекурсия эстетически-математически красивое решение (не именно этой задачи), но рекурсия не для Java.
+
+
+Alexander Pilipenko [8 hours ago]
+Почему?
+
+Stanislav [8 hours ago]
+Из за сборщика мусора
+
+
+Stanislav [8 hours ago]
+Самый простой пример, реализация Фибоначи на рекурсии, он у тебя упадет по стековерфлоу
+
+Stanislav [8 hours ago]
+На этой херне часто ловят на собеседованиях
+
+
+Stanislav [8 hours ago]
+реализация фибоначи на рекурсии в 3-4 строки
+
+
+Stanislav [8 hours ago]
+но это не правильная реализация
+
+
+Stanislav [8 hours ago]
+Хотя на рекурсии можно сделать кэш, тогда будет работать. Но с кэшом мне уже не так нравится
+
+
+Alexander Pilipenko [8 hours ago]
+стековерфлоу - можно и в c++ добиться
+
+
+Stanislav [8 hours ago]
+на любом языке можно) но в с++ нет мусоросборщика
+
+Stanislav [8 hours ago]
+ты сам управляешь памятью
+
+Stanislav [8 hours ago]
+а в Java нет
+
+Alexander Pilipenko [8 hours ago]
+:slightly_smiling_face:
+
+
+Stanislav [8 hours ago]
+по этой причине многие не любят и любят Java.
+
+Alexander Pilipenko [8 hours ago]
+Как на машинах. Есть автоматы а есть мануальная
+
+Alexander Pilipenko [8 hours ago]
+Кому что нравится
+
+Stanislav [8 hours ago]
+:slightly_smiling_face:
+
+e.pekhterev [5 hours ago]
+ребята, вот вы о чем тут вапще, я задал конкретный вопрос - а вы куда то убежали на целых 100+ сообщений)))
+
+
+Stanislav [5 hours ago]
+:slightly_smiling_face: +1 = 102
+
+e.pekhterev [4 hours ago]
+ну как ты пишешь, тыже на топДжава уже!
+вот так надо 101++
+
+Stanislav [4 hours ago]
+:)
+
+
+Maksim K [1:57 PM]
+Такой вопрос: почему не сделать метод createWithExceed приватным?
+
+Stanislav [2:00 PM]
+имхо: не обращай внимания на многие детали, там много к чему можно придраться, много что не очень красиво. Главное что бы саму тему (которую раскрывают) понятно понятно.
+*было
+
+shtramak [2:01 PM]
+Сообщения редактировать можно
+
+Stanislav [2:01 PM]
+И иногда в след. патчах (по курсу) некоторые моменты изменяются-штрихуются.
+
+Maksim K [2:03 PM]
+Ну ясн. А в целом саму тему понял. Даже начал немного в стримах разбираться. Давно уже мог бы, да что-то все откладывал. Лямбды то уже давно понял, а вот со стримами было сложнее. А вот здесь как говорится жизнь заставила))
+
+Stanislav [2:05 PM]
+У медали две стороны, когда привыкнешь к стримам, будешь пытаться их использоваться везде, что часто не правильно.
+
+Maksim K [2:05 PM]
+Ну я читал по этому поводу статейки.
+
+Stanislav [2:06 PM]
+У меня сейчас как раз такой случай, не понимаю как я раньше без стримов писал и пытаюсь ими сделать все что можно :disappointed:
+
+Maksim K [2:07 PM]
+Ну как я понял по совету Григория из видео, тупо все время пишешь стримами. Потом если видишь, что производительность проги очень маленькая начинаешь смотреть где стримы лучше заменить на циклы
+
+Stanislav [2:10 PM]
+Конечно это дело будущего (не сейчас), но Java 8 это попытки реализации реактивного программирования. Сам принцип мне очень понравился, есть разные библиотеки (например JavaRX и сейчас уже в Spring 5 есть) в них будет побыстрее.
+а в Java это все завязано на интерфейсах
+Там вообще другое мышление надо иметь, вообще другой подход к написанию
+
+Maksim K [2:11 PM]
+Все течет, все меняется...)
+И мышление надо иногда перестраивать. Тем более, раз уж мы решили стать на эту дороженьку программирования. Придется всю жизнь что-то новое учить и перестраивать мышление)
+
+shtramak [2:17 PM]
+Когда-нибудь будут квантовые компы и сервера на них со своими яп и парадигмами)) (edited)
+
+
+Janna [Today at 4:02 PM]
+in #hw0
+привет!
+можно ссылку на видио Григория по стримам?
+
+
+2 replies
+Stanislav [6 hours ago]
+В ютубе поиск по Тагир Валеев (он спец по стримам).
+
+
+Stanislav [6 hours ago]
+Так же рекомендую https://annimon.com/article/2778
+annimon.com
+Полное руководство по Java 8 Stream API в картинках и примерах
+1. Stream 2. Получение объекта Stream 3. Как работает стрим 4. Параллельные стримы 5. Стримы для примитивов 6. Операторы Stream API 6.1. Источники 6.2. Промежуточные операторы 6.3. Те (7 kB)
+Aug 9th, 2017 at 2:35 PM
+
+
+Janna [4:03 PM]
+пока это смотрю - тут прям так обзорно с иторией
+Только теперь вижу сходства лябмда и матем уравнений))
+https://www.youtube.com/watch?v=O8oN4KSZEXE
+YouTubeJUG .ru
+Сергей Куксенко — Stream API, часть 1

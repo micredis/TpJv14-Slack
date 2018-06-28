@@ -1,0 +1,211 @@
+Grigory Kislin [3:23 AM]
+joined #hw1.
+
+
+Grigory Kislin [Today at 3:29 AM]
+in #hw1
+Первое занятие: https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson01.md
+Подробности выслал письмом. 
+Успехов в изучении и выполнении ДЗ! (edited)
+
+
+2 replies
+e.pekhterev [17 hours ago]
+исправьте пожалуйста "хорошие советы новичкам" - http://blog.csssr.ru/2016/09/19/how-to-be-a-beginner-developer/
+всё время 404
+
+
+Join_Selectovich [13 hours ago]
+последний слеш лишний - без него ссылка откроется (edited)
+
+
+Tanya [3:30 AM]
+joined #hw1 along with 18 others.
+
+Gagarina6794 [7:46 AM]
+Список одногрупников :slightly_smiling_face:
+
+Andy Fleer [9:43 AM]
+В письме написано " Перед началом занятия код в ветке master твоего проекта должна быть в том же состоянии, что и в моей ветке master. "
+
+Andy Fleer [9:44 AM]
+uploaded this image: image.png 
+
+
+Andy Fleer [9:44 AM]
+Вот там
+
+Andy Fleer [9:44 AM]
+uploaded this image: image.png 
+
+
+Andy Fleer [9:44 AM]
+Это у меня
+
+
+Andy Fleer [Today at 9:45 AM]
+in #hw1
+как привести к "такому же состоянию" ?
+
+
+1 reply
+Grigory Kislin [9 hours ago]
+Кроме md файлов у тебя все то же самое
+
+
+vch [9:45 AM]
+@Andy Fleer Переключись в мастер и примени патч "Prepare to HW0". Ты его не применил в мастер, сразу в hw0 сделал.
+
+Andy Fleer [9:46 AM]
+Я пока да... ничего не применял вообще... ознакамливаюсь с материалами
+То есть после применения патча должна ситуация поменяться?
+
+vch [9:47 AM]
+@Andy Fleer Я про то, что ты в предыдущем занятии неправильно сделал. Надо было в master патч предыдущего занятия применить.
+
+
+Andy Fleer [Today at 9:48 AM]
+in #hw1
+как лечить?
+
+
+9 replies
+vch [12 hours ago]
+Переключись в мастер и примени патч "Prepare to HW0"
+
+
+Andy Fleer [12 hours ago]
+В ветку мастер на github-e
+
+
+Andy Fleer [12 hours ago]
+?
+
+
+Andy Fleer [12 hours ago]
+Патч применял в идее
+
+
+Andy Fleer [12 hours ago]
+а тут как его применть?
+
+
+Stanislav [12 hours ago]
+То же самое что и в пред. раз, только переключись в ветку мастер и примени патч (все в идеи).
+
+
+Gagarina6794 [12 hours ago]
+переделать все, пока не поздно) работы не особо много
+
+
+Gagarina6794 [12 hours ago]
+на гит заливать из идеи в мастер надо переделаное с патчами
+
+
+Gagarina6794 [12 hours ago]
+в ветке мастер надо при этом быть в идее (edited)
+
+
+Михаил [10:09 AM]
+uploaded this image: image.png 
+
+
+Artyom [Today at 10:25 AM]
+in #hw1
+Патч применяется, но в Version Control: Local changes пишет: error updating changes: .git/index: index file open failed: permission denied
+И ничего нельзя закоммитить, якобы нету изменений
+Прошлый патч Prepare_to_HW0 применялся без проблем
+
+
+1 reply
+Artyom [12 hours ago]
+решилось перезапуском идеи
+
+
+Avaaron [12:22 PM]
+Может кто подскажет...был обещан разбор полёта по hw0
+ctujlyz
+сегодня
+
+
+Avaaron [Today at 12:23 PM]
+in #hw1
+он будет?
+
+
+1 reply
+Grigory Kislin [9 hours ago]
+Да, это 3 первые видео первого занятия
+
+
+Alexander Pilipenko [12:24 PM]
+3. HW0 Optional 2: реализация в один проход и одной строкой Stream API
+Apply 1_3_HW0_optional2.patch
+Занятие 1:
+Вроде бы как есть
+
+Avaaron [12:26 PM]
+аа...была мысль, что будет типа вебинара что-то
+
+Alex Zemlaynoy [1:30 PM]
+Добрый день, подскажите пожалуйста где взять hw01 патч ?
+
+Daniel [1:31 PM]
+В письме ссылка. Там все патчи.
+
+Alex Zemlaynoy [1:34 PM]
+Спасибо нашел:)
+
+Grigory Kislin [1:36 PM]
+а также у уроке большая картинка как их скачивать
+если урок не будете читать внимательно, то потеряете много времени на борьбу с git, idea и проектом
+
+Crazz [1:47 PM]
+правильно ли я понял что ВСЕ патчи нужно сделать в мастер? в т.ч. и по HW0
+
+Stanislav [1:47 PM]
+любые патчи делаются только в мастер
+все дом. работы делаются только в другой ветке HWx
+
+matrocob [5:42 PM]
+А применять все сразу или по очереди патчи?
+Разобрался
+
+Andy Fleer [8:06 PM]
+Я правильно понимаю, что в видео логuер ставится неким старым вариантом LoggerFactory.getLogger, а в патче более новым private static final Logger log = getLogger(UserServlet.class) . Теперь делаем по варианту в  патче
+всё так?
+
+vch [8:11 PM]
+@Andy Fleer Обрати внимание на строку `import static org.slf4j.LoggerFactory.getLogger;`
+Тот же самый "старый" вариант и есть, только чуть по-другому записан.
+
+Andy Fleer [8:11 PM]
+Да
+Это вижу
+Но вызов теперь другой
+и в live template вписываю его
+угум?
+
+vch [8:12 PM]
+От перестановки мест слагаемых...
+
+Andy Fleer [8:13 PM]
+старый тоже работает?
+
+vch [8:15 PM]
+это одно и то же. Нет никакого "старого" и "нового". Просто чуть другая запись того же самого. Статический импорт применяется чтобы сократить код в классе при вызове каких-нибудь функций или упоминания констант (чтобы не писать везде длинные строки с `org.slf4j.LoggerFactory` и т.п.)
+
+Andy Fleer [8:18 PM]
+Всё понял!
+Спасибо
+
+Andy Fleer [9:37 PM]
+В задании вот такая стока *Задеплоить приложение (war) в Tomcat c applicationContext=topjava*
+applicationContext где выставляется?
+
+Crazz [9:45 PM]
+edit configurations -> вкладка deployment -> поле Application context
+
+Andy Fleer [9:49 PM]
+а))) это я уже поставил
+спасибо!
