@@ -607,3 +607,665 @@ e.pekhterev [3:17 PM]
 
 realcorwin [3:30 PM]
 отправляй. тебя поругают, и будет время исправить и отправить на ещё одну проверку
+
+
+SergeyA [4:02 PM]
+Я что то запутался в стримах: 
+чем отличается:
+*java.util.stream* 
+*public interface Stream<T>*
+      от
+*java.util.Collection<E> @Contract(pure = true)* 
+*Stream<E> stream()*
+? (edited)
+
+matrocob [4:03 PM]
+подскажите, не могу блин разобраться... когда пишу так:
+               <td style="color:#FF0000;"><javatime:parseLocalDateTime value="${meals.dateTime}" pattern="yyyy-MM-dd" var="parsedDate" /></td>
+вылетает ошибка, пишет, что не может отпарсить дату... зависимости в пом и jsp добавил... оишбка такая:
+org.apache.jasper.JasperException: javax.servlet.ServletException: javax.servlet.jsp.JspException: In &lt;parseDate&gt;, value attribute can not be parsed: "2015-05-31T10:00"
+
+Stanislav [4:04 PM]
+API не корректно сделан, тебе нужен parse
+Мучился с этим час :disappointed:
+
+e.pekhterev [4:04 PM]
+ну так и в чём впрос?? тут же всё написано получаешь стринг "2015-05-31T10:00", а хочешь парсить его через паттерн "yyyy-MM-dd"
+
+Stanislav [4:06 PM]
+нужен не парс, а формат
+formay
+t
+
+e.pekhterev [4:06 PM]
+сначала парсим, потом форматируем, я так делал
+
+
+Stanislav [Yesterday at 4:07 PM]
+in #hw1
+<javatime:format value="${mealWithExceed.dateTime}" style="MS"/>
+
+
+
+13 replies
+matrocob [22 hours ago]
+СПАСИБО БОЛЬШОЕ!!)))
+
+
+e.pekhterev [22 hours ago]
+читеры)
+
+
+matrocob [22 hours ago]
+=D
+
+
+e.pekhterev [22 hours ago]
+делайте через fmt и не будет вам счастья)))
+
+matrocob [22 hours ago]
+я уже и так пытался, правда ошибка какая-то другая вываливалась)))
+
+e.pekhterev [22 hours ago]
+у меня через fmt полёт нормальный, правда выглядит всё громоздко в коде, зато  паттерн можно крутить как хочешь
+
+
+
+e.pekhterev [22 hours ago]
+в смысле более гибкое форматирование
+
+
+matrocob [22 hours ago]
+<javatime:parseLocalDateTime>
+Example:
+
+<javatime:parseLocalDateTime value="${dt}" style="MS" />
+Parses a string into an java.time.LocalDateTime object. The var and scope attributes can be used to set the value of a variable instead of printing the result. The time zone may be specified using an attribute, an enclosing <javatime:zoneId/> tag, preceding <javatime:setZoneId/> tag, or via the net.sargue.time.zoneId scoped variable.
+
+
+e.pekhterev [22 hours ago]
+окей, может тоже использую
+
+
+Merkulov [22 hours ago]
+я сделал кастомный тег, для вывода даты)
+
+
+Merkulov [22 hours ago]
+как раз разобрался немного как делать свою библиотеку тегов
+
+
+Alexey_P [21 hours ago]
+без javatime
+<fmt:parseDate value="${meal.dateTime}" pattern="yyyy-MM-dd'T'HH:mm" var="parsedDate" type="date" />
+                   <fmt:formatDate value="${parsedDate}" var="newParsedDate" type="date" pattern="dd.MM.yyyy HH:mm" />
+                   ${newParsedDate}
+
+
+
+Alexey_P [21 hours ago]
+2 часа ушло)
+
+
+Stanislav [Yesterday at 4:23 PM]
+in #hw1
+Может обменяемся с кем нибудь, я дам thread save реализацию, а мне html с css :slightly_smiling_face:
+
+
+12 replies
+e.pekhterev [22 hours ago]
+так не сделай да)))
+
+
+Stanislav [22 hours ago]
+Я с готового решения брал, но там бустрап, с ним легче, пришлось на голом html, css уже не помню. Все работает, но ужасно не красиво.
+
+
+Stanislav [22 hours ago]
+Выворачивает меня от фронтенда
+
+
+e.pekhterev [22 hours ago]
+так юзай бутстрап, там всё красиво
+
+
+Stanislav [22 hours ago]
+нельзя
+
+
+Alexander Pilipenko [22 hours ago]
+Про бутстрап ничего не писали
+
+
+e.pekhterev [22 hours ago]
+можно всё по идее, запрета не было) хотя, конечно Катя с Таней могу попросить убрать
+
+
+e.pekhterev [22 hours ago]
+с другой стороны сейчас фронт не нужен, не стоит переживать по поводу внешнего вида, всё потом заменят на бутстрап
+
+
+Alexander Pilipenko [22 hours ago]
+Не все
+
+
+Alexander Pilipenko [22 hours ago]
+2.4 Сделать форму редактирования в JSP: AJAX/JavaScript использовать НЕ надо, делаем через <form method="post"> и doPost() в сервлете.
+
+
+Alexander Pilipenko [22 hours ago]
+Можно из бутстрапа взять только  css
+
+
+Stanislav [21 hours ago]
+Значит сделаю через него :)
+
+
+matrocob [Yesterday at 4:35 PM]
+in #hw1
+Я так понимаю в optional нужно использовать уже mysql?
+
+
+2 replies
+Stanislav [22 hours ago]
+нет
+
+
+Victor [16 hours ago]
+нужно данные захардкодить
+
+
+e.pekhterev [4:37 PM]
+попробуем отправить свой ГК optional
+
+
+sky [Yesterday at 5:43 PM]
+in #hw1
+Такой вот момент:
+В задании есть такой вопрос - Предпочтительнее ли создавать новый объект Meal при каждом update? и дан ответ на него..
+Но как еще можно редактировать объект, если у него поля private final, кроме как заменой его в хранилище на новый, с таким же id?
+
+
+1 reply
+e.pekhterev [20 hours ago]
+кто сказал, что ничего менять нельзя??
+если чего потом скажешь - "я так вижу"  или "художника каждый может обидеть")))
+
+
+Avaaron [Yesterday at 6:58 PM]
+in #hw1
+Подскажет кто? никак не могу въехать куда какие классы пихать при реализации crud...ну предположу что контроллер должен быть в web где все сервлеты лежат, так же предположу что модель у нас уже есть, там Meal и MealWith Exceed (хотя не уверен), util который приводится в примере по ссылке это вообще не тот util который у нас и вообще не могу взять в толк куда положить и к чему прикрутить интерфейс для работы с нашим списком, думаю что там должны быть прописаны методы crud, но к чему его приделать?? Реализация этих методов вынесется в классы, в которых по заданию ее быть не должно.. И хотя я полностью разобрался с примером , не могу взять в толк как применить всё это к тому что у нас есть..
+
+
+20 replies
+e.pekhterev [20 hours ago]
+контроллер из примера, это наш милСервлет.
+за интерфейс - имеется ввиду дао интерфейс должен быть и его реализация с захардкоженой "бд", изи
+
+
+Avaaron [20 hours ago]
+mealServlet?????
+
+
+matrocob [20 hours ago]
+Да
+
+Avaaron [20 hours ago]
+дао интерфейс к чему должен быть прикручен?
+
+Avaaron [20 hours ago]
+где-то я же должен реализовывать его методы работы с листом?
+
+
+Avaaron [20 hours ago]
+тоже к сервлету?
+
+tema.emelyan [19 hours ago]
+напиши сам класс который его имплементирует
+
+
+matrocob [19 hours ago]
+Я так понимаю создать интерфейс а mealservlet должен его имплементировать
+
+
+Avaaron [19 hours ago]
+логика работы с нашим листом будет в сервлете..тогда, это наверное не верно...может его к MealsUtil  приделать?
+
+
+tema.emelyan [19 hours ago]
+напиши сам класс который его имплементирует
+
+Avaaron [19 hours ago]
+хорошо, этому классу нужен отдельный пакет что-то типа dao?
+
+sky [19 hours ago]
+В задании ссылка была https://danielniko.wordpress.com/2012/04/17/simple-crud-using-jsp-servlet-and-mysql/
+Там примерно то что надо реализовать, только вместо базы данных - потокобезопасная коллекция, а кроме конкретной реализации, должен быть интерфейс дао, к которому и должен обращаться сервлет. 
+Вообще перечитайте повнимательнее задание, полазайте по ссылкам, многие вопросы должны поотпадать
+WordPress.com danielniko
+Simple CRUD Using Jsp, Servlet and MySQL
+You can view and download the complete source code of this tutorial from my github account.
+In this tutorial, we will create a simple CRUD (Create Read Update Delete) User Management Web Application using Jsp, Servlet and MySQL.
+For this tutorial, we will need the following tools: (The older or newer version should also works). Moreover, basic Java knowledge is assumed.
+1. Eclipse IDE for Java EE Developers (Indigo – ver. 3.7)
+2. Apache Tomcat ver 7.0 Show more…
+ 
+
+
+Stanislav [19 hours ago]
+Берешь пустой проект и пишешь свою реализацию DAO и Repository, пишешь так что бы DataSource можно было подставить любое (что DAO в принципе и делает). По ключевым словам поиск в нете.
+
+
+Avaaron [19 hours ago]
+счётчик Id , если я правильно понял надо через Atomic реализовывать?
+
+Stanislav [19 hours ago]
+Надо реализовать потокобезопасный, а реализовывать его можно по разному.
+
+
+Victor [16 hours ago]
+три слоя:
+model - в нем контроллеры
+service - промежуточный - в нем бизнеслогика
+dao - в нем методы для доступа к базе данных.
+
+
+Victor [16 hours ago]
+model обращается к service, service обращается к dao, dao работает с базой.
+
+
+
+Victor [16 hours ago]
+service и dao реализуются по схеме интерфейс - реализация.
+
+
+Stanislav [16 hours ago]
+Не совсем так.
+
+
+Stanislav [16 hours ago]
+Патерны mvc и dao-repository перепрочтите.
+
+
+Andy Fleer [9:50 PM]
+Друзья привет! С победой!
+Вопрос. Правильно ли я понимаю что табличку со списком еду выводим через meals.jsp
+
+
+Andy Fleer [Yesterday at 9:51 PM]
+in #hw1
+?
+
+
+2 replies
+Yevhen Maksymovych [17 hours ago]
+да
+
+
+Andy Fleer [17 hours ago]
+Спасибо!
+
+
+Andy Fleer [9:52 PM]
+И ещё один. Правильно ли я понимаю, что связь юзера и его еды пока  не делаем? Просто выводим всё
+
+
+Andy Fleer [Yesterday at 9:52 PM]
+in #hw1
+Так?
+
+
+4 replies
+Yevhen Maksymovych [17 hours ago]
+ага
+
+
+Andy Fleer [17 hours ago]
+И еще одно спасибо!
+
+
+Andy Fleer [17 hours ago]
+Будь здрав!
+
+
+Yevhen Maksymovych [17 hours ago]
+:+1:
+
+
+matrocob [Yesterday at 10:18 PM]
+in #hw1
+форма редактирования должна быть создана на новой jsp? или надо как-то сделать ее прям на meal.jsp? И еще может кто-то сталкивался.. При добавлении новой записи в листе в описании, русскими буквами, то на странице показывает кракозябры.. В настройках IDEA выставлено все 3 поля в UTF-8 (edited)
+
+
+8 replies
+vch [16 hours ago]
+3 пункт из раздела `Вопросы по HW1` не помогает?
+
+
+Victor [16 hours ago]
+я собираюсь новый jsp делать. Нигде не видел, чтобы было запрещено. (edited)
+
+
+Yevhen Maksymovych [16 hours ago]
+ты сам дизайнер своего приложения :slightly_smiling_face: можешь форму прикрутить к листу, можешь отдельным шаблоном. главное помнить, что для юзера это должно быть визуально красиво. если ты редактируешь один элемент, нет необходимости отрисовывать ему список всех остальных.
+
+
+matrocob [16 hours ago]
+понял, спасибо всем!)) сейчас посмотрю 3 пункт
+
+
+Alexey_P [16 hours ago]
+Я в в сервлете в doGet первым делом сделал 
+request.setCharacterEncoding("UTF-8");
+response.setCharacterEncoding("UTF-8");
+
+
+Alexey_P [16 hours ago]
+Помогает
+
+
+Yevhen Maksymovych [16 hours ago]
+респонсу можно в принципе не указывать кодировку, это реквест тебе присылает браузер в какой только ему самому захочется кодировке. респонс сервер ему отдаст в честном утф-8, тем более ты указываешь в jsp вот эту фигню "<%@ page contentType="text/html;charset=UTF-8" language="java" %>"
+
+
+Yevhen Maksymovych [16 hours ago]
+это, собсна, и есть инструкция для обработчика шаблона указать в хедере респонса утф-8
+
+
+Andy Fleer [Yesterday at 10:26 PM]
+in #hw1
+Хочется захардкодить данные по еде в init() в сервлете. Скажите это желание извращено и порочно?
+ 
+
+
+26 replies
+Yevhen Maksymovych [16 hours ago]
+вообще да. идеологически у тебя данные сидят в моделе. в контроллере им делать нечего. как вариант для отладки, возможно, но если ты собираешься делать опционал, тебе надо будет для этих данных реализовать круд. Вряд ли у тебя получится сделать круд для данных, захардкоженных в сервлете.
+
+
+sky [16 hours ago]
+для базового решения так и надо делать, но я думал, что это в конструкторе лучше сделать
+
+
+Andy Fleer [16 hours ago]
+Согласен, что это фигня... но как временное зло... они ж потом из БД будут запрашиваться.
+
+
+Yevhen Maksymovych [16 hours ago]
+если внимательно посмотреть, у тебя уже есть один класс, где данные милов хардкодятся. используй его :slightly_smiling_face:
+
+Andy Fleer [16 hours ago]
+В main в UserUtil
+
+Victor [16 hours ago]
+думаю без разницы, как лишь бы было.
+
+
+Andy Fleer [16 hours ago]
+Считаешь, что пусть уж зло продолжается?)))
+
+
+Andy Fleer [16 hours ago]
+Сделаю приватный лист в MealsUtil
+
+
+Yevhen Maksymovych [16 hours ago]
+делай пабликом, это же утильный класс
+
+
+Victor [16 hours ago]
+final public вернее, да?
+
+Yevhen Maksymovych [16 hours ago]
+и статик
+
+
+Yevhen Maksymovych [16 hours ago]
+утильный класс на то и утильный, чтобы дёргать его переменные без инстанциирования :slightly_smiling_face:
+
+
+Victor [16 hours ago]
+static не нужно, думаю
+
+
+Victor [16 hours ago]
+но я не в утильном делаю List, а вместо всех Datasource и соединений к базе просто в DAO переменную инициализирую.
+
+
+Andy Fleer [16 hours ago]
+Вообще кажется что разумно будет вот как. Сделать некий класс заглушку (типа на месте где потом из БД будем запрашивать). Сделать статический метод в таком классе ну и получать всё это из него в самом сервлете. Мы же потом данные будем в сервлете получать и в утилы отправлять.
+
+Andy Fleer [16 hours ago]
+Вот вроде почему так сразу и не замутить
+
+Yevhen Maksymovych [16 hours ago]
+а, если ты уже про круд, то да, к нему ходишь уже через реализацию дао
+
+
+Andy Fleer [16 hours ago]
+Заменить потом заглушку и.....  счастье!
+
+
+Andy Fleer [16 hours ago]
+Не
+
+
+Victor [16 hours ago]
+но точно не в сервлете.
+
+
+Andy Fleer [16 hours ago]
+пока про обязаловку
+
+
+Victor [16 hours ago]
+сразу пилю с CRUD (edited)
+
+Yevhen Maksymovych [16 hours ago]
+@Andy Fleer в любом случае, держи в уме, что надо избегать дублирования кода. если ты сейчас данные собираешься использовать только для отрисовки в сервлете, а потом - делать круд, то это должны быть одни и те же данные. логично использовать какой-то датасорс (в отдельном классе, или в уже имеющемся утильном), из которого для базового задания ты просто возьмёшь данные. а в дальнейшем, их затянет в себя дао, и к ним ты уже будешь обращаться через него
+
+
+Andy Fleer [16 hours ago]
+Да
+
+
+Andy Fleer [16 hours ago]
+принял
+
+
+Andy Fleer [16 hours ago]
+Так и сделаю
+
+
+Andy Fleer [10:49 PM]
+Подскажите, братцы, вот что еще. После патчей с HW0 у меня в MealsUtil какой-то хаос получился. Все варианты красивые решения и нет моего.
+
+
+Andy Fleer [Yesterday at 10:50 PM]
+in #hw1
+Это же нормально всё это убить и воткнуть туда свой в слезах написанный метод?
+
+
+13 replies
+Yevhen Maksymovych [16 hours ago]
+в принципе, если сильно хочется, можно, но надо привыкнуть к тому, что каждый урок у нас будет начинаться с решения, предоставленного Григорием, и домашка в целом будет строиться на нём, а не на нашем собственном решении с предыдущего урока
+
+
+Yevhen Maksymovych [16 hours ago]
+это ещё проканает для хв01, но в дальнейшем будет только запутывать, так как "каноничное" решение будет довольно сильно отличаться от собственного
+
+vch [16 hours ago]
+Эта боль будет преследовать тебя теперь каждый раз... Выстраданное решение предыдущего задания будет жестоким образом замещаться эталонным решением Григория. И не всегда оно будет лучше твоего.
+Варианта 2 - смириться или упорно переносить свой старый код в новое HW
+
+
+
+Yevhen Maksymovych [16 hours ago]
+и вылазающие в тех или иных местах косяки будет проще разрулить, если опираться на единое решение, а не находить проблему в собственном три-четыре урока назад :slightly_smiling_face:
+
+
+vch [16 hours ago]
+А, нет, есть ещё 3 вариант - делать такие решения, которые Григорий будет перетаскивать себе в качестве новых эталонных.
+
+
+Andy Fleer [16 hours ago]
+А... я честно не совсем понял, что это так делается
+
+
+Andy Fleer [16 hours ago]
+думал, что намудрил я что-то и в итоге эти метода здесь\
+
+
+Andy Fleer [16 hours ago]
+ок
+
+Andy Fleer [16 hours ago]
+такой вариант меня тож устравивает
+
+
+Yevhen Maksymovych [16 hours ago]
+Твои решения остаются в твоих ветках, ты можешь с ними экспериментировать дальше, или строить приложение от них, но ветка мастер у всех идентична, и основывается на патчах
+
+
+Yevhen Maksymovych [16 hours ago]
+Ты в целом можешь продолжать весь проект в ветке hw00, если хочешь чисто собственного решения, а в ветку мастер накатывать патчи и использовать для сравнения
+
+
+Andy Fleer [16 hours ago]
+Ок
+
+
+Andy Fleer [16 hours ago]
+Бэсэдер!
+
+
+Albert [11:21 PM]
+uploaded and commented on this image: Почему idea подчеркивает красным? 
+
+В pom.xml ошибок нет.
+Yevhen Maksymovych [11:24 PM]
+не менял в настройках идеи расположение конфига или репозитория мавена?
+Albert [11:24 PM]
+нет
+Albert [11:30 PM]
+после clean загорелся помник :
+
+Albert [11:30 PM]
+uploaded this image: image.png 
+
+
+Yevhen Maksymovych [11:32 PM]
+commented on Albert’s file Почему idea подчеркивает красным?
+реимпорт делал?
+
+
+Albert [Yesterday at 11:33 PM]
+in #hw1
+да, идея ничего нового не тянет.
+
+
+4 replies
+Yevhen Maksymovych [15 hours ago]
+ну, тогда даже не знаю. возможно что-то с правами доступа к локальному репозиторию мавена. покажи гит, могу себе склонить, если у меня ошибок не будет, значит проблема в локальном конфиге мавена/файловой системе, и проблемы надо искать там
+
+
+Albert [15 hours ago]
+https://github.com/AlbertoJava/topjava
+GitHub
+AlbertoJava/topjava
+topjava - Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery
+ 
+
+
+Albert [15 hours ago]
+не то скинул. https://github.com/AlbertoJava/topjava/tree/HW1
+GitHub
+AlbertoJava/topjava
+topjava - Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery
+ 
+
+
+Grigory Kislin [14 hours ago]
+попробуй в коммандной строке: `mvn clean install`
+
+
+Andy Fleer [12:06 AM]
+Как ключ запросить к Идее?
+
+Andy Fleer [12:07 AM]
+uploaded this image: image.png 
+
+
+Andy Fleer [12:09 AM]
+Похоже нашел. Вопрос снят
+
+Daniel [12:40 AM]
+Что делать, если jsp выводит кракозябры вместо русских букв?) С методом GET работало все четко, потом формы поменял на POST, и пошло-поехало... 
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
+Пробовал UTF-8, UTF-16, CP-1251, не помогает.
+
+Andy Fleer [12:46 AM]
+Где-то в информации к 0му заданию было описание как поставить в Идее кодировку UTF-8
+Видимо с этим связано
+Или вот так попробуй
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+Andy Fleer [1:05 AM]
+не)) не пробуй)) не поможет))
+https://github.com/JavaOPs/topjava/wiki/IDEA#%D0%9F%D0%BE%D1%81%D1%82%D0%B0%D0%B2%D0%B8%D1%82%D1%8C-%D0%BA%D0%BE%D0%B4%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D1%83-utf-8
+GitHub
+JavaOPs/topjava
+topjava - Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery
+
+Tanya [1:26 AM]
+Вопросы по HW1
+https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson01.md#-%D0%92%D0%BE%D0%BF%D1%80%D0%BE%D1%81%D1%8B-%D0%BF%D0%BE-hw1 (edited)
+GitHub
+JavaWebinar/topjava
+Contribute to topjava development by creating an account on GitHub.
+
+Gagarina6794 [5:29 AM]
+https://stackoverflow.com/questions/22463062/how-to-parse-format-dates-with-localdatetime-java-8
+Stack Overflow
+How to parse/format dates with LocalDateTime? (Java 8)
+Java 8 added a new API for working with dates and times (JSR 310). I have date and time as string (e.g. "2014-04-08 12:30"). How can I obtain a LocalDateTime instance from the given string? After I
+
+
+hav [Today at 9:10 AM]
+in #hw1
+Подскажите по реализации многопоточности. Данные хранятся в потокобезопасной коллекции, методы, которые с ней работают, synchronized. Генерация счетчика - через статическое поле AtomicInteger. Я правильно понимаю?
+
+
+8 replies
+Yevhen Maksymovych [5 hours ago]
+методы не обязательно синхронизировать, если коллекция и так потокобезопасная, все обращения к ней синхронизированы уже из коробки
+
+
+hav [5 hours ago]
+Спасибо, я как раз в этом и сомневался. Использовал CopyOnWriteArrayList.
+
+
+Grigory Kislin [1 hour ago]
+2 > через статическое поле AtomicInteger
+если калсс в одном эксезпляре, то static не нужен
+3. CopyOnWriteArrayList - плохой выбор
+
+
+hav [1 hour ago]
+Почему плохой? И что лучше использовать?
+
+
+Grigory Kislin [1 hour ago]
+почитай про него и посмотри на другие реализации
+
+
+turhanow [1 hour ago]
+Я использовал мапу
+
+
+hav [1 hour ago]
+В CopyOnWriteArrayList дорогие операции изменения - каждый раз копируется весь массив...  ConcurrentHashMap с id в качестве ключа?
+
+
+Yevhen Maksymovych [27 minutes ago]
+:+1:
