@@ -1269,3 +1269,933 @@ hav [1 hour ago]
 
 Yevhen Maksymovych [27 minutes ago]
 :+1:
+
+
+anyonepaw [Yesterday at 7:37 PM]
+in #hw1
+Можете подсказать: как в сервлете совместить возвращение страницы
+(я знаю только про 
+request.getRequestDispatcher("meals.jsp").forward(request, response);  )
+и возвращение параметра
+request.getParameter("action") ? 
+если написать их последовательно, то первый вызов getParameter вернет сначала null, а второй - уже параметр
+получается, приходится дважды нажать на вызов, чтобы что-то вернулось
+
+
+21 replies
+Yevhen Maksymovych [1 day ago]
+эм, не очень понятно, о чём ты. тебе надо получить параметр реквеста? тогда достаточно request.getParameter(). Зачем дважды нажимать на ссылку?
+
+
+Yevhen Maksymovych [1 day ago]
+request.getRequestDispatcher(.... и так далее имеет весьма опосредованное отношение к параметрам запроса. это инструкция для сервера форварднуть запрос джасперу и вернуть отрендеренную jsp-страницу
+
+
+anyonepaw [1 day ago]
+ну у меня выходит так, что в
+protected void doGet(){
+
+request.setAttribute(..); - вывожу атрибуты
+request.getRequestDispatcher("meals.jsp").forward(request, response);*-> помогает мне получить свою страницу
+(вот, и вопрос в том, есть ли какой-то другой способ получить ее, кроме него)
+
+из этой страницы я делаю <a href="meals?action=delete...
+
+и, по идее, эта конструкция, которая идет следом*
+if(request.getParameter("action").equals("delete")) 
+должна выполнить метод и завершиться
+
+но на web-интерфейсе при нажатии ссылки request.getParameter("action") возвращает nullPointerException и ничего не вызывает дальше (даже если прописать в if(request.getParameter("action") != null) тут уже просто ничего не вернет)
+если нажать на нее еще раз - он вернет delete
+
+в общем, я подозреваю, что дело в forward и не могу найти способ как совместить их и заставить отрабатывать getParameter верно (edited)
+
+
+Alexander Pilipenko [1 day ago]
+Лучше покажи код всего сервлета (edited)
+
+Yevhen Maksymovych [1 day ago]
+ага, чего-то ты мудришь. схема стандартная: кладешь данные в аттрибуты, форвардишь на jsp, клиенту отдаётся вид. если тебе надо обрабатывать в гете разные команды, и, в зависимости от этого, отдавать разные виды - делай это до форварда
+
+
+anyonepaw [1 day ago]
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        log.debug("redirect to meals");
+        
+        request.setAttribute("mealList", MEAL_DAO.viewMeals());
+        request.setAttribute("formatter", FORMATTER);
+        request.getRequestDispatcher("meals.jsp").forward(request, response);
+
+        if ( request.getParameter("action") != null && request.getParameter("action").equals("delete")) {
+            log.debug("servlet delete");
+            int id = Integer.parseInt(request.getParameter("id"));
+            MEAL_DAO.deleteMeal(id);
+        }
+        
+    }
+
+
+anyonepaw [1 day ago]
+но без форварда не отображаются setAttribute
+
+Alexander Pilipenko [1 day ago]
+У тебя всегда будет выполняться request.setAttribute("mealList", MEAL_DAO.viewMeals());
+       request.setAttribute("formatter", FORMATTER);
+       request.getRequestDispatcher("meals.jsp").forward(request, response);
+
+
+Alexander Pilipenko [1 day ago]
+Поэтому чистятся твои параметры
+
+
+Alexander Pilipenko [1 day ago]
+Сделай проверку на наличие action
+
+Alexander Pilipenko [1 day ago]
+И если он есть - выполняешь действие
+
+Alexander Pilipenko [1 day ago]
+Нет - идещь на request.setAttribute("mealList", MEAL_DAO.viewMeals());
+       request.setAttribute("formatter", FORMATTER);
+       request.getRequestDispatcher("meals.jsp").forward(request, response);
+
+
+Alexander Pilipenko [1 day ago]
+примерно так
+
+anyonepaw [1 day ago]
+request.getRequestDispatcher("meals.jsp").forward(request, response);
+
+да, но если его убрать, на страницу ничего не выводится
+
+
+Yevhen Maksymovych [1 day ago]
+да не убирай
+
+
+Yevhen Maksymovych [1 day ago]
+местами поменяй
+
+Yevhen Maksymovych [1 day ago]
+вот так:
+
+Yevhen Maksymovych [1 day ago]
+```if ("delete".equals(requst.getParameter("action")) {
+    log.debug("servlet delete");
+    int id = Integer.parseInt(request.getParameter("id"));
+    // do delete
+}
+request.setAttribute("mealList", MEAL_DAO.viewMeals());
+
+request.setAttribute("formatter", FORMATTER);
+
+request.getRequestDispatcher("meals.jsp").forward(request, response);```
+
+
+
+Alexander Pilipenko [1 day ago]
+Упс
+
+
+anyonepaw [1 day ago]
+да, теперь заработало, спасибо большое:slightly_smiling_face:
+
+Yevhen Maksymovych [1 day ago]
+:+1:
+
+
+Макс Куркудюк [Yesterday at 7:46 PM]
+in #hw1
+В optional потрібно додати інтерфейс (MealSerwice) та клас (MealSerwiceImpl) з реалізацією методів інтерфейсу + у ньому ж зберігати наші MealWithExceed.
+І ще потрібено реалізувати клас Controller у hw1 чи ним займемось на наступних hw?
+
+
+2 replies
+sky [1 day ago]
+Скорее имеются ввиду не service с его реализацией, а dao, и храним мы не MealWithExceeded, а Meal. Но в целом примерно так. Контроллер это у нас MealServelet  будет..
+
+
+Макс Куркудюк [1 day ago]
+Саме це мене і цікавило)
+Дякую:relaxed:
+
+
+MikeMSN [11:25 PM]
+Я только начинаю делать hw1.  Это было в письме
+> В репозитории на github я буду вести проект параллельно (классы в нем совпадают с теми, откуда ты делал fork). Перед началом занятия код в ветке master твоего проекта должна быть в том же состоянии, что и *в моей ветке master.*
+
+8 часов назад были коммиты в репозиторий, мне на какое состояние репозитория ориентироваться?
+
+Grigory Kislin [12:15 AM]
+@MikeMSN https://github.com/JavaOPs/topjava/wiki/git#Как-вести-проект-у-себя-в-локальном-проекте
+
+
+turhanow [Today at 6:11 AM]
+in #hw1
+привет всем!
+> 9 В web.xml принято группировать сервлет со своим маппингом
+я что-то никак не могу найти как это делается, кто то может подсказать?)
+
+
+8 replies
+dustnfox [17 hours ago]
+Просто напоминание, что вот так делать не надо:
+
+```<servlet>
+    <servlet-name>servlet-name1</servlet-name>
+    ...
+</servlet>
+<servlet>
+    <servlet-name>servlet-name2</servlet-name>
+...
+</servlet>
+<servlet>
+    <servlet-name>servlet-name3</servlet-name>
+...
+</servlet>
+
+<servlet-mapping>
+    <servlet-name>servlet-name1</servlet-name>
+    ...
+</servlet-mapping>
+<servlet-mapping>
+    <servlet-name>servlet-name2</servlet-name>
+    ...
+</servlet-mapping>
+<servlet-mapping>
+    <servlet-name>servlet-name3</servlet-name>
+    ...
+</servlet-mapping>```
+
+
+turhanow [17 hours ago]
+я именно так и сделал))
+
+
+dustnfox [17 hours ago]
+Не ты первый, не ты последний. Обычно это происходит так: 
+1. Читаешь в полглаза задание.
+2. Делаешь.
+3. Читаешь еще раз.
+4. Переделываешь.
+
+
+dustnfox [17 hours ago]
+Пункты 3-4 повторяются до получения приемлемого результата.
+
+turhanow [17 hours ago]
+или пока счетчик ревью не превысит значения 3))
+
+
+dustnfox [16 hours ago]
+Не-не-не-не-не! Ревью это следующий этап! Это когда ты уже 87 раз повторил 3-4 пункты и уверен, что кусок твоего кода, как тебе самому кажется, превратился из piece of shit в нечто, что можно помещать во французскую Палату Мер и Весов аккурат на пьедестал с латунной табличкой The Perfect Java Code Sample, вот тогда на сцену выходит Таня и через полчаса ты думаешь: а может проще твою писанину выкинуть, чем править эту кривизну?
+
+
+turhanow [16 hours ago]
+Таня огонь!:sunglasses: Прошел с ней 3 мес basejava. Бессонные ночи стали для меня нормой:grinning:
+
+
+dustnfox [16 hours ago]
+Да! Таня - большая умница!
+
+
+Gagarina6794 [6:23 AM]
+Привет, т.е. просто прописываешь их рядом сервлет а за ним сразу его маппинг (edited)
+
+turhanow [6:26 AM]
+а, ну то есть у нас в итоге так и останется пара <servlet> / <servlet-mapping>
+просто важен порядок: сначала сервлет и затем сразу маппинг
+
+Gagarina6794 [6:27 AM]
+да, но сервлета два, потому и написано группировать, для наглядности)
+
+turhanow [6:28 AM]
+спасибо):kissing:
+
+
+Vangelis Kondratevi [Today at 9:25 AM]
+in #hw1
+Ребят, меня интересует, правильно ли я понимаю, что в Опционале должен быть создан ДАО обьект, в котором будет захардкожена база данных и в нем же будут методы КРУД. И потом используя его мы будем в сервлете исходя из экшна и последующих параметров осуществлять круд операции и вырисовывать в .jsp.
+Или должен все таки быть интерфейс сервиса и его имплементация, вместо Дао.
+Просто чтобы вообщем понимать задание.
+
+
+58 replies
+Yevhen Maksymovych [14 hours ago]
+моковую БД лучше держать в отдельном месте, а не в дао
+
+
+Stanislav [14 hours ago]
+Какая разница если есть интерфейс
+
+
+Yevhen Maksymovych [14 hours ago]
+разница идеологическая
+
+
+Yevhen Maksymovych [14 hours ago]
+дао - это уже какая-никакая логика, а данные - чистая модель
+
+
+Stanislav [14 hours ago]
+Я сделал по идеологически, и мне написали не надо это не надо то
+
+
+Stanislav [14 hours ago]
+dao сразу в сервлет
+
+
+Stanislav [14 hours ago]
+так написали
+
+Stanislav [14 hours ago]
+без сервисов
+
+
+Yevhen Maksymovych [14 hours ago]
+я про сервис ничего и не говорил
+
+
+Yevhen Maksymovych [14 hours ago]
+понятно, что он тут будет лишним звеном, просто лишней абстракцией, которая будет напрямую делегировать запросы сервлета в дао
+
+
+Stanislav [14 hours ago]
+что ты подразумеваешь под БД, мапу, зачем ее в обертку заварачивать, она и так уже в обвертке
+
+Yevhen Maksymovych [14 hours ago]
+я о том, что хардкоженные данные в дао держать не стоит
+
+
+Yevhen Maksymovych [14 hours ago]
+лучше их в утильный какой-то класс вынести, откуда их дао возьмёт
+
+
+Stanislav [14 hours ago]
+Да я то понимаю, фабрика, которая дает реализацию DataSource....только не вижу смысла это делать сейчас
+
+
+Stanislav [14 hours ago]
+Ты имплементацию все равно выкинешь, интерфейс остается
+
+Vangelis Kondratevi [14 hours ago]
+Ребят, я немного запутался сейчас. Что я делал - это создавал Дао, там же указывал методы КРУД и потом в сервлете при соответствующем экшене вызывал методы этого Дао. База с милами была в Дао и преобразовывалась в сервлете. Мены просто напрягает что в задании сказано, чтобы реализация была через интерфейс и просто теперь я запутался, как через интерфейс, чтобы он не знал про все остальные классы. И надо ли вообще через интерфейсы.
+
+
+Yevhen Maksymovych [14 hours ago]
+просто сделай интерфейс для дао, и сделай его реализацию, которая будет пользовать моковые данные. в сервлете создавай переменную не конечного класса, а интерфейса
+
+
+Yevhen Maksymovych [14 hours ago]
+мы потом сделаем его реализацию с бд
+
+Yevhen Maksymovych [14 hours ago]
+а потом прикрутим спринг, который даст возможность выбирать реализацию "на лету"
+
+
+Yevhen Maksymovych [14 hours ago]
+через IoC
+
+Gagarina6794 [14 hours ago]
+Реализовать DAO по аналогии как мы создаем например коллекции Map<> map = HashMap, Map не в курсе что делает HashMap
+
+
+
+Vangelis Kondratevi [13 hours ago]
+Ладно, понятно, спасибо большое. Попробуем сегодня.
+
+
+Andy Fleer [12 hours ago]
+Я правильно понял, что данные в памяти по факту изначают, что я держу некоторый лист мэпов и так имитирую базу?
+
+
+Yevhen Maksymovych [12 hours ago]
+ага
+
+Yevhen Maksymovych [12 hours ago]
+только зачем лист мэпов? достаточно просто мапы
+
+Yevhen Maksymovych [12 hours ago]
+только убедись, что она thread-safe
+
+Andy Fleer [12 hours ago]
+Если я буду этот лист держать как переменную экземпляра сервлета, то она будет едина для всех пользователей сервлета
+
+
+Andy Fleer [12 hours ago]
+так?
+
+Yevhen Maksymovych [12 hours ago]
+ага, сервлет по сути синглтон
+
+
+Andy Fleer [12 hours ago]
+то есть многопоточность по факту организует сам сервлет. Ему плевать идут запросы от одного пользователя или от разных
+
+
+Andy Fleer [12 hours ago]
+так?
+
+Yevhen Maksymovych [12 hours ago]
+многопоточность организует сервлет-контейнер, он инстанциирует твой сервлет, и маршрутизирует на него запросы пользователей
+
+
+Andy Fleer [12 hours ago]
+да так
+
+Yevhen Maksymovych [12 hours ago]
+фактически да, твой сервлет работает в многопоточной среде без твоего участия, но это не значит, что при его разработке не надо этого учитывать :slightly_smiling_face:
+
+
+Andy Fleer [12 hours ago]
+Потокобезопасные коллекции здесь будут CopyOnWriteArrayList, ConcurrentHashMap ?
+
+
+Yevhen Maksymovych [12 hours ago]
+ага, но второй вариант не такой затратный
+
+Andy Fleer [12 hours ago]
+то есть тогда получится конкарентмэп, где ключ это интовый id, а значение объект meal
+
+
+Andy Fleer [12 hours ago]
+так?
+
+
+Andy Fleer [12 hours ago]
+Хотя... в коментарии сказано "2.3 Добавить поле id в Meal/ MealWithExceed и реализовать генерацию счетчика, УЧЕСТЬ МНОГОПОТОЧНОСТЬ СЕРВЛЕТОВ "
+
+
+Andy Fleer [12 hours ago]
+id в сам объект
+
+Yevhen Maksymovych [12 hours ago]
+норм :slightly_smiling_face: не забудь озаботиться тем, чтобы счетчик тоже был тредсейф
+
+
+Andy Fleer [12 hours ago]
+два id будет что ли? один ключ мапы, а обин в объекте?
+
+shtramak [11 hours ago]
+Сервлет должен быть без состояния, зачем вы в него поля запихиваете? На каждый запрос создается сервлет каждый раз, где вы это поле потом будете искать?
+
+
+Yevhen Maksymovych [11 hours ago]
+что? сервлет создается один раз и существует пока существует запущенный сервлет-контейнер. это, конечно, не отменяет того факта, что пихать в него какие-то поля не особо имеет смысла, но если это какие-то служебные данные сервлета, которые заведомо должны шариться между всеми пользователями - думаю, можно сделать и исключение
+
+Yevhen Maksymovych [11 hours ago]
+но он, конечно, не лучшее вместилище для моковых данных :slightly_smiling_face: но работать будет
+
+
+shtramak [11 hours ago]
+Ну чекну конечн еще раз, сейчас на ходу
+
+
+Yevhen Maksymovych [11 hours ago]
+вот, собсна, спека
+
+Yevhen Maksymovych [11 hours ago]
+http://download.oracle.com/otn-pub/jcp/servlet-3.0-fr-eval-oth-JSpec/servlet-3_0-final-spec.pdf?AuthParam=1530609157_a6cd4e217316cff1d09fe5580fa10bc8
+
+
+Yevhen Maksymovych [11 hours ago]
+For a servlet not hosted in a distributed environment (the default), the servlet
+container must use only one instance per servlet declaration. However, for a servlet
+implementing the SingleThreadModel interface, the servlet container may
+instantiate multiple instances to handle a heavy request load and serialize requests
+to a particular instance.
+
+
+Yevhen Maksymovych [11 hours ago]
+я недавно просто чёт увлёкся, прочёл какую-то монументальную статью про то, как всё под капотом у томката крутится
+
+Yevhen Maksymovych [11 hours ago]
+вот тут хорошая объяснялочка тожка
+
+
+Yevhen Maksymovych [11 hours ago]
+https://stackoverflow.com/questions/3106452/how-do-servlets-work-instantiation-sessions-shared-variables-and-multithreadi
+Stack Overflow
+How do servlets work? Instantiation, sessions, shared variables and multithreading
+Suppose, I have a webserver which holds numerous servlets. For information passing among those servlets I am setting session and instance variables. Now, if 2 or more users send request to this se...
+ 
+ 
+
+
+shtramak [11 hours ago]
+Да, понял уже)
+
+Yevhen Maksymovych [11 hours ago]
+меня как-то на собесе начали гонять по нутрянке томката, решил после этого подтянуться ))
+
+
+svis [8 hours ago]
+А что конкретно спрашивали по томкату?
+
+svis [8 hours ago]
+На каком уровене?
+
+Yevhen Maksymovych [8 hours ago]
+да попросили максимально подробно расписать механизм его работы, насколько я его себе представляю
+
+
+svis [8 hours ago]
+а, то есть основной сценарий нарисовать. Понятно.
+
+
+anyonepaw [12:48 PM]
+Привет всем!:slightly_smiling_face: у кого получилось
+>1 из сервлета делаем редирект (снова на сервлет, не на JSP!) из 19 https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson01.md#-Типичные-ошибки
+в принципе, я делаю редирект response.sendRedirect(request.getContextPath() + "/meals");
+и все работает:
+>16 после операции delete в браузере должен быть url http:\\localhost:8080\topjava\meals (но это редирект на jsp)
+как правильно записать response.sendRedirect? 
+гугловский вариант не прошел
+```request.getContextPath() + "/mealServlet"```
+https://stackoverflow.com/questions/19747618/redirect-from-servlet-to-servlet
+web-xml:
+`<servlet>`
+       `<servlet-name>mealServlet</servlet-name>`
+       `<servlet-class>ru.javawebinar.topjava.web.MealServlet</servlet-class>`
+       `<load-on-startup>0</load-on-startup>`
+   `</servlet>`
+  `<servlet-mapping>`
+       `<servlet-name>mealServlet</servlet-name>`
+       `<url-pattern>/meals</url-pattern>`
+   `</servlet-mapping>`
+   `<servlet-mapping>` (edited)
+
+Stanislav [12:50 PM]
+request.getContextPath() + "/meals"
+
+
+anyonepaw [Today at 12:51 PM]
+in #hw1
+>1 из сервлета делаем редирект (снова на сервлет, не на JSP!)
+
+
+2 replies
+Yevhen Maksymovych [10 hours ago]
+не усложняй. речь идёт только о том, что редирект должен быть не на meals.jsp, как это было в примере, а на урл "meals", который обслуживается сервлетом (edited)
+
+
+anyonepaw [10 hours ago]
+окей, ясно
+спасибо! (edited)
+
+
+e.pekhterev [12:55 PM]
+что то вы наворачиваете, вот так работает отлично без всяких примочек - response.sendRedirect("meals");
+
+
+Mihail Kedel [Today at 1:19 PM]
+in #hw1
+Список еды нужно захардкодить в MealsUtil или в реализации Dao интерфейса?
+
+
+1 reply
+e.pekhterev [10 hours ago]
+в дао.
+милУтилс нам ещё понадобится, а это захардкоженная база только для текущей реализации дао (edited)
+
+
+Victor [Today at 1:53 PM]
+in #hw1
+может кто написать как к jsp с Post добавить id своего объекта, и как его потом достать в сервлете?
+
+
+7 replies
+anyonepaw [9 hours ago]
+Странно, что с Post
+если ты хочешь достать idшник, то можно в doGet прописать
+```if (request.getParameter("action") != null && request.getParameter("action").equals("delete")) {
+.....
+} else if (request.getParameter("action") != null && request.getParameter("action").equals("update")) {
+//тут ты получишь свой id
+int id = Integer.parseInt(request.getParameter("id"));        
+request.setAttribute("mealId", id);
+//установишь его атрибутом в update.jsp, перейдешь на него
+request.getRequestDispatcher("update.jsp").forward(request, response);
+} else {
+request.setAttribute(...);
+request.getRequestDispatcher("meals.jsp").forward(request, response);
+}```
+
+
+в update ты, наверное, уже прописал
+`<form method="post" action="meals?action=submit&id=<c:out value="${mealId}"/>">`
+
+а в doPost скажешь
+
+```if (action.equals("submit")) {
+if(id не равен""){
+int id = Integer.parseInt(request.getParameter("id"));
+//и получаешь свой параметр, ведь ты его установил в update.jsp еще в doGet
+}
+}```
+
+
+в meals.jsp надо прописать
+ `<td><a href="meals?action=update&id=<c:out value="${mealItem.id}"/>"> </a></td>` (edited)
+
+
+e.pekhterev [9 hours ago]
+сразу пришли просто ему ссылку на твоё решение на гитхабе, чё уж там.
+В задании дана ссылка Simple CRUD using Servlet/JSP. Заходи и смотри  - там всё есть. (edited)
+
+anyonepaw [9 hours ago]
+:sweat_smile: ну, может, кому то облегчу жизнь и объясню, как это стало понятно мне
+и заодно тренируюсь в помощи другим:no_mouth: попробую потом наводящие вопросы:sweat_smile:
+
+e.pekhterev [9 hours ago]
+надо помогать учиться, а не присылать почти готовое решение. в задании есть пример + 2 видео от Файна + плюс статья, открываем, изучаем, только потом спрашиваем. Этого и так очень не мало для решения дз (edited)
+
+
+Victor [5 hours ago]
+@anyonepaw Спасибо большое. Всё оказалось банально: между параметрами URL вместо '&' поставил запятую:grin: когда твой год перечитал, понял ))) А я уже думал, что как-то по другому нужно передавать эти параметры.
+
+Victor [5 hours ago]
+@e.pekhterev за ссылки на " пример + 2 видео от Файна + плюс статья" спасибо.
+
+
+anyonepaw [4 hours ago]
+:+1::grin:
+
+
+Егорро [3:36 PM]
+uploaded and commented on this image: Скрин 
+
+А с чем может быть связана такая ошибка? С утра все работало отлично, начал делать опциональное (набросал dao, добавил поле в класс сервлета) - просто вдруг перестало открываться, users при этом грузится по-прежнему нормально...
+Yevhen Maksymovych [3:40 PM]
+поставь бряку в сервлете, погляди, попадаешь ли в метод
+
+Егорро [3:42 PM]
+uploaded and commented on this image: idea64 2018-07-03 15-41-00 
+
+@Yevhen Maksymovych первым делом поставил в doGet, не попадает. Хотя в самом сервлете вроде не вижу изменений, которые могли бы на это повлиять (скрин)
+
+Yevhen Maksymovych [3:45 PM]
+ну, как минимум у тебя добавилось инстанциирование двух переменных, которые в этот самый момент инстанцирования могут сервлет порушить
+если откатиться до левого состояние, работать начинает?
+
+
+Егорро [Today at 3:49 PM]
+in #hw1
+@Yevhen Maksymovych спасибо на наводку)) Добавил через ctrl+o метод init, перенес туда mealMemoryDAO = MealMemoryDAO.getInstance(); - теперь вроде к сервлету пытается обращаться, но уже вываливает java.lang.NoClassDefFoundError: Could not initialize class ru.javawebinar.topjava.dao.MealMemoryDAO
+
+
+3 replies
+Yevhen Maksymovych [7 hours ago]
+тогда смотри на реализацию метода getInstance(), судя по всему где-то там косяк
+
+
+e.pekhterev [7 hours ago]
+дао не надо делать синлтоном "- синглтон не нужен, т.к. сервлет с 3.0 уже синглтон"
+
+
+Егорро [7 hours ago]
+Разобрался кое-как - оказывается, просто тупо счетчик инициализировался после списка, а в инициализации списка элементы добавлялись уже со счетчиком)) Спасибо за ответы
+
+
+svis [Today at 3:53 PM]
+in #hw1
+Интересно. Тут многие используют Integer.parseInt для преобразования строки id, в Integer. Я использовал  Integer.valueOf.  Между этими двумя методами какие то серьезные различия? Если именно в Integer , а не в int
+
+
+17 replies
+Yevhen Maksymovych [7 hours ago]
+ну так-то .valueOf() возвращает обёртку, а parseInt() - примитив
+
+
+e.pekhterev [7 hours ago]
+public static Integer valueOf(String s, int radix) throws NumberFormatException {
+   return Integer.valueOf(parseInt(s, radix));
+}
+public static int parseInt(String s) throws NumberFormatException {
+   return parseInt(s, 10);
+} (edited)
+
+
+svis [7 hours ago]
+да, так мне обертка и нужна. Вопрос закрыт
+
+
+e.pekhterev [7 hours ago]
+т.е. получается всяко более удачный выбор за parseInt - тупо чуть-чуть дешевле (edited)
+
+
+Yevhen Maksymovych [7 hours ago]
+@e.pekhterev да ты на его реализацию погляди, там далеко не факт. я думал там две строчки в parseInt, а там телега кода ))
+
+
+Grigory Kislin [7 hours ago]
+ходите в исходники (Ctrl+мышка) - самый дешевый и надежный способ увидеть отличия (edited)
+
+
+svis [7 hours ago]
+а как же живое человеческое общение? ))
+
+
+e.pekhterev [7 hours ago]
+ну так оттуда и скопипасчено)))
+
+e.pekhterev [7 hours ago]
+за живым человеческим общением сюда - https://stackoverflow.com/questions/7355024/integer-valueof-vs-integer-parseint
+Stack Overflow
+Integer.valueOf() vs. Integer.parseInt()
+Aside from Integer.parseInt() handling the minus sign (as documented), are there any other differences between Integer.valueOf() and Integer.parseInt()? And since neither can parse , as a decimal
+ 
+
+
+Yevhen Maksymovych [7 hours ago]
+охренеть ))
+
+svis [7 hours ago]
+угу
+
+
+e.pekhterev [7 hours ago]
+как мне теперь это развидеть?)?
+
+
+Yevhen Maksymovych [7 hours ago]
+щаз я удалю, и всё будет хорошо, не переживай :slightly_smiling_face:
+
+
+e.pekhterev [7 hours ago]
+ужасы какие то)))
+
+
+e.pekhterev [7 hours ago]
+@Yevhen Maksymovych , смысл тут в другом: valueOf сам для преобразования юзает parseInt, вот и всё).
+public static Integer valueOf(String s) throws NumberFormatException {
+       return Integer.valueOf(parseInt(s, 10));
+   } (edited)
+
+
+svis [7 hours ago]
+смотрю, valueOf это просто обертка над parseInt для получения Integer из int
+
+
+e.pekhterev [7 hours ago]
+в том то и дело, в чём смысл, когда и так автоупаковка есть.
+
+
+Joanna [Today at 5:17 PM]
+in #hw1
+вопрос по optional: "Реализуем в ПАМЯТИ CRUD ": это надо использовать бд in-memory, например h2, или просто захардкордить лист в код.....о_0....?
+
+
+2 replies
+Yevhen Maksymovych [6 hours ago]
+без бд
+
+
+Joanna [6 hours ago]
+ок, спасибо
+
+
+Andy Fleer [8:28 PM]
+По optional
+Указано 2.2 Работать с реализацией CRUD через интерфейс, который не должен ничего знать о деталях реализации (Map, DB или что-то еще)
+Правильно ли я понимаю, что по факту я делаю некий класс эмулирующий абстракцию дб
+И разрабатываю некоторый интерфейс взаимодействия
+что-то типа getMealById
+addMeal()
+updateMeal(int id, Meal meal)
+правильно мыслю?
+
+Yevhen Maksymovych [8:45 PM]
+Да, только почитай про круд в рилейтед статьях, там есть принцип именования методов
+
+Andy Fleer [8:55 PM]
+Статью чет не вижу
+Подскажи где
+Вижу пример вот этот
+https://danielniko.wordpress.com/2012/04/17/simple-crud-using-jsp-servlet-and-mysql/
+WordPress.comdanielniko
+Simple CRUD Using Jsp, Servlet and MySQL
+You can view and download the complete source code of this tutorial from my github account.
+In this tutorial, we will create a simple CRUD (Create Read Update Delete) User Management Web Application using Jsp, Servlet and MySQL.
+For this tutorial, we will need the following tools: (The older or newer version should also works). Moreover, basic Java knowledge is assumed.
+1. Eclipse IDE for Java EE Developers (Indigo – ver. 3.7)
+2. Apache Tomcat ver 7.0
+ Show more
+тут именование есть
+можно конечно по примеру
+getAllMeals()
+updateMeal(Meal meal)
+deleteMeal(int id)
+getMealById(id)
+
+
+turhanow [Today at 9:12 PM]
+in #hw1
+привет. у тебя интерфейс для взаимодействия с хранилищем Meals. Зачем в каждом методе указывать meal? 
+логично же, что по id будет возвращен meal, а при передаче в параметры meal в хранилище будет сохранен/обновлен  именно meal, а не что то другое)
+
+
+1 reply
+Andy Fleer [1 hour ago]
+Принял. Согласен, что избыточно писать про meal
+
+
+Maksim K [Today at 9:21 PM]
+in #hw1
+Подскажите, для обычного HW1 (не Optional) где вы Лист с едой храните?
+
+
+40 replies
+turhanow [2 hours ago]
+в сервлете при инициализации
+
+
+Maksim K [2 hours ago]
+в смысле при инициализации? в сервлете еще конструктор должен быть?
+
+
+Maksim K [2 hours ago]
+Или прямо когда создаешь список MealWithExceed ему в конструктор пихаешь что-то вроде List<Meal> meals = Arrays.asList(......); ?
+
+
+Maksim K [2 hours ago]
+@turhanow  в смысле в самом методе doGet
+
+turhanow [2 hours ago]
+почитай про мтеод init();
+в сервлете можно создать статичный list meals и при init() добавить туда еду. как вариант
+
+
+turhanow [2 hours ago]
+> в смысле в самом методе doGet
+
+
+turhanow [2 hours ago]
+нет
+
+Maksim K [2 hours ago]
+ван минетс плиз. ща читану про инит
+
+
+turhanow [2 hours ago]
+> Или прямо когда создаешь . > список MealWithExceed ему в > конструктор пихаешь что-то вроде > List<Meal> meals = > Arrays.asList(......); ?
+
+
+MealWithExceed  это результат выполнения HW0, в doGet можно вызвать ранее созданный статичный метод и получить результат, передав его на страницу meals.jsp
+
+
+Maksim K [2 hours ago]
+Эт понятно. Я так и вызываю из MealsUtil. Просто туда надо в параметрах передать лист с едой. Ну и думал, может прям в параметре запихать создание листа. Громоздко конечно поэтому и спросил как лучше
+
+
+Maksim K [2 hours ago]
+По иниту вопрос. Если в нем инициализировать лист.То ведь все равно над в самом классе поле лист создавать, так?
+
+
+Maksim K [2 hours ago]
+ну чтобы потом его передать в методе doGet в параметрах утильному методу
+
+turhanow [2 hours ago]
+да, просто в сервлетах не используют конструкцию
+static{
+something initizialize 
+}
+а переопределяют метод init()
+
+
+Maksim K [2 hours ago]
+гм. а по сути какая разница? ведь так и так поле создаешь. типа так надо по феншую?)
+
+
+turhanow [2 hours ago]
+я сам только учусь))
+думаю из-за того что все сервлеты многопоточны в отличии от какого нибудь класса где применяем static блок
+
+
+Maksim K [2 hours ago]
+Ну ок. Поверю на слово)) ща нет времени с этим подробно разбираться.
+
+
+Maksim K [2 hours ago]
+ВОпрос: там два инит метода. Переопределять надо тот который с параметром? и типа сначала в методе вызываем super. а потом пишем свой код?
+
+turhanow [1 hour ago]
+в документации написано что это метод для удобства с  ServletConfig).
+Ч тоже сначала через статик делал, Таня забраковала)
+
+
+turhanow [1 hour ago]
+зачем парметры? мы же никакие конфиги не передаем, у нас простой сервлет, в нем просто инициализируется хранилище
+
+
+Maksim K [1 hour ago]
+Ох уж эта Таня))
+
+
+
+Maksim K [1 hour ago]
+Так значит метод без параметров?
+
+turhanow [1 hour ago]
+ага
+
+Maksim K [1 hour ago]
+но супер надо все равно вызывать?
+
+Maksim K [1 hour ago]
+я так понимаю. А то может быть беда? или нет?
+
+turhanow [1 hour ago]
+я вызвал, но ох уж эта Таня))
+
+turhanow [1 hour ago]
+то есть я вызвал но жду ответа свыше)
+
+Maksim K [1 hour ago]
+))))
+
+
+Maksim K [1 hour ago]
+ясно. спасибо. значит инициализируем в инит методе. думаю Таня фигни не посоветует))
+
+
+turhanow [1 hour ago]
+советую я. а она требует)))
+
+Maksim K [1 hour ago]
+ахаха) не бьет хоть?)
+
+turhanow [1 hour ago]
+нет, говорит из Канады в Питер далеко ехать) ну я типа в безопасности
+
+Maksim K [1 hour ago]
+)))
+
+
+Maksim K [1 hour ago]
+и еще. я так понимаю в Optional мапу тоже инициализировать в инит методе?
+
+turhanow [1 hour ago]
+в опциональной инициализируется не мапа, а твое хранилище на основе мапы)
+но в елом аналогично
+
+
+Maksim K [1 hour ago]
+спасибо большое за инфу.
+
+
+Maksim K [1 hour ago]
+буду трудиться)
+
+turhanow [1 hour ago]
+на здоровье) (edited)
+
+
+zippospb [17 minutes ago]
+рекомендую почитать javadoc на оба метода init, а так же глянуть сам код.
+
+zippospb [15 minutes ago]
+если туда заглянуть, то можно увидеть, что метод init(ServletConfig config) внутри себя вызывает init(), а в описании init() написано A convenience method which can be overridden
+
+Maksim K [7 minutes ago]
+я уже видел, что один метод вызывает другой. а так спасибо за совет

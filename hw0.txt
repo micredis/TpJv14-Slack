@@ -3837,3 +3837,36 @@ e.pekhterev [6 minutes ago]
 вопрос по именнованию ссылок, помеченных final.
 в первом занятии final ссылка на логер написана в нижнем регистре, якобы не deeply immutable. 
 Правильно ли я понимаю, что в верхнем регистре нужно именать final переменные только если это примитивы или ссылки на immutable объекты классов вроде String или оберток для примитивов, а всё остальное в нижнем регистре? (edited)
+
+
+Grigory Kislin [1 day ago]
+да, в уроке есть ссылка: https://google.github.io/styleguide/javaguide.html#s5.2.4-constant-names
+
+
+e.pekhterev [1 day ago]
+спасибо, посмотрим
+
+
+denis [4:53 PM]
+@Grigory Kislin что такое final я знаю. Мне интересно что с jit-компиляцией происходит
+
+Tory12 [11:35 PM]
+uploaded and commented on this image: Capture.PNG 
+
+Ребята, прошу прощения за глупый вопрос ) Пыталась сделать git commit (добавила  Prepare_to_HW0.patch по видео в проект) и idea выдает ошибку, приложила screen. Нужно ли что-то исправить или можно push?
+
+Vitaly [11:42 PM]
+можно делать push, ты переведи сообщение в консоли, сама поймешь, что он пытается сказать тебе
+
+Tory12 [11:50 PM]
+спасибо :slightly_smiling_face:
+
+Darkhan [7:19 AM]
+Всем добрый день!
+Начинаю с опозданием
+
+Andy Fleer [12:12 PM]
+:+1:
+
+Tory12 [11:20 PM]
+Я тоже недавно начала ) здесь очень живой чат, это радует, будет весело учиться):slightly_smiling_face:
