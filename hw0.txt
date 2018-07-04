@@ -3870,3 +3870,168 @@ Andy Fleer [12:12 PM]
 
 Tory12 [11:20 PM]
 Я тоже недавно начала ) здесь очень живой чат, это радует, будет весело учиться):slightly_smiling_face:
+
+
+realcorwin [12:28 PM]
+тем кого интересуют стримы и лицензия на Идею. Вчера вечером решил несколько задачек курса "Java. Functional programming" на stepik.org. Утром пришла лицензия на все продукты JetBrains на 3 месяца.
+
+
+Yevhen Maksymovych [Today at 12:28 PM]
+in #hw0
+ух, шайтан
+
+
+33 replies
+realcorwin [10 hours ago]
+нашаманил :slightly_smiling_face: лёг, проснулся - пришёл дождь, то бишь ключ :slightly_smiling_face:
+
+
+Yevhen Maksymovych [10 hours ago]
+интересно, а на уже имеющийся ключ оно ляжет?
+
+
+e.pekhterev [9 hours ago]
+Таня по БАЛЬШОМУ секрету сказала, что можно после завершения действия ключа проходить по паре задачек и ключик снова прислыют.
+
+
+e.pekhterev [9 hours ago]
+но это для курса https://stepik.org/course/2403
+Stepik: online education
+Adaptive Java
+Adaptive problem set to learn Java. Join the course and you can try out the first prototype of the adaptive engine! (21 kB)
+
+
+Yevhen Maksymovych [9 hours ago]
+не, ну это и так известно, многие на постоянном подсосе от степика сидят, мне другое интересно. если у меня есть оплаченный годовой ключ, я могу продлить его действие вот такими дармовыми ключами?
+
+
+e.pekhterev [9 hours ago]
+он именно от джетбрейнс, а курс Java.Functional programming просто включает часть задач и того курса, потому и ключ прислали
+
+
+e.pekhterev [9 hours ago]
+насколько я понимаю не сможешь
+
+Yevhen Maksymovych [9 hours ago]
+эх, чуяло сердце, не надо бабло джетбрейнам нести :slightly_smiling_face:
+
+
+e.pekhterev [9 hours ago]
+ты мог оплачивать помесячно ($14 per month)
+
+
+Yevhen Maksymovych [9 hours ago]
+год дешевле выходит баксов на 30
+
+
+Yevhen Maksymovych [9 hours ago]
+на 35 даже
+
+
+e.pekhterev [9 hours ago]
+надо заглядывать в завтрашний день
+
+
+e.pekhterev [9 hours ago]
+я вот один месяц взял за 14
+
+
+e.pekhterev [9 hours ago]
+а потом хоп - и на тебе на стижировке 6 месяцев
+
+
+Yevhen Maksymovych [9 hours ago]
+сегодня в завтрашний день не каждый...
+
+
+e.pekhterev [9 hours ago]
+да, учись у дяди)))
+
+
+sky [9 hours ago]
+А чем плохо использование серверов лицензии типа https://ideaserver.pro/ ?
+Естественно только для обучения.. (edited)
+
+
+Yevhen Maksymovych [9 hours ago]
+гхм, пиратить плохо вне зависимости от контекста
+
+
+
+Yevhen Maksymovych [9 hours ago]
+но это сугубо моё мнение
+
+
+realcorwin [9 hours ago]
+Мы заметили, что вы недавно решили трудную задачу на Stepik, поздравляем! Поэтому, мы дарим вам ключ для активации образовательной лицензии для любой среды разработки от JetBrains IDE:
+
+**********
+Для получения лицензии вам необходимо зарегистрировать ключ на этой странице.
+
+JetBrains производит профессиональные инструменты разработки программного обеспечения, которые поддерживают самые передовые технологии, фреймворки и языки программирования. Вы можете скачать любой продукт JetBrains и использовать полученную лицензию. Вы можете использовать несколько продуктов JetBrains c этой лицензией одновременно.
+
+Пожалуйста, обратите внимание, что вы можете использовать эту лицензию только в образовательных целях, и она действует до 2 октября 2018 г.. Если вам не хватит этого времени, просто продолжайте учиться на Stepik, и вы получите новую лицензию.
+
+Мы выражаем благодарность JetBrains за предоставленную возможность для наших студентов, а также за поддержку и приверженность образованию.
+
+Хорошего обучения и разрабатывайте с удовольствием,
+Команды Stepik и JetBrains.
+
+
+Yevhen Maksymovych [8 hours ago]
+по-моему они всем раздают, мне прям на середине пришло письмо
+
+
+Yevhen Maksymovych [8 hours ago]
+Мы заметили, что вы недавно решили трудную задачу на Stepik, поздравляем! Поэтому, мы дарим вам ключ для активации образовательной лицензии для любой среды разработки от JetBrains IDE:
+
+
+Yevhen Maksymovych [8 hours ago]
+аххах
+
+
+Yevhen Maksymovych [8 hours ago]
+не даёт активнуть, говорит, "This coupon code is not applicable to the product" (edited)
+
+
+realcorwin [8 hours ago]
+не ставится на твой старый код?
+
+
+Yevhen Maksymovych [8 hours ago]
+нет, вообще не даёт редимнуть на странице, куда отправляют за редимом
+
+
+Yevhen Maksymovych [8 hours ago]
+возможно, из-за того, что я указываю почту, а к ней привязана лицензия на идею, в то время как ключик - на весь пак
+
+
+realcorwin [8 hours ago]
+последнюю фразу не понял :slightly_smiling_face:
+
+
+realcorwin [8 hours ago]
+а, понял :slightly_smiling_face:
+
+realcorwin [8 hours ago]
+попробуй другой мейл
+
+
+Yevhen Maksymovych [8 hours ago]
+да, на другой активнуло
+
+
+Yevhen Maksymovych [8 hours ago]
+правда зачем :slightly_smiling_face:
+
+
+realcorwin [8 hours ago]
+для знания теории процесса :slightly_smiling_face:
+
+
+realcorwin [12:28 PM]
+а, ссылка: https://stepik.org/course/1595/syllabus
+Stepik: online education
+Java. Functional programming
+The course introduces elements of functional programming in Java 8. After completing this course, you should have a basic understanding of lambda expressions, functional interfaces, stream API, lazy evaluation, currying and monads.
+https://stepik.org/media/cache/images/courses/1595/cover/e23a325c5441c4b03993063a85741494.jpg

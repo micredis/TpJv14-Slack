@@ -2199,3 +2199,203 @@ zippospb [15 minutes ago]
 
 Maksim K [7 minutes ago]
 я уже видел, что один метод вызывает другой. а так спасибо за совет
+
+
+zippospb [23 hours ago]
+Меня, кстати, тоже Таня пнула за инициализацию переменных не в методе init)))
+
+
+Maksim K [23 hours ago]
+Я уже понял, что с ней шутки плохи))
+
+
+Tanya [18 hours ago]
+ну не то, чтобы сильно пинаю, пишу что так принято и надо запомнить этот момент
+
+Для приложений правильно делать через init, т.к. init() получает ServletConfig параметр, который может содержать некие параметры инициализации для сервлета
+
+
+zippospb [10 hours ago]
+Таня,  за это и спасибо)
+
+
+denis [4:00 AM]
+@Maksim K там же где и был, только из майна убрать надо
+
+denis [4:08 AM]
+@Joanna "ДЗ первого урока будет связано с созданием небольшого CRUD приложения (в памяти, без DB) на JSP и сервлетах."
+
+Joanna [11:12 AM]
+это я уже поняла, просто у каждого свое восприятие прочитанного =)) Реализуем в ПАМЯТИ
+
+
+Ma3stro [Today at 5:01 PM]
+in #hw1
+Можете еще раз пояснить, зачем на зависимости javax.servlet scope = provided?
+
+
+5 replies
+Yevhen Maksymovych [5 hours ago]
+мы деплоим в томкат, который, по сути, является жава-программой
+
+
+Yevhen Maksymovych [5 hours ago]
+в нём уже есть javax.servlet
+
+
+
+Yevhen Maksymovych [5 hours ago]
+потому мы декларируем, что для сборки он нам нужен, но в конечный варник его вкладывать не стоит, нам его предоставит кто-то извне. в данном случае - томкат
+
+
+Ma3stro [5 hours ago]
+Благодарю за объяснение, теперь всё понял!
+
+
+Yevhen Maksymovych [5 hours ago]
+:+1:
+
+
+Join_Selectovich [5:10 PM]
+added and commented on this XML snippet: изменение параметра <defaultGoal> с install на package 
+  <build>
+    <finalName>topjava</finalName>
+    <defaultGoal>install</defaultGoal>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.7.0</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+Collapse 
+Может заодно еще подскажете для чего изменялся параметр <defaultGoal> с install на package в pom.xml
+
+shomnest [6:04 PM]
+@Join_Selectovich install добавляет в локальный  репозиторий, pakage просто упаковывает в war если pakaging помечен как war
+
+Yevhen Maksymovych [7:43 PM]
+вообще говоря, вопрос правильный :slightly_smiling_face:
+
+
+Макс Куркудюк [Today at 7:45 PM]
+in #hw1
+Типичные ошибки
+16 после операции delete в браузере должен быть url http:\\localhost:8080\topjava\meals
+
+Моє http://localhost:8080/topjava/meals?action=delete&mealId=6 певно не підходить, так? (edited)
+
+
+2 replies
+Yevhen Maksymovych [2 hours ago]
+ні, просто зроби редирект на мілз після деліт
+
+
+Макс Куркудюк [2 hours ago]
+Дякую, тепер все ок)
+
+
+Yevhen Maksymovych [7:45 PM]
+на текущий момент это бессмысленная оптимизация. мы не деплоим приложение непосредственно через мавен. мы запускаем его на выполнение через томкат-плагин идеи. в пом.хмл мы можем написать в дефолтгол хоть инсталл, хоть пэкэдж, хоть "оторви-и-выброси", разницы не будет
+но, как выше заметили, технически разница есть. при инсталл спакованный жар (вар) ляжет в репозиторий (та папка, куда мавен выкачивает все свои зависимости) (edited)
+но для этого нам надо будет вручную запустить maven install. при Shift+F10 ничего подобного не произойдёт
+https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html
+
+
+shomnest [Today at 7:54 PM]
+in #hw1
+@Yevhen Maksymovych При инсталл в репо ляжет. Если рассматривать вопрос осмысленности действия по замене инсталл на пэкэдж то важно понимание таргетов, мож кто захочет через мавен задеплоить. И у меня встречный вопрос, если собирать мавен-плагином из идеи, то это равнозначно будет как и сборка мавеном из консоли?
+Yevhen Maksymovych
+но, как выше заметили, технически разница есть. при пэкэдж спакованный жар (вар) ляжет в репозиторий (та папка, куда мавен выкачивает все свои зависимости)
+Thread in #hw1Today at 7:47 PM
+ 
+
+
+4 replies
+Yevhen Maksymovych [2 hours ago]
+да, это я описАлся, естественно, при инсталл ляжет :slightly_smiling_face:
+
+
+shomnest [2 hours ago]
+главное правильно расставить акценты и ударения))
+
+
+e.pekhterev [2 hours ago]
+@Yevhen Maksymovych ёлы, я думал у меня мозк под конец дня поплыл))) (edited)
+
+
+Yevhen Maksymovych [2 hours ago]
+ну, я честно пытался связно формулировать после литра пива :slightly_smiling_face:
+
+
+turhanow [Today at 7:56 PM]
+in #hw1
+ребят привет, а счетчик в storage размещали или в каком классе?
+
+
+1 reply
+e.pekhterev [2 hours ago]
+и счетчик, и хранилище делай обычными полями класса, который реализует интерфейс дао. Никакого там статика не надо (edited)
+
+
+Макс Куркудюк [8:09 PM]
+Ще таке запитання, як почистити file.log?
+Вже маю ~ 1000 записів..
+
+
+Макс Куркудюк [Today at 8:11 PM]
+in #hw1
+Потрібно редагувати logback.xml, чи якось інакше...?
+
+
+4 replies
+Yevhen Maksymovych [2 hours ago]
+можеш або руками видалити зайві записи, або змінити тип аппендера на такий, що підтримує циклічні записи
+
+
+Yevhen Maksymovych [2 hours ago]
+наприклад, ch.qos.logback.core.rolling.RollingFileAppender
+
+
+Yevhen Maksymovych [2 hours ago]
+і для нього встановити ліміт, після якого старі записи будуть видалятися
+
+
+Yevhen Maksymovych [2 hours ago]
+https://tridion.stackexchange.com/questions/253/logback-xml-limit-the-size-of-files
+Tridion Stack Exchange
+Logback.xml - limit the size of files
+I'm trying to figure out if there is a way limit the size of log files within the logback.xml configuration file. I've reviewed the SDL documentation, which points me to the official documentation...
+ 
+
+
+SergeyA [10:04 PM]
+Кто скажет - почему ТомКат не запускается?
+
+SergeyA [10:04 PM]
+added this Plain Text snippet: Untitled 
+C:\Java\apache-tomcat-8.5.32\bin>catalina.bat jpda start
+Neither the JAVA_HOME nor the JRE_HOME environment variable is defined
+At least one of these environment variable is needed to run this program
+
+
+e.pekhterev [10:11 PM]
+переменную окружения JAVA_HOME задал?
+
+
+SergeyA [10:12 PM]
+да только что
+но не помогло, надо что то перезагрузить
+?
+
+e.pekhterev [10:12 PM]
+commented on SergeyA’s snippet Untitled
+идею перегрузил после этого?
+
+SergeyA [10:12 PM]
+под win7
