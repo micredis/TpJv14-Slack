@@ -1,0 +1,98 @@
+Grigory Kislin [1:35 AM]
+joined #hw2.
+
+Grigory Kislin [1:37 AM]
+renamed the channel from “hw02” to “hw2”
+
+Grigory Kislin [1:39 AM]
+Достаточно сложное занятие (по коду и ДЗ):  каркас приложения. Spring (edited)
+https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson02.md
+Успехов! (edited)
+
+Tanya [1:42 AM]
+joined #hw2 along with 17 others.
+
+Gagarina6794 [6:41 AM]
+https://www.jetbrains.com/help/idea/use-patches.html (вариант применения патчей из любого удобного места на компьютере)
+
+Victor_D [6:46 AM]
+joined #hw2.
+
+Kiri [9:02 AM]
+github у кого-нибудь пашет?
+
+denis [9:08 AM]
+не пашет
+
+Yevhen Maksymovych [9:09 AM]
+У меня норм
+
+Chensy [9:09 AM]
+у меня тоже норм
+
+Yevhen Maksymovych [9:10 AM]
+Роскомнадзор?
+
+denis [9:10 AM]
+не скорее  microsoft))
+
+matrocob [11:44 AM]
+я так понимаю в классе InMemoryMealRepositoryImpl в методе save, метод computeIfPresent -> делает типо обновление существующего значения?
+
+Yevhen Maksymovych [11:53 AM]
+не ленись, провались в сорсы, там ничего сложного :slightly_smiling_face:
+
+matrocob [11:57 AM]
+та уже посмотрел)) спасибо)
+
+Grigory Kislin [12:25 PM]
+jsp:useBean- поменял ссылку на рабочую http://www.labir.ru/j2ee/jspUseBean.html (edited)
+
+matrocob [7:01 PM]
+оо прикольно, уже <spring.version>5.0.7.RELEASE</spring.version> ))
+
+roudder [10:27 PM]
+йо, гайз, а есть кто сейчас курит дз?)
+nvm, подскажите, что именно из всех слоев мне нужно расширить(api) для userId (сейчас по хорошему)
+то есть я правильно понимаю, если этот юзер id будет известен только на веб леере, соответственно он будет прокидываться дальше котролер - сервайс - реп. (до конца)
+поправьте, если ошибаюсь где
+
+Alexserden [10:58 PM]
+кто накатил все патчи из 2-го задания ? у меня идея ругается на классы
+
+roudder [11:01 PM]
+не было проблем с накатом
+
+Alexserden [11:08 PM]
+class MealsUtil остался как hw1 задании, без изменений
+
+Victor_D [11:11 PM]
+накатил все патчи, MealsUtil изменился согласно описанию/видео
+не только он в сумме 35 файлов в изменениях
+
+Alexserden [11:13 PM]
+я посмотрел сам патч, Apply 2_1_HW1.patch он без изменений, качал отсюда 
+https://drive.google.com/drive/folders/0B9Ye2auQ_NsFfkpsWE1uX19zV19IVHd0bTlDclc5QmhMMm4xa0Npek9DT18tdkwyLTBZdXM
+
+Victor_D [11:22 PM]
+uploaded this image: image.png 
+
+
+roudder [11:27 PM]
+https://topjava14.slack.com/archives/CBK7XFLE9/p1530819078000307 касательно этой месаги, я так понимаю что правильный подход в следующем: не менять сигнатуру всех слоев на + userId, на уровне сервайза получить энтити  с гетом и обработать с AuthorizedUser (сравнить с userId из энтити) - в зависимости от этого уже поведение... В уроке кстати, насколько помню было написано, что на веблейере эт надо делать, мне, кажется, и в сервисе норм не? (edited)
+roudder
+поправьте, если ошибаюсь где
+Posted in #hw2Today at 10:31 PM
+
+Alexserden [11:41 PM]
+commented on Victor_D’s file image.png
+Изменения в MealsUtil:
+Сделал константу List<Meal> MEALS
+Переименовал TimeUtil в DateTimeUtil
+
+Alexserden [11:41 PM]
+где эти изменения тут ?
+Victor_D [11:47 PM]
+про MEALS: строки 214-221.
+Victor_D [11:47 PM]
+все патчи тянул с https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson02.md , соответственно с переходом на гугл диск

@@ -417,3 +417,193 @@ Vaadin
 Starter Packs | Vaadin
 Starter packs – Get up and running with ready templates.
 https://vaadin.com/images/social-media/vaadinffs-banner.png
+
+
+Yevhen Maksymovych [4:05 PM]
+ребят, подскажите, мне надо с помощью спринг дата массово импортнуть данные в бд. какой сейчас актуальный способ массовой вставки? на спринг.ио какой-то кривой пример, в других местах предлагают автовайрить ентитименеджер, вручную открывать транзакцию в ее рамках делать всю работу. неужели нет ничего в JpaRepository типа bunchSave(Collection<T> items)?
+
+Yevhen Maksymovych [4:16 PM]
+ну, т.е. я сделал так, но насколько это корректно?
+```@Override
+    public void bunchSave(List<Record> records, int batchSize) {
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        EntityTransaction transaction = entityManager.getTransaction();
+        try {
+            transaction.begin();
+            for (int i = 0; i < records.size(); i++) {
+                if (i > 0 && i % batchSize == 0) {
+                    transaction.commit();
+                    transaction.begin();
+                    entityManager.clear();
+                }
+                entityManager.persist(records.get(i));
+            }
+            transaction.commit();
+        } catch (RuntimeException e) {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            throw e;
+        } finally {
+            entityManager.close();
+        }
+    }```
+
+tema.emelyan [4:42 PM]
+@Yevhen Maksymovych вот так пробовал? я сам не пробовал https://stackoverflow.com/a/35794220/6098646
+Stack Overflow
+Spring Data JPA: Batch insert for nested entities
+I have a test case where I need to persist 100'000 entity instances into the database. The code I'm currently using does this, but it takes up to 40 seconds until all the data is persisted in the
+
+Yevhen Maksymovych [4:52 PM]
+попробовал, но тупо прописать эти настройки в entityManagerFactory не помогает, все инсёрты делаются "поштучно"
+
+Victor [5:10 PM]
+Create-Retrieve-Update-Delete (CRUD) 
+Retrieve вместо read как-то в рифму даже ))))
+
+Stanislav [5:11 PM]
+Посмотри на Spring Batch (edited)
+
+
+Stanislav [Today at 5:12 PM]
+in #flooding
+http://javainside.ru/primer-ispolzovaniya-spring-batch-3-0-chast-1/
+Java Inside
+Spring Batch 3.0 - Часть 1: Пример использования - Java Inside
+Spring Batch 3.0 – это подпроект Spring Framework, реализующий стандарт JSR-352 для выполнения пакетных заданий. Приступим сразу к делу и покажем на примере для чего это все нужно. Напишем небольшое веб-приложение, которое будет запускать пакетное задание и отображать состояние выполнения клиенту. В нескольких
+Sep 9th, 2016 at 3:03 PM
+ 
+ 
+
+
+4 replies
+Yevhen Maksymovych [6 hours ago]
+спасибо :slightly_smiling_face: вот эту штуку я и имел в виду под "кривой" - слишком много движений для казалось бы простой операции. + там третий спринг батч (уже четвертый есть), я думал, мало ли, может уже в spring-data-jpa что-то такое запихнули, но интуитивное и простое
+
+
+Stanislav [6 hours ago]
+Ну эт навороченое, но за то будет пунктик, что работал :)
+
+
+Yevhen Maksymovych [6 hours ago]
+да прикрутить не проблема, но я ж уже через два дня забуду, как я это сделал :slightly_smiling_face:
+
+
+Stanislav [6 hours ago]
+Сорсы останутся...я всегда вспоминаю по своим, чужие сложнее читать
+
+
+tema.emelyan [Today at 5:45 PM]
+in #flooding
+@Yevhen Maksymovych а как ты понимаешь saveAll сохраняет в батчах или нет?
+
+
+7 replies
+Yevhen Maksymovych [6 hours ago]
+showSql у jpaVendorAdapter'а включил
+
+
+tema.emelyan [6 hours ago]
+я просто читал, что у мужика вот логи не фурычили, хотя батчи работали
+
+
+tema.emelyan [6 hours ago]
+https://stackoverflow.com/questions/34228044/how-to-enable-batch-inserts-with-hibernate-and-spring-boot
+Stack Overflow
+How to enable batch inserts with Hibernate and Spring Boot
+I want to insert a large number of entities into cross table. To do that, I want to enable hibernate's batch insert option, so that each insert will add not 1, but 20 or 50 rows at a time. I'm try...
+ 
+
+
+Yevhen Maksymovych [6 hours ago]
+странная штука
+
+
+Yevhen Maksymovych [6 hours ago]
+у меня, похоже, подобная беда
+
+
+Yevhen Maksymovych [6 hours ago]
+но, у меня логи пашут
+
+
+Yevhen Maksymovych [6 hours ago]
+но чисто по разнице по времени, явно saveAll делает это батчами, хотя вывод в консоль совершенно одинаковый
+
+
+denis [6:01 PM]
+@Yevhen Maksymovych есть же  saveAll(Iterable<S> entities) спрингдатовский
+
+tema.emelyan [6:02 PM]
+Я теперь запутался, если вызывать вставки внутри одной транзакции, то хоть по одной записи, хоть saveAll работает одинаково - примерно 40 сек на 100_000 записей
+вывод в консоль (при меньшем кол-ве записей само собой) одинаковый
+если убрать транзакции, то saveAll всё равно около 40 секунд
+по одному в цикле - не дождался (сильно медленнее)
+
+Yevhen Maksymovych [6:04 PM]
+@denis, @tema.emelyan, спасибо, забил на консоль, главное, импорт заработал быстро :slightly_smiling_face:
+а то я уже расстроился, что придётся на всю ночь ставить
+70 секунд на 498000 записей
+
+tema.emelyan [6:07 PM]
+а сколько колонок у тебя?
+полей
+
+Yevhen Maksymovych [6:08 PM]
+18
+
+tema.emelyan [6:08 PM]
+ssd?
+
+Yevhen Maksymovych [6:08 PM]
+причем 70 сек, это с учётом, что он из файлов подсасывает данные, щаз померяю чисто сохранение в бд
+да, ссд
+ну, я ещё щаз индексов накручу, по факту станет медленнее :slightly_smiling_face:
+
+tema.emelyan [6:09 PM]
+ssd кайф
+
+Yevhen Maksymovych [6:13 PM]
+ага, уже лет шесть на ссд живу, прямо дискомфорт чувствую, когда приходится на чужом пк работать с хдд
+```18:13:11.012 DEBUG ua.dp.rundot.SpringCtxTest.folderImportSaveAll - Parsing time: 5212 ms
+18:13:11.013 DEBUG ua.dp.rundot.SpringCtxTest.folderImportSaveAll - Records parsed: 398191
+18:14:12.850 DEBUG ua.dp.rundot.SpringCtxTest.folderImportSaveAll - Storing time: 61837 ms```
+
+tema.emelyan [6:15 PM]
+щас всё тайное станет явным
+:rat: :turtle: :turtle: :turtle: :turtle: (edited)
+или не станет =(
+
+Yevhen Maksymovych [6:18 PM]
+мм?
+
+tema.emelyan [6:18 PM]
+сенсей печатал чота, но видимо передумал :slightly_smiling_face: (edited)
+я теперь хочу настроить так, чтобы было батчами, но не получается. получается всё одим махом только
+
+Yevhen Maksymovych [6:19 PM]
+а ты STATEMENT_BATCH_SIZE укажи
+
+Grigory Kislin [6:20 PM]
+Spring batch  это отдельный фреймворк для выполнения пакетных задач. к bacth встевке в базу отношения не имеет
+https://www.google.ru/search?newwindow=1&source=hp&ei=Czc-W-vFE6OE6ASwwKq4BA&q=spring%2Bdata%2Bjpa%2Bbatch%2Binsert&oq=spring%2Bdata%2Bjpa%2Bbatch%2Binsert
+
+
+Ma3stro [Today at 9:08 PM]
+in #flooding
+Планирую написать небольшой сайт, куда можно добавлять новости. Правильно ли, что новость со всем ее текстом должна хранится в бд? Не накладно ли, что огромный текст будет там содержаться?
+Также думал над тем, что новости не должны хранится в бд, а просто на сервере отдельной html страничкой, но пока даже не представляю, как это реализовать
+
+
+1 reply
+Yevhen Maksymovych [3 hours ago]
+не парься. в БД в виде двоичных данных чего только не складывают. твоя текстовая новость для нее - что для слона дробинка
+
+
+Yevhen Maksymovych [9:51 PM]
+а что случилось с versioneye? он как-то намертво лежит. есть какой-то другой сервис, который умеет актуальность зависимостей отслеживать?
+
+Grigory Kislin [11:08 PM]
+@Yevhen Maksymovych
+он умер. автор закрыл (edited)

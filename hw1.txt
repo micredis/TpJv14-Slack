@@ -2399,3 +2399,374 @@ commented on SergeyA’s snippet Untitled
 
 SergeyA [10:12 PM]
 под win7
+так я из командной строки запускаю
+JAVA_HOME
+то есть >catalina.bat jpda start
+
+e.pekhterev [10:13 PM]
+commented on SergeyA’s snippet Untitled
+в командной строке забей echo %JAVA_HOME% и посмотри есть ли результат и правильный ли путь на jdk
+
+SergeyA [10:14 PM]
+ответ "%java_home%" не является внутренней или внешней
+командой, исполняемой программой или пакетным файлом.
+
+e.pekhterev [10:14 PM]
+echo %JAVA_HOME%
+
+
+SergeyA [10:14 PM]
+в переменной значение = C:\Program Files\Java\jdk1.8.0_151
+
+
+Stanislav [Yesterday at 10:15 PM]
+in #hw1
+после выставления переменной среды необходимо перезагрузить компьютер
+
+
+1 reply
+dustnfox [18 hours ago]
+Не компьютер, а тот процесс, который использует переменную среды. Как правило процессы читают все переменные среды при запуске и после этого не обновляют этот список. Так что в данном случае, я бы перезапустил именно cmd.exe из которого пытаешься стартануть Tomcat.
+
+
+SergeyA [10:15 PM]
+вот блин  - как обычно )
+
+e.pekhterev [10:15 PM]
+у меня как то и без перезагрузки цеплялось
+
+SergeyA [10:15 PM]
+спасибо
+а в эппл как ?
+
+Stanislav [10:16 PM]
+хз
+
+e.pekhterev [10:16 PM]
+init -6
+
+ахах
+
+SergeyA [10:16 PM]
+я себе еще ноут купил , но пока еще едет со штатов
+
+
+SergeyA [Yesterday at 10:18 PM]
+in #hw1
+Странно что никто не спросил ранее - один я не дружу с командной строкой?  ))
+
+
+5 replies
+Kiri [1 day ago]
+а какая у тебя версия винды?
+
+
+Kiri [1 day ago]
+или у тебя мак?
+
+
+SergeyA [1 day ago]
+win7
+
+
+SergeyA [1 day ago]
+mac позже буду юзать, пока винда
+
+
+Kiri [1 day ago]
+а, тогда понятно: 10ка перезагрузки для установки переменных не требует
+
+
+SergeyA [10:18 PM]
+Ок ушел в ребут
+
+SergeyA [10:27 PM]
+Спасибо! ребут помог теперь томкат сообщил что он listening :slightly_smiling_face:
+
+Victor_D [10:59 PM]
+проверка переменной в командной строке: echo %Переменная%
+например, echo %JAVA_HOME%
+если следующей строкой вышел путь, который был задан, переменная подтянулась
+
+в линуксе: echo $JAVA_HOME
+
+
+stea1th [Yesterday at 11:48 PM]
+in #hw1
+кто подскажет как избавиться от кракозябр при выводе листа на страницу?
+
+
+3 replies
+vch [24 hours ago]
+3 пункт в разделе `Вопросы по HW1`
+
+
+
+stea1th [24 hours ago]
+супер, гран мерси :))
+
+
+Sergey [13 hours ago]
+А кто-нибудь знает, в чем причина того, что кодировка приезжает в реквесте некорректной изначально? Где-то можно в веб-проекте задать кодирвоку по умолчанию utf-8?
+
+
+stea1th [11:49 PM]
+то есть добавляю новый meal и у меня вместо русских букв какая то фигня
+
+Andy Fleer [11:53 PM]
+Проблемы с кодировкой в POST (кракозябры).
+
+Возможное решение - выставьте кодировку ДО первого чтения из request:
+
+protected void doPost(HttpServletRequest request, ...) {
+   request.setCharacterEncoding("UTF-8");
+
+stea1th [11:53 PM]
+спасибо
+
+
+Avaaron [Today at 11:36 AM]
+in #hw1
+второе занятие пришло уже?
+
+
+2 replies
+Victor [12 hours ago]
+Нет, ждемс
+
+
+Victor [12 hours ago]
+https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson02.md
+
+
+Yevhen Maksymovych [11:39 AM]
+да ладно, чего ждать-то? по ссылке зашли, и готово
+https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson02.md
+doc/lesson02.md
+```
+# Онлайн проект <a href="https://github.com/JavaWebinar/topjava">Topjava</a>
+
+## <a href="https://drive.google.com/drive/folders/0B9Ye2auQ_NsFfkpsWE1uX19zV19IVHd0bTlDclc5QmhMMm4xa0Npek9DT18tdkwyLTBZdXM">Материалы занятия</a> (скачать все патчи можно через Download папки patch)
+
+## ![hw](https://cloud.githubusercontent.com/assets/13649199/13672719/09593080-e6e7-11e5-81d1-5cb629c438ca.png) Разбор домашнего задания HW1:
+
+- **Перед сборкой проекта (или запуском Tomcat) откройте вкладку Maven Projects и сделайте `clean`**
+- **Если страничка в браузере работает неверно, очистите кэш (`Ctrl+F5` в хроме)**
+
+### ![video](https://cloud.githubusercontent.com/assets/13649199/13672715/06dbc… Show more
+JavaWebinar/topjavaAdded by GitHub
+
+Grigory Kislin [12:27 PM]
+@Avaaron #hw2
+сначала выкладываю здесь, письмо днем шлю
+
+
+shomnest [Today at 2:06 PM]
+in #hw1
+Таблицу прям прорисовать нужно используя только html и css, и уже в отоисованых ячейках при помощи jstl выводим данные? 
+Только созрел hw1 делать, от Григория решения ещё не смотрел принципиально, хочу сам))
+
+
+1 reply
+Yevhen Maksymovych [9 hours ago]
+Да
+
+
+Егорро [2:37 PM]
+uploaded and commented on this image: idea64 2018-07-05 14-33-42 
+
+Кто подскажет, что я делаю не так? Посмотрел видео по HW1, узнал про jsp:useBean, попробовал продублировать у себя - почему-то видит только первое упоминание (exceed), а дальше воспринимает все meal как Object (свойства вообще не определяет), а при запуске вываливает org.apache.jasper.JasperException: /meals.jsp (line: [21], column: [12]) The value for the useBean class attribute [ru.javawebinar.topjava.model.MealWithExceed] is invalid. 
+Без useBean все работало, что я не так делаю?
+Yevhen Maksymovych [2:39 PM]
+геттеры есть у мила?
+
+Yevhen Maksymovych [2:39 PM]
+попробуй дописать scope="page"
+
+Егорро [2:41 PM]
+@Yevhen Maksymovych да, геттеры есть, scope прописывал - не помогает (удалить его предложила сама Идея - как я понял, это значение по умолчанию)
+
+Yevhen Maksymovych [2:46 PM]
+ну, судя по всему джасперу не нравится этот бин. он точно соответствует жсп-бину? есть ноарг-конструктор?
+покажи гит
+
+Егорро [2:53 PM]
+https://github.com/Eroppo/topjava/tree/HW1
+Ноарг-конструктора нет, но его же нет и в коде из патча - там все работает, да и какой в нем смысл, если все поля объявлены как final - если даже пытаться добавить, Идея ругается, что ничего не инициализируется... (edited)
+
+
+Егорро [Today at 2:57 PM]
+in #hw1
+* я эту строчку еще не пушил, пока не работает))
+
+
+17 replies
+Yevhen Maksymovych [9 hours ago]
+да, я понял :slightly_smiling_face:
+
+
+Егорро [9 hours ago]
+<jsp:useBean id="meal" class="ru.javawebinar.topjava.model.MealWithExceed"/>
+Сразу после foreach))
+
+
+Yevhen Maksymovych [9 hours ago]
+а, так вот в чём ошибка
+
+
+Yevhen Maksymovych [9 hours ago]
+ты пишешь class="...", а надо type="..."
+
+
+Yevhen Maksymovych [9 hours ago]
+если ты указываешь "class" - будь добр, делай так, чтобы он соответствовал требованиям жсп бина
+
+
+Yevhen Maksymovych [9 hours ago]
+с ноарг конструктором, не абстрактный и со всеми геттерами
+
+
+Yevhen Maksymovych [9 hours ago]
+а если у тебя просто pojo, которое ты хочешь отрисовать - указывай "type"
+
+
+Yevhen Maksymovych [9 hours ago]
+https://www.javatpoint.com/jsp-useBean-action
+www.javatpoint.com
+jsp useBean tag - javatpoint
+JSP useBean tag with examples of session tracking, implicit objects, el, jstl, mvc, custom tags, file upload, file download, interview questions etc.
+
+
+Егорро [9 hours ago]
+Не, тоже пробовал - вариант с class просто писал изначально, сразу его зачем-то закоммитил, теперь после переключения на мастер и обратно он восстанавливается каждый раз. А с type точно так же видит только следующую строку, дальше - везде Object
+
+
+Егорро [9 hours ago]
+Но с type хотя бы работает без ошибки, как выясняется, и на том уже спасибо))
+
+
+Yevhen Maksymovych [9 hours ago]
+скорее всего какие-то баги идеи. она у меня перестала отслеживать тип вот на этом этапе
+```<fmt:parseDate value="${meal.dateTime}"```
+
+
+Yevhen Maksymovych [9 hours ago]
+подозреваю, что это из-за того, что включился посторонний неймспейс, и она потерялась
+
+
+Yevhen Maksymovych [9 hours ago]
+пошла в его скоп, вышла из него, и потеряла текущий
+
+Егорро [9 hours ago]
+Попробовал закомментировать эти строки (вывод даты) - так же не видит.
+
+Егорро [9 hours ago]
+Судя по всему, какой-то конфликт с другими переменными: убрал c:set, перенес тернарный оператор напрямую в tr - теперь видит все до форматирования даты, там объявляется еще одна переменная - после нее уже опять не видит... 
+https://i.imgur.com/RHMnsJW.jpg (113 kB)
+
+
+Yevhen Maksymovych [9 hours ago]
+у меня на этом этапе видит и с незакоменченными строками. ну, похоже на баг, можешь написать в багтрекер :slightly_smiling_face:
+
+Егорро [8 hours ago]
+https://i.imgur.com/wixQXIT.jpg (151 kB)
+
+Да реально баг какой-то, только в таком виде видит все свойства и до, и после var="parsedDateTime", но код не работает - двойное объявление бина)) Обидно, показалось удобной возможностью, ну да и ладно)) (edited)
+
+
+Макс Куркудюк [3:15 PM]
+Що краще використовувати і в чому різниця:
+
+<%--@elvariable id="meal" type="ru.javawebinar.topjava.model.Meal"--%>
+
+<jsp:useBean id="meal" scope="request" type="ru.javawebinar.topjava.model.Meal"/>
+
+
+Alexander Pilipenko [Today at 3:34 PM]
+in #hw1
+Верхнее скриплет. Везде советуют их избегать. Нижнее JSTL. Лучше использовать последнее. Все сказанное выше - ИМХО
+
+
+1 reply
+Макс Куркудюк [6 hours ago]
+Дякую, запам'ятаю..
+
+
+Jury Mironov [4:38 PM]
+Всем привет. Не могу накатить патч 1_0_fix.patch, конфликты какие-то.
+Не понимаю, что сделать надо, после применения ошибки появляются в классах. Не должно же быть подобных проблем? Применяю патч после патча Prepare_HW0 (edited)
+
+Jury Mironov [4:39 PM]
+uploaded this image: Snap 2018-07-05 at 16.28.10.png 
+
+
+Jury Mironov [Today at 4:44 PM]
+in #hw1
+Похоже, что проблема в том, что патчи взял из topjava13. Как вообще решать подобные конфликты?
+
+
+2 replies
+Victor [7 hours ago]
+просто: сделать все заново и с правильными патчами
+
+
+Victor [7 hours ago]
+сложно: устранять конфликты, ссылка в помощь: https://github.com/JavaOPs/topjava/wiki/Git
+
+
+Victor [4:49 PM]
+))) форматирование, паттерны, часы пролетели не заметно....
+Оказывается все гениальное просто:
+${meal.dateTime.toLocalDate()} ${meal.dateTime.toLocalTime()} и буква T волшебным образом исчезла ...... ))))))))
+
+denis [5:53 PM]
+@Jury Mironov конфликты не надо резолвить. возьми патчи topjava14
+
+Janna [7:08 PM]
+@Victor, отличная идея! элегантно!
+
+stea1th [9:44 PM]
+здрасти, вот вопрос у меня
+вчера сделал так, что дату можно было по паттерну задавать, и все хорошо работало
+много раз пробовал...
+сегодня же постоянно пишет введите данные в указанном формате
+вот код
+<td><input type="text"  name="date" placeholder="<javatime:format value="${meal.getDateTime()}" pattern="yyyy-MM-dd HH:mm" />" pattern="yyyy-MM-dd HH:mm"/></td>
+что там может быть не так?
+
+stea1th [9:51 PM]
+а?
+
+Yevhen Maksymovych [9:52 PM]
+не заставляй пользователя по такому сложному паттерну вводить, используй html5-инпуты, 2018-й год на дворе :slightly_smiling_face:
+<input type="datetime-local">
+
+Alexander Pilipenko [9:55 PM]
+firefox против :slightly_smiling_face:
+
+stea1th [9:55 PM]
+сейчас попробую
+кстати разобрался :slightly_smiling_face:
+
+Alexander Pilipenko [9:55 PM]
+Расскажи. Я использовал rexp
+Но там длинно получается
+
+stea1th [9:56 PM]
+я_
+?
+
+Alexander Pilipenko [9:56 PM]
+Ты :slightly_smiling_face:
+Ты же разобрался почему у тебя не работали паттерны
+
+stea1th [9:57 PM]
+<javatime:parseLocalDateTime value="" pattern="yyyy-MM-dd HH:mm" />
+это надо было добавить
+он этот паттерн буквально вопринимал
+
+Alexander Pilipenko [9:59 PM]
+спасибо
+
+stea1th [10:01 PM]
+но вариант от @Yevhen Maksymovych мне больше понравился

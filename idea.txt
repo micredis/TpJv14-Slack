@@ -796,3 +796,19 @@ Yevhen Maksymovych [4:05 PM]
 Ma3stro [4:07 PM]
 Я говорил про изменение шрифта, оказывается
 Спасибо:)
+
+
+Sole Noid [Today at 2:03 PM]
+in #idea
+Вот я открыл проект и мне IDEA метод 
+int size() { return size; }
+показывает весь в одной строке. Как настроить IDEA чтобы этого не было?
+
+
+1 reply
+dimlo [7 hours ago]
+Settings - Editor - General - Code Folding - One-line methods (убрать галочку)
+
+
+tema.emelyan [2:19 PM]
+@Sole Noid попробуй погуглить
