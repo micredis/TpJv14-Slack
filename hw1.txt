@@ -2770,3 +2770,58 @@ Alexander Pilipenko [9:59 PM]
 
 stea1th [10:01 PM]
 но вариант от @Yevhen Maksymovych мне больше понравился
+
+
+Ilya V [Today at 12:56 PM]
+in #hw1
+Привет, никто не знает зачем при добавлении JSTL в pom.xml нужно добавлять помимо
+```<dependency>
+       <groupId>javax.servlet</groupId>
+       <artifactId>jstl</artifactId>
+       <version>1.2</version>
+    </dependency>```
+Ещё и вот эту хрень
+ `<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>`  (edited)
+
+
+9 replies
+Yevhen Maksymovych [41 minutes ago]
+это не хрень :disappointed:
+
+
+Yevhen Maksymovych [41 minutes ago]
+это неймспейс
+
+
+Merkulov [41 minutes ago]
+))
+
+Yevhen Maksymovych [40 minutes ago]
+ты верстаешь страницу в xml, добавляешь нестандартный тэг "с". Надо как-то показать джасперу, куда заглядывать, если у него будут вопросы, как с этим тэгом работать
+
+
+Yevhen Maksymovych [40 minutes ago]
+и ты даёшь ему ссылку на неймспейс, в котором содержится описание этого тега
+
+
+Yevhen Maksymovych [39 minutes ago]
+по факту он, конечно, не пойдёт по этому урлу. все стандартные неймспейсы зашити у него в жарнике, но спецификация этого требует
+
+
+Ilya V [38 minutes ago]
+да не я думал что `<@ taglib` нужно добавлять в pom.xml %) (edited)
+
+
+Yevhen Maksymovych [38 minutes ago]
+аа
+
+
+Yevhen Maksymovych [38 minutes ago]
+не, нафиг не надо :slightly_smiling_face:
+
+
+stea1th [12:57 PM]
+эту хрень надо добавлять в jsp
+
+Ilya V [12:57 PM]
+а ok спасибо (edited)
