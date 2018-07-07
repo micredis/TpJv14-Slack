@@ -139,3 +139,705 @@ e.pekhterev [1:23 PM]
 
 Yevhen Maksymovych [1:25 PM]
 консерватор :slightly_smiling_face:
+
+
+tim [Yesterday at 2:17 PM]
+in #hw2
+Подскажите, а как лучше справиться с ошибкой, которая присутствует в проекте: Когда редактируешь MEAL в строке DateTime, HTML5 позволяет ввести пятизначный год  на что успешно вылетает исключение Message Text '43564-05-31T05:59' could not be parsed at index 0, что вполне логично. Как красиво побороть это?
+
+
+2 replies
+vch [1 day ago]
+исключение где генерируется? В сервлете при парсинге даты? Тогда делай catch и выводи любое красивое сообщение.
+Хотя вроде как пока обработка ошибок по ТЗ необязательна.
+
+
+Егорро [1 day ago]
+Можно вроде задать ограничение типа max="2015-01-01T00:00"
+
+
+Yevhen Maksymovych [2:20 PM]
+Валидировать ввод с помощью js. (edited)
+
+Alexander Pilipenko [2:40 PM]
+Регулярное выражение в паттерн можно прописать
+На input field
+
+Andy Fleer [3:16 PM]
+Народ скажите, как у вас легли патчи?
+После патчей проект компилируется без ошибок или с ошибками?
+
+
+Yevhen Maksymovych [Yesterday at 3:16 PM]
+in #hw2
+без ошибок
+
+
+29 replies
+Andy Fleer [1 day ago]
+Подскажи как его можно откатить или обновить до состояния с которого снова применить патчи
+
+
+Andy Fleer [1 day ago]
+Можно же как-то скачать нужное исходное состаяние
+
+
+Andy Fleer [1 day ago]
+и снова не него положить патчи
+
+
+Yevhen Maksymovych [1 day ago]
+а ты на ветку "master" переключился перед накаткой патчей?
+
+
+Andy Fleer [1 day ago]
+да
+
+
+Yevhen Maksymovych [1 day ago]
+в любом случае, переключайся на мастер, выбирай в Version Control - Log последний коммит, и откатывайся до него
+
+Join_Selectovich [1 day ago]
+https://github.com/JavaOPs/topjava/wiki/Git
+
+
+Join_Selectovich [1 day ago]
+там есть пункт как откатить патч
+
+
+Andy Fleer [1 day ago]
+Я делал комит на каждую заплатку
+
+
+Andy Fleer [1 day ago]
+Не последний видимо, а все заплатки
+
+Andy Fleer [1 day ago]
+?
+
+
+Yevhen Maksymovych [1 day ago]
+можешь откатиться до последнего патча с прошлого урока
+
+Yevhen Maksymovych [1 day ago]
+перед накаткой пачтей не забудь проверить, что у тебя в version control - local changes нет изменений
+
+Andy Fleer [1 day ago]
+Reset Current Branch to Here Hard?
+
+
+Yevhen Maksymovych [1 day ago]
+ага
+
+
+Andy Fleer [1 day ago]
+Сделал
+
+Andy Fleer [1 day ago]
+Как можно сравнить все ли совпадает с версией Григория
+
+Andy Fleer [1 day ago]
+?
+
+
+Andy Fleer [1 day ago]
+или может можно накатить его варчию
+
+Andy Fleer [1 day ago]
+версию*
+
+Andy Fleer [1 day ago]
+Сравинил просто построчно
+
+Andy Fleer [1 day ago]
+Что разное скопировал себе
+
+
+Andy Fleer [1 day ago]
+Накатываю первый патчи
+
+
+Andy Fleer [1 day ago]
+патч
+
+Andy Fleer [1 day ago]
+и
+
+
+Andy Fleer [1 day ago]
+[2018-07-06 03:42:39,012] Artifact topjava:war exploded: Error during artifact deployment. See server log for details.
+
+
+Andy Fleer [1 day ago]
+То есть после первого не компилируется
+
+Andy Fleer [1 day ago]
+Это нормально вообще
+
+Andrew [24 hours ago]
+revert делай из идеи если еще не успел это дело запушить. это стрелочка такая... фиолетовая кажется. А вообще при накатке патчка, в диалоговом окне накатки можно посмотреть изменения, там тоже кнопочка вверху.
+
+
+Ma3stro [3:21 PM]
+Кто как предусмотрел при реализации фильтрации отсутствие каких-либо параметров? Например endDate / endTime
+
+
+Andy Fleer [Yesterday at 4:48 PM]
+in #hw2
+Друзья, прошу помощи! Задолбался! Надо применить патчи и т.п..... Я вообще ниче не понимаю... То патчи накатываются, а потом не компилируется, то гворит мёрджить надо... в объяснении что делать в таком случае гворится, что нужно сравнить что есть где-то в мастере и где-то у меня.... не понимаю, что с чем сравнить
+
+
+3 replies
+Yevhen Maksymovych [23 hours ago]
+так, давай свой гит
+
+
+Andy Fleer [23 hours ago]
+https://github.com/andyfleer/topjava/commits/master
+
+
+Yevhen Maksymovych [23 hours ago]
+сделал для тебя патч, накати его
+
+
+Avaaron [Yesterday at 5:46 PM]
+in #hw2
+народ, спасайте, начал делать в ветке мастер, но после патчей ещё не комитил
+
+
+15 replies
+Yevhen Maksymovych [22 hours ago]
+выбираешь ченджлист - шелф ченджес
+
+
+Yevhen Maksymovych [22 hours ago]
+создаёшь новую ветку, аншелф ченджес
+
+
+Yevhen Maksymovych [22 hours ago]
+вуаля
+
+
+Avaaron [22 hours ago]
+не понял, что за шелф
+
+
+Yevhen Maksymovych [22 hours ago]
+если ещё не делал коммит, на вкладке "version control/Local changes" будет виден ченджлист со всеми изменениями с последнего коммита
+
+
+Avaaron [22 hours ago]
+так
+
+
+Yevhen Maksymovych [22 hours ago]
+ты правой кнопкой на него жмёшь, выбираешь "shelf changes"
+
+
+Yevhen Maksymovych [22 hours ago]
+он тебе создаёт отложенный коммит, все изменения которого видны на вкладке "Shelf", а текущую ветку откатывает до состояния предыдущего коммита
+
+
+Yevhen Maksymovych [22 hours ago]
+после этого ты создаешь новую ветку - в данном случае "HW02"
+
+
+Yevhen Maksymovych [22 hours ago]
+заходишь на вкладку "Shelf", там опять правой кнопкой на этот ченджлист, и "Unshelf changes"
+
+
+Yevhen Maksymovych [22 hours ago]
+и он тебе применит эти изменения, но уже в новой ветке
+
+
+Yevhen Maksymovych [22 hours ago]
+т.е. ты фактически октатишь ветку мастер до посткоммитного состояния, а все изменения, сделанные после него, перенесёшь в новую
+
+
+Avaaron [22 hours ago]
+спаси
+
+Avaaron [22 hours ago]
+бо
+
+Yevhen Maksymovych [22 hours ago]
+:+1:
+
+
+denis [5:48 PM]
+как вариант можно все это закоммитить в HW2 а в мастер потом заново патчи накатить
+
+Avaaron [5:50 PM]
+накатка патчей отменит текущие изменения?
+
+denis [5:56 PM]
+конфликты будут. У тебя же уже накатаны патчи. Если хочешь отменить только свои изменения - там кнопка revert есть. либо можно спрятать изменения, закомитить а потом применить спрятанные изменения
+
+Avaaron [5:56 PM]
+та всё, подсказали уже
+
+Jury Mironov [6:06 PM]
+1: переименовать MockUserRepositoryImpl в InMemoryUserRepositoryImpl и имплементировать по аналогии с InMemoryMealRepositoryImpl
+
+Jury Mironov [6:06 PM]
+uploaded this image: Snap 2018-07-06 at 18.06.03.png 
+
+
+Ma3stro [6:07 PM]
+папочка "mock" в repository
+если ты потерял
+
+Ant [6:07 PM]
+mock
+
+Jury Mironov [6:08 PM]
+спасибо, люди добрые), я не видел в упор, что папка не открыта
+:see_no_evil:
+
+denis [6:17 PM]
+@Andy Fleer Григорий ссылку давал в #general на проект с закомиченными патчами 1урока. Удали свой и накати на него патчи 2-го занятия
+
+Andy Fleer [6:19 PM]
+Ага... Спасибо
+
+Stanislav [7:34 PM]
+Если слой сервисов не просто делегируют репозиторий, а содержат какую то логику, почему репозиторий должен проверять на предмет не соответствия не своей еды? (по заданию написано что репозиторий должен)
+
+
+matrocob [Yesterday at 9:02 PM]
+in #hw2
+Мне вообще не понятно почему в проекте получается такая связь model-repo-service-controller- и view по идее.. разве нельзя откинуть либо сервис либо откинуть контроллер и сделать сервис тем же ж контроллером?
+
+
+
+18 replies
+Merkulov [19 hours ago]
+это делается для малосвязанности и следовательно для дальнейшего удобного расширения приложения
+
+
+Ma3stro [19 hours ago]
+Приучают к реальным разработкам, как понимаю
+
+
+Yevhen Maksymovych [19 hours ago]
+Это же ООП, чем больше уровней абстракции, тем сильнее ты программист (edited)
+
+
+
+matrocob [19 hours ago]
+Хорошо... Вот допустим убираем сервис, оставляем контроллер... Что мешает сделать ещё один или ещё пять контроллеров и назвать каждый контроллер,  за что он отвечает? Я не пытаюсь спорить, мне реально интересно, скорее всего, позже я буду вспоминать этот комментарий и думать какой я глупый был (edited)
+
+
+Join_Selectovich [18 hours ago]
+по-моему очень хороший вопрос.. здесь хорошо бы разобраться
+
+
+dimlo [17 hours ago]
+Optional, пункт 6, 6.1:
+
+
+dimlo [17 hours ago]
+6: в MealServlet сделать инициализацию Spring, достать MealRestController из контекста и работать с едой через него (как в SpringMain). pom.xml НЕ менять, работаем со spring-context. Сервлет обращается к контролеру, контроллер вызывает сервис, сервис - репозиторий.
+6.1: учесть, что когда будем работать через Spring MVC, MealServlet удалим, те вся логика должна быть в контроллере
+
+
+Yevhen Maksymovych [17 hours ago]
+Вообще, это скорее традиция: контроллер-сервис-дао, которая в случае спринга имеет ещё и встроенные механизмы реализации. В данном случае репозиторий - это сущность, которая работает напрямую с БД. У неё в целом довольно традиционно сложившийся интерфейс, который в спринге может вообще не иметь пользовательской имплементации.
+
+
+
+Yevhen Maksymovych [17 hours ago]
+Соответственно, если мы хотим накрутить на него какую-то логику - мы используем промежуточный слой сервиса
+
+
+dimlo [17 hours ago]
+Я так понимаю, после удаления сервлета останется классический Spring MVC
+
+
+Yevhen Maksymovych [17 hours ago]
+Здесь он будет выполнять валидацию и бросать эксепшены
+
+
+Yevhen Maksymovych [17 hours ago]
+А контроллер - это контроллер. Его задача не с БД работать, а получать данные из модели и отдавать в вид
+
+Yevhen Maksymovych [17 hours ago]
+Он может в принципе делать это и напрямую из репозиториев, но тогда ему придётся на себя как минимум брать работу валидации. А эту штуку хорошо бы передвинуть поближе к сущностям, чтобы они сами себя валидировали
+
+
+Yevhen Maksymovych [17 hours ago]
+В энтити мы это засунуть не можем, там не должно быть логики по традиции. В репозиторий тоже - он может не иметь реализации, остаётся сервис :-)
+
+
+Yevhen Maksymovych [17 hours ago]
+Но опять же, это все дело вкуса и конкретной архитектуры :-)
+
+sky [17 hours ago]
+Мне кажется сервис не про это. Это такой шаблон dao->service->controller (но это не точно).
+И чтоб понять зачем все эти слои, нужно понять проблематику, зачем они вообще были придуманы, и посмотреть на большой проект, где все они задействованы для дела.
+Не зряж у спринга архетип service есть.
+
+
+
+Yevhen Maksymovych [17 hours ago]
+Не, я про данный конкретный случай - вообще слой сервиса бизнес-логику какую-то на себя берет
+
+
+Victor [14 hours ago]
+Опять же про конфигурацию: Если мы закладываем в реализацию сервиса бизнеслогику, она не должна знать про реализацию dao и то, через что идет соединение с базой данных. И в обратную сторону... Можно подменить dao не изменяя бизнеслогики. (edited)
+
+
+Ilya V [9:10 PM]
+Привет я ещё застрял на HW1 но там уже никто наверное не ответит
+Как достать атрибут класса в jsp
+
+Ilya V [9:11 PM]
+added this Plain Text snippet: Untitled 
+<%@ taglib uri='http://java.sun.com/jsp/jstl/core' prefix='c'%>
+<html>
+<head>
+  <title>Заголовок</title>
+</head>
+<body>
+<jsp:useBean id="obj" class="ru.javawebinar.topjava.util.Tst"/>
+"${obj.a}"
+<br />
+</body>
+</html>
+Collapse 
+
+Ma3stro [9:11 PM]
+${param.field}
+
+Ilya V [9:11 PM]
+нет
+
+
+Ilya V [Yesterday at 9:11 PM]
+in #hw2
+`javax.el.PropertyNotFoundException: Property [a] not found on type [ru.javawebinar.topjava.util.Tst]`
+
+
+13 replies
+Ma3stro [19 hours ago]
+setAttr делаешь? геттеры есть?
+
+
+Ilya V [19 hours ago]
+Конечно
+
+
+Ilya V [19 hours ago]
+```request.setAttribute("tstobj", new Tst());
+        request.setAttribute("tstval", 123);
+        getServletContext().getRequestDispatcher("/tst.jsp").forward(request, response);```
+
+
+Ilya V [19 hours ago]
+причем переменная tstval достается
+
+
+Ma3stro [19 hours ago]
+${tstobj.field}
+
+Ma3stro [19 hours ago]
+в jsp:useBean аттрибут value на tstobj, можно и без useBean
+
+Ilya V [19 hours ago]
+да ошибка исчезла
+
+
+Ilya V [19 hours ago]
+но ничего не показывает
+
+
+Ilya V [19 hours ago]
+ладно буду разбираться спасибо!
+
+Ma3stro [19 hours ago]
+потому что в объекте new Tst() у тебя для переменной нет значения, скорее всего
+
+
+Ilya V [19 hours ago]
+Есть )
+
+
+Ilya V [19 hours ago]
+```public class Tst {
+    public static final int a = 1;
+    public static final str b = 412;
+    public static final int c = 1211;
+}```
+
+
+
+dimlo [17 hours ago]
+jsp достает геттерами (edited)
+
+
+Andy Fleer [9:16 PM]
+Объясните мне вот это        return repository.computeIfPresent(meal.getId(), (id, oldMeal) -> meal);
+
+
+Andy Fleer [Yesterday at 9:16 PM]
+in #hw2
+откуда берется oldMeal
+
+
+4 replies
+Ma3stro [19 hours ago]
+по ключу id старое значение (oldMeal), затем меняется на новое (meal)
+
+
+Gagarina6794 [18 hours ago]
+.computeIfPresent - посмотри документацию, как работает этот метод
+
+matrocob [18 hours ago]
+https://youtu.be/DlJ-yKPS8ss лови ссылку, я по нему разобрался
+YouTube KK JavaTutorials
+Java 8-Map computeIfPresent Default Method
+ 
+
+
+Andy Fleer [5 hours ago]
+Спасибо. Ок
+
+
+Andy Fleer [9:16 PM]
+?
+
+
+Avaaron [Today at 12:27 AM]
+in #hw2
+LF would be replaced by CRLF in src/main/java/ru/javawebinar/topjava/repository/mock/InMemoryMealRepositoryImpl.java.....что это значит??? в идее выставлено crlf. Как бороться?
+
+
+1 reply
+Victor [14 hours ago]
+что-то похожее было. Я открывал в notepadd++ и вручную что-то менял. В гугле находил решение...
+
+
+Avaaron [12:32 AM]
+глюк какой-то, побеждается стиранием страницы и копированием в неё кода снова
+
+Victor [3:18 AM]
+uploaded this image: 2018-07-07_03-16-34.png 
+
+
+alexey [Today at 10:35 AM]
+in #hw2
+Народ, вопрос по пункту 7. Саму логику фильтрации то делать(в контролере, сервисе и репозитории ) или только набросок в jsp и сервлете?
+
+
+1 reply
+Ma3stro [5 hours ago]
+Естественно. Нужно сделать, чтобы фильтровало:)
+
+
+Merkulov [Today at 11:46 AM]
+in #hw2
+атомарность операций не требуется (коллизии при одновременном изменении одного пользователя можно не учитывать)
+
+
+2 replies
+Merkulov [4 hours ago]
+я так понимаю нам уже конкарент хешмеп не нужен?
+
+
+Victor [2 hours ago]
+я тоже так понял, похоже из-за того что добавили юзеров и админа.
+
+
+Ma3stro [Today at 11:52 AM]
+in #hw2
+Кто-то делал реализацию через двойную мапу?
+
+
+1 reply
+Vitaly [3 hours ago]
+кто-то делал :slightly_smiling_face:
+
+
+Andy Fleer [Today at 12:04 PM]
+in #hw2
+Проверка понимания. В ДЗ мы делаем в форме добавления еды <select> с выбором юзера. Это на сейчас. Так мы эмулируем якобы действия разных пользователей. На отображении списка милов делаем то же
+
+
+5 replies
+Vitaly [3 hours ago]
+все верно
+
+
+Vitaly [3 hours ago]
+сначала выбирается пользователь, потом уже работаем с его id
+
+
+dimlo [2 hours ago]
+Мое видение: форма выбора пользователя на index, с которой id передается (setId) в securityUtil. Потом, при каждом запросе из securityUtil подтягивается id
+
+
+Andy Fleer [2 hours ago]
+Селект это уже вроде в Optional части
+
+
+Andy Fleer [2 hours ago]
+угу?
+
+
+Andy Fleer [12:04 PM]
+Так понимаю?
+или?
+
+
+Merkulov [Today at 12:23 PM]
+in #hw2
+когда мы удаляем пользователя, мы ведь должны удалить всю его еду? так вроде логично)
+
+
+2 replies
+vch [2 hours ago]
+ага, а так же накладные, платежи и т.п, в итоге все отчёты исказятся... В общем - неочевидно. Далеко не всегда надо удалять все связанные данные.
+
+
+dimlo [2 hours ago]
+А мне идея понравилась)
+
+
+Join_Selectovich [Today at 1:52 PM]
+in #hw2
+подскажите пожалуйста, 
+есть *interface UserService* в _package ru.javawebinar.topjava.service;_  и 
+есть *interface UserRepository* в _package ru.javawebinar.topjava.repository;_
+они повторяют друг друга 
+внимание впрос - почему так сделано, в чем смысл дублирования , может я что-то пропустил
+
+
+5 replies
+dimlo [2 hours ago]
+Repository - слой работы с данными, service - логика приложения. Controller (пока что сервлет) общается с service. Service работает с repository через интерфейс, поэтому, когда мы захотим изменить базу данных, мы подставим новую имплементацию, а другие слои останутся неизменны
+
+
+
+Join_Selectovich [2 hours ago]
+@dimlo благодарю за ответ, я все понял. Только вот еще нужно понять почему Controller(servlet) общается с repository через service, пока что этот слой кажется избыточным..
+
+
+dimlo [1 hour ago]
+Пока, да. Я так понимаю, это паттерн для удобной разработки больших приложений. Ну, чтоб можно было одной команде дать таск по обработке, преобразованию данных, а другие люди занимались бы вопросами хранения и предоставления данных (например, переходом с mysql на mongo)
+
+
+Join_Selectovich [1 hour ago]
+по-моему Другую имплементацию репозитория можно подставить даже если и не будет слоя сервис, Действительно. похоже что это все для промышленных разработок так проектируют (edited)
+
+
+dimlo [1 hour ago]
+Я просто принял эту идею, когда делал вступительное задание и теперь она мне нравится) а так, да, куда подставлять имплементацию, по сути, все равно
+
+
+Artem [Today at 1:52 PM]
+in #hw2
+коллеги, а почему вот нам уже второй урок подряд напоминают, что "не надо в названиях методов повторять названия класса", а вот, например, в классе role мы все равно пишем: ROLE_USER и ROLE_ADMIN ? Может тогда просто USER и ADMIN ?
+
+
+3 replies
+vch [2 hours ago]
+Григорий однажды отвечал на этот вопрос - что это особый случай и все роли принято так называть.
+
+
+
+Artem [2 hours ago]
+Спасибо, я пропустил этот ответ, значит.
+
+
+vch [2 hours ago]
+это было в одном из предыдущих topjava
+
+
+KaryNaiKo [Today at 1:54 PM]
+in #hw2
+Объясните плс, как работает строчка "<tr class="${meal.exceed ? 'exceeded' : 'normal'}">"
+
+
+14 replies
+Join_Selectovich [2 hours ago]
+http://developer.alexanderklimov.ru/android/java/logic_operators.php
+
+
+Join_Selectovich [2 hours ago]
+там раздел *Тернарный оператор* почитай (edited)
+
+
+Join_Selectovich [2 hours ago]
+Тренарный правильно
+
+
+Victor [2 hours ago]
+вряд ли :
+ternary [ˈtɜːnərɪ]
+
+
+Join_Selectovich [2 hours ago]
+@Victor ternary переводится как *тринарный* (edited)
+
+Victor [1 hour ago]
+https://www.lingvolive.com/ru-ru/translate/en-ru/ternary
+lingvolive.com
+Переводы «ternary» (En-Ru) на ABBYY Lingvo Live
+ABBYY Lingvo Live — бесплатные словари и сообщество изучающих иностранные языки. Переводите, спрашивайте, узнавайте! (262 kB)
+
+
+Victor [1 hour ago]
+в каком словаре это?
+
+Join_Selectovich [1 hour ago]
+хотя тринарный и тернарный наверное можно
+
+Join_Selectovich [1 hour ago]
+https://www.multitran.ru/c/m.exe?CL=1&s=ternary&l1=1
+Словарь Мультитран
+ternary
+англо-русский словарь
+ 
+
+
+Victor [1 hour ago]
+и не использует никто так:  тренарный
+
+
+Join_Selectovich [1 hour ago]
+тринарный как-то поприятнее и
+
+
+Victor [1 hour ago]
+по версии пользователя под ником Gruzovik ))))) - это точно верный перевод
+
+Join_Selectovich [1 hour ago]
+вариант с тернарным тоже от Gruszovik  :slightly_smiling_face:
+
+
+Victor [1 hour ago]
+English - наше все! так что тернарный и не стоит себе обучение усложнять
+
+
+KaryNaiKo [1:54 PM]
+как выбирается exceeded или normal?
+
+Artem [1:54 PM]
+@Join_Selectovich да, упустил
+ниже скрин прилагаю, думаю, что с той же целью сделано (edited)
+
+Artem [1:54 PM]
+uploaded this image: Снимок экрана от 2018-07-07 13-53-42.png 
+
+
+Join_Selectovich [2:02 PM]
+Какой-то странный вопрос: " _Зачем в AdminRestController переопределяются методы родителя с вызовом тех же родительских?_ "
+по-моему обрезали слово _методов_ ... (edited)
+
+Join_Selectovich [2:09 PM]
+Вопрос хороший, но ответ как мне кажется другой там должнен быть. 
+Я думаю что финт с вызовом реализованных методов из абстрактного класса сделан всего лишь для того что-бы его сделать не абстракным, и в последующем, это позволит его инстанцировать. (edited)
+
+Join_Selectovich [2:15 PM]
+хотя нет, этот класс можно будет инстанцировать даже если удалить все переопределения методов из public class AdminRestController.
+Ладно, нужно дождаться будущего и убедиться что для этого класса наличие методов будет обязательным (edited)

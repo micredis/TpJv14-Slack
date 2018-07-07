@@ -812,3 +812,69 @@ Settings - Editor - General - Code Folding - One-line methods (убрать га
 
 tema.emelyan [2:19 PM]
 @Sole Noid попробуй погуглить
+
+
+Maksim K [3:16 PM]
+Кто знает, почему у меня вдруг резко перестал быть виден мой сервлет MealServlet?
+Description The origin server did not find a current representation for the target resource or is not willing to disclose that one exists. 
+Вот что пишет в браузере. 
+UserServlet видит,а этот нет. Ничего в коде не менял. Только jsp страницу редактировал. Уже перезапускал Tomcat и Idea. Ничего не меняется. В методе init() ставлю sout так он не выводится в консоль, то есть вообще сервлет не создается. В чем может быть причина?
+
+
+viges2201 [Yesterday at 3:39 PM]
+in #idea
+~~<servlet>
+       <servlet-name>mealsServlet</servlet-name>
+       <servlet-class>ru.javawebinar.topjava.web.MealServlet</servlet-class>
+       <load-on-startup>0</load-on-startup>
+   </servlet>
+   <servlet-mapping>
+       <servlet-name>mealsServlet</servlet-name>
+       <url-pattern>/meals</url-pattern>
+   </servlet-mapping>``
+
+
+1 reply
+Maksim K [1 day ago]
+У меня это прописано в web.xml. Я ничего там не менял. Просто отредактировал чуть jsp файл и рестартанул томкат. И все. Больше не видит моего сервлета. И я не знаю как это продебажить.
+
+
+Sergey [3:40 PM]
+uploaded and commented on this image: image.png 
+
+Подскажите, почему идея не коммитит изменения после накатывания патча?
+
+viges2201 [3:41 PM]
+У тебя нечего комитеть
+no differences читай внимательнее
+
+
+Sergey [Yesterday at 3:45 PM]
+in #idea
+но изменения же есть, я патч накатил. он что-то поменял.
+
+
+5 replies
+vch [1 day ago]
+`Changelist` не тот скорее всего выбрал для коммита. Изменения патчей попадают не в Default changelist
+
+
+Sergey [1 day ago]
+Выбрал default.
+
+
+Sergey [1 day ago]
+Причем изменения патчей проходят успешно. А вот коммитеться - ни в какую.
+
+
+Sergey [1 day ago]
+Кажется понял
+
+
+Sergey [1 day ago]
+Действительно с ченджлистами накосячил. Патчи пихал не в дефолтные.
+
+
+viges2201 [4:02 PM]
+Ctrl+alt+A
+затем коммит
