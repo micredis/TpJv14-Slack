@@ -841,3 +841,1334 @@ Join_Selectovich [2:09 PM]
 Join_Selectovich [2:15 PM]
 хотя нет, этот класс можно будет инстанцировать даже если удалить все переопределения методов из public class AdminRestController.
 Ладно, нужно дождаться будущего и убедиться что для этого класса наличие методов будет обязательным (edited)
+
+
+matrocob [4:16 PM]
+added and commented on this Java snippet: Untitled 
+​
+  private final MealService service;
+​
+  @Autowired
+  public MealRestController(MealService service) {
+    this.service = service;
+  }
+​
+или вот так?
+​
+ 	@Autowired
+  private MealService service;
+Collapse 
+ребят подскажите в MealRestController надо писать так? Просто при добавлении  appCtx.getBean(MealRestController.class);
+в SpringMain выскакивает ошибка, при создании новой еды -> restController.create(new Meal.... ->
+
+Exception in thread "main" org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'ru.javawebinar.topjava.web.meal.MealRestController' available
+matrocob [4:17 PM]
+Или надо в spring-app.xml указать, что контроллер это наш бин?
+
+
+Andy Fleer [Jul 7th at 4:22 PM]
+in #hw2
+" Реализовать слои приложения для функциональности "еда". API контроллера должна удовлетворять все потребности демо приложения и ничего лишнего (см. демо).
+
+   Смотрите на реализацию слоя для user и делаете по аналогии! Если там что-то непонятно, не надо исправлять или делать по своему. Задавайте вопросы. Если действительно нужна правка- я сделаю и напишу всем."  Не понимаю, что от меня хотят. По аналогии с чем в User? Объясните что сделать надо?
+
+
+3 replies
+matrocob [1 day ago]
+например UserService посмотри как реализован, сделай MealService такой же и дальше по всем интерфейсам и классам
+
+
+Join_Selectovich [1 day ago]
+Для начала нужно понять где реализация какого=то слоя для юзера..
+
+
+Join_Selectovich [1 day ago]
+_Смотрите на реализацию слоя для user и делаете по аналогии!_
+
+
+Victor [4:22 PM]
+commented on matrocob’s snippet Untitled
+MealRestController отмечен как бин?
+Victor [4:23 PM]
+@controller на классе?
+
+matrocob [4:23 PM]
+Да
+Аннотацию указал
+
+Victor [4:23 PM]
+commented on matrocob’s snippet Untitled
+Или надо в spring-app.xml указать, что контроллер это наш бин? - или так
+Victor [4:24 PM]
+но если уже начал с аннотациями, то лучше через@controller
+
+
+roudder [Jul 7th at 4:56 PM]
+in #hw2
+гайз, а вот вопрос, когда я инвокаю из сервлета метод котролера-сервайса-реп(из контекста спринг) репозиторий в конце пустой лежит, то есть нестатич блок еще не отработал. (edited)
+
+
+25 replies
+Yevhen Maksymovych [1 day ago]
+покажи гит
+
+
+roudder [1 day ago]
+https://github.com/roudder/topjava/tree/HW02
+
+
+roudder [1 day ago]
+там пока мног уг ток)
+
+
+Yevhen Maksymovych [1 day ago]
+не беда. пустой реп в милах получаешь?
+
+roudder [1 day ago]
+ага
+
+
+roudder [1 day ago]
+ну то есть мануально он в сервлете  в инит метод есть
+
+
+roudder [1 day ago]
+а дальше, даже когда попадает в экземелпяр милрепимпла реп пустой
+
+roudder [1 day ago]
+там не прокси
+
+
+roudder [1 day ago]
+в нонстатик блок не заходит
+
+
+roudder [1 day ago]
+по брейку
+
+
+Yevhen Maksymovych [1 day ago]
+гхм, проблему нашёл, исправить её просто, но я в упор не понимаю, почему так происходит, как-то даже растерялся
+
+
+Yevhen Maksymovych [1 day ago]
+у тебя дважды инстанциируется InMemoryMealRepositoryImpl - сперва ты его создаёшь вручную, потом поднимаешь спринг контекст, в рамках которого спринг инстанциирует его как свой компонент
+
+
+Yevhen Maksymovych [1 day ago]
+почему-то при таком "повторном" инстациировании он ломается. починить проще простого - не инстанциируй его в ините, во-первых он тебе в принципе не нужен, ты всё будешь делать через сервис, во вторых, если очень хочешь, вытащи его из контекста
+
+
+Yevhen Maksymovych [1 day ago]
+но я не могу понять, почему он ломается
+
+Yevhen Maksymovych [1 day ago]
+вот тут уже реально какая-то мистика:
+
+Yevhen Maksymovych [1 day ago]
+а, всё, догнал
+
+Yevhen Maksymovych [1 day ago]
+короче, ты используешь лист милов, чтобы заполнить милрепозиторий в блоке {}
+
+
+Yevhen Maksymovych [1 day ago]
+но логика добавления милов в репозиторий такова, что если мил новый, ему присвоится ид, и он попадёт в репозиторий. если ид уже есть, но в репозитории такого мила нет - метод сейв его проигнорирует
+
+Yevhen Maksymovych [1 day ago]
+при первом инстанциировании ты собрал корректный репо, но при этом всем милам из статического листа раздал ид
+
+Yevhen Maksymovych [1 day ago]
+при повторном инстанциировании эти милы не добавятся в репо, потому что они уже не новые.
+
+
+Yevhen Maksymovych [1 day ago]
+в итоге у тебя получилось два инстанса милрепозитория - созданный вручную с заполненным списком милов, и инстанциированный спрингом с пустым списком
+
+
+Yevhen Maksymovych [1 day ago]
+понятное дело, что сервис лезет в свой репо, инстанциированный ему спрингом
+
+
+Yevhen Maksymovych [1 day ago]
+а там - пусто
+
+roudder [1 day ago]
+блин, круто. да все верно, касательно 2 раз создания репа, но я не думал, что это может заафектить, в итоге сейв и его логика рут коз, а я блин думал, в чем-то другом проблема, не там рыл. Спасибо большое :+1:
+
+
+Yevhen Maksymovych [1 day ago]
+:+1:
+
+
+roudder [4:57 PM]
+как с этим жить?) (edited)
+
+
+Mihail Kedel [Jul 7th at 5:12 PM]
+in #hw2
+у меня в проекте класса LoggedUser нету,в каком он был патче?Или так и должно быть?
+
+
+5 replies
+Victor [1 day ago]
+нету у меня тоже
+
+
+Yevhen Maksymovych [1 day ago]
+его и не должно быть
+
+
+Yevhen Maksymovych [1 day ago]
+он был в topjava13
+
+
+Yevhen Maksymovych [1 day ago]
+```Поменял LoggedUser на SecurityUtil.```
+
+
+Mihail Kedel [1 day ago]
+Спасибо,не заметил (edited)
+
+
+sky [Jul 7th at 8:50 PM]
+in #hw2
+В задании, вроде как, не сказано ничего о том что нужно реализовывать users.jsp и/или UserServlet. А потом вдруг в 8ом задании нужно делать SecurityUtil.setAuthUserId(userId) в UserServlet. Кто в курсе?
+
+
+11 replies
+Yevhen Maksymovych [1 day ago]
+ну, это же опционал. подразумевается, что если решил показать класс, и сделать его, значит сможешь и всё необходимое для этого сообразить
+
+
+Merkulov [1 day ago]
+8: добавить выбор текущего залогиненного пользователя (имитация авторизации, сделать Select с двумя элементами со значениями 1 и 2 в index.html и SecurityUtil.setAuthUserId(userId) в UserServlet). Настоящая атворизация будет через Spring Security позже.
+
+
+Merkulov [1 day ago]
+там ведь нужно просто сделать комбобокс с выбором пользователя и все
+
+
+sky [1 day ago]
+Что значит показать класс? Я просто не догоняю, если пользователя надо выбирать на index.html зачем нужно что то делать в UserServlet? Я бы понял, если бы нужно было отрисовывать всех пользователей, при переходе на Users  с indexa и выбирать там авторизованного, но выбор то надо в indexe уже сделать. А судя по заданию, там вообще ни одного лишнего слова нет, и только одна очепятка
+
+
+Yevhen Maksymovych [1 day ago]
+а в чем проблема выбрать пользователя из индекса?
+
+
+Yevhen Maksymovych [1 day ago]
+сделай форму, на пост - отправляй в юзерсервлет
+
+
+Yevhen Maksymovych [1 day ago]
+большего не требуется
+
+
+sky [1 day ago]
+А UserServlete только в doPost сетить авторизованного, или еще что предполагается?
+
+Yevhen Maksymovych [1 day ago]
+не, только сетить
+
+
+sky [1 day ago]
+я просто это сделал в MealServlete в гете, но терь ясно. А ты выполнил уже оптионал?
+
+
+Yevhen Maksymovych [1 day ago]
+я, сказать по-честноку, ещё в прошлый раз выполнил :slightly_smiling_face: щаз по второму разу прохожу
+
+
+Artem [Jul 7th at 10:20 PM]
+in #hw2
+ребят, как заставить сервлет инициализировать репозиторий из спринга?
+
+
+11 replies
+Victor [1 day ago]
+буду пробовать через init() метод сервлета запускать спринг, а спринг сам все свяжет и запустит
+
+
+Artem [1 day ago]
+хм..)
+
+
+Artem [1 day ago]
+неа(
+
+
+Artem [1 day ago]
+Не работает
+
+
+Victor [1 day ago]
+@Override
+   public void init(ServletConfig config) throws ServletException {
+       super.init(config);
+       тут код для спринга;
+   }
+
+
+Artem [1 day ago]
+super.init(config);
+repository = SpringMain.getRepository();
+
+да, сработало) Спасибо!!) (edited)
+
+
+
+Victor [1 day ago]
+только не надо через SpringMain, нужно взять сделать контекст и взять бин прямо в сервлете.
+
+
+
+Victor [1 day ago]
+что-то не так получается. В каждом сервлете же не запустишь свой спринг, верно?
+
+
+Yevhen Maksymovych [1 day ago]
+тоже не лучшая идея, кмк: контекст спринга сам по себе должен быть синглтоном, и его бины - синглтоны. если мы в каждом сервлете будем поднимать свой контекст - всякое может случиться
+
+
+Victor [1 day ago]
+выдумываю:
+сделать отдельно утиль синглетон с контектом спринга.
+на каждом сервлете его инициализировать.
+первый сервлет возьмет новый контекст.
+следующий сервлет возьмет существующий контект.
+
+
+Victor [1 day ago]
+@Yevhen Maksymovych Если так сделать? Сохранить объект в ServletContext и проверять на каждом сервлете есть там уже объект или нет. 
+@Override
+   public void init(ServletConfig config) throws ServletException {
+       super.init(config);
+       ServletContext servletContext = config.getServletContext();
+       Object appContext = servletContext.getAttribute("SpringAppContext");
+       if (appContext == null) {
+           ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml");
+           servletContext.setAttribute("SpringAppContext", appCtx);
+           appContext = appCtx;
+       }
+       if (appContext instanceof ConfigurableApplicationContext) {
+           mealService = ((ConfigurableApplicationContext) appContext).getBean(MealService.class);
+       }
+   }
+
+
+Join_Selectovich [10:28 PM]
+добавь туда параметр нужного класса с аннотацией autowired (edited)
+
+
+Join_Selectovich [Jul 7th at 10:29 PM]
+in #hw2
+может так поможет...
+
+
+3 replies
+Yevhen Maksymovych [1 day ago]
+это помогло бы, если бы сервлет инстанциировался спрингом :slightly_smiling_face:
+
+
+Join_Selectovich [1 day ago]
+:slightly_smiling_face:
+
+
+Artem [1 day ago]
+@Yevhen Maksymovych так как же? :slightly_smiling_face:
+
+
+zippospb [Jul 7th at 10:56 PM]
+in #hw2
+Народ, как вы фильтр реализуете? Я так понимаю, передать аргументы из input в метод doGet имеющегося mealservlet не получится, а doPost уже занят логикой create/update meal
+
+
+14 replies
+roudder [1 day ago]
+хороший вопрос, тоже пока не знаю как сделать лучше. Мне , кажется, это по-любому пост, вот только можно ли как-это в сервлете разграничить по разным пост - формам. И следует вопрос, городить там всю логику по выдеранию параметров?
+
+
+zippospb [1 day ago]
+в одном сервлете один пост. Только если вводить специальный параметр action и делить логику doPost на две части
+
+
+zippospb [1 day ago]
+т.е. будет приватный input со значением либо create/update либо filter, а в doPost if/else
+
+
+zippospb [1 day ago]
+но это блин вообще некрасиво
+
+
+roudder [1 day ago]
+да не оч
+
+Victor [1 day ago]
+по-моему фильтр это doGet. Ведь ничего в базе менять не будем.
+
+Victor [1 day ago]
+а MealRestController не делал пока? Нужно с него начинать, а потом фильтр, как я понял
+
+
+zippospb [1 day ago]
+вот зашел я на страничку /meals, там мне показался весь список еды для моего пользователя. У меня там есть form с методом get, 4 input (две даты и два времени) и кнопка submit. Чтобы форма адресовала в doGet параметры, у нее есть аттрибут action, в который и нужно вставлять данные из инпутов. Но страничка-то в браузер подается статичная и этот аттрибут уже определен. Как его можно переопределить?
+
+
+zippospb [1 day ago]
+с контроллером особых проблем нет
+
+
+zippospb [1 day ago]
+я просто переделал метод getAll() на getAll(LocalDate fromDate, LocalDate toDate, LocalTime fromTime, LocalTime toTime)
+
+Victor [1 day ago]
+нужно думаю сделать так:
+<form method=GET...
+и тогда по нажатию кнопки submit полетит не Post а Get.
+
+
+zippospb [1 day ago]
+Нда... Действительно))) надо было сначала попробовать, а потом уже спрашивать) форма сама подставляет атрибуты в адрес)))
+
+
+zippospb [1 day ago]
+спасибо
+
+
+Ma3stro [12 hours ago]
+Я сделал через post запрос. В этом запросе передаю скрытый параметр filter для разграничения фильтрации и create/update
+
+
+Maksim K [Jul 7th at 11:57 PM]
+in #hw2
+Тут столько много вопросов задают. Ну и я задам) Вопрос по
+return repository.computeIfPresent(meal.getId(), (id, oldMeal) -> meal);
+Да я знаю, что уже спрашивали. Но у меня немного другой вопрос. Как работает метод я понимаю. Только не могу понять зачем он нам. В тексте второго задания написано такое
+Поправил InMemoryMealRepositoryImpl.save(). Если обновляется еда, которой нет в хранилище (c несуществующим id), вставка не происходит.(с)
+И я не пойму, как может быть несуществующая еда? Если мы в таблице щелкнули на кнопку редактирования, значит мы редактируем какую-то конкретную еду. Т.е. id там по-любому есть. Как он может быть несуществующим. Или это типа тоже на будущее и в этом есть какой-то смысл?
+
+
+14 replies
+Stanislav [1 day ago]
+Способы: 1. У нас есть контролер Meal, который будет давать на ружу API 2. Любой может открыть сорсы html и изменить скрытые поля
+
+
+Maksim K [24 hours ago]
+Эмм. Первый способ я не понял, а про второй интересно. Как можно изменить скрытые поля?
+
+
+Stanislav [24 hours ago]
+Сохраняешь html, убираешь скрытое поле, загружаешь его, в это поле теперь можно ручками  подставить что угодно. Можно сразу в html в скрытое поле проставит что угодно.
+
+
+Stanislav [24 hours ago]
+Да и когда get запрос, ты параметры видишь, можно в эти параметры ставить что хочешь. Часто сам таким пользуюсь, например на форуме, переход на любую страницу.
+
+
+Tanya [24 hours ago]
+с таким проще играться через developer tools  браузере (edited)
+
+
+Maksim K [24 hours ago]
+Я не очень понимаю как это. Можно поподробнее или ссылочку где про это почитать)
+
+
+Maksim K [24 hours ago]
+Ну вот я сохранил html, изменил значение поля id . И что теперь? Как его в приложении использовать?
+
+Stanislav [24 hours ago]
+открывай  в браузере
+
+Stanislav [24 hours ago]
+иди по ссылке
+
+Maksim K [24 hours ago]
+Я наверно че-то не понимаю. Я сохранил на компе на рабочем столе. И открывается он в браузере с рабочего стола.
+
+
+Stanislav [24 hours ago]
+Ок. Ты понимаешь что такое get запрос?
+
+
+Maksim K [24 hours ago]
+:blush:
+
+Stanislav [24 hours ago]
+Скопируй сюда ссылку get запроса при переходе к редактированию существующей еды,  воего приложения.
+
+
+Maksim K [24 hours ago]
+Я дико извиняюсь, а куда эту ссылку вставить?)
+
+
+turhanow [Yesterday at 1:29 AM]
+in #hw2
+Почему добавляем логику в meal (метод isNew()) а не создаем, например, в классе MealsUtil соответствующий метод?
+
+
+
+1 reply
+Vitaly [22 hours ago]
+думаю, это просто сложившийся шаблон/практика для различных entity, в дальнейшем будет сохранение через ORM/hibernate, там это реализовано через класс AbstractPersistable, загляни в него (edited)
+
+
+zippospb [Yesterday at 2:07 AM]
+in #hw2
+для этого есть аттрибут value. я туда вписывал =${param.название инпута} (edited)
+
+
+1 reply
+Victor_D [22 hours ago]
+спасибо
+
+
+Victor [2:11 AM]
+added this PHP snippet: Вот я бы перефразировал это условие, потому что минут 15 разбирался что оно значит. Как-то так :" после авторизации (сделаем позднее), id авторизованного юзера можно вернуть через SecurityUtil.authUserId()..." 
+4.1: после авторизации (сделаем позднее), id авторизованного юзера будет попадать в SecurityUtil.authUserId(). Запрос попадает в контроллер, методы которого будут доступны снаружи по http, т.е. запрос можно будет сделать с ЛЮБЫМ id для еды (не принадлежащем авторизированному пользователю). Нельзя позволять модифицировать/смотреть чужую еду.
+
+Andrew [12:22 PM]
+по всей этой тематике слоев, то что экземпляр репозитория мы держим в сервлете ни кого не смущает ?
+
+Stanislav [12:24 PM]
+А ты читал задание Optional? (edited)
+
+Andrew [12:27 PM]
+из опшинала следует, что взаимодействовать с репозиторием нужно через слои приложения, а точкой входа должен быть экземпляр контроллера, то есть обращение через MealRestController.
+и по цепочке к данным
+
+Stanislav [12:28 PM]
+И, как это вяжется с "то что экземпляр репозитория мы держим в сервлете ни кого не смущает ?" ?
+До тематики по слоям, другого выбора не было, логически.
+А когда появится Spring MVC и сервлет уйдет и внедрения spring контекста. Все постепенно...
+
+
+Andrew [Yesterday at 12:33 PM]
+in #hw2
+Если уж логически то если есть контроллер нафига сервлет, а если есть сервлет нафига контроллер ? Я в задании не пойму, что мне с контроллером делать и где спрингом потерял данные вчера на nullpointer exeption остановился((
+
+
+1 reply
+Ma3stro [10 hours ago]
+вместо репозитория поставь в сервлет контроллер и бери методы оттуда
+
+
+Stanislav [Yesterday at 12:35 PM]
+in #hw2
+Сервлет и контроллер разные вещи. Контроллер это пред введение в Spring MVC.
+
+
+6 replies
+shomnest [9 hours ago]
+Почему разные?
+
+
+Stanislav [9 hours ago]
+Контролер это паттерн-абстракция над сервлетом.
+
+
+shomnest [9 hours ago]
+Так по сути сервлет в этом случае и является реализацией паттерна
+
+
+Stanislav [9 hours ago]
+Я имел ввиду контроллер в контексте spring-а. Сервлет является частью структуры J2EE, и каждый сервер приложений Java (Tomcat, Jetty и т.д.) создан для запуска сервлета. Сервлет - это уровень "низкого уровня" в стеке J2EE. Вам не нужен сервлет .jar для запуска приложения, поскольку он предварительно упакован с сервером приложений
+
+A Spring MVC-контроллер - это библиотека, построенная на сервлете, чтобы упростить задачу. Spring MVC предлагает более встроенные функции, такие как параметр формы для сопоставления параметров метода контроллера, упрощение обработки представлений двоичной формы (т.е. когда ваша форма может загружать файлы) и т.д.
+
+
+shomnest [9 hours ago]
+@Stanislav эм, причем тут Spring? Если мы говорим в общем случае про паттерн Контроллер?
+
+
+Stanislav [9 hours ago]
+Выше написал: Я имел ввиду контроллер в контексте spring-а.
+
+
+Andrew [12:36 PM]
+но добавляем мы его уже на этом этапе)
+
+Merkulov [12:37 PM]
+ребят, как для двух форм сделать одну кнопку сохранения ?
+
+Andrew [12:38 PM]
+может не через форму ?
+
+Merkulov [12:39 PM]
+нужен пост запрос
+
+Andrew [12:40 PM]
+я не шарю в фронт энде, но пост по моему можно и в ссылки объявить
+
+Merkulov [12:41 PM]
+я тоже не особо в фронте, нужно попробовать через js
+
+
+tim [Yesterday at 1:10 PM]
+in #hw2
+Ребят подскажите когда такое возможно: 2.2: get\update\delete - следите, чтобы не было NPE (NullPointException может быть, если в хранилище отсутствует юзер или еда).
+
+
+4 replies
+shomnest [9 hours ago]
+Ты попробуй обратиться к несуществующему объекту в мапе
+
+
+tim [8 hours ago]
+Ну так и делал Ексепшен не вылетает
+
+
+tim [8 hours ago]
+map.get()  и  map.remove()
+
+
+Victor [5 hours ago]
+эксепшена не будет, но по id вернется null:
+@return the value to which the specified key is mapped, or {@code null} if this map contains no mapping for the key
+вот этот null и нужно ловить
+
+
+tim [1:10 PM]
+Пытаюсь достать из мапы несуществующее значение и удалить NullPointException  не вылетает
+
+
+e.pekhterev [Yesterday at 2:44 PM]
+in #hw2
+Ребята, подскажите плиз, еду сортировать именно по дате или по ДатаВремя?
+"3.3: список еды возвращать отсортированный в обратном порядке по датам"
+
+
+17 replies
+Ma3stro [9 hours ago]
+ДатаВремя, последняя добавленная еда в самом начале (edited)
+
+
+e.pekhterev [9 hours ago]
+спасибо) (edited)
+
+
+e.pekhterev [9 hours ago]
+@Ma3stro, "последняя добавленная еда в самом начале" - последняя добавленная еда может иметь дату гораздо раньше, чем мы её добавляем
+
+Ma3stro [9 hours ago]
+*Сортировка в обратном порядке, это имел в виду:)
+
+
+e.pekhterev [9 hours ago]
+ну я уже сообразил))) спасибо ещё раз)
+
+
+Merkulov [9 hours ago]
+вроде написано конкретно по датам
+
+e.pekhterev [9 hours ago]
+)))) опять в тупик ставите))) где правда, брат? сортировка по дате или по ДатаВремя? давайте проголосуем?
+
+
+e.pekhterev [9 hours ago]
+ладно, у Тани спрошу лучше
+
+
+Merkulov [9 hours ago]
+тока напиши как правильно)
+
+e.pekhterev [9 hours ago]
+вот теперь точно не напишу)))
+
+
+Merkulov [9 hours ago]
+))
+
+Merkulov [9 hours ago]
+пиши пиши, согласно тз по датам, я так и сделал
+
+Merkulov [9 hours ago]
+я дума. это не столь важно
+
+
+Merkulov [9 hours ago]
+*думаю
+
+e.pekhterev [9 hours ago]
+10Q
+
+
+e.pekhterev [9 hours ago]
+Катерина сказала цитирую "По датавремени"
+
+
+e.pekhterev [9 hours ago]
+так что это в условии немного не точно указано
+
+
+Merkulov [Yesterday at 2:53 PM]
+in #hw2
+как сделать DateTimeUtil метод isBetween через дженерики куда копать?
+
+
+15 replies
+Stanislav [9 hours ago]
+Копать к дженерикам :slightly_smiling_face: другими словами, метод isBetween должен правильно сравнивать и дату и время и дату с временем.
+
+
+Stanislav [9 hours ago]
+Ты можешь перегрузить метод isBetween, но это будет не универсально, а дженерики как раз делают так, что бы ты мог любой тип данных подставить.
+
+
+Merkulov [9 hours ago]
+перегрузка не универсальна, с этим согласен, дата и время вроде ни от кого не наследуются, вот возникает вопрос, что будет для них общим, для корректного сравнения даты и времени
+
+
+Merkulov [9 hours ago]
+щас покопаюсь еще
+
+Stanislav [9 hours ago]
+Наследуются, от многого
+
+Stanislav [9 hours ago]
+Общим будет то, что сравнивается, ибо если не сравнивается, то и exception
+
+
+Merkulov [9 hours ago]
+public final class LocalDate
+       implements Temporal, TemporalAdjuster, ChronoLocalDate, Serializable {
+
+
+shomnest [9 hours ago]
+@Stanislav LocaleDate наследуется только от Object
+
+Merkulov [9 hours ago]
+вот про это только хотел написать
+
+Stanislav [9 hours ago]
+Смотрите еще, там есть интересное наследование
+
+Stanislav [9 hours ago]
+Отталкивайтесь даже не от наследования, а от того, как вы сравниваете
+
+
+
+sky [9 hours ago]
+гляньте в  ChronoLocalDate
+
+Merkulov [3 hours ago]
+короче, я сделал с дженериками, все ок, разобрался  )
+
+
+Stanislav [3 hours ago]
+молодец! :slightly_smiling_face:
+
+
+Merkulov [3 hours ago]
+спс:slightly_smiling_face:
+
+
+e.pekhterev [Yesterday at 3:34 PM]
+in #hw2
+немного (или много) не понял, где инициализировать контекст спринга, в сервлетах вроде как совсем не логично
+
+
+3 replies
+sky [8 hours ago]
+может как то так https://stackoverflow.com/questions/18745770/spring-injection-into-servlet (edited)
+
+
+
+e.pekhterev [8 hours ago]
+спасибо, попробую так
+
+
+Ma3stro [7 hours ago]
+Я сделал как в spring main, в init (edited)
+
+
+turhanow [Yesterday at 4:45 PM]
+in #hw2
+> 1.3: предусмотрите случай одинаковых User.name (порядок должен быть зафиксированным).
+
+
+имеется ввиду в сортировке?
+не совсем понятно, что значит "порядок должен быть зафиксированным". порядок чего? элементов в возвращаемой коллекции в методе getAll() ?) (edited)
+
+
+
+19 replies
+Stanislav [7 hours ago]
+Я уже спрашивал, мне ответили "Пользователи с одинаковыми User.name могут быть. Если такие будут, чтобы выводились всегда в одинаковом порядке.".
+
+
+turhanow [7 hours ago]
+то есть предусмотреть вторичную сортировку по id? он уже уникальный, т.е. если имена одинаковые, то id уникальный и вторичная сортировка по нему возвратит всегда один и тот же вариант:thinking_face:
+
+
+Stanislav [7 hours ago]
+Это уже как ты сам сделаешь, но смысл думаю ясен, > 1 сортировки, иначе не проходит по требованию.
+
+
+Merkulov [6 hours ago]
+если не ошибаюсь эту проблему решает thenComparing
+
+
+
+Join_Selectovich [6 hours ago]
+https://stackoverflow.com/questions/4805606/how-to-sort-by-two-fields-in-java
+Stack Overflow
+How to sort by two fields in Java?
+I have array of objects person (int age; String name;). How can I sort this array alphabetically by name and then by age? Which algorithm would you use for this ?
+ 
+
+
+turhanow [6 hours ago]
+как реализовать через thenComparing мне известно, затупил на том что не сразу понял слова "в зафиксированном порядке":slightly_smiling_face:
+
+Join_Selectovich [5 hours ago]
+да, фраза очень странная.. похоже у всех вопросы вызывает (edited)
+
+Victor [5 hours ago]
+я сразу по имени, а потом по мылу сортанул.
+
+turhanow [4 hours ago]
+так мыло может быть одинаковое. например один юзер зареган с разных имейл
+
+
+Stanislav [4 hours ago]
+Смотри разрез, вторая сортировка идет в разрезе первой
+
+turhanow [4 hours ago]
+это мне коммент?)
+
+Stanislav [4 hours ago]
+аха
+
+Stanislav [4 hours ago]
+Что такого что у пользователя мыло может быть одинаковое?
+
+turhanow [4 hours ago]
+в том что у юзера есть и другие поля, следовательно если например дата регистрации будет разной, или поменяется роль, то сортировка не возвратит фиксированную последовательность:thinking_face:
+или я что то недогоняю))
+
+
+turhanow [4 hours ago]
+а вот id фиксирован, он не меняется в БД
+
+Stanislav [4 hours ago]
+ну и если на то пошло, то и id не проблема поменять :slightly_smiling_face:
+
+Stanislav [4 hours ago]
+по id тоже правильно - имхо
+
+
+turhanow [4 hours ago]
+в наше время даже пол не проблема поменять)))
+но в нашей бизнес логике нет такого требования, чтобы менялись id (например если бы id при удалении переприсваивался , т.е. как индекс в ArrayList смещался на позицию ниже)
+
+
+Stanislav [4 hours ago]
+согласен
+
+
+Andy Fleer [5:36 PM]
+Что нужно реализовать в MealRestController ? Не понимаю роль. Всё делается вроде в MealServlet
+
+
+Andy Fleer [Yesterday at 5:40 PM]
+in #hw2
+4.2: SecurityUtil может использоваться только на слое web (см. реализацию ProfileRestController).  Значит ли это, что по факту я не могу использовать в MealServlet вот такое обращение к идентификатору пользователя                 ... repository.delete(id, SecurityUtil.authUserId()); ... ?
+
+
+9 replies
+vch [6 hours ago]
+подозреваю, что по факту ты вообще не можешь из сервлета обращаться к репозиторию напрямую... Это так же к твоему предыдущему вопросу про контроллер (edited)
+
+
+Andy Fleer [6 hours ago]
+Страшные слова говоришь ты мне :rolling_on_the_floor_laughing::rolling_on_the_floor_laughing::rolling_on_the_floor_laughing:
+
+Andy Fleer [6 hours ago]
+Сервлет -> Контроллер -> Сервис -> Репозиторий
+
+
+Andy Fleer [6 hours ago]
+Получается так?
+
+
+vch [6 hours ago]
+да. И потом сервлет исчезнет.
+
+Andy Fleer [6 hours ago]
+Йоптить!! ))))
+
+
+Andy Fleer [6 hours ago]
+Седых полос прибавилось)))
+
+
+Andy Fleer [6 hours ago]
+:rolling_on_the_floor_laughing:
+
+
+Andy Fleer [6 hours ago]
+Пошел пилить контроллер
+
+
+Avaaron [Yesterday at 7:07 PM]
+in #hw2
+кто делал уже выбор пользователя, как передать параметр из index  в сервлет?
+
+
+14 replies
+Ma3stro [5 hours ago]
+Можно передать на UserServlet, а затем форвардиться на /meals
+
+Avaaron [5 hours ago]
+не понял
+
+
+Avaaron [5 hours ago]
+вопрос как раз был как передать в сервлет
+
+
+Ma3stro [5 hours ago]
+я сделал так: передал на юзер сервлет, засетил переданный auth id, делаю форвард на еду
+
+
+Avaaron [5 hours ago]
+да ёшкин  кот, )))) как????
+
+
+Ma3stro [5 hours ago]
+Что как? В чем вопросы?
+
+Avaaron [5 hours ago]
+у меня форма, в ней эта конструкция select, я тыкаю на кнопик, форма отправляется...как отправить на сервлет?
+
+
+Ma3stro [5 hours ago]
+form action='UserServlet'
+
+Ma3stro [5 hours ago]
+принять getParametr()
+
+
+Avaaron [5 hours ago]
+ах, вот, спасибо
+
+
+Avaaron [4 hours ago]
+мда, не приходит ничего в сервлет таким образом
+
+
+Avaaron [4 hours ago]
+ты форму из index отправляешь?
+
+Ma3stro [4 hours ago]
+да
+
+Avaaron [4 hours ago]
+а потом оттуда же по ссылке на meals переходишь?
+
+
+Andy Fleer [7:08 PM]
+uploaded and commented on this image: image.png 
+
+Объясните как это работает. UserService это же интерфейс. При этом мы объявляем переменную с его типом и начинаем вызывать методы.  Как он понимает какую имплементацию выбрать?
+Ma3stro [7:09 PM]
+Волшебный @Autowired
+
+
+Ma3stro [7:26 PM]
+added and commented on this Java snippet: Untitled 
+  public Meal save(Meal meal, int userId) {
+    if (meal.isNew()) {
+      meal.setId(counter.incrementAndGet());
+      if (repository.get(userId) == null) {
+        Map<Integer, Meal> map = new HashMap<>();
+        map.put(meal.getId(), meal);
+        repository.put(userId, map);
+        return meal;
+      } else {
+        Map<Integer, Meal> map = repository.get(userId);
+        map.put(meal.getId(), meal);
+        repository.put(userId, map);
+        return meal;
+      }
+    } else {
+      Map<Integer, Meal> map = repository.get(userId);
+      if (map.containsKey(meal.getId())) {
+        map.put(meal.getId(), meal);
+        repository.put(userId, map);
+        return meal;
+      } else {
+        return null;
+      }
+    }
+  }
+Collapse 
+Как упросить этот код средствами дефолтных методов из Map?
+
+
+Ma3stro [Yesterday at 7:27 PM]
+in #hw2
+Что-то он очень большой
+
+
+16 replies
+sky [4 hours ago]
+почему репозиторий это мап<int, map> а не мап<int, meal> для начала?
+
+
+Ma3stro [4 hours ago]
+@sky, я использую двойную мапу для хранения еды
+
+
+vch [4 hours ago]
+@sky Как раз это не ошибка. Можно и так.
+
+Ma3stro [4 hours ago]
+@vch, ну код отрабатывает верно, может быть стилистические ошибки?
+
+sky [4 hours ago]
+т.е. в meal не стали поле userId добавлять?
+
+
+Ma3stro [4 hours ago]
+не стал)
+
+Ma3stro [4 hours ago]
+но сначала и так сделал
+
+
+vch [4 hours ago]
+@Ma3stro увы, он отрабатывает неверно иногда... Но у тебя ещё есть несколько дней для поиска этих случаев.
+
+
+Stanislav [4 hours ago]
+вдруг понадобится https://vertex-academy.com/tutorials/ru/java-8-novye-metody-map/
+Vertex Academy
+Java 8 новые методы в Map • Vertex Academy
+Данная статья написана командой Vertex Academy. Это одна из статей из нашего Учебника по Java 8. Надеемся, что данная статья Вам будет полезна.
+Nov 19th, 2017 at 4:06 AM
+ 
+
+
+Stanislav [4 hours ago]
+не используй containsKey
+
+Stanislav [4 hours ago]
+много return-ов, надо сократить или всего 1.
+
+
+Stanislav [4 hours ago]
+repository.get(userId) используешь аж 3 раза, сократить до 1
+
+
+turhanow [4 hours ago]
+если по чесноку, то не совсем понятно, зачем создавать столько мап...
+Смотрим, 
+Meal extends AbstractBaseEntity (далее по тексту - ABE)
+ABE уже содержит id, а Meal поле с userId
+
+то есть репу можно создавать с мапой key = UserId, value = ABE
+
+когда поступает еда для save, нужно проверить соответсвие userId (которое в Meal) с ключем из репы. и если такого значения нет, сохранить или обновить.
+
+но если еда новая и у нее нет ни Id ни userId, то засетить надо и то и другое. id ты сделалб а userId ведь можно из утильного класса достать по зареганному юзеру и пололжить значение в Meal (засетить) :thinking_face: (edited)
+
+
+Ma3stro [3 hours ago]
+@turhanow, это как вариант реализации, я сделал обоими способами: с userId и без (edited)
+
+turhanow [3 hours ago]
+@Ma3stro а почему не используешь putifAbsent ?
+
+
+Ma3stro [3 hours ago]
+Уже смотрю на этот метод, буду рефакторить
+
+
+Join_Selectovich [Yesterday at 8:32 PM]
+in #hw2
+Подскажите пожалуйста , А на каком слое обычно сортировку в необходимом порядке выполняют?  web или service? (edited)
+
+
+2 replies
+Yevhen Maksymovych [4 hours ago]
+Вообще, смотря что. Энтити может сортировать БД. А если у тебя сервис отдаёт DTO - то вполне может сервис сортировать
+
+
+
+e.pekhterev [2 hours ago]
+вот никак не думал, что это всё может быть в базе, или в dao, или как тут предлагают делать в репозитории
+
+
+Stanislav [8:32 PM]
+Репозиторий т.к. сортировку можно сделать средствами sql
+Когда будет Spring Data там даже sql не нужен, запрос наименованием формируется
+
+Join_Selectovich [8:34 PM]
+хм... я думал функция репозитория = просто хранить ,  а как отображать это уже определить в слое web (edited)
+
+
+Stanislav [Yesterday at 8:35 PM]
+in #hw2
+Представь, ты вытаскиваешь с базы голые данные, потом сервис их сортирует, может еще фильтрацию делает....SQL позволяет получить сортированные-фильтрованные самим SQL сервером, что на много быстрее + нет двойной работы
+
+
+
+3 replies
+e.pekhterev [2 hours ago]
+но в нашем случае, если мы будем делать сортировку и фильтрацию в репозитории, то и тащить из репозитория нужно DTO, иначе данные будут некорректные
+
+
+Stanislav [2 hours ago]
+Нет, все норм, данные корректны
+
+e.pekhterev [1 hour ago]
+я о том, что если мы сортируем и по дате, и по времени в репозитории, но будет дальше отдавать не DTO, а объекты класса Meal, а уже в сервлете или в контроллеру выполнять преобразование в DTO (MealWithExceeded), тогда у нас не будут коррекны данные по калориям (по их превышению)
+
+
+Stanislav [8:36 PM]
+Когда будет Spring Data ты поймешь на сколько это просто
+
+Join_Selectovich [8:39 PM]
+ну да, понял , спасибо
+
+Alexander Pilipenko [8:45 PM]
+Это все очень холиварная тема
+Многие считают что нужно делать максимум на уровне сервисов.
+
+
+Alexander Pilipenko [Yesterday at 8:46 PM]
+in #hw2
+Как вариант - распределенные транзакции
+
+
+17 replies
+Stanislav [3 hours ago]
+У тебя база сотни гигов, тебе нужно получить по фильтрам данные, ты хочешь 10 гигов загрузить в память и на уровне сервисов фильтрацию и сортирвку делать :slightly_smiling_face: А как насчет того зачем вообще нужен SQL запросов? Что тут холиварного?
+
+
+Stanislav [3 hours ago]
+А теперь представь это на 1000+ тредов
+
+
+Alexander Pilipenko [3 hours ago]
+А теперь представь запрос данных из 100+ DWH
+
+
+Alexander Pilipenko [3 hours ago]
+Сложи все это в HADOOP
+
+Alexander Pilipenko [3 hours ago]
+Ну и далее идем в войны веры
+
+Stanislav [3 hours ago]
+При чем тут биг дата :slightly_smiling_face:
+
+
+Alexander Pilipenko [3 hours ago]
+Потому что данные при распределенных транзакциях могут быть неоднородны (edited)
+
+
+Alexander Pilipenko [3 hours ago]
+По нашей архитектуре - тянем все данные и обрабатываем на сервере приложений
+
+
+Alexander Pilipenko [3 hours ago]
+Формирование списка в getWithExceeded
+
+
+Stanislav [3 hours ago]
+....) ок....
+
+Alexander Pilipenko [3 hours ago]
+И по запросам в 10 гигов. Был пример когда было быстрее все затянуть к себе
+
+Alexander Pilipenko [3 hours ago]
+Опять же есть кэши разных уровней.
+
+Alexander Pilipenko [3 hours ago]
+и да. Все выше сказанное ИМХО.
+
+
+Alexander Pilipenko [2 hours ago]
+Перечитал задание.
+
+
+Alexander Pilipenko [2 hours ago]
+В нашем случае в ТЗ однозначно написано:
+
+
+Alexander Pilipenko [2 hours ago]
+Изменить MealRepository и InMemoryMealRepositoryImpl таким образом, чтобы вся еда всех пользователей находилась в одном общем хранилище, но при этом каждый конкретный авторизованный пользователь мог видеть и редактировать только свою еду.
+3.1: реализовать хранение еды для каждого пользователя можно с добавлением поля userId в Meal ИЛИ без него (как нравится). Напомню, что репозиторий один и приложение может работать одновременно с многими пользователями.
+3.2: если по запрошенному id еда отсутствует или чужая, возвращать null/false (см. комментарии в UserRepository)
+3.3: список еды возвращать отсортированный в обратном порядке по датам
+3.4: атомарность операций не требуется (коллизии при одновременном изменении одного пользователя можно не учитывать)
+
+
+Alexander Pilipenko [2 hours ago]
+3.3 -> возвращаем уже отсортированный список
+
+
+Andy Fleer [8:46 PM]
+uploaded and commented on this image: image.png 
+
+Подскажите выполнение вот этого getAll должно вызвать getAll из MealServiceImpl ?
+
+Alexander Pilipenko [8:46 PM]
++
+Т.е. да
+
+Ma3stro [8:47 PM]
+а в MealWithExceed когда конвертируешь?
+
+
+Alexander Pilipenko [Yesterday at 8:49 PM]
+in #hw2
+MealWithExceed - возвращает список TO. Вызываться должен при передаче данных во фронт для списка
+
+
+6 replies
+Ma3stro [3 hours ago]
+И когда ты предлагаешь конвертировать в TO? По ТЗ сказано, что логика вся должна быть в контроллере, а не в сервлете
+
+
+Join_Selectovich [3 hours ago]
+слушайте, а это формирование dTO должно быть уже в существующей имплементации (в _MealServiceImpl_) или это отдельно нужно реализовать ?
+
+
+Ma3stro [3 hours ago]
+Я в контроллере сделал - https://stackoverflow.com/questions/31644131/spring-dto-dao-resource-entity-mapping-goes-in-which-application-layer-cont
+Stack Overflow
+Spring DTO-DAO (Resource - entity) mapping goes in which application layer: Controller or Service?
+I'm writing a Spring (4.1.7) web application that exposes a RESTful service and wish to use DTO "resource" objects for communication between Controller and client browser rather than expose my
+ 
+
+
+Alexander Pilipenko [3 hours ago]
+И я так же сделал. Но в чем противорчие не понимаю
+
+
+Alexander Pilipenko [1 hour ago]
+Полезно читать ТЗ
+
+
+Alexander Pilipenko [1 hour ago]
+4.4: конвертацию в MealWithExceeded можно делать как в слое web, так и в service (Mapping Entity->DTO: Controller or Service?)
+
+
+Janna [11:17 PM]
+@Katherine, @Tatiana, @all
+
+ 
+   private UserRepository repository = new InMemoryUserRepositoryImpl();
+
+   @Autowired    public UserServiceImpl(UserRepository repository) {
+       this.repository = repository;
+   }
+вижу они не в этом канале
+ну ладно
+у кого были проблемы с этим участком кода?
+я смогла только так исправить:
+@Autowired
+   @Qualifier("userRepository")
+   private UserRepository repository;
+типа 2 бина одного интерфейса :disappointed:
+
+
+Janna [Yesterday at 11:19 PM]
+in #hw2
+в случае с конструктором не доходит до меня как сделать надо
+
+
+2 replies
+Victor [1 hour ago]
+1. у тебя поле по коду инициализируется, а потом еще сверху пытается через автосвязывание опять инцизиализироваться.
+2. UserRepository repository нужно поменять на UserRepository userRepository чтобы  Qualifier не использовать. Тогда будут имена по умолчанию.
+
+
+Victor_D [1 hour ago]
+попробуй clean в maven
+
+
+shtramak [11:37 PM]
+Поковырял детально все патчи и по ходу появилось несколько вопросов... Выдавать буду отдельными сообщениями, чтоб если что можно было тредить по каждому вопросу отдельно
+
+
+shtramak [Yesterday at 11:37 PM]
+in #hw2
+1. Почему поле _registered_ класса *User* имеет тип _Date_? Почему не используем LocalDateTime? Класс _Date_ вроде как вообще не рекомендован к использованию как минимум ввиду того, что он mutable. И даже если все же принять его к использованию, то делаем мы это небезопасно - во всех местах инициализации она происходит напрямую, ну, и геттер так же выдает прямую ссылку на наше поле _registered_. (edited)
+
+
+12 replies
+Victor [22 minutes ago]
+вроде потому что нужна чтобы _registered_ поле не зависело от локали, как бы абсолютное а не относительное.
+
+
+tema.emelyan [18 minutes ago]
+LocalDateTime тоже вроде бы абсолютное
+
+shtramak [17 minutes ago]
+@tema.emelyan все так, в классах LocalDate и LocalDateTime не хранится инфа о часовом поясе или смещении по времени
+
+tema.emelyan [16 minutes ago]
+я и не говорю, что хранится
+
+
+tema.emelyan [14 minutes ago]
+будет использоваться время, которое на сервере. внутри одного сервера зона одинаковая должна быть, так что смещение вроде бы не нужно
+
+
+shtramak [13 minutes ago]
+@tema.emelyan я утверждал что ты прав) а вообще хорошая линка на это дело была еще в нулевом уроке - https://www.mscharhag.com/java/java-8-date-time-api
+
+tema.emelyan [13 minutes ago]
+а, понятно
+
+tema.emelyan [12 minutes ago]
+вообще вроде бы на сервере реккомендуют время UTC использовать, так что смещение не только одинаковое, его вообще нет
+
+shtramak [11 minutes ago]
+к сожалению тут не компетентен (
+
+tema.emelyan [9 minutes ago]
+вообще проект ведётся давно, LocalDateTime ввели в Java 8 и всякие hibernatы его по-моему не сразу подхватили так что может быть от части по историческим причинам
+
+
+shtramak [8 minutes ago]
+хз, мож и так )
+
+
+shtramak [7 minutes ago]
+но тогда все равно остается вопрос небезопасности принятого решения... (edited)
+
+
+shtramak [11:37 PM]
+2. Почему у поля _roles_ класса *User* нет сеттера? И опять вопрос по поводу mutable - почему геттером _roles_ возвращается прямая сслыка на Set<Role>? Мне кажется, что правильнее было бы возвращать что-то типа _*Collections.UnmodifiebleSet(roles)*_. Ибо через геттер можно получить доступ к нашей ссылки и задать ему любой набор ролей. Или так задумано и по этой причине и нет сеттера?
+
+
+shtramak [Yesterday at 11:38 PM]
+in #hw2
+3. Интерфейс UserRepository - delete(int id):boolean, а UserService - delete(int id):void. Почему во втором случае мы не возвращаем тот же boolean? Нам же может где-то на контроллере понадобиться результат запроса на удаление...
+
+
+1 reply
+Victor [19 minutes ago]
+обрабатывать нужно на уровне service, вроде. Хотя я долго не думая на boolean поменял и service )))
+
+
+shtramak [11:39 PM]
+added and commented on this Java snippet: Untitled 
+Вместо
+@Override
+public User get(int id) throws NotFoundException {
+  return checkNotFoundWithId(repository.get(id), id);
+}
+Я предлагаю:
+public User get(int id) throws NotFoundException {
+  return repository.get(id)
+    .orElseThrow(() -> new NotFoundException("Not found entity with " + id));
+}
+Collapse 
+4. Общий вопрос по поводу геттеров и возвращаемых ими _*null*_ - почему мы не пользуемся средствами Optional API? Покажу на примере, что я имею в виду. Optional дает нам контроль над NPE и возможность писать в понятном декларативном стиле, нет надобности писать специальные утильные методы типа _checkNotFoundWithId(boolean found, int id)_, ну и вся логика метода представлена непосредственно в нем, без необходимости смотреть чем занимается тот же _checkNotFoundWithId_

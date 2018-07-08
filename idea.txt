@@ -878,3 +878,17 @@ Sergey [1 day ago]
 viges2201 [4:02 PM]
 Ctrl+alt+A
 затем коммит
+
+
+Join_Selectovich [9:16 PM]
+Подскажите, кто знает как в идее сразу можно 2 объекта открывать в одном окне
+кажется нашел= split verticaly
+
+Stanislav [9:18 PM]
+Правый клик на вкладке "Split Vertically/Horizontally", потом закрыть текущую вкладку в одной из групп
+
+sky [9:18 PM]
+пкм по вкладке открытого класса -> split horizontal?
+
+Join_Selectovich [9:19 PM]
+:+1:
