@@ -2864,3 +2864,118 @@ Nikolay [8:43 PM]
 
 Grigory Kislin [8:53 PM]
 @SergeyA если сервлетов несколько, но удобнее в одном xml.. собственно это стандартная практика. с аннотацией кстати делаем на masterjava
+
+
+Albert [9:59 PM]
+uploaded and commented on this image: image.png 
+
+У меня не разрешается uri="http://java.sun.com/jsp/jstl/core"
+Albert [10:01 PM]
+в помнике:
+    <dependency>
+           <groupId>javax.servlet</groupId>
+           <artifactId>jstl</artifactId>
+           <version>1.2</version>
+       </dependency>
+       <dependency>
+           <groupId>jstl</groupId>
+           <artifactId>jstl</artifactId>
+           <version>1.2</version>
+       </dependency>
+подскажите куда копать? 
+p/s клинил проект, обновлял зависимости
+
+
+Vitaly [Yesterday at 10:19 PM]
+in #hw1
+@Albert меня смущает groupid - *jstl*
+
+
+10 replies
+Albert [16 hours ago]
+<dependencies>
+       <!-- Logging with SLF4J & LogBack -->
+       <dependency>
+           <groupId>org.slf4j</groupId>
+           <artifactId>slf4j-api</artifactId>
+           <version>${slf4j.version}</version>
+           <scope>compile</scope>
+       </dependency>
+
+       <dependency>
+           <groupId>org.slf4j</groupId>
+           <artifactId>jcl-over-slf4j</artifactId>
+           <version>${slf4j.version}</version>
+           <scope>runtime</scope>
+       </dependency>
+
+       <dependency>
+           <groupId>ch.qos.logback</groupId>
+           <artifactId>logback-classic</artifactId>
+           <version>${logback.version}</version>
+           <scope>runtime</scope>
+       </dependency>
+
+       <!--Web-->
+       <dependency>
+           <groupId>javax.servlet</groupId>
+           <artifactId>javax.servlet-api</artifactId>
+           <version>3.1.0</version>
+           <scope>provided</scope>
+       </dependency>
+
+
+       <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-site-plugin -->
+       <dependency>
+           <groupId>org.apache.maven.plugins</groupId>
+           <artifactId>maven-site-plugin</artifactId>
+           <version>3.3</version>
+       </dependency>
+       <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-deploy-plugin -->
+       <dependency>
+           <groupId>org.apache.maven.plugins</groupId>
+           <artifactId>maven-deploy-plugin</artifactId>
+           <version>2.7</version>
+       </dependency>
+
+       <dependency>
+           <groupId>javax.servlet</groupId>
+           <artifactId>jstl</artifactId>
+           <version>1.2</version>
+       </dependency>
+</dependencies>
+подключал и так но чего -то еще не хватает
+
+
+Vitaly [16 hours ago]
+так зависимости подтянулись? есть на диаграмме либо в списке библиотек?
+
+
+Albert [16 hours ago]
+да все подтянулось.
+
+Vitaly [16 hours ago]
+*mvn -U clean install*  пробовал?
+
+
+Albert [16 hours ago]
+да конечно, не лечит(
+
+
+Vitaly [16 hours ago]
+могу у себя попробовать, кинь ссылку на гит
+
+Albert [16 hours ago]
+https://github.com/AlbertoJava/topjava/tree/HW1
+
+
+Vitaly [16 hours ago]
+вроде все  работает, uri есть
+
+
+Albert [15 hours ago]
+Спасибо!
+
+
+Vitaly [15 hours ago]
+`<jsp:useBean id="meal"` исправь только, у тебя там `userBean`

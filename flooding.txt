@@ -614,3 +614,57 @@ Grigory Kislin [11:08 PM]
 
 Victor [11:05 PM]
 Пишу метод, возврат написал Spring вместо String и сижу смотрю на него. А Идея красным закрасила.... Думаю: с чего это Идея String красным красит.....:smiley:
+
+
+Yevhen Maksymovych [9:53 PM]
+ребят, подскажите, как лучше реализовать: есть две энтити, которые импортятся из логов двух разных видов (смс и визиты). надо пользователю выдавать сводную статистику из этих двух таблиц по запросу вида
+```SELECT s.recipient, s.change_state_date, v.visit_date, DATEDIFF(hour, v.change_state_date, s.change_state_date) AS delay, v.city FROM sms s INNER JOIN visits v ON s.recipient = v.phone WHERE s.change_state_date < v.visit_date```
+как-то можно это сделать силами спрингдата? jdbc я просто стейтмент запулю, и вручную замаплю его результат на какой-нибудь то, который отдам в вид
+а как это сделать спрингом? как-то можно ввести какую-то энтити, у которой нет отображения в таблицу, и для нее сделать репозиторий с гетолл, на которой будет повешен нативный запрос?
+вот тут нечто про мой случай, но у меня возник ровно тот же вопрос, что и у последнего комментатора:
+```Can you please provide the detailed example? This does give me what I am looking for but what I am unable to understand is, where do we put the above code ? in repository layer or the bean itself?```
+(edited)
+https://stackoverflow.com/questions/28945146/jpa-entity-without-underlying-table
+Stack Overflow
+JPA entity without underlying table
+I want to create a class that can be mapped to a result extracted from the database using JPA native query. Is there a way to map an entity without an underlying table to the result? I referred to ...
+
+shtramak [10:11 PM]
+Видимо создать native query https://www.thoughts-on-java.org/jpa-native-queries/#resultHandling
+
+А потом засунуть native query в метод spring data через аннотацию (edited)
+Thoughts on Java
+Native Queries - How to call native SQL queries with JPA
+JPQL supports only a small subset of SQL and no database specific features. But you can also use native queries to perform native SQL statements.
+Jan 6th, 2016
+https://www.thoughts-on-java.org/wp-content/uploads/2016/01/NativeQueries.jpg
+
+Yevhen Maksymovych [10:49 PM]
+works like a charm
+:+1:
+странно только что SqlResultSetMapper мапит класс не через отражение, а через конструктор
+
+Ma3stro [9:29 PM]
+Возможно ли устроиться на работу в 17 лет? Но при том, что скоро 11 класс и ЕГЭ, а желание работать есть, и в армию совсем не хочется:)
+Кто-то знает, как обстоят дела с фрилансом на Java?
+
+Join_Selectovich [9:55 PM]
+Говорят фрилансить на java тяжковато
+Чем больше город тем легче устроиться...
+
+Ma3stro [10:01 PM]
+Не могу определиться с тем, есть ли смысл устраиваться в ближайшее время (edited)
+
+
+Daniel [10:11 PM]
+@Ma3stro на твоем месте, я бы с 18 уже старался бы найти работу в Java, параллельно учась в универе. В 22, когда будешь выпускаться, по уровню уже будешь близок к Senior(при должном упорстве), а большая часть твоих однокурсников будет в растерянности думать, что им в жизни делать с этим дипломом. Ну это лишь мое субъективное мнение, ни в коем случае не совет.
+
+
+Ma3stro [Yesterday at 10:19 PM]
+in #flooding
+Спасибо за мнение, это очень хороший вариант. Можно за всё это время подтнять front и UI, поучиться натягивать CMS'ки. Можно писать свои проектики и брать идеи вот отсюда - https://drive.google.com/drive/u/0/folders/0B1TmSF1-jkXyZU9EeldnOWNlalk. Полезная ссылочка для всех
+
+
+1 reply
+Daniel [16 hours ago]
+Спасибо, интересно, сохраню.

@@ -892,3 +892,27 @@ sky [9:18 PM]
 
 Join_Selectovich [9:19 PM]
 :+1:
+
+
+Albert [Yesterday at 8:26 PM]
+in #idea
+Подскажите как ключ к Idea получить?
+
+
+2 replies
+Ma3stro [17 hours ago]
+в профиле на javaops
+
+
+Albert [17 hours ago]
+спасибо, получил
+
+
+Sergey [2:39 PM]
+Скажите, в чем проблема. Каждый раз когда с разных компов работаю с проектом и прыгаю с ветки на ветку (checkout), получаю - detached head. Может на пальцах расскажите как правильно бренчиться и как цеплять бренч с удаленного репозитория?
+
+Alexander Pilipenko [2:42 PM]
+https://ru.stackoverflow.com/questions/543838/%D0%9F%D0%BE%D1%87%D0%B5%D0%BC%D1%83-%D0%BF%D0%BE%D0%BB%D1%83%D1%87%D0%B0%D1%8E-detached-head
+Stack Overflow на русском
+Почему получаю detached head?
+Команда git branch -a выводит вот такое aleksey@aleksey:~/Downloads/NTZ/FittingRoom$ git branch -a * develop master remotes/origin/HEAD -> origin/master remotes/origin/develop remotes/origin/ma...

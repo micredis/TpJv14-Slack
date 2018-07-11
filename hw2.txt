@@ -2172,3 +2172,1198 @@ public User get(int id) throws NotFoundException {
 }
 Collapse 
 4. Общий вопрос по поводу геттеров и возвращаемых ими _*null*_ - почему мы не пользуемся средствами Optional API? Покажу на примере, что я имею в виду. Optional дает нам контроль над NPE и возможность писать в понятном декларативном стиле, нет надобности писать специальные утильные методы типа _checkNotFoundWithId(boolean found, int id)_, ну и вся логика метода представлена непосредственно в нем, без необходимости смотреть чем занимается тот же _checkNotFoundWithId_
+
+
+tema.emelyan [12:14 AM]
+commented on shtramak’s snippet Untitled
+понимаю желание использовать Optional но наверное утильный метод можно оставить. Это наверное don't repeat yourself. У тебя будет много методов, которые вернут Optional и тебе везде придётся писать orElseThrow. А если потом захочешь другой эксепшн бросать или мессадж поменять и тд
+
+Я бы тоже как и в твоём примере обработку null засунул в репозиторий. чем скорее null увидишь тем лучше мне кажется. возможно я не прав
+
+ps можно вообще всё в контроллере написать, тогда не нужно будет смотреть кто чем занимается :slightly_smiling_face:
+
+
+zippospb [Jul 9th at 2:10 AM]
+in #hw2
+Кто-нибудь смог сделать с помощью дженериков DateTimeUtil.isBetween универсальным? У меня получилось только  с wildcard <? extends Comparable>,  но идея в таком случае ругается.  Мол слишком обобщенно и небезопасно
+
+
+8 replies
+turhanow [2 days ago]
+Попробуй компаробл тоже сделать типизированным
+
+
+zippospb [2 days ago]
+Я могу типизировать либо LocalTime либо LocalDate либо их предком, но общего предка, реализующего интерфейс Comparable у них нет
+
+
+Tanya [2 days ago]
+а для чего им общий предок?
+
+
+zippospb [2 days ago]
+Я не нашёл как можно типизировать одновременно двумя классами, поэтому и думал общем предке
+
+Tanya [2 days ago]
+не надо типизировать двумя классами
+
+Tanya [2 days ago]
+покажи полностью твой вариант с <? extends Comparable>
+
+
+turhanow [2 days ago]
+Почему знак вопроса? Я там просто Т поставил и по моему работает :thinking_face:
+
+
+zippospb [2 days ago]
+@Tanya спасибо за ссылку! Похоже я понял, в чем проблема. Вечером проверю
+
+
+Join_Selectovich [Jul 9th at 2:11 AM]
+in #hw2
+<T extends Comparable>,
+
+
+2 replies
+zippospb [3 days ago]
+Идея дает так сделать, но ругается на небезопасность метода
+
+
+dimlo [1 day ago]
+<T extend Compatable<T>>  не ругается
+
+
+Tanya [4:35 AM]
+по дженерикам https://docs.oracle.com/javase/tutorial/extra/generics/morefun.html (edited)
+
+Gagarina6794 [7:38 AM]
+7: добавить в meals.jsp и MealServlet две отдельные фильтрации еды: по дате и по времени (см. демо)  Это как? На странице jsp делаем форму для фильтрации по датам\времени, берем оттуда данные для фильтрации и с ними переходим на ту же страницу но с отфильтрованными данными? (edited)
+
+Tanya [7:39 AM]
+см демо
+т.е. даты отдельно / время отдельно
+если указываешь между 5 мая и 8 мая, 10 утра и 11 утра - то получаем записи даты 5,6,7,8 мая, и между 10 и 11 утра, а не между 5мая 10утра и 8 мая 11 утра (edited)
+
+
+Gagarina6794 [Jul 9th at 7:43 AM]
+in #hw2
+это я сделала, не могу нормально получить данные из формы и применить их для этой фильтрации ) думалка здесь поломалась)) (edited)
+
+
+8 replies
+Yevhen Maksymovych [2 days ago]
+а в чем проблема? получаешь как и любой другой параметр из реквеста
+
+
+Gagarina6794 [2 days ago]
+Та вроде дошло, я там немного не той дорогой пошла... Думала надо ещё один экшн для фильтрации делать, а нет, не надо, там всё проще
+
+
+e.pekhterev [2 days ago]
+экшин у тебя автоматом правильный в данном случае проставляется (когда экшин пустой - тогда гетALL
+
+
+e.pekhterev [2 days ago]
+ну и ещё по хорошему нужно сохранять фильтрацию после операций delete/update/add как это делается в дэмо-приложении
+
+
+e.pekhterev [2 days ago]
+инжектится всё вроде как нормально, во всяком случае еду контроллер выдает. поднимай нормально контекст в общем.
+
+
+Gagarina6794 [2 days ago]
+Ты так написал как будто видишь чего я там делаю)) доберусь до ноута, буду решать что и куда, спасибо)
+
+
+e.pekhterev [1 day ago]
+упс, ветки перепутал с последним сообщением про "инжектитися ... "))) а предыдущие по теме))) (edited)
+
+
+Gagarina6794 [1 day ago]
+))) все сделала, РАБОТАЕТ!
+
+
+Andy Fleer [Jul 9th at 10:41 AM]
+in #hw2
+Друзья, нужна помощь. Видимо что-то я намудрил или недомудрил  с аннотациями. Все методы MealServiceImpl, которые я вызываю из MealRestController кончаются ничем. Т.е. пытаюсь логировать, что возвращает метод - либо пусто, либо вообще строка логирования не срабатывает. Ставлю логирование в вызываемый метод. Результат предсказуемый - тишина.
+
+
+55 replies
+Yevhen Maksymovych [2 days ago]
+проверь что всё автовайрится по цепочке repository->service->controller. Ну и заодно проверь, что ты не инстанциируешь репозиторий дважды (при текущей его реализации при втором инстанциировании его внутреняя мапа будет пустой)
+
+
+
+Andy Fleer [2 days ago]
+В MealRestController
+   @Autowired
+   private MealService service;
+В MealServiceImpl  @Autowired
+   public MealServiceImpl(MealRepository repository) {
+       log.info("Repository is initialized");
+       this.repository = repository; }
+
+
+Andy Fleer [2 days ago]
+В репозитории же не должно ничего автовайрится?
+
+
+Yevhen Maksymovych [2 days ago]
+тогда показывай гит
+
+Yevhen Maksymovych [2 days ago]
+нет, в репозитории не должно
+
+
+Andy Fleer [2 days ago]
+https://github.com/andyfleer/topjava/tree/HW2
+
+e.pekhterev [2 days ago]
+в ините не надо создавать контроллер, нужно инициализировать контектс спринга и подтянуть из него контроллер
+
+
+Yevhen Maksymovych [2 days ago]
+может он ещё не опционал делает :slightly_smiling_face:
+
+
+Yevhen Maksymovych [2 days ago]
+в любом случае, если ты делаешь не оционал, у тебя автоматом всё не проавтовайрится. эта магия работает, только если ты берёшь компонент из контекста спринга. сейчас ты создаёшь контроллер вручную, следовательно тебе надо озаботиться о внутренних зависимостях этой цепочки самостоятельно
+
+
+e.pekhterev [2 days ago]
+в контроллере autowired делай так же как в сервисе (не на поле класса, а на констукторе контроллера, при этом само поле private final)
+
+Andy Fleer [2 days ago]
+То есть надо для этого сделать конструктор по умолчанию
+
+
+Andy Fleer [2 days ago]
+так?
+
+
+e.pekhterev [2 days ago]
+@Yevhen Maksymovych, ну как не опционал, если в сервлете он уже дергает этот созданный ручками контроллер.
+
+
+e.pekhterev [2 days ago]
+ну открой сервис и посмотри как там ты сделал. 
+В видео к уроку или в описании об это говорилось, лучше делать через конструктор, чтоб не словить проблем.
+
+e.pekhterev [2 days ago]
+но основной трабл, что ты создаешь бин Контроллера, а не спринг
+
+
+
+Yevhen Maksymovych [2 days ago]
+но в целом это полировка. чтобы взлетело тебе надо контекст спринга поднять. работать будет и при инъекции через поля класса, и через конструктор, и через сеттер - один фиг
+
+
+e.pekhterev [2 days ago]
+будет
+
+
+e.pekhterev [2 days ago]
+не спорю, просто заметил и написал сразу
+
+e.pekhterev [2 days ago]
+почитай ДЗ, ты ещё не выполнил основное ДЗ, а уже начал Optional ковырять.
+Смотри "5: включить классы еды в контекст Spring (добавить аннотации) и вызвать из SpringMain любой метод MealRestController (проверить что Spring все корректно заинжектил)"
+
+
+e.pekhterev [2 days ago]
+нужно это сначала сделать и простестить как всё работает, как всё инжектится, да и вообще весь функционал реста проверить
+
+
+Andy Fleer [2 days ago]
+Надо сказать, что глюк возник еще до того как я начал Spring прикручивать
+
+
+Andy Fleer [2 days ago]
+Это я его потом начал крутить. С гипотезой, что может спринга животворящего не хватает тут
+
+Andy Fleer [2 days ago]
+То есть мне надо где-то в сервлете вот это запустить ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml") ?
+
+
+Andy Fleer [2 days ago]
+или что?
+
+
+Alexander Pilipenko [2 days ago]
+Выше уже про это написали
+
+Alexander Pilipenko [2 days ago]
+вызвать из SpringMain любой метод MealRestController
+
+
+Alexander Pilipenko [2 days ago]
+Если там работает,то прописать в init методе сервлета
+
+e.pekhterev [2 days ago]
+6: в MealServlet сделать инициализацию Spring, достать MealRestController из контекста и работать с едой через него (как в SpringMain). pom.xml НЕ менять, работаем со spring-context. Сервлет обращается к контролеру, контроллер вызывает сервис, сервис - репозиторий.
+
+
+
+e.pekhterev [2 days ago]
+ну и выше я написал где и что
+
+e.pekhterev [2 days ago]
+сейчас у тебя эксепшин, потому как контекст не подключен и в контреллере инчего не заавтоваярилось 
+"java.lang.NullPointerException
+    ru.javawebinar.topjava.web.meal.MealRestController.getAll(MealRestController.java:23)"
+
+
+Andy Fleer [2 days ago]
+Если я делаю в MealRestController вот так     private final MealService service;
+
+   @Autowired
+   public MealRestController(MealService service) {
+       this.service = service;
+   } то получается в SpringMain мне вызывать надо будет с параметром ссылкой на сервис. Но это как-то тут странно
+
+
+Andy Fleer [2 days ago]
+Я чет запутался в магии
+
+Andy Fleer [2 days ago]
+try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml")) {
+           System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
+           AdminRestController adminUserController = appCtx.getBean(AdminRestController.class);
+           adminUserController.create(new User(null, "userName", "email@mail.ru", "password", Role.ROLE_ADMIN));
+           MealRestController mealRestController = new MealRestController(new MealServiceImpl(new InMemoryMealRepositoryImpl()));
+           mealRestController.getAll(1);
+       }
+
+
+Andy Fleer [2 days ago]
+Это нормальный вызов?
+
+
+Andy Fleer [2 days ago]
+Вот он отдельно:
+
+
+Andy Fleer [2 days ago]
+MealRestController mealRestController = new MealRestController(new MealServiceImpl(new InMemoryMealRepositoryImpl()));
+           mealRestController.getAll(1);
+
+
+Andy Fleer [2 days ago]
+Тут теперь кажется уже, что мало магии))))
+
+Yevhen Maksymovych [2 days ago]
+вот это излишне
+
+Yevhen Maksymovych [2 days ago]
+```Andy Fleer [16 minutes ago]
+MealRestController mealRestController = new MealRestController(new MealServiceImpl(new InMemoryMealRepositoryImpl()));
+           mealRestController.getAll(1);```
+
+
+Yevhen Maksymovych [2 days ago]
+если у тебя милрестконтроллер - компонент спринга, ты его можешь вытащить из контекста точно так же, как выше вытаскиваешь AdminRestController
+
+
+Yevhen Maksymovych [2 days ago]
+через .getBean()
+
+Yevhen Maksymovych [2 days ago]
+магии там никакой нет. Можешь представить себе контекст спринга как обычную мапу вида <Class, Object>. Когда ты инициализируешь контекст, отрабатывает грубо говоря его конструктор, который парсит xml-файл, который ты ему скормил, ищет там упоминания классов, которые ты туда внёс, создаёт их экземпляры, и заносит в мапу. причём если в этих классах есть какие-то члены других классов из этой мапы, он их автоматом инициализирует.
+
+
+Yevhen Maksymovych [2 days ago]
+в первом приближении это недалеко от истины :slightly_smiling_face: по факту там есть вместо конструктора BeanFactory, зависимости подтягивает BeanPostProcessor, а хранение несколько сложнее, чем обычная мапа, но магии всё равно никакой нет. всё в пределах возможностей языка. (edited)
+
+
+Andy Fleer [2 days ago]
+О! Чудо!
+
+
+Andy Fleer [2 days ago]
+Заработало из SpringMain
+
+
+Andy Fleer [2 days ago]
+Ну может магии и нет, но, классно, однако!!!
+
+Yevhen Maksymovych [2 days ago]
+добро пожаловать в мир IoC :slightly_smiling_face:
+
+Andy Fleer [2 days ago]
+Руками все это не вызываешь, а оно бац! раотает!))
+
+Andy Fleer [2 days ago]
+Прямо бодрит это))))
+
+Andy Fleer [1 day ago]
+Но вот парадокс. Из SpringMain запустил. Логи показывают что метод вызвался (тот самый getAll()). Воткнул эту же инициализацию  спринга в Сервлет в init() логи показывают, что метод вызывается. Но вот там где надо собстенно работать, я получаю по прежнему nullpointerexception
+
+
+Andy Fleer [1 day ago]
+Не понимаю
+
+Andy Fleer [1 day ago]
+Всё
+
+Andy Fleer [1 day ago]
+Заработало
+
+Andy Fleer [1 day ago]
+Тут уже мой косяк был. На уровне экземпляра уже была переменная mealRestController. Я ее переобъявил в init. Ну и то что я объявил в инит заканчивало свою область видимости в инит
+
+
+e.pekhterev [1 day ago]
+хотя бы 3-4 главы почитай Spring in Action и жить станет много легче, тяжело кодить то, что вообще не понимаешь
+
+
+Join_Selectovich [Jul 9th at 12:24 PM]
+in #hw2
+_5.6: В REST при update принято передавать id (см. AdminRestController.update)_  ну я посмотрел в контроллер , а туда два параметра заходит *update(User user, int id)*. Как понимать этот пункт, что этим хотели сказать, как вы это понимаете?
+
+
+8 replies
+Yevhen Maksymovych [2 days ago]
+именно то, что написано: дескать, хотя id и есть внутри юзера (его можно достать по user.getId(), при ресте принято для подстраховки передавать id дополнительно) (edited)
+
+
+Join_Selectovich [2 days ago]
+спасибо тебе добрый человек @Yevhen Maksymovych
+
+
+Yevhen Maksymovych [2 days ago]
+я, если честно, не очень понимаю, логику этого, но предполагаю, что для того, чтобы сервер мог сразу идентифицировать объект, который обрабатывает, не залазя в дебри энтити. там, например, может быть какой-нибудь прокси, или какой-то сложный метод извлечения этого ид
+
+
+Join_Selectovich [2 days ago]
+просто сначала пишут что принято передавать id , а потом смотришь там еще и user ... понятно что юзер должен быть обязательно чтобы обновить данные , но поначалу воспринимается как противоречие...
+если бы написано было что "при update принято так же дополнительным параметром передвать id обновляемой сущности"
+
+
+Join_Selectovich [2 days ago]
+вопросов бы никаких не было
+
+
+Victor [2 days ago]
+если говорят, что принято передавать id, это не значит что только id. Смысл в том, что кроме всего обязательно должно быть id. Думаю есть какая -то практика использования этого параметра.
+
+
+Join_Selectovich [1 day ago]
+ну вот видите, вы же когда поясняете используете фразу "кроме всего" - она и снимает все неоднозначности
+
+
+Victor [1 day ago]
+у меня такая тоже проблема бывает: прочитаю и выдумаю от себя ))) 
+в условии нет запрета на другие параметры и точка
+
+
+Alexander Pilipenko [2:20 PM]
+В ДЗ сказано, что закрывать спринг кониекст лучше в методе destroy сервлета
+Если так делать, то у меня падает nullpointerexception
+Кусок сервлета:
+public class MealServlet extends HttpServlet {
+   private static final Logger log = LoggerFactory.getLogger(MealServlet.class);
+
+
+   ConfigurableApplicationContext appCtx;
+   private MealRestController controller;
+
+   @Override
+   public void init(ServletConfig config) throws ServletException {
+       super.init(config);
+
+       ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml");
+
+       controller = appCtx.getBean(MealRestController.class);
+   }
+
+   @Override
+   public void destroy() {
+       log.info("appCtx {}" , appCtx);
+       // appCtx.close();
+   }
+
+Yevhen Maksymovych [2:21 PM]
+вот тут ошибка...
+ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml");
+ключевое слово "область видимости" :slightly_smiling_face:
+
+Alexander Pilipenko [2:22 PM]
+Ой
+
+Ну я тупой
+
+
+Alexander Pilipenko [Jul 9th at 2:23 PM]
+in #hw2
+Спасибо
+
+
+1 reply
+Yevhen Maksymovych [2 days ago]
+незачт :slightly_smiling_face:
+
+
+Alexander Pilipenko [Jul 9th at 2:25 PM]
+in #hw2
+Но от сюда следует интересный результат. Можно в init использовать автозакрытие для контекста
+
+
+33 replies
+Victor [1 day ago]
+я в дестрой закрывал. Думаю, тут могут быть скрытые сложности. Лучше по старинке.
+
+
+Victor [1 day ago]
+Думаю что best practice in slake - пользоваться threads
+
+
+Alexander Pilipenko [1 day ago]
+Я исправлюсь :slightly_smiling_face:
+
+Yevhen Maksymovych [1 day ago]
+это не очень хорошо делать. вдруг тебе в каком-то другом методе придётся достать из контекста ещё один бин, придётся заново для этого поднимать контекст
+
+
+Yevhen Maksymovych [1 day ago]
+или в каком-то другом сервлете :slightly_smiling_face: идеальный вариант (пока используя то, что есть в проекте) - поднять спринг контекст после поднятия сервлет контекста, и погасить спринг контекст перед гашением сервлет контекста
+
+
+Yevhen Maksymovych [1 day ago]
+тут кто-то выше уже бросал ссылку на то, как это сделать с помощью listener'а
+
+Alexander Pilipenko [1 day ago]
+SKY бросал
+
+
+Alexander Pilipenko [1 day ago]
+Решил не заморачиваться пока
+
+
+Victor [1 day ago]
+я в контекст приложения, который общий для всех сервлетов, сохраняю контекст. Тогда можно использовать для каждого сервлета один контекст.
+
+
+
+Victor [1 day ago]
+думаю что такой вариант выгоднее, чем listner'ы
+
+
+e.pekhterev [1 day ago]
+я что то сомневаюсь, что таким образом контекст закроется. Если бы ты его определил там в try with resource, тогда бы точно закрылся.
+
+
+Victor [1 day ago]
+а как бинами пользоваться, если контекст закрыли сразу же после того как бин взяли. Смысл таков: открыли контекст, сохранили, пока он работает берем бины и пользуем, в конце закрыли.
+
+
+Victor [1 day ago]
+ведь Когда выполнение команд блока try закончится, независимо от того – нормально оно закончилось или было исключение, для объекта, созданного внутри круглых скобок (), будет вызван метод close();
+
+Yevhen Maksymovych [1 day ago]
+контекст-то закроется, но бины инстанцированные останутся, если на них остались ссылки вне блока, например, если на них ссылается член сервлета
+
+
+Yevhen Maksymovych [1 day ago]
+но, это, конечно, не значит, что надо закрывать контекст, после того как забрали оттуда всё нужное ))))
+
+
+
+Join_Selectovich [1 day ago]
+на счет закрытия в подсказках написано:
+_8.1: Закрывать springContext в сервлете грамотнее всего в HttpServlet.destroy(): если где-то в контексте Spring будет ленивая инициализация, метод-фабрика, не синглтон-scope, то контекст понадобится при работе приложения. У нас такого нет, но делать надо все грамотно._ (edited)
+
+
+
+dimlo [1 day ago]
+@Victor "я в контекст приложения, который общий для всех сервлетов, сохраняю контекст". Правильно ли я понял: в блоке init сделать что-то подобное: 
+ServletContext servletContext = config.getServletContext();        servletContext.setAttribute("appCtx", context);    и потом этот контекст можно будет подтянуть из любого сервлета?
+
+
+Victor [1 day ago]
+да, я так делал
+
+
+
+dimlo [1 day ago]
+Спасибо
+
+
+e.pekhterev [1 day ago]
+@Join_Selectovich на счёт грамотнее всего - тут вопрос очень спорный, у нас 2 сервлета, один спринг-конетекст, так и что нам делать для сервлета юзверей?? тоже в нём контекст поднимать и потом дейстроить? 
+я так понимаю как сейчас делаем - это просто заглушка своего рода, просто пока не дошли до контекстЛисенера или дальше до норм спринга без этих сервлетов
+
+
+
+Victor [1 day ago]
+ну я это решил: проверяют если в атрибутах контекст, если есть, беру и использую, если нет, создаю, сохраняю и использую.
+if else :slightly_smiling_face: (edited)
+
+
+e.pekhterev [1 day ago]
+@Victor честно говоря не понял где и в каких атрибутах ты проверяешь контекст.
+
+
+Victor [1 day ago]
+вот вот, сразу критика, а потом разбираемся что атрибуты оказываются разные бывают )))
+
+
+Yevhen Maksymovych [1 day ago]
+я так понимаю, в атрибутах контекста сервлета
+
+
+
+e.pekhterev [1 day ago]
+@Victor ничего не понял, можешь схему объяснить, вот у нас сейчас есть сервлет еды, в нем поднимается контекст.
+запускаем приложение, обращаемся по урлу к сервлету юзеров, который что делает?? как он понимает, что контекст уже создан в сервлете еды (или ещё не создан) и не нужно больше создавать? он вообще должен ли знать, что есть сервлет еды или ещё какие то сервлеты? (edited)
+
+
+Yevhen Maksymovych [1 day ago]
+я за него попробую: вероятно, каждый сервлет в методе init() проверяет наличие в контексте сервлета (который общий для всех сервлетов) наличие инициализированного контекста спринга, при нахождении оного - достаёт оттуда нужный ему бин (если ему что-то нужно), если не находит - создаёт контекст. при дестрое сервлета - кто первый успеет, закроет контекст спринга
+
+
+Yevhen Maksymovych [1 day ago]
+вообще, это для листенера задача, чтобы не проверять, есть ли там этот самый контекст, просто положить его при старте, и убить при дестрое
+
+Yevhen Maksymovych [1 day ago]
+а сервлеты по необходимости уже пусть оттуда его берут, листенер гарантированно его туда положит. ну, если сможет поднять
+
+
+Victor [1 day ago]
+@Yevhen Maksymovych я б так хорошо не смог объяснить :slightly_smiling_face:
+вот листенер, он же постоянно работает, пока работает приложение? То есть больше ресурсов будет тратиться, чем если сделать if else в сервлете, верно? (edited)
+
+
+Yevhen Maksymovych [1 day ago]
+не, фактически, томкат на каждые важные с его точки зрения события инвокает триггеры - независимо от того, висят на них пользовательские листенеры или нет (edited)
+
+Yevhen Maksymovych [1 day ago]
+подозреваю, что там висит уйма дефолтных листенеров, но со 100% гарантией сказать не могу, не интересовался :slightly_smiling_face:
+
+
+e.pekhterev [1 day ago]
+спасибо, надо посмотреть/попробовать
+
+Yevhen Maksymovych [1 day ago]
+если ты повесишь листенер имплементирующий ServletContextListener, он отработает ровно дважды - при старте контекста сервлета и при его финише, больше он по идее инвокнуться не должен (edited)
+
+
+Alexander Pilipenko [2:25 PM]
+В смысле не из тупости, а из exception только во время destroy
+
+
+Gagarina6794 [Jul 9th at 5:46 PM]
+in #hw2
+8: добавить выбор текущего залогиненного пользователя (имитация авторизации, сделать Select с двумя элементами со значениями 1 и 2 в index.html и SecurityUtil.setAuthUserId(userId) в UserServlet).    Как-то смутно представляю что требуется. Это нам надо в зависимости от выбранного user-a на html перейти на users.jsp с параметрами в зависимости от выбора 1 и 2?
+
+
+
+21 replies
+tkorky [1 day ago]
+перейти на meals.jsp в зависимости от юзера
+
+
+tkorky [1 day ago]
+соответственно там будет еда именно для этого юзера :slightly_smiling_face:
+
+
+Join_Selectovich [1 day ago]
+похоже нужно в сервлете из request-а страницы index.html вытянуть это значение и подставить в методы контролера...
+
+e.pekhterev [1 day ago]
+не совсем так, после выбора юзера в index.html нужно обратиться к сервлету пользовтелей, сообщить о выбранном юзере, а он в свою очередь установит id аутентифицированного пользователя в SecurityUtil и далее отправит на сервлет Еды для вывода данных конкретного пользователя (edited)
+
+
+Join_Selectovich [1 day ago]
+я так понимаю реквест из index.html пойдет через MealServlet на UserServlet
+
+Join_Selectovich [1 day ago]
+и потом обратно вернется к UserServlet-y
+
+
+e.pekhterev [1 day ago]
+давай ещё раз, мы попадаем на главную страницу, где у нас есть окошко логина и пароля, так собственно зачем нам кузнец, т.е. еда, за авторизацией мы сразу ломимся на сервлет, который с юзерами работает. а вот уже после, когда юзер авторизован сервлетом юзера уже можно отправить запрос сервлету еды, чтобы он дал данные только что залогиневшегося пользователя
+
+
+
+Gagarina6794 [1 day ago]
+Теперь всё понятно)) так бы сразу написали в задании)
+
+
+
+Join_Selectovich [1 day ago]
+ну :slightly_smiling_face:
+
+
+Join_Selectovich [1 day ago]
+а что на счет хранения параметров фильтра _8.2: Не храните параметры фильтра как члены класса сервлета, это не многопоточно!_
+
+
+Join_Selectovich [1 day ago]
+где хранить если не в сервлете?
+
+
+Join_Selectovich [1 day ago]
+отдельный репо можт завести под это дело )
+
+e.pekhterev [1 day ago]
+@Gagarina6794 на работе будут писать раз в 10 меньше, чем у нас в условии и нужно будет делать сразу правильно, при этом желательно не отвлекать своего руководителя от его собственной работы своими вопросами)))
+
+
+Join_Selectovich [1 day ago]
+я вот думаю что может специально так пишут чтобы не понятно было, чтобы народ повтыкал подумал покрутил поспрашивал, так оно лучше запоминается , с кровью и пОтом...
+
+
+Gagarina6794 [1 day ago]
+Как уже будет, выгонят за такое, буду опять бухгалтером или вёрсткой займусь)) всегда есть выбор
+
+
+e.pekhterev [1 day ago]
+ну какие то моменты разжеваны, а что то нет, но это больше потому, что мы только учимся и опыта мало, как научимся - всё будет казаться банальненько и понятно сразу
+
+
+Gagarina6794 [1 day ago]
+А и на работе ж тоже надо спрашивать, общение оно надо чтобы присутствовало в меру допустимого, тогда как работать чтобы всё работало как надо
+
+
+e.pekhterev [1 day ago]
+спрашивать и уточнять по любому нужно, но желательно в момент получения задания, но вот потом нужно делать это задание и не мешать начальнику пить кофе с девчулями с ресепшина  и закусывать пирожинками (edited)
+
+
+
+Gagarina6794 [1 day ago]
+Так и работай, я буду кофе пить с начальником и обсуждать задания, и закусывать пирожинками
+
+
+
+e.pekhterev [1 day ago]
+ну как бы я тот самый начальник, а ты совсем не с ресепшина)))
+
+
+Gagarina6794 [1 day ago]
+Что за глупости, конечно не с ресепшена, там мало платят)))
+
+
+Join_Selectovich [5:49 PM]
+только хотел то же самое спросить
+
+
+dimlo [Jul 9th at 5:55 PM]
+in #hw2
+я сделал radio buttons на index.html и кнопка отправить. action - отдельный сервлет, который вызывает setUserId у SecurityUtil и делает редирект на /meals
+
+
+2 replies
+e.pekhterev [1 day ago]
+зачем делать отдельный сервлет, если написано: "сделать ... SecurityUtil.setAuthUserId(userId) в UserServlet"
+
+
+dimlo [1 day ago]
+ок, логично)
+
+
+Andy Fleer [Jul 9th at 6:03 PM]
+in #hw2
+4.3: если еда не принадлежит авторизированному пользователю или отсутствует, в MealServiceImpl бросать NotFoundException. ValidationUtil и так бросает это усключение. Это и имеется в виду? Ну и бросать то бросаем, а овить не надо? кто что думает?
+
+
+13 replies
+e.pekhterev [1 day ago]
+если тебе мало валидейшинУтила, то можно ещё пару тройку раз бросисть исключение, оно рантайм, так что ничего страшного не произойдет)))
+
+
+dimlo [1 day ago]
+я не ловил. получаю error 500
+
+
+e.pekhterev [1 day ago]
+в браузере я так понимаю? почитай что такое ошибки начинающиеся на 5
+
+dimlo [1 day ago]
+так там дальше расшифровка ошибки идет, в браузере. Я так понимаю, что подобное поведение и ожидается (edited)
+
+
+e.pekhterev [1 day ago]
+скорее всего ошибка там в другому, смотри чего написано, ставь точки останова и дебаж (edited)
+
+
+Andy Fleer [1 day ago]
+Мне валидейшн утила достаточно.))) Правильно понимаю, что exception выбрасываем, а с его обработкой не морочимся. Нет же в задании? не пропустил? Так же поняли?
+
+
+dimlo [1 day ago]
+@e.pekhterev Браузер выдает: HTTP Status 500 - Мое сообщение об ошибке. В первой строке описания exception - наш NotFoundException. Условия появления - список еды для пользователя пуст (принудительно не заполнил в MealsUtil). Ошибка брошена в слое service
+
+
+dimlo [1 day ago]
+@Andy Fleer Я не обрабатывал, могу ее получить при умышленном создании определенных условий
+
+Andy Fleer [1 day ago]
+да да... я так же... для теста провоцирую
+
+e.pekhterev [1 day ago]
+я ж выше написал, NotFoundException extends RuntimeException, что это значит? это значит, что это unchecked эксепшин, т.е. никто от нас и не ждёт её обработки, выбросили и забыли)))
+
+
+Andy Fleer [1 day ago]
+Ок))) Теперь понятно написал)) Убедительно))
+
+
+Andy Fleer [1 day ago]
+Спасибо))
+
+
+e.pekhterev [1 day ago]
+обрабатывать их можно, если потребуется (их же там не просто так воткнули), но в данном задании это не требуется.
+
+
+stea1th [9:49 PM]
+2.1: В Meal, которая приходит в контроллер нет никакой информации о пользователе (еда приходит в контроллер БЕЗ user/userId). Она может быть только авторизованного пользователя, поэтому что-то сравнивать с ним никакого смысла нет. По id еды и авторизованному пользователю нужно проверить ее принадлежность.
+может кто то это на русский перевести?
+вообще не понятно, что имеется ввиду...
+
+
+stea1th [Jul 9th at 9:54 PM]
+in #hw2
+памажитии пажалуста
+
+
+40 replies
+Yevhen Maksymovych [1 day ago]
+имеется в виду, что контроллер не должен принимать в своих методах id пользователя
+
+
+Yevhen Maksymovych [1 day ago]
+он должен брать авторизованного пользователя из своего окружения
+
+
+Yevhen Maksymovych [1 day ago]
+из утильного класса в данном случае
+
+
+sky [1 day ago]
+не должен принимать id в качестве аргумента
+
+
+stea1th [1 day ago]
+о каком контроллере воообще идет речь?
+
+stea1th [1 day ago]
+а в Meal может быть userId?
+
+
+sky [1 day ago]
+Cvjnhb
+
+sky [1 day ago]
+Смотри
+
+
+sky [1 day ago]
+Meal кладем в репозиторий
+
+
+sky [1 day ago]
+репозиторий кладем в сервис
+
+
+sky [1 day ago]
+сервис в контроллер
+
+sky [1 day ago]
+и в контроллере вызываем методы
+
+
+sky [1 day ago]
+в которые нельзя передовать userId как аргумент
+
+
+stea1th [1 day ago]
+MealRestController?
+
+sky [1 day ago]
+ага
+
+
+Yevhen Maksymovych [1 day ago]
+ога
+
+
+stea1th [1 day ago]
+но в Meal может быть userId?
+
+sky [1 day ago]
+может
+
+
+stea1th [1 day ago]
+а где можно тогда параметр userId задавать?
+
+
+stea1th [1 day ago]
+я в репозитории сделал метод public List<Meal> getAllByUserId(int userId)
+
+sky [1 day ago]
+Посмотр внимательно на классы, которые с патчами появились, в одном из них
+
+
+stea1th [1 day ago]
+тот метод лишний?
+
+e.pekhterev [1 day ago]
+подумай лучше о том, по какому id удобней было бы доставать из карты еду для пользователя (при этом желательно не бегать по всем Энтри мапы).
+
+
+e.pekhterev [1 day ago]
+это вариант, когда в Meal у нас нет поля userId
+
+stea1th [1 day ago]
+а можно с userId? а то я его запилил
+
+
+e.pekhterev [1 day ago]
+можно, но по мне так не рационально его там хранить в данной реализации, да и дальше тоже
+
+
+vch [1 day ago]
+@stea1th можно. Есть разные варианты, все равноценные
+
+stea1th [1 day ago]
+блин, я наверное тупой, но реально не догоняю
+
+
+e.pekhterev [1 day ago]
+была бы база данных - тогда имел бы смысл, в нашем варианте, когда база захардкожена даже как то глупо делать userId полем класса Meal (edited)
+
+
+e.pekhterev [1 day ago]
+слишком большие накладные расходы
+
+
+stea1th [1 day ago]
+по мне так было бы идеально в юзере сделать лист с его едой и не париться
+
+
+e.pekhterev [1 day ago]
+на том уроке уже было пройдено, что лист это плохо в данном варианте
+
+e.pekhterev [1 day ago]
+в общем подумай
+
+stea1th [1 day ago]
+вопрос еще
+
+stea1th [1 day ago]
+эти checknotfound методы
+
+stea1th [1 day ago]
+что они проверяют?
+
+
+e.pekhterev [1 day ago]
+ну так пройди через контрол по ним и поизучай
+
+e.pekhterev [1 day ago]
+это валидация
+
+e.pekhterev [1 day ago]
+которую мы будем прикручивать позже
+
+
+e.pekhterev [1 day ago]
+т.е. когда будет некорректный ввод в поля формы, изменен юзер или нет, достаточно ли сложный пасворд и т.д.
+
+
+zippospb [Jul 9th at 11:04 PM]
+in #hw2
+кто мне может объяснить, зачем нам создавать в контроллере отдельно метод без фильтра и отдельно с фильтром, когда можно все в одном методе сделать (просто отсутствующие параметры подменять на .MIN и .MAX?
+
+
+2 replies
+Victor [1 day ago]
+ответ наверное будет спойлером... Думаю что реализация будет разная изза Rest API.
+
+
+Victor [1 day ago]
+Думаю что best practice in slake - пользоваться threads
+
+
+zippospb [11:05 PM]
+метод getAll
+
+
+hav [Yesterday at 10:14 AM]
+in #hw2
+Помогите с фильтрами. Сделал поля для ввода дат и времени. Как их в сервлете правильно получить?
+
+
+9 replies
+Yevhen Maksymovych [1 day ago]
+так же, как и любой другой параметр. req.getParameter(paramName)
+
+
+hav [1 day ago]
+Это понятно. Делать еще action, например filter? Или в ветке all? Тогда надо будет проверять есть ли эти параметры.
+
+
+Victor [1 day ago]
+Я action добавлял. Думаю правильно отделить фильтр. В jsp form method=get.  остальное по аналоги с формой в редактировании meal.
+
+
+hav [1 day ago]
+Сделал action. А параметры фильтра где сохранять?
+
+
+e.pekhterev [1 day ago]
+action не надо, фильтрации должна сохраняться при любых операциях с едой (create/update/delete), поэтому отдельного экшина не нужна, фильтр работает для всех экшинов (edited)
+
+
+hav [1 day ago]
+Тогда наверное правильнее будет проверять есть ли в параметрах даты/время, если есть - сохранять их в контроллере. А контроллер выдает весь список, если фильтры пустые, или отфильтрованный, если не пустые.
+
+
+Yevhen Maksymovych [1 day ago]
+в контроллере ничего не надо сохранять. он шарится между всеми пользователями (edited)
+
+
+hav [1 day ago]
+Тогда где сохранять фильтры?
+
+vch [1 day ago]
+варианта вроде всего 2 - либо при каждом запросе добавлять в параметры, либо в сессию
+
+
+Andy Fleer [Yesterday at 2:00 PM]
+in #hw2
+5.6: В REST при update принято передавать id (см. AdminRestController.update)    Если я передаю так     public void update(Meal meal, int id), то логично, что дальше я и в сервисе должен принять id.  То есть дальше я должен менять интерфейс MealService. Чет будто фигня какая-то. Вам не кажется?
+
+
+18 replies
+Yevhen Maksymovych [1 day ago]
+#edited я тут написал какую-то фигню, не подумав, и стёр её :slightly_smiling_face: (edited)
+
+
+
+Gagarina6794 [1 day ago]
+тоисть получается мы сейчас в update просто этот userId как параметр выставляем но пока не используем? (edited)
+
+
+Yevhen Maksymovych [1 day ago]
+а, блин, что я пишу )))
+
+
+Gagarina6794 [1 day ago]
+в контролере же берем userId из Security? (edited)
+
+Yevhen Maksymovych [1 day ago]
+я почему-то по диагонали прочёл, что речь идёт о userId
+
+Gagarina6794 [24 hours ago]
+поправила вопросы))
+
+
+Yevhen Maksymovych [24 hours ago]
+да, в контроллере из секьюрити, но сверху спросили про id Meal'а, а не юзера
+
+Gagarina6794 [24 hours ago]
+я перефразировала в правильном направлении)
+
+Yevhen Maksymovych [24 hours ago]
+т.е. у реста должно быть что-то вроде MealRestController.update(Meal meal, int id), где id - ид не юзера, а мила, который тут же, положила
+
+
+Yevhen Maksymovych [24 hours ago]
+а в сервис он уже передаст update(Meal meal, int userId)
+
+
+Gagarina6794 [24 hours ago]
+то он пока здесь для красоты?
+
+
+Yevhen Maksymovych [24 hours ago]
+большей частью, да, ну, можно для порядка сделать проверку, что meal.getId() == id
+
+Gagarina6794 [24 hours ago]
+спасибочки)
+
+
+e.pekhterev [24 hours ago]
+он там не для красоты
+
+
+e.pekhterev [24 hours ago]
+каждный раз при обращении контроллер будет запрашивать откуда то userId, и дальше обрабатывать для текущего пользователя запросы, но сам контроллер в своим метод не должен получать аргументах userId, как и сказано в задании
+
+
+Yevhen Maksymovych [24 hours ago]
+да речь не про юзерид идёт (edited)
+
+Yevhen Maksymovych [24 hours ago]
+а про meal.id, которая контроллеру приходит из сервлета вмести с милом для апдейта
+
+Gagarina6794 [21 hours ago]
+Кроче, апдейт мой отвалился)) раньше работал) но там реализация всего была другая, переделала и всё... не апдейтит
+
+
+anyonepaw [4:23 PM]
+не работает doPost()
+кто может посоветовать:  почему из index.html, когда я отправляю
+```<form action="users.jsp" method="post">```
+c таким select'ом
+```<select onchange="this.form.submit()" name="userId" >
+            <option disabled selected>Выберите пользователя</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+        </select>```
+POST запрос из сабмита отправляется на user.jsp и меня редиректит туда же
+но log.debug в дупост спит и вообще метод doPost в сервлете не выполняется, но и doGet тоже не выполняется
+с чем это может быть связано?
+
+
+Alexander Pilipenko [Yesterday at 4:26 PM]
+in #hw2
+action="users.jsp"  -  ты напрямую передаешь управление на users.jsp. А не на сервлет (edited)
+
+
+7 replies
+anyonepaw [22 hours ago]
+мм, ясно
+а как прописать в action сервлет? action = 'userServlet' не работает
+
+
+anyonepaw [22 hours ago]
+@Alexander Pilipenko разве то, что я говорю открыть user.jsp - это не означает открытие его сервлета? (edited)
+
+
+Alexander Pilipenko [22 hours ago]
+У тебя сервлет прописан в web.xml
+
+Alexander Pilipenko [22 hours ago]
+Если ничего не менял, то он замаплен на users
+
+Alexander Pilipenko [22 hours ago]
+Я делал, так <form method="post" action="users">
+
+Alexander Pilipenko [22 hours ago]
+http://htmlbook.ru/html/form/action
+
+anyonepaw [22 hours ago]
+спасибо большое!:+1: я не знаю, почему пропускала этот вариант
+он просто замаплен как "/users"
+
+
+Daniel [Yesterday at 7:46 PM]
+in #hw2
+Товарищи, помогите, пожалуйста.
+Когда запускаю SpringMain, то на строке с объявлением контекста *try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml"))* выдает кучу дерьма, озаглавленную вот этим:
+Exception in thread "main" org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'inMemoryMealRepositoryImpl' defined in file [C:\projects\topjava\target\classes\ru\javawebinar\topjava\repository\mock\InMemoryMealRepositoryImpl.class]: Instantiation of bean failed; nested exception is java.lang.NoClassDefFoundError: javax/servlet/http/HttpServlet
+
+
+6 replies
+Andy Fleer [19 hours ago]
+У меня чет похожее было.Проверь аннотацию для репозитория. Написано сверху @Repository ?
+
+
+Victor [18 hours ago]
+потому что у <groupId>javax.servlet</groupId><scope>provided</scope> и он не видит javax.servlet после запуса. Уберите временно и обнови мавен, а когда томкат будешь запускать, опять поставь. (edited)
+
+
+Daniel [18 hours ago]
+Аннотации стоят. Пробовал *mvn clean install* & *mvn package*. Само веб-приложение, сервлеты работают нормально. А вот когда для теста запускаю *SpringMain*, вываливается такая вот телега...
+
+
+Victor [17 hours ago]
+так убери scope>provided</scope>, неужели не помогло? по крайней мере эту ошибку снимет. Может другая еще есть и она будет в логах тогда
+
+
+Daniel [16 hours ago]
+@Victor Спасибо большое, я сначала неправильно твою инструкцию понял. Теперь заработало. Только когда возвращаю на место *<scope></scope>*, обновляю maven, запускаю и все равно не работает. Поэтому просто удалил эту строчку. Это не критично?
+
+
+Victor [16 hours ago]
+Это из-за особенностей твоей реализации. Когда будешь томкат запускать, верни строку полностью. Иначе у него будет 2 библиотеки сервлетов (edited)
+
+
+Daniel [7:47 PM]
+Не понимаю, в чем дело, ибо javax.servlet.* у меня есть в проекте.
+
+
+Sergey [Yesterday at 8:13 PM]
+in #hw2
+Подскажите, пожалуйста.
+Правильно ли я понимаю,  (в случае добавления поля userId в Meal)  что для реализации рестконтроллера meal - на всех обращениях к сервису из контроллера передается authUserId() и пропускается по всем слоям в виде аргумента вплоть до репозитория и лишь там проверяется валидность аутентификации и готовится ответ в виде эксепшена или данных? Ведь для этого надо на всех слоях добавлять к каждому методу аргумент и редактировать интерфейс репозитория. Не слишком ли это трудоемко? :face_with_raised_eyebrow:
+
+
+5 replies
+Yevhen Maksymovych [18 hours ago]
+Да
+
+Sergey [18 hours ago]
+А есть ли более элегантное решение?
+
+
+Yevhen Maksymovych [18 hours ago]
+"да" - это было к "правильно ли я понимаю" :slightly_smiling_face:
+
+
+Yevhen Maksymovych [18 hours ago]
+что тут трудоемкого? дописать аргумент в несколько методов? ну, это такой себе рефакторинг
+
+
+Yevhen Maksymovych [18 hours ago]
+а то что лишняя переменная будет гулять между слоями - ну, одной больше, одной меньше. ты же сам проектируешь интерфейс общения между слоями, кто тебе может запретить добавить туда что-то или убрать :slightly_smiling_face:
+
+
+Vladimir Gorbatenko [Today at 11:15 AM]
+in #hw2
+Всем привет! Что-то я пропустил. Зачем мы используем такую форму "LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES)" ?
+
+
+14 replies
+Alexander Pilipenko [3 hours ago]
+Хороший вопрос. В теории, в течении часа может быть несколько приемов пищи, но в течении минуты несколько приемов пищи быть не может (edited)
+
+
+Alexander Pilipenko [3 hours ago]
+Т.е. отслеживать до секунды время приема - нет смысла
+
+
+Alexander Pilipenko [3 hours ago]
+Поэтому секунды откидываем
+
+Stanislav [3 hours ago]
+Округление для даты-время, тип округления задаем в скобках.
+
+Yevhen Maksymovych [3 hours ago]
+да это понятно, но какой практический смысл в этом? защита, чтобы пользователь не записал в реп две еды с одинаковой датой, разнящиеся милисекундами? дак у нас на текущий момент никаких констрейнтов нет. пусть записывает с одинаковыми минутами. объективно, на текущий ммоент - чисто, чтобы показать, что такой метод есть.
+
+
+Alexander Pilipenko [3 hours ago]
+Могу предположить, что в БД будет проверка
+
+Егорро [1 hour ago]
+Если минуты не обрезать у now(), то в поле input в браузере могут не только секунды, но даже миллисекунды прописываться
+
+
+Егорро [1 hour ago]
+https://i.imgur.com/719xOvE.jpg (68 kB)
+скриншот сравнения
+
+
+Yevhen Maksymovych [1 hour ago]
+странно
+
+Yevhen Maksymovych [1 hour ago]
+с точки зрения LocalDateTime время у него хранится отдельно в LocalTime, где каждый разряд - отдельная переменная
+
+Yevhen Maksymovych [1 hour ago]
+транкэйтом мы просто обнуляем часть этих переменных
+
+Yevhen Maksymovych [1 hour ago]
+а, всё понятно
+
+Yevhen Maksymovych [1 hour ago]
+вся магия в LocalTime.toString(), который аппендит разряды, только если они не нулевые
+
+
+Yevhen Maksymovych [1 hour ago]
+ну, учитывая, что по-хорошему нам бы вручную форматить вывод даты - чтобы не было этой жуткой "Т" в середине, использовать транкейт для того, чтобы не выводить последние разряды - так себе решение :slightly_smiling_face:
