@@ -1,0 +1,404 @@
+Tanya [1:37 AM]
+joined #hw3.
+
+Tanya [1:37 AM]
+set the channel purpose: https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson03.md
+
+Tanya [1:37 AM]
+set the channel topic: https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson03.md
+
+Daniel [1:39 AM]
+joined #hw3 along with 18 others.
+
+
+Merkulov [Jul 12th at 12:56 PM]
+in #hw3
+Error:(5, 24) java: package org.slf4j.bridge does not exist, такую ошибку выкидывает, кому встречалась?
+
+
+3 replies
+Merkulov [1 day ago]
+я так понимаю нужно добавить зависимость в pom
+
+
+Merkulov [1 day ago]
+хотя в поме есть такие зависимости
+
+
+Merkulov [1 day ago]
+все решил проблему, больше не актуально
+
+
+Alexey_P [1:08 PM]
+joined #hw3 by invitation from Join_Selectovich.
+
+Artem [3:45 PM]
+А письмо всем пришло? У меня так и нету.
+Я понимаю, что ссылка уже дана... Но а как же напутствующие слова? :slightly_smiling_face:
+
+Janna [3:45 PM]
+мне тоже не приходят письма :disappointed:
+
+Artem [3:49 PM]
+предыдущие должны быть!
+Посмотри в спаме.
+Только вот нового не было.
+
+Janna [3:50 PM]
+да!! нашла
+и 3-го нет
+так тихо
+наверно все все написали и сдали уже :)))
+
+Artem [3:52 PM]
+на работах сидят!) Как и я :sob:
+
+Yevhen Maksymovych [4:02 PM]
+давай я с прошлого сезона перешлю, если дело только за этим :slightly_smiling_face:
+
+e.pekhterev [4:10 PM]
+Григорий похоже занят, судя по тому, что Таня постила ссылку на новое занятие! Как освободиться, сразу же пришлет все пропущенные письма на занятия с 3-го по ...)))
+
+
+Gagarina6794 [Jul 12th at 4:58 PM]
+in #hw3
+Я и второе не получила))
+
+
+2 replies
+e.pekhterev [1 day ago]
+до меня нормально всё доходит, 3-ье пока ещё не отправляли. До junit пока не доехал
+
+
+Gagarina6794 [1 day ago]
+Доедешь - скажешь))
+
+
+Gagarina6794 [Jul 12th at 5:00 PM]
+in #hw3
+кто понял что значит фраза в разделе  JUNIT - save() не больше работает для отсутствующих id?
+
+
+4 replies
+e.pekhterev [1 day ago]
+вапще не понятно, что там имелось ввиду.
+если id == null, создается новый id, присваивается юзеру, далее юзер сохраняется;
+в противном случае - если юзер есть в репозитории - обновялем
+
+
+e.pekhterev [1 day ago]
+больше интересует как инит запускается или это стандартный вызов метода сприногом для бина @Repository после создания спринг-контекста
+
+
+Gagarina6794 [1 day ago]
+Там дальше вопрос есть интересный - Вопрос: почему проект упадет при попытке открыть страничку еды (в логе смотреть самый верх самого нижнего исключения)?
+
+
+Gagarina6794 [1 day ago]
+Думаю здесь есть связь
+
+
+Gagarina6794 [5:02 PM]
+типа из-за init наш save() не работает для id с null?
+
+
+e.pekhterev [Jul 12th at 5:28 PM]
+in #hw3
+Приехало письмо с 3-им занятием, кому там не хватало)? проверяте почту
+
+
+
+1 reply
+Gagarina6794 [1 day ago]
+получила!))
+
+
+e.pekhterev [Jul 12th at 5:56 PM]
+in #hw3
+у всех после патча 3_07_add_junit.patch InMemoryAdminRestControllerTest лег в пакет ru.javawebinar.topjava.web, но не в тесты?
+
+
+6 replies
+hav [1 day ago]
+ВНИМАНИЕ!! Перед накаткой патча создайте каталог test (из корня проекта путь \src\test), иначе часть файлов попадет в src\main.
+
+
+e.pekhterev [1 day ago]
+))))) спасибо, трудно быть деревянным по пояс))
+
+
+e.pekhterev [1 day ago]
+фух)) всё починилось)
+
+
+e.pekhterev [1 day ago]
+а в патче нельзя реализовать добавление директорий (я про тот же test), ну и удаление пакета (перенесены моки в тесты, а пакет mock остался и по идее больше не нужен будет)
+
+
+e.pekhterev [1 day ago]
+нашел
+
+
+glebus [14 hours ago]
+А я сижу и репу чешу, какого этот класс находится в main, спасибо
+
+
+e.pekhterev [Jul 12th at 7:31 PM]
+in #hw3
+какую версию PostgreSQL ставить?
+
+
+5 replies
+Stanislav [1 day ago]
+Посмотри в помник в патче
+
+
+Stanislav [1 day ago]
+9
+
+
+e.pekhterev [1 day ago]
+патч ещё не накатывал))) спасибо)
+
+
+e.pekhterev [1 day ago]
+эммм))
+<postgresql.version>42.2.2</postgresql.version>
+
+
+Victor [11 hours ago]
+ВНИМАНИЕ! с postgres 9.6 возможны проблемы. (скачал, а потом прочитал)
+
+
+Yevhen Maksymovych [Jul 12th at 8:19 PM]
+in #hw3
+котаны, такое дело, тут у Григория ссылка на стэковерфлоу про вопрос о необходимости оптимизации анонимных классов, и там в ответе интересную телегу задвинули: jvm размещает объекты, которые не покидают треда, в котором их создали, в стеке, а не в хипе
+
+
+6 replies
+Vitaly [6 hours ago]
+обращал внимание - мне кажется какая-то подмена понятий произошла в этом диалоге, нет нигде в спецификации JVM про то, что объект может размещаться в стеке
+
+
+Yevhen Maksymovych [6 hours ago]
+ну вот это-то и зацепило (edited)
+
+
+Yevhen Maksymovych [6 hours ago]
+везде пишут про четкое разделение стека, хипа и меты. а тут как-то так уверенно пишут про объекты в стеке, что начинают охватывать сомнения, может это я всё время неправильно думал, а все кругом уже давно объекты хранят в стеке
+
+
+Vitaly [6 hours ago]
+и тут приступ панической атаки :grin:
+
+
+Vitaly [6 hours ago]
+я последнее время люблю эту картинку
+
+
+Vitaly [6 hours ago]
+https://habrastorage.org/webt/no/h_/y8/noh_y8nma7lfqpotxy_ipc2amgc.png (266 kB)
+
+
+e.pekhterev [Jul 12th at 8:30 PM]
+in #hw3
+к хероку кто-нибудь пробовал подключиться как показанов в видео 3_07_Set_db_in_IDEA.mp4, или там не актуальный логин? (edited)
+
+
+1 reply
+e.pekhterev [1 day ago]
+фух, подключился (все данные скопипастил из postres.properties)
+
+
+Victor [12:33 AM]
+@Grigory Kislin В видео заметил, что поменялась реализация выбрасывания ошибок. Интересно было бы узнать в кратце почему?  
+           вместо такой реализации:
+           в классе:
+           LoggerWrapper LOG = LoggerWrapper.get(ExceptionUtil.class);
+           в методе:
+           throw LOG.getNotFoundException(msg);
+           теперь простая:
+           throw new NotFoundException("Not found entity with " + msg); (edited)
+
+
+Kirilo [Yesterday at 3:25 PM]
+in #hw3
+Смотрел видео по разбору домашнего задания и возник вопрос. Моки используются для тестирования. Разве принято использовать его без аннотации @Test? И в чем отличие между моком и фейком? Спасибо. (edited)
+
+
+4 replies
+e.pekhterev [8 hours ago]
+мы тестируем вроде как контроллер и сервис, там все тестируемые методы помечены @Test, но для тестирования требуюется реализация интерерфейса репозитория, т.е. наши реализации как заглушки реальной базы и они только в тестах
+
+
+Stanislav [8 hours ago]
+Не понравилась вся эта идея. Моки и заглушки совсем иное понятие, чем показывают тут. Это не моки и не заглушки, а конкретные реализации на конкретных структурах данных.
+
+
+Stanislav [8 hours ago]
+Да и тестирование это интеграционное, а не юнит тесты. Сервисы с контролерами с моками тестируют (Мокита или Спринг может создавать моки и заглушки). Постоянно обновляем (чистим) базу, а если база уже в "работе"? Где профили, где база именно для тестов (и как правило h2)...Мне не очень понятны эти уроки, как делать не надо?
+
+
+Kirilo [7 hours ago]
+я тоже думаю, что с моками именно здесь тема не расскрыта и скорее вводит в заблуждение.
+
+
+Victor [Yesterday at 4:57 PM]
+in #hw3
+К удаленной базе на Herocu коннектились?
+
+
+3 replies
+Yevhen Maksymovych [7 hours ago]
+а она ещё живая разве?
+
+
+e.pekhterev [7 hours ago]
+жива, я установил коннект успешно, но не дергал там ничего
+
+
+e.pekhterev [7 hours ago]
+хотя нет, так всё есть - и еда,  и юзеры, и их роли
+
+
+alexey [Yesterday at 9:11 PM]
+in #hw3
+Народ, вот сделал для тестов отельный spring-test.xml, в нем скан моковского пакета и два скана  как в spring-app.xml(web , service). Так вот вопрос - как можно оптимизировать  тестовский .xml что бы не повторять сканы из основного .xml ??
+
+
+6 replies
+e.pekhterev [3 hours ago]
+что ж ты людям идею подсказываешь, лишил их возможности самим почерепить. я тут долго втыкал как моки заставить опять работать. 
+Если основной разбить на сканы web+service и отдельно репозиторий, то в тестах можно заменить только второй контекст. (edited)
+
+
+alexey [3 hours ago]
+То есть в основном пакете добавить еще один .xml  и туда репозиторий, а от первого сделать import в тестовский или как?
+
+
+e.pekhterev [3 hours ago]
+я так не пробовал, но думаю так должно работать.
+
+
+alexey [3 hours ago]
+минус в том, что в servlet придется объявлять eще один контекст. так что оптимизация сомнительная!( еще идеи есть?
+
+
+e.pekhterev [2 hours ago]
+у меня нет)
+
+
+e.pekhterev [2 hours ago]
+ну как бы и нет. в сервлете у нас объявляется только один контекст (нам там 2 спринг-контекста нафиг не нужны), он собирается уже сейчас из 2-х файлов, так что никакой проблемы не вижу, если он будет собираться из 3-х файлов. зато в тестах можно подменять без проблем (edited)
+
+
+e.pekhterev [10:00 PM]
+Вах-вах, и моки поднял, и JdbcMealRepositoryImpl реализовал, ни черта не понял, но счастью нет предела))) буду разбираться подробнее сразу как дз сдам))) (edited)
+
+
+Gagarina6794 [Yesterday at 10:03 PM]
+in #hw3
+Народ, у меня мавен не подтягивает зависимости, патчи нормально прошли,  в мавене эти библиотеки есть и красным подчеркнуты, мавен обновляла, и чистила, и переподтягивала наново и никак , вот эту библиотеку jul-to-slf4j jar не подтягивает никак  
+           <artifactId>slf4j-api</artifactId>
+           <artifactId>jul-to-slf4j</artifactId>
+
+
+15 replies
+e.pekhterev [2 hours ago]
+у тебя возможно что то лишнее или идея не подтянула, зайди в настройки проекта и посмотри что там есть
+File -> Project Structure -> Project Settings -> Libraries
+
+
+e.pekhterev [2 hours ago]
+ну и не знаю пробовала или нет - clean в мавене, хотя это по идее не поможет (edited)
+
+
+Gagarina6794 [2 hours ago]
+делала
+
+
+e.pekhterev [2 hours ago]
+в библиотеки в настройках проекта посмотри, может там лишние версии
+
+Vitaly [2 hours ago]
+так а ты покажи pom.xml
+
+
+Kirilo [2 hours ago]
+https://screenshots.firefox.com/32jgq8cBbUGkrFO6/null
+screenshots.firefox.com
+image.png (Зображення PNG, 1920 х 1080 пікселів) - Масштабоване (85%)
+From null (100 kB)
+
+
+Gagarina6794 [2 hours ago]
+jul-to-slf4j вот именно на это ругается, может в ручную загрузить библиотеку?
+
+
+Gagarina6794 [2 hours ago]
+этого в самой библиотеке нету
+
+
+Merkulov [2 hours ago]
+поставь compile  зависимости
+
+Merkulov [2 hours ago]
+<dependency>
+           <groupId>org.slf4j</groupId>
+           <artifactId>jul-to-slf4j</artifactId>
+           <version>${slf4j.version}</version>
+           <scope>compile</scope>
+       </dependency>
+
+
+Kirilo [2 hours ago]
+попробуй откатиться назад до того места, где все работало и заново накатить патчи
+
+Gagarina6794 [2 hours ago]
+эта зависимость для работы import org.slf4j.bridge.SLF4JBridgeHandler;
+
+
+Kirilo [2 hours ago]
+и используй кнопку Reimport All Maven Projects (edited)
+
+
+Gagarina6794 [2 hours ago]
+сбросьте кто нибудь кто накатил уже Apply 3_12_test_logging.patch как у вас pom выглядит
+
+
+Merkulov [1 hour ago]
+пробовала ставить compile вместо runtime ?
+
+
+Gagarina6794 [10:19 PM]
+uploaded this image: мавен логи.jpg 
+
+Yevhen Maksymovych [10:24 PM]
+Помогает обычно руками удалить версию из пом, реимпортнуть проект, и заново указать версию
+
+
+Gagarina6794 [Yesterday at 10:25 PM]
+in #hw3
+реимпортнуть это как?
+
+
+1 reply
+e.pekhterev [23 minutes ago]
+тебе уже скидывали - вот кнопочке реимпорта 
+https://screenshotscdn.firefoxusercontent.com/images/967d29ba-05a1-40c9-a41f-e20ff89abcd4.png (edited)
+
+
+matrocob [Yesterday at 10:32 PM]
+in #hw3
+ребят, вот такой вопрос, Григорий говорит в 8 видео, что JdbcTemplate и namedParameterJdbcTemplate отличаются так:
+JdbcTemplate - параметры по номерам
+namedParameterJdbcTemplate - параметры по имени
+я вот лично не понял, как они отличаются вообще
+
+
+1 reply
+Vitaly [1 hour ago]
+http://qaru.site/questions/187572/namedparameterjdbctemplate-vs-jdbctemplate
+qaru.site
+java - NamedParameterJdbcTemplate vs JdbcTemplate - Qaru
+Я новичок в Spring3.x, я изучаю поддержку DAO Spring. Я хочу знать разницу между NamedParameterJdbcTemplate и JdbcTemplate. Какой из них является лучшим с точки зрения производительности. И когда пойти на NamedParameterJdbcTemplate и когда нужно пере
