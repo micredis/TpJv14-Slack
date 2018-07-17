@@ -3363,3 +3363,21 @@ Wikipedia
 В pom.xml добавили javax.servlet-api
 А в web.xml описаны сами сервлеты.
 Т.е. да, чтобы Tomcat знал какие у нас есть сервлеты и какие URL пути каким сервлетам соответствуют.
+
+
+Ramil [Yesterday at 5:29 PM]
+in #general
+как поменять коммит месседж?
+
+
+3 replies
+dimlo [7 hours ago]
+в idea: Version Control -> Log -> щелкнуть правой кнопкой по коммиту -> Reword
+
+
+Alexander Pilipenko [7 hours ago]
+https://help.github.com/articles/changing-a-commit-message/
+
+
+Ramil [6 hours ago]
+reword не активен

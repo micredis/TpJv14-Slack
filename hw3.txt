@@ -1654,3 +1654,332 @@ in #hw3
 1 reply
 Jury Mironov [2 hours ago]
 в тесте есть как раз
+
+
+Jury Mironov [Yesterday at 3:20 PM]
+in #hw3
+После всех патчей открывает страницу с выбором meal админа или юзера,  а дальше прсле select выдает ошибку.  Такого не должно быть? Не находит класс MockUserRepositoryImpl.
+
+
+2 replies
+sky [9 hours ago]
+Так и должно быть, мы же в одном из патчей измени компонент скан на более конкретный, на repository.jdbc, теперь repository.mock не виден контексту. Теперь вам нужно просто выполнять задания по пунктам. Внимательнее посмотрите, какие конкретно изменения были произведены в принятых патчах, перед этим.
+
+
+Jury Mironov [9 hours ago]
+у меня в spring-app красным горит бин MockUserRepositoryImpl, типа так и должно быть и это надо пофиксить?
+
+
+Prodigy [4:12 PM]
+накатываю патчи третьего урока и обнаруживаю что не все классы резолвятся, т.е. подсвечиваются красным цветом.... в импортах тоже самое, проверяю, везде классы есть.... что это?
+
+
+Yevhen Maksymovych [Yesterday at 4:46 PM]
+in #hw3
+а почему мы в UserService.update() не задекларировали что он тоже может бросить NotFoundException()? там ведь есть проверка, которая его бросит при обновлении несуществующего юзера
+
+
+16 replies
+Vitaly [7 hours ago]
+update через save реализован, если не найдет - просто сохранит, главное чтобы он не null был
+
+
+Yevhen Maksymovych [7 hours ago]
+да ну?
+
+
+Vitaly [7 hours ago]
+я тебе говорю)
+
+
+Yevhen Maksymovych [7 hours ago]
+    ```@Test
+    public void updateNonExistingUser() throws Exception {
+        User updated = new User(12, "Luke Skywalker", "luke@imyour.daddy", "starwars", ROLE_USER);
+        service.update(updated);
+    }```
+
+
+Yevhen Maksymovych [7 hours ago]
+```ru.javawebinar.topjava.util.exception.NotFoundException: Not found entity with id=12```
+
+
+Vitaly [7 hours ago]
+это через какую реализацию - jdbc?
+
+Yevhen Maksymovych [7 hours ago]
+да и через моковую те же яйца будут
+
+Vitaly [7 hours ago]
+5 сек
+
+
+Alexander Pilipenko [7 hours ago]
+if (user.isNew()) {
+           Number newKey = insertUser.executeAndReturnKey(map);
+           user.setId(newKey.intValue());
+       } else if (namedParameterJdbcTemplate.update(
+               "UPDATE users SET name=:name, email=:email, password=:password, " +
+                       "registered=:registered, enabled=:enabled, calories_per_day=:caloriesPerDay WHERE id=:id", map) == 0) {
+           return null;
+       }
+       return user;
+
+
+Alexander Pilipenko [7 hours ago]
+Это в JDBC
+
+
+Yevhen Maksymovych [7 hours ago]
+ну оно в любом случае бросится на текущих двух реализациях - в моке мы делаем компутифабсент, а в ждбс вызываем апдейт вместо инсерта при существующем ид
+
+
+
+Yevhen Maksymovych [7 hours ago]
+вопрос только почему мы это не указали в интерфейсе, ну, т.е. понятно, что сейчас мы это все равно никак не обрабатываем, в спринг мвс будем эти эксепшены ловить просто строгости ради, надо было указать
+
+
+Vitaly [7 hours ago]
+а я не могу увидеть, кто пробросил notfound
+
+
+Yevhen Maksymovych [7 hours ago]
+сервис и пробросил, мы возвращаем не напрямую результат из репозитория, а через наш рукотворный ассерт "checkNotFoundWithId()"
+
+
+Vitaly [7 hours ago]
+а да, он мне и раньше не нравился :grin:
+
+e.pekhterev [4 hours ago]
+а то что мы не ловим/не обрабатываем сейчас обновление или сохранение дубликатов - это тебя не заботит? просто валимся в эксепшин в рабочем коде (edited)
+
+
+SergeyA [Yesterday at 5:36 PM]
+in #hw3
+В решении HW2 про class MealRestController, Григорий говорит: *"Если класс хранит состояние, то он не ThreadSave"* , но ведь это только к синглетонам и статическим относится, так?  Обычный класс будет инстансом и переменные потоков не перезатрутся. Верно?
+UPDATE - ой туплю! Это же Spring, там все Bean'ы  - синглетоны! - Это имелось ввиду? (edited)
+
+
+1 reply
+Yevhen Maksymovych [6 hours ago]
+ага. и сервлеты туда же.
+
+
+zippospb [Yesterday at 7:30 PM]
+in #hw3
+Может кто подскажет: в MealServiceTest при запуске теста создания meal с неуникальным индексом отдельно, service.create выкидывает exception,  а при запуске всех тестов подряд, он же возвращает null. (edited)
+
+
+4 replies
+Yevhen Maksymovych [5 hours ago]
+а бд заново популится между тестами?
+
+
+zippospb [5 hours ago]
+Перед классом аннотация sql с указанием скриптов на инициализацию и наполнение базы
+
+
+Yevhen Maksymovych [5 hours ago]
+покажи гит. вообще, если результат теста разнится от порядка запуска - я бы копал в сторону корректности популирования. так-то тесты должны быть изолированы друг от друга.
+
+
+e.pekhterev [4 hours ago]
+исходные данные им MealTestData возможно портятся
+
+
+stea1th [9:21 PM]
+кто поможет и скажет что это за ошибка такая??
+
+
+stea1th [Yesterday at 9:21 PM]
+in #hw3
+Message PreparedStatementCallback; SQL [SELECT m.id, m.datetime, m.description, m.calories FROM meals m JOIN users u ON m.user_id= u.id WHERE u.id=:userId Индекс колонки вне диапазона: 1. Допустимые значения: 1..0; nested exception is org.postgresql.util.PSQLException: Индекс колонки вне диапазона: 1. Допустимые значения: 1..0
+
+
+20 replies
+Yevhen Maksymovych [3 hours ago]
+А зачем ты джойнишь? В таком контексте ты userId можешь напрямую в миле сравнивать
+
+
+stea1th [3 hours ago]
+ну там написано, что не надо в мил добавлять userId
+
+
+stea1th [3 hours ago]
+оно не зависит, джойню я или нет
+
+
+vch [3 hours ago]
+`:userId` - подозрительно. Каким образом вызывается sql-запрос может влиять - там есть случаи, когда именованные параметры не поддерживаются, только через `?` задавать можно.
+
+
+stea1th [3 hours ago]
+return jdbcTemplate.query("SELECT m.id, m.datetime, m.description, m.calories FROM meals m JOIN users u " +
+               "ON m.user_id= u.id " +
+               "WHERE u.id=:userId ", ROW_MAPPER, userId);
+
+
+vch [3 hours ago]
+знак вопроса вместо `:userId` попробуй
+
+
+stea1th [3 hours ago]
+изначально было так: "SELECT * FROM meals m " +
+               "WHERE m.user_id=:userId " +
+               "ORDER BY 2 DESC "
+
+
+Yevhen Maksymovych [3 hours ago]
+это же не неймедкьерри
+
+Yevhen Maksymovych [3 hours ago]
+он не поддерживает именованные параметры
+
+stea1th [3 hours ago]
+сейчас попробую
+
+
+Yevhen Maksymovych [3 hours ago]
+хочешь именованные, используй namedParameterJdbcTemplate
+
+
+stea1th [3 hours ago]
+супер... вот я чайник
+
+Victor_D [3 hours ago]
+userId тянется из SqlMap-тра-та-та
+
+stea1th [3 hours ago]
+сейчас все попробую.. спасибо большое
+
+
+Yevhen Maksymovych [3 hours ago]
+и не джойни зря, вот это же
+```SELECT m.id, m.datetime, m.description, m.calories FROM meals m JOIN users u ON m.user_id= u.id WHERE u.id=:userId```
+полностью аналогично
+```SELECT m.id, m.datetime, m.description, m.calories FROM meals m WHERE m.user_id=:userId```
+(edited)
+
+
+Yevhen Maksymovych [3 hours ago]
+и даже больше, ты вытаскиваешь все поля, так что
+```SELECT * FROM meals WHERE user_id = :userId```
+
+
+Victor_D [3 hours ago]
+таблица из 5 столбцов, а тянет 4
+
+Yevhen Maksymovych [3 hours ago]
+ну, такой себе оверхед )
+
+Yevhen Maksymovych [3 hours ago]
+сколько там? четыре байта на запись?
+
+stea1th [3 hours ago]
+я же написал, что не знал в чем прикол и изначально я тянул звездочку
+
+
+stea1th [9:47 PM]
+а кто что может подсказать по первому заданию? что там надо чинить?
+
+stea1th [9:53 PM]
+1 Понять, почему перестали работать SpringMain, InMemoryAdminRestControllerTest, InMemoryAdminRestControllerSpringTest
+
+
+stea1th [Yesterday at 9:54 PM]
+in #hw3
+это потому что мы из "spring/spring-app.xml" добавили конкретную папку .jdbc?
+
+
+5 replies
+Victor_D [2 hours ago]
+угу, там, кстати, решение проблем расписано )
+
+
+stea1th [2 hours ago]
+а где, если не секрет... я просто не такой продвинутый :slightly_smiling_face:
+
+
+stea1th [2 hours ago]
+насколько  я понимаю надо appCtx убрать и все бины заменить на обычные классы?
+
+
+sky [2 hours ago]
+Надо контекстЫ поправить так, чтоб они удовлетворяли классам из repository.jdbc и из repository.mock
+
+
+Victor_D [2 hours ago]
+в одном из видео к уроку ( не помню в каком) Григорий говорил, что иногда под тесты пишутся отдельные конфиги
+
+
+KaryNaiKo [10:18 PM]
+Объясните плс как все это работает?
+Почему при выборе админа или юзера разные данные выводятся?
+
+
+KaryNaiKo [Yesterday at 10:25 PM]
+in #hw3
+Точнее, как SecurityUtil узнает какой пользователь залогинился?
+
+
+3 replies
+Maksim K [2 hours ago]
+Мы же на начальной странице выбираем в селекте либо User, либо Admin. И вот когда ты кликаешь либо того, либо другого его id через форму передается в UserServlet. Там в doPost он парсится и устанавливается в SecurityUtil через сеттер `SecurityUtil.setAuthUserId(userId);`. А дальше через геттер мы его берем и с ним работаем.
+
+
+vch [2 hours ago]
+```public class SecurityUtil { 
+  private static int id = AbstractBaseEntity.START_SEQ;```
+Понятно, что это временный костыль, но тем не менее - разве такую конструкцию можно использовать в многопоточной среде? Без синхронизации, AtomicInteger и т.п.?.. (edited)
+
+
+Stanislav [1 hour ago]
+:man-facepalming: у всех есть исходники, видео где обьяснется, куча текста (внешние ссылки)
+
+
+Maksim K [Yesterday at 10:39 PM]
+in #hw3
+Коллеги, нужна помощь. У всех нормально мавен собирает проект?
+У меня, когда нажимаю package вылазит такая ошибка
+`[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.7.0:compile (default-compile) on project topjava: Fatal error compiling: invalid target release: 9.0.1 -> [Help 1]`
+То есть я так понимаю maven-compiler-plugin тупит. Не может скомпилировать файлы. Уже вроде все перепробовал, не знаю че ему еще надо. У меня везде где только можно стоит 9.0.1 версия Джавы. Может у кого тоже была такая проблема или кто-то знает как ее можно решить
+
+
+8 replies
+sky [2 hours ago]
+а 1.8 java работала?
+
+
+Maksim K [2 hours ago]
+ну вообще у меня уже давно 9 версия. я стажировку начинал уже на ней. но я вроде пробовал переходить на восьмую и тоже не работало. ща еще раз на всякий случай попробую
+
+
+sky [1 hour ago]
+ну вот еще ссылка, вдруг что то из этого не пробовали http://roufid.com/invalid-target-release-in-maven-build/ (edited)
+
+Maksim K [1 hour ago]
+попробовал 8 версию. все что изменилось 
+`[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.7.0:compile (default-compile) on project topjava: Fatal error compiling: invalid target release: 1.8.0_144 -> [Help 1]`
+
+
+Maksim K [1 hour ago]
+@sky эту ссылку читал. джава хоум у меня стоит 9 версии. вот ща только еще попробовал добавить `<verbose>true</verbose>
+        <fork>true</fork>
+    <executable>C:\Program Files\Java\jdk1.7.0_79\bin\javac</executable>`
+все равно ошибка только немного по-другому пишет: 
+`[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.7.0:compile (default-compile) on project topjava: Compilation failure
+[ERROR] javac: invalid target release: 9.0.1
+[ERROR] Usage: javac <options> <source files>
+[ERROR] use --help for a list of possible options`
+
+
+Maksim K [24 minutes ago]
+И что никто не поможет моему горю???
+Я уже и `maven-compiler-plugin` попробовал 3.6.2 версии, все равно такая же ошибка. И самое интересное, что при запуске SpringMain или когда через Tomcat запускаю приложение, то все нормально компилируется и приложение работает. Что этому плагину не нравится ума не приложу...
+
+Victor_D [16 minutes ago]
+реимпорт пробовал?
+
+
+Maksim K [4 minutes ago]
+раз 30-40 наверное) и clean тоже столько же. а может и больше. ниче не помогает. уже  даже надоело гуглить. ниче не помогает. может кто что дельное подскажет
