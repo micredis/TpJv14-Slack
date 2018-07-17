@@ -33,3 +33,23 @@ JavaWebinar
 `329c1114` - 2_7_constructor_injection
 Show less
 JavaWebinar/topjava
+
+
+GitHub APP [12:04 AM]
+JavaWebinar
+*13 new commits pushed to `master`*
+`69403bf9` - 3_01_HW2_repository
+`9b8e8f7f` - 3_02_HW2_meal_layers
+`5511b893` - 3_03_HW2_optional_MealServlet
+`38c880d9` - 3_04_HW2_optional_filter
+`c5a2286d` - 3_05_HW2_optional_select_user
+`e5289d49` - 3_06_bean_life_cycle
+`894445f6` - 3_07_add_junit
+`daa55452` - 3_08_add_spring_test
+`38c415a4` - 3_09_add_postgresql
+`8452e66c` - 3_10_db_implementation
+`cd65d690` - 3_11_test_UserService
+`b5a2e8a6` - 3_12_test_logging
+`bf92b8d7` - 3_13_fix_servlet
+Show less
+JavaWebinar/topjava

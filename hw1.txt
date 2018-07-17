@@ -2981,6 +2981,10 @@ Vitaly [15 hours ago]
 `<jsp:useBean id="meal"` исправь только, у тебя там `userBean`
 
 
+Albert [2 days ago]
+с нуля накатил патчи -  все подтянулось, все заработало. Такие глюки напрягают конеш... В чем косяк так и не выяснил(
+
+
 Vitaly [10:20 PM]
 added this Plain Text snippet: Untitled 
  <dependency>
@@ -2994,3 +2998,7 @@ added this Plain Text snippet: Untitled
       <artifactId>jstl</artifactId>
       <version>1.2</version>
     </dependency>
+
+
+Grigory Kislin [9:07 PM]
+@Albert Alt+F1  на том месте попробуй- idea предлагает решение

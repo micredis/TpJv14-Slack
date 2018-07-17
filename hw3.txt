@@ -387,6 +387,9 @@ e.pekhterev [23 minutes ago]
 тебе уже скидывали - вот кнопочке реимпорта 
 https://screenshotscdn.firefoxusercontent.com/images/967d29ba-05a1-40c9-a41f-e20ff89abcd4.png (edited)
 
+Gagarina6794 [3 days ago]
+Сто раз делала)) у меня память как оказалось в /home кончилась, мавену не было куда сохраниться, называется ставь убунту по рекомендациям с популярных страничек)))  Ubuntu умер в неравном бою с gparted)) (edited)
+
 
 matrocob [Yesterday at 10:32 PM]
 in #hw3
@@ -402,3 +405,1252 @@ http://qaru.site/questions/187572/namedparameterjdbctemplate-vs-jdbctemplate
 qaru.site
 java - NamedParameterJdbcTemplate vs JdbcTemplate - Qaru
 Я новичок в Spring3.x, я изучаю поддержку DAO Spring. Я хочу знать разницу между NamedParameterJdbcTemplate и JdbcTemplate. Какой из них является лучшим с точки зрения производительности. И когда пойти на NamedParameterJdbcTemplate и когда нужно пере
+
+matrocob [3 days ago]
+Спасибо!
+
+
+SergeyA [Jul 14th at 11:09 AM]
+in #hw3
+Смотрю решение ДЗ второго урока и не понимаю: в уроке @Grigory Kislin говорит 
+о реализации в InMemoryMealRepositoryImpl двойной мапы:
+    private *Map<Integer, Map<Integer, Meal>>* repository = new ConcurrentHashMap<>();
+Но ведь он сам давал в заготовке одиночную:  
+   private *Map<Integer, Meal>* repository = new ConcurrentHashMap<>();
+почему так? (edited)
+
+
+2 replies
+Yevhen Maksymovych [3 days ago]
+Двойную сделали, когда ввели разграничение по пользователям
+
+
+e.pekhterev [3 days ago]
+и ещё с вводного занятия Григорий говорит, что можно менять код, если требуется.
+с другой стороны, можно было решить HW02 используя карту репозитория *Map<Integer, Meal>* и Meal с полем userId, но это если и не глупо, то уж всяко неоправданно и некрасиво) (edited)
+
+
+Mihail Kedel [Jul 14th at 1:58 PM]
+in #hw3
+В таблице meals userId должен быть,а в классе Meal нет?
+
+
+2 replies
+e.pekhterev [3 days ago]
+всё правильно, в данной реализации в поле userId для класса Meal нет никого смысла.
+
+
+Victor [3 days ago]
+а я понял так: раз userId в класс Meal вставлять НЕ надо, значит и в таблицу вставлять нельзя )))
+
+
+Andy Fleer [Jul 14th at 1:58 PM]
+in #hw3
+Друзья, подскажите. У меня начальное состояние проекта (до патчей) на этой неделе такое же как на прошлой (ну или какие-то незаметные отличия). У вас так же? Или я какую-то не ту версияю качнул?
+
+
+1 reply
+Victor [3 days ago]
+ну да Одинаковое, все ж изменения в branch HW* делаются верно?
+
+
+Gagarina6794 [Jul 14th at 2:01 PM]
+in #hw3
+Привет- привет) Перенесла проект на Виндовс и не уверенна что все там гуд) Такой эксепшн исправить надо? Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'javax.sql.DataSource' available:
+
+
+15 replies
+Yevhen Maksymovych [3 days ago]
+Датасорс не синитился
+
+
+Yevhen Maksymovych [3 days ago]
+Проверь креденшелы к бд
+
+
+Gagarina6794 [3 days ago]
+бд работает
+
+
+Gagarina6794 [3 days ago]
+UserServiceTest проходит
+
+
+Yevhen Maksymovych [3 days ago]
+А где эксепшн тогда падает?
+
+
+Gagarina6794 [3 days ago]
+когда mainSpring запускаю, там в задании сказано починить его
+
+
+Gagarina6794 [3 days ago]
+1 Понять, почему перестали работать SpringMain, InMemoryAdminRestControllerTest, InMemoryAdminRestControllerSpringTest
+
+
+Gagarina6794 [3 days ago]
+вот и спрашиваю какой ексепшн у мейна
+
+
+Gagarina6794 [3 days ago]
+наверное правильный, так как другие два теста тоже не рабочие)
+
+e.pekhterev [3 days ago]
+всё правильно вылетает эксепшин) нужно починить код, чтоб для InMemory...Тестов и SpringMain в спринг-контексте шла подмена бинов репозиториев на моки (вместо jdbc-реализаций). (edited)
+
+
+Gagarina6794 [3 days ago]
+спасибо, хоть уже знаю что проект рабочий))
+
+
+e.pekhterev [3 days ago]
+наивная)) там ещё делать и делать))
+
+
+Gagarina6794 [3 days ago]
+так хоть знаю что стартую правильно и проект настроен как надо
+
+
+Gagarina6794 [3 days ago]
+а работать там ОГО-ГО
+
+
+e.pekhterev [3 days ago]
+надеюсь сегодня закончу
+
+
+Victor [Jul 14th at 4:47 PM]
+in #hw3
+Правильно ли я понимаю: нужно делать дополнительную linked_table для того чтобы связать user с meals. Иначе: для того чтобы проверять какому user какие meals соответствуют.:sunglasses: (edited)
+
+
+14 replies
+e.pekhterev [3 days ago]
+ты про тесты сейчас говоришь?
+
+
+Victor [3 days ago]
+не, про JdbcMealRepositoryImpl реализацию...
+
+
+Alexander Pilipenko [3 days ago]
+Зачем еще 1 таблица?
+
+
+Alexander Pilipenko [3 days ago]
+Здесь простая связка 1 ко многим
+
+Victor [3 days ago]
+@Alexander Pilipenko так тогда лучше добавить Set с mealId в User? Что-то я туплю...
+
+
+Victor [3 days ago]
+Но тогда для поля Set <Meal> meals нужно будет тоже доп таблицу рисовать, верно?
+
+Alexander Pilipenko [3 days ago]
+Чаще всего так и делают
+
+Alexander Pilipenko [3 days ago]
+Таблица для еды
+
+
+Alexander Pilipenko [3 days ago]
+Форинг на таблицу пользователей
+
+
+Alexander Pilipenko [3 days ago]
+Делать ли set или list для еды в user - отдельный вопрос. Пока по нашей архитектуре - не нужно
+
+Alexander Pilipenko [3 days ago]
+Имхо
+
+e.pekhterev [3 days ago]
+честно говоря не понял зачем тебе там сет или линкедТейбл понадобился, смотри JdbcUserRepositoryImpl и делай также.
+у нас там и так есть user_id (приходит от контроллера), так что просто юзаешь его при работе с базой и всё. (edited)
+
+
+
+Victor [3 days ago]
+я понял условие так: нельзя вставлять столбик с userId в таблицу meals.
+оказалось только поле в классе Meal не стоит делать, и все :slightly_smiling_face:
+
+
+Victor [3 days ago]
+в этом собственно и был мой вопрос
+
+
+matrocob [7:48 PM]
+added this Java snippet: ребят, подскажите пожалуйста, вот если в MealRepo мы сделаем так, то почему фильтрация работает через MealUtils, разве не должна быть реализация фильтра в самом MealRepo?  Или может я что-то неправильно делаю 
+ public List<Meal> getBetween(LocalDateTime startDate, LocalDateTime endDate, int userId) {
+    return jdbcTemplate.query("SELECT * FROM meals where user_id=?", ROW_MAPPER, userId);
+  }
+Victor [7:52 PM]
+я в query делают фильтр сразу по датам
+e.pekhterev [7:59 PM]
+в запросе у тебя уже должна быть и фильтрация, и соратировка
+
+
+Andy Fleer [Jul 14th at 9:18 PM]
+in #hw3
+После установки патчей и настройки бд вылетает Ошибка 500 Type Exception Report
+
+Description The server encountered an unexpected condition that prevented it from fulfilling the request.
+
+Exception
+
+java.lang.NullPointerException
+    ru.javawebinar.topjava.util.MealsUtil.getFilteredWithExceeded(MealsUtil.java:37)
+    ru.javawebinar.topjava.util.MealsUtil.getWithExceeded(MealsUtil.java:29)
+    ru.javawebinar.topjava.web.meal.MealRestController.getAll(MealRestController.java:47)
+    ru.javawebinar.topjava.web.MealServlet.doGet(MealServlet.java:88)
+    javax.servlet.http.HttpServlet.service(HttpServlet.java:635)
+    javax.servlet.http.HttpServlet.service(HttpServlet.java:742)
+    org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+
+
+5 replies
+sky [3 days ago]
+NullPointer на getFilteredWithExceeded - брейкпоинт туда. Но лучше сначала создать свою ветку и повыполнять задания, глядишь уйдет
+
+
+Victor [3 days ago]
+там по уроку написано что приложение работать не будет  после последнего патча. ДЗ - исправить.
+
+
+Andy Fleer [3 days ago]
+ага)
+
+
+Andy Fleer [3 days ago]
+ВСе понял
+
+
+Andy Fleer [3 days ago]
+спасибо
+
+
+Victor [Jul 14th at 9:38 PM]
+in #hw3
+@Grigory Kislin
+>3: ЕЩЕ РАЗ: InMemory тесты должны идти на InMemory репозитории
+и тогда без скриптов, и репозитарий будет меняться во время тестов.
+Выход: в каждом тесте менять репозитарий и в нем же откатывать изменения. - думаю что это плохо, а других вариантов придумать не могу.
+
+
+2 replies
+sky [3 days ago]
+@Before    public void setUp уже все делает
+
+
+Victor [3 days ago]
+понял, спасибо :slightly_smiling_face: In memory используем для высших слоев, а скрипты используем когда тестируем методы dao.
+
+
+sky [9:39 PM]
+У апача в commons-lang есть equals и хэшкод, которые вроде как могут дружить с хибернейтом, или нет? кто-нибудь вкурсе? (edited)
+
+
+Victor [Jul 14th at 9:43 PM]
+in #hw3
+@Grigory Kislin
+>8: Еще раз: в тестах проверять через JUnit Assert или использовать assertThat().isEqualTo нельзя
+но в реализации master
+`assertThat(actual).usingElementComparatorIgnoringFields("registered", "roles").isEqualTo(expected);`
+так можно, или нельзя? :slightly_smiling_face:
+
+
+4 replies
+sky [3 days ago]
+после using element comporator уже вызывается нормальный assertJ equals fieldByField, или что-то вроде
+
+
+Victor [3 days ago]
+то есть реализовывать так как сделано в master плохо, но зачем тогда так реализовано?
+
+
+Victor [3 days ago]
+прочитал вот это (нашел в слэке по ссылке от Григория):
+https://web.archive.org/web/20170524072455/http://www.onjava.com:80/pub/a/onjava/2006/09/13/dont-let-hibernate-steal-your-identity.html?page=1
+
+
+Victor [3 days ago]
+как ни крути id в базе это плохо:
+нужно переопределять equals, потому что иначе объект из базы и новый объект всегда будут не равны, потому что у них разные ссылки.
+если только сравнивать по id, тогда два новых объекта, у которых id = null будут равны не смотря на другие варианты == плохо (нельзя сохранить в один Set например)
+если сравнивать по id, но когда id==null, всегда возвращать false == плохо(если такой объект сохранить в Set, а потом его id изменить, то объект будет потерян)
+использовать natural key, который будет основан на immutable полях (кроме поля с ID) объекта == плохо (у объекта таких полей может не быть, или такие поля в редких случаях могут меняться. Тогда приложение сломается)
+Итог: нужно id генерировать в приложении, а не в базе.
+в model добавлять version, и если это поле равно null, значит объект новый.
+и тогда можно спокойно использовать equals и hashcode. (edited)
+
+
+Andy Fleer [Jul 14th at 10:16 PM]
+in #hw3
+Правильно ли я понимаю задание основное? : 1) Разобраться откуда ошибка 500 NullPointerException 2) Сделать скрипт SQL создания таблицы MEAL ( по сути те же поля, что и в классе) 3) Создать эту таблицу скрирптом и другим скриптом заполнить ее чтобы все теперь кранилось не в репозитории, а в БД 4)  Переделать MealRepository чтобы записывал  и вытаскивал данные из БД .   Я на той планете?
+
+
+3 replies
+sky [3 days ago]
+Во первых: просто выполняй заданий строго по порядку.
+Во вторых:
+1. Ошибка 500 это ошибка томката. А в первом пункте там мэйн и Junit sort of тесты
+2. Ну да, но прочитай внимательно задания и вопросы. Т.е. все  кроме последнего пункта (проверка по HW03)
+3. +
+4. -. Переделывать надо реализацию, а не интерфейс (Jdbc..)
+Смотря на какой ты планете.. (edited)
+
+
+
+sky [3 days ago]
+Да и плюс в основном задании, надо задеплоить апу в томкат, так чтоб все работало, как в предыдущем  уроке, кроме разве что того, что данные сохраняются между рестартами (edited)
+
+
+Andy Fleer [3 days ago]
+Там в первом пункте написано "понять почему не работают". Исправлять не надо?
+
+
+e.pekhterev [Jul 14th at 11:49 PM]
+in #hw3
+У каго какие мысли по поводу подмены контекста для тестов?
+
+
+11 replies
+Victor [3 days ago]
+у меня отдельный xml spring-app-test.xml и в нем     <context:component-scan base-package="ru.javawebinar.**.repository.mock"/>
+
+
+e.pekhterev [3 days ago]
+в нём только эта запись или всё три? т.е. в нём повторяется всё, что было и в spring-app.xml, и просто меняешь путь скана для репозитория? (edited)
+
+
+Victor [3 days ago]
+да
+
+
+Victor [3 days ago]
+это ж тесты, оптимизация здесь не нужна.
+
+e.pekhterev [3 days ago]
+я тоже так делал и в общем так не хорошо))))
+
+Victor [1 day ago]
+```@Autowired
+WebApplicationContext context;
+WebClient webClient;
+@Before
+public void setup() {
+    webClient = MockMvcWebClientBuilder
+            .webAppContextSetup(context)
+            .build();
+}```
+вот такая конструкция в spring.doc
+Получается объекты mock не нужно в конфиг добавлять и автосвязывать. А нужно отдельно инициализировать. (edited)
+
+
+Victor [1 day ago]
+но у меня такой подход не получается использовать
+
+
+e.pekhterev [1 day ago]
+дз сдал, сделал всё же отдельно, но другое решение. ждём четверга, Григорий рассудит что и как нудно было делать (edited)
+
+
+Alexey_P [1 day ago]
+у меня почему-то такой путь "ru.javawebinar.**.repository.mock" не проходит - mock выделен красным, по этому пути только jdbc, почему?
+
+
+Victor [1 day ago]
+та же беда была, его нужно поместить в test/resources
+
+
+Alexey_P [1 day ago]
+не догадался, спасибо
+
+
+Merkulov [Jul 15th at 2:40 PM]
+in #hw3
+всем привет, вылетает такая ошибка : Error:(5, 24) java: package org.slf4j.bridge does not exist   , хотя библиотека подтягивается и физически лежит в репозитории
+
+
+6 replies
+Merkulov [1 day ago]
+<dependency>
+           <groupId>org.slf4j</groupId>
+           <artifactId>jul-to-slf4j</artifactId>
+           <version>${slf4j.version}</version>
+           <scope>runtime</scope>
+       </dependency>
+
+
+Merkulov [1 day ago]
+если тут поменять скойп на compile то все ок, кто встречался с такой проблемой?
+
+
+Gagarina6794 [1 day ago]
+зависимость указана правильно, если все присутствует в ExternalLibraris и подтянуто в maven Dependencies, и мавен почищен перепакован... тогда не знаю...
+
+
+Merkulov [1 day ago]
+все указано правильно, я решил проблему
+
+
+Merkulov [1 day ago]
+убрал галочку в настройках мавена в идеи, напротив import maven projects automatically и заново все реимпортнул и все ок, и еще на всякий добавил памяти мавену
+
+
+svis [1 day ago]
+та же самая история. Убрал галочку и помогло. Спасибо!
+
+
+Victor [5:34 PM]
+```3: ЕЩЕ РАЗ: InMemory тесты должны идти на InMemory репозитории```
+Зачем эта подсказка, если по заданию InMemory тестов вообще нет??? Запутался, пытался сделать ServiceMealTest через InMemoryMealRepository. Потратил целый день на то, что не требовалось сделать в результате... :unamused:
+
+
+matrocob [Jul 15th at 7:32 PM]
+in #hw3
+подскажите пожалуйста...
+в тестах InMemoryAdminRestControllerSpringTest 
+У всех repositopryi подчеркивается красным?
+@Autowired
+   private InMemoryUserRepositoryImpl repository;
+
+
+6 replies
+tkorky [1 day ago]
+привет, если ты только приступил к задаче то да, собственно тебе и надо понять что там не так :slightly_smiling_face:
+
+
+matrocob [1 day ago]
+ага, приступил как 2 часа)) голову сижу ломаю... надо в спринг-апп добавить     <context:component-scan base-package="ru.javawebinar.topjava.**.repository.mock"/>
+так понимаю?))
+
+
+tkorky [1 day ago]
+лучше всего сделать отдельный файлик для тестов
+
+
+tkorky [1 day ago]
+в чатике кстати уже были спойлеры
+
+
+tkorky [1 day ago]
+https://topjava14.slack.com/archives/CBQ8X3WBY/p1531505493000330
+Alexey Berdnikov
+Народ, вот сделал для тестов отельный spring-test.xml, в нем скан моковского пакета и два скана  как в spring-app.xml(web , service). Так вот вопрос - как можно оптимизировать  тестовский .xml что бы не повторять сканы из основного .xml ??
+Thread in #hw3Jul 13th at 9:11 PM
+
+
+matrocob [1 day ago]
+о спасибо тебе большое
+
+
+Gagarina6794 [Jul 15th at 8:07 PM]
+in #hw3
+Подскажите что делать с dateTime в Meals? там получается надо полю выставить дефолтное значение что бы null не ловить?
+
+
+54 replies
+e.pekhterev [1 day ago]
+ты про что сейчас, про Jdbc-репозиторий или чего?
+
+
+Gagarina6794 [1 day ago]
+класс MEAL extends AbstractBaseEntity
+
+
+e.pekhterev [1 day ago]
+у тебя вопрос про конструктор по умолчанию?
+
+
+Gagarina6794 [1 day ago]
+@e.pekhterev ставлю LocaleDateTime.now() и везде вставляет текущую дату, зависла здесь и не догоняю..))
+
+
+Gagarina6794 [1 day ago]
+да
+
+e.pekhterev [1 day ago]
+в конструкторе по умолчанию не нужно ничего писать.
+
+Gagarina6794 [1 day ago]
+так там и пусто
+
+e.pekhterev [1 day ago]
+ну и отлично
+
+
+e.pekhterev [1 day ago]
+или ты про то, что у тебя поля Meal все final? (edited)
+
+
+Gagarina6794 [1 day ago]
+вот для calories по умолчанию там само 0 ставит и в сервер тянет нужные данные, для dateTime = null, и там уже лезут иксепшены))
+
+
+Gagarina6794 [1 day ago]
+гетеры/сеттеры есть
+
+e.pekhterev [1 day ago]
+ещё раз, у тебя сейчас поля в Meal final или нет?
+
+Gagarina6794 [1 day ago]
+нет
+
+e.pekhterev [1 day ago]
+отлично
+
+Gagarina6794 [1 day ago]
+public LocalTime getTime() {
+       return dateTime.toLocalTime();
+   }
+
+
+Gagarina6794 [1 day ago]
+вот здесь с нуля хочет преобразование сделать
+
+Gagarina6794 [1 day ago]
+туплю здесь конкретно.. (edited)
+
+e.pekhterev [1 day ago]
+ничего там не нужно менять, делай как в задании написано - конструктор по умолчанию, сеттеры/геттеры, и конструктор копирования - смотри как User реализован, ну и поля без файнал (edited)
+
+sky [1 day ago]
+Это уже после того как запрос с БД вернулся и пытается смапить в лист? или когда это происходит?
+
+
+e.pekhterev [1 day ago]
+нам там негде null ловить
+
+Gagarina6794 [1 day ago]
+private LocalDateTime dateTime; ну поле так должно выглядеть?
+
+sky [1 day ago]
+я вот после selecta по недосмотру забыл * поставить, и ловил null, зато разобрался немного  crowMapper и resultSet
+
+Gagarina6794 [1 day ago]
+да null там уже негде ловить..
+
+
+e.pekhterev [1 day ago]
+поля теже, просто без final, ведь у нас конструктор по умолчанию  есть пустой, значит не могу быть поля файнал
+
+Gagarina6794 [1 day ago]
+это я знаю)
+
+e.pekhterev [1 day ago]
+и естественно private, всё как обычно
+
+Gagarina6794 [1 day ago]
+так значит еще конструктор добавить
+
+e.pekhterev [1 day ago]
+Ира, ну кто ж задание читать то будет)? 
+_3.3. JbdcTemplate работает через сеттеры. Вместе с конструктором по умолчанию их нужно добавить в Meal_
+
+
+Gagarina6794 [1 day ago]
+есть сеттеры) гетеры тоже
+
+e.pekhterev [1 day ago]
+у нас есть для примера всё по работе с User, сплить по вертикали, слева всё что по юзеру, справа - всё по Meal, и копипасти с небольшими правками, задание просто изи
+
+sky [1 day ago]
+Ты скажи что запускаешь, когда null ловишь, скинь стактрейс
+
+
+Gagarina6794 [1 day ago]
+может я там где-то дальше чего-то накрутила...
+
+e.pekhterev [1 day ago]
+ты где null получаешь, что делаешь, или на гитхаб залей - посмотрю
+
+sky [1 day ago]
+если при попытке открыть страницу meals в томкате, то скорее всего не мапится правильно rowMapper ом
+
+
+sky [1 day ago]
+Тогда либо столбцы таблицы неправильно названы, либо запрос не верный
+
+Gagarina6794 [1 day ago]
+запускаю томкат, захожу в юзера или админа - и java.lang.NullPointerException
+    ru.javawebinar.topjava.model.Meal.getDate(Meal.java:53)
+
+Gagarina6794 [1 day ago]
+пишу private LocalDateTime dateTime = LocalDateTime.now();   ну и везде естественно текущая дата..
+
+Gagarina6794 [1 day ago]
+в табличке на сервере
+
+
+sky [1 day ago]
+в табличке? т.е. в populateDB.sql или где?
+
+Gagarina6794 [1 day ago]
+табличке что в базе которая отображается на сервере
+
+sky [1 day ago]
+Я так это понимаю. В базе есть таблица meals и в ней содержатся записи, туда их можно засунуть изначально либо sql скриптом populateDB.sql либо ручками через окно идеи (edited)
+
+Gagarina6794 [1 day ago]
+ну и через томкат запущеный
+
+
+sky [1 day ago]
+Т.е. страница добавить Meal с формой у тебя открывается?
+
+sky [1 day ago]
+А страница с таблицей всех meal -нет?
+Ведь ты пишешь, что NPE у тебя сразу при попытке   зайти в админа/юзера с индекса (edited)
+
+Gagarina6794 [1 day ago]
+нет, страницы не открываются
+
+Gagarina6794 [1 day ago]
+вместо них NPE
+
+sky [1 day ago]
+вот, а как ты тогда добавляешь записи? пока никак?
+
+
+Gagarina6794 [1 day ago]
+все работает, кроме даты, ставлю текущую в MEAL и все работает
+
+sky [1 day ago]
+как у тебя в initDB поле с dateTime называется, кинь строчку целиком
+
+Gagarina6794 [1 day ago]
+date TIMESTAMP NOT NULL,
+
+sky [1 day ago]
+datetime или date_time попробуй
+
+Gagarina6794 [1 day ago]
+да, здесь ошибка, спасибо
+
+
+Joanna [1 day ago]
+такая же фигня была, у меня заработало когда в скрипте и в классе JdbcTemplate datetime написала маленькими, а не большими (dateTime), потому-что в базу POSTRGREE оно все равно запишется маленькими, case-insensitive, у григория это в подсказках
+
+e.pekhterev [1 day ago]
+ахах)) даже Григория пишешь теперь в case-insensitive))
+
+
+Avaaron [8:54 PM]
+странное дело, может кто сталкивался, если запускаю тест на весь класс, getBetweenDates(), getBetweenDateTimes() тесты не проходят, а по отдельности всё ок..
+что с этим делать
+
+Tanya [8:54 PM]
+где-то портишь тестовые данные
+
+Avaaron [8:55 PM]
+они вообще final
+
+Tanya [8:57 PM]
+т.е. например в апдейте ты никакие отд поля не меняешь?
+
+Avaaron [9:02 PM]
+меняю, но не время и изменения касаются элемента у которого id больше чем у тех, которые участвуют в этих методах.
+
+
+Avaaron [Jul 15th at 9:08 PM]
+in #hw3
+и к тому же скрипт заполнения бд перезапускается для каждого метода
+
+
+8 replies
+Tanya [1 day ago]
+проверь меняешь ли ты каким либо образом константу, которую потом используешь в getBetweenDates(), getBetweenDateTimes()
+
+
+Avaaron [1 day ago]
+нет, нигде не меняю
+
+
+Avaaron [1 day ago]
+я проверил
+
+
+Avaaron [1 day ago]
+есть место, ге я другому объекту присваиваю ее значение
+
+
+Tanya [1 day ago]
+если тесты проходят по одному, но не проходят при запуске всех, по причине не equals объектов в массиве, значит в др. тестах данные были изменены
+
+
+Tanya [1 day ago]
+подебажь, посмотри что конкретно не совпадает и проверь где могло поменяться (edited)
+
+e.pekhterev [1 day ago]
+да там и без дебага по идее в консоли всё показывает
+
+Victor [1 day ago]
+Ну как, получилось разобраться?
+
+
+Victor [Jul 15th at 11:35 PM]
+in #hw3
+хм.. Я помнил, что у нас время каждого Meal уникально, верно? Но ведь у нас много юзеров и одна таблица. Тогда есть вероятность, что блюда будут в одно время созданы?
+
+
+3 replies
+sky [1 day ago]
+"запретить создавать у одного и того-же юзера еду с одинаковой dateTime"
+
+
+
+Victor [1 day ago]
+и это надо через sql делать?
+
+
+
+zippospb [1 day ago]
+Именно. Там в условии сразу дана и подсказка, как именно это надо делать
+
+
+Avaaron [Yesterday at 12:09 AM]
+in #hw3
+вот вопрос...создаю индекс, после этого его как то нужно в запрос подставлять или он будет автоматом использоваться, когда выборка будет по соответствующему полю таблицы?
+
+
+24 replies
+Merkulov [1 day ago]
+автоматом
+
+
+Merkulov [1 day ago]
+лучше почитай про индексы, хоть будет общее представление
+
+
+Avaaron [1 day ago]
+я прочёл, про них много, просто нигде не сказано что создал , а используй автоматом
+
+Avaaron [1 day ago]
+часа три уже изучаю))
+
+Merkulov [1 day ago]
+значит не понял основы
+
+
+Avaaron [1 day ago]
+ну хорошо, не понял значит..
+
+
+Avaaron [1 day ago]
+спасибо
+
+Merkulov [1 day ago]
+знаешь что такое индексация файлов на жестком диске
+
+
+Avaaron [1 day ago]
+я понимаю, что такое индекс и для чего он нужен
+
+
+Avaaron [1 day ago]
+очень похоже на equals и hashcode
+
+Merkulov [1 day ago]
+ну а зачем вопрос такой задаешь, если бы понимал то не задавал бы
+
+sky [1 day ago]
+вот видос можешь глянуть, если посмотришь, и появится понимание, отпишись https://vimeo.com/105424016 (edited)
+
+Avaaron [1 day ago]
+вот ты про индексацию спросил на hdd, но ты знаешь только общие принципы его работы, что там в контролере и какая логика ты не знаешь
+
+
+Avaaron [1 day ago]
+так и я , я понял для чего, не понял как
+
+Merkulov [1 day ago]
+сначала нужно понять общую парадигму
+
+Avaaron [1 day ago]
+ты ответил на мой вопрос, спасибо
+
+Merkulov [1 day ago]
+а потом уже тонкости
+
+Merkulov [1 day ago]
+в логике работы можно разобраться, понимая общую концепцию, а если не понимаешь то и не разберешься хоть бейся об стену
+
+
+Avaaron [1 day ago]
+разобраться можно во всём
+
+
+Avaaron [1 day ago]
+главное правильно найти начало клубка
+
+Avaaron [1 day ago]
+лучше всего спросить у того, кто уже прошёл по этому пути
+
+
+Avaaron [1 day ago]
+так выборка нужных знаний будет быстрее
+
+
+Avaaron [1 day ago]
+это и есть индекс)
+
+
+Avaaron [1 day ago]
+Доброй ночи)
+
+
+hav [Yesterday at 10:57 AM]
+in #hw3
+Помогите починить. Не видит spring-app.xml, выдает FileNotFoundException. Файл на месте, в проекте добавлен. В target копируется только spring-db.xml.
+
+
+23 replies
+Merkulov [1 day ago]
+была такая проблема, долго мучался, то один фал не попадал в класспас то другой, вылечил удалением папки .idea .iml и заново импортнул проект
+
+
+Stanislav [1 day ago]
+Попробуй clear в мавене и сразу File->Invalidate cashes / Restart
+
+
+hav [1 day ago]
+Не помогло
+
+
+Stanislav [1 day ago]
+Тогда скопируй всю строку пути, @ContextConfiguration
+
+
+hav [1 day ago]
+Ошибка в MealServlet init
+
+
+Stanislav [1 day ago]
+ClassPathXmlApplicationContex покажи
+
+hav [1 day ago]
+в строке springContext = new ClassPathXmlApplicationContext("spring/spring-app.xml", "spring/spring-db.xml");
+
+
+Stanislav [1 day ago]
+classpath:  забыл
+
+Stanislav [1 day ago]
+"classpath:spring/spring-app.xml"
+
+
+hav [1 day ago]
+то же самое
+
+
+hav [1 day ago]
+java.io.FileNotFoundException: class path resource [spring/spring-app.xml] cannot be opened because it does not exist
+
+Stanislav [1 day ago]
+вот теперь сделай clear в мавене и сразу File->Invalidate cashes / Restart
+
+
+hav [1 day ago]
+Уже делал, не помогает
+
+Stanislav [1 day ago]
+тогда скрины 1. скрин иерархии где лежат xml 2. скрин MealServlet init
+
+
+Stanislav [1 day ago]
+3. скрин фасетов в насройках проекта
+
+
+Merkulov [1 day ago]
+там не обязательно писать classpath, он сам понимает что нужно брать из класс паса
+
+
+e.pekhterev [1 day ago]
+не надо там classpath; должно отпрабатывать все  и так:
+springContext = new ClassPathXmlApplicationContext("spring/spring-app.xml", "spring/spring-db.xml"); (edited)
+
+Merkulov [1 day ago]
+класс ведь называется класспасс
+
+Merkulov [1 day ago]
+попробуй мой вариант)
+
+Merkulov [1 day ago]
+выше писал
+
+
+hav [1 day ago]
+Заработало, хотя и не очень понял как. Удалил папку .idea, файл topjava.iml. Импортировал проект заново. Потом папку вернул обратно и все заработало.
+
+Merkulov [1 day ago]
+)))
+
+Merkulov [1 day ago]
+аналогично, походу идея тупила, какой-то баг
+
+
+Maxim Gusev [10:58 AM]
+ctrl alt shift s -> facets -> spring app у тебя там должно быть 2 файла
+
+hav [10:59 AM]
+два и есть. Я их уже удалял и заново добавлял - не помогает.
+
+Maxim Gusev [10:59 AM]
+когда на карандашик нажимаешь, то у тебя у обоих файлов галочки?
+
+hav [11:00 AM]
+да
+
+Maxim Gusev [11:00 AM]
+Тогда на этом мои полномочия все:face_with_rolling_eyes:
+
+
+Maxim Gusev [Yesterday at 11:07 AM]
+in #hw3
+У меня вот другая проблема. Не знаю как побороть неподключенные бины. Не могу добавить тестовые пакеты в файл контекста, так как идея предлагает только путь  ru.javawebinar.topjava.repository.jdbc, который находится в проекте (не в тестах). Помогите, не знаю как починить
+
+
+7 replies
+e.pekhterev [1 day ago]
+гугель в помощь - что-нить вроде подмена контекста спринг при тестах
+пол дня в общем этот вопрос у меня занял))))
+(там ещё нужно чтоб и дублирования кода нигде не было) (edited)
+
+
+Stanislav [1 day ago]
+тестовые пакеты в xml можно добавить только если xml лежит в пакетах тестов
+
+Maxim Gusev [1 day ago]
+@e.pekhterev, вчера искал, но не нашел. Сейчас продолжу
+
+@Stanislav я создал в тестах xml с контекстом и туда подключил нужные пакеты, но не смог подключить его к проекту
+
+
+sky [1 day ago]
+у меня spring-test.xml лежит там же где и 2 предыдущих (в ресурсах, а не в пакетах тестов), оба теста и SpringMain работают (edited)
+
+Maxim Gusev [1 day ago]
+@sky, такое решение пока пойдет, но в продакшене не должно быть этого файла
+
+sky [1 day ago]
+Думаю там вообще должен быть springMock или mockito, соответственно никаких inmemory хранилищ тем более.
+
+Alexander Pilipenko [21 hours ago]
+Даже если будут моки, все равно мы тестируем controller, а инжектим - репозиторий. Решать придется такую же проблему
+
+
+Maksim K [Yesterday at 12:06 PM]
+in #hw3
+кто знает, когда установил все патчи, пробую применить скрипты для создания таблиц в базе данных. и выдает такую ошибку `[2018-07-16 12:04:15] [42P01] ОШИБКА: отношение "global_seq" не существует` (edited)
+
+
+5 replies
+Merkulov [1 day ago]
+попробуй построчно выполнить скрипт
+
+
+
+Maksim K [1 day ago]
+Офигеть. Все прошло. Спасибо. А в чем прикол был?
+
+
+Merkulov [1 day ago]
+была такая проблема когда выделяешь вес код и запускаешь, почему-то не все строчки выполняются, потом попробовал построчно и все прошло, а лучше нажать правой кнопкой мыши на файле скрипта и запустить его
+
+
+Maksim K [1 day ago]
+нда.мистика какая-то
+
+
+Victor [1 day ago]
+у меня похоже, такая же беда была. Я через консолько базы данных скрипты полностью запускал.
+
+
+Victor [Yesterday at 1:34 PM]
+in #hw3
+ ```@Test
+    public void create() {
+        service.create(NEW_MEAL, USER_ID);
+        NEW_MEAL.setId(null);
+        assertMatch(service.getAll(USER_ID), NEW_MEAL_WITH_ID, MEAL_6, MEAL_5, MEAL_4, MEAL_3, MEAL_2, MEAL_1);
+    }```
+Вот у меня есть тест. Чтобы он работал мне нужно менять обратно Id на null, потому что тестируемый метод меняет входные данные. Как делать так, чтобы тесты не могли менять данные. Неужели нужно обновлять тестовые данные через @Before полностью?
+
+
+3 replies
+Merkulov [1 day ago]
+просто для создания создай отдельную еду, и не парься
+
+Merkulov [1 day ago]
+с нуловым значением Id
+
+
+Victor [1 day ago]
+точно, thanks, а я с этими константами запарился :grin:
+
+
+Alexey_P [Yesterday at 4:49 PM]
+in #hw3
+Простой SQL запрос нормально отрабатывает в pgAdmin, а в getAllJdbcMealRep (в дебаггере) возвращает верные id meal, но все остальные поля - null. Не подскажите в чем может быть дело?
+
+
+15 replies
+Yevhen Maksymovych [21 hours ago]
+внимательно читаем урок
+
+
+Yevhen Maksymovych [21 hours ago]
+```10: Напомню: BeanPropertyRowMapper работает через отражение. Ему нужны геттеры/сеттеры и имена полей должны "совпадать" с колонками ResultSet (Column values are mapped based on matching the column name as obtained from result set metadata to public setters for the corresponding properties. The names are matched either directly or by transforming a name separating the parts with underscores to the same name using "camel" case).```
+
+
+
+Alexey_P [21 hours ago]
+Это я читал и сделал соответственно. А другие причины могут быть ?
+
+
+Yevhen Maksymovych [21 hours ago]
+покажи гит
+
+Alexey_P [21 hours ago]
+не коммитил. Может чтоя не понял.Ты этот кусок имеешь ввиду?
+.addValue("id", meal.getId())
+               .addValue("datetime", meal.getDateTime())
+               .addValue("description", meal.getDescription())
+               .addValue("calories", meal.getCalories())
+               .addValue("user_id", userId);
+
+
+Yevhen Maksymovych [21 hours ago]
+нет, гляди на сам класс Meal
+
+Alexey_P [21 hours ago]
+там без верблюда сделал
+
+Yevhen Maksymovych [21 hours ago]
+так, давай подробнее, у тебя проблема в том, что поля не пишутся БД, или в том, что пишутся, но достаются оттуда нулями?
+
+Yevhen Maksymovych [21 hours ago]
+save() отрабатывает корректно?
+
+
+Alexander Pilipenko [21 hours ago]
+Сделай еще 1 ветку в git. Выложи код. Без кода очень сложно что-то сказать
+
+Alexey_P [21 hours ago]
+попробовал еще раз сам и врде все проверил, но нет)Буду признателен
+Нули в дебаге в  getAll query
+https://github.com/AlexeyPavlov2/topjava/tree/HW03
+
+Yevhen Maksymovych [21 hours ago]
+но ведь в миле нет сеттеров...
+
+
+Alexey_P [21 hours ago]
+не может быть. Донажимался на revert. Блин. Спасибо, добрый человек)
+
+Alexey_P [21 hours ago]
+поехало
+
+Yevhen Maksymovych [21 hours ago]
+:+1:
+
+
+Kirilo [Yesterday at 6:00 PM]
+in #hw3
+Пропустил момент, каким образом Spring находит папку помеченную, как ресурсы? Ведь в плейсхолдере ему достаточно указать только такой параметр к файлу: location="classpath:db/postgres.properties". А в корне у нас может быть любая папка помеченная Idea как ресурсная. (edited)
+
+
+
+6 replies
+turhanow [19 hours ago]
+в SpringMain конфигурационный файл у нас указывается при создании контекста ClassPathXmlApplicationContext("spring/spring-app.xml"))
+
+в тестах используем анотацию @ContextConfiguration
+
+
+Kirilo [19 hours ago]
+В каком месте? Я спрашивал конкретно про папку "resources". Каким образом Spring понимает, что здесь ресурсные файлы лежат? Папка может быть любая. Проверте сами. Нигде это не отмечается и не конфигурится! Достаточно в Idea обозначить, что она ресурсная.
+
+
+Yevhen Maksymovych [19 hours ago]
+гхм, ну, собственно, когда мы включаем папку в ресурсы, идея добавляет ее в classpath. спринг по дефолту ищет указанную папку в класспасе
+
+
+
+Yevhen Maksymovych [19 hours ago]
+и не только спринг
+
+Yevhen Maksymovych [18 hours ago]
+тот же логбэк, хибернейт и тп. все свои конфиги первым делом ищут в класспасе
+
+Kirilo [18 hours ago]
+Да, уж, не хватает какой-то визуализации процессов, что делает та же Idea порой. Оно то проще становится работать, если ты знаешь все детали, как все завязано между собой. И наоборот, вот, как в этом случае.
+
+
+Yevhen Maksymovych [Yesterday at 8:02 PM]
+in #hw3
+ребят, а на каком этапе у нас в поме возник maven-surefire-plugin? и зачем он нам там понадобился? мы же тесты запускаем из идеи, а при попытке запустить surefire:test у меня вот такой вот эррор падает
+```[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:2.22.0:test (default-cli) on project topjava: Unable to generate classpath: org.apache.maven.artifact.resolver.ArtifactResolutionException: Unable to get dependency information for org.apache.maven.surefire:surefire-junit4:jar:2.22.0: Failed to retrieve POM for org.apache.maven.surefire:surefire-junit4:jar:2.22.0: Could not transfer artifact org.apache.maven.surefire:surefire-junit4:pom:2.22.0 from/to central (https://repo.maven.apache.org/maven2): java.lang.RuntimeException: Unexpected error: java.security.InvalidAlgorithmParameterException: the trustAnchors parameter must be non-empty```
+
+
+5 replies
+Alexander Pilipenko [18 hours ago]
+В патче 3_07. Ошибка похожа на проблемы с протоколом
+
+e.pekhterev [18 hours ago]
+не знаю зачем он, тоже интересно, проверил запуск, всё работает, отрабатывает тест без ошибок. поглядел всю консоль. он похоже сам запускает вообще все наши тесты.
+[INFO] Results:
+[INFO] Tests run: 28, Failures: 0, Errors: 0, Skipped: 0
+[INFO] BUILD SUCCESS (edited)
+
+
+e.pekhterev [18 hours ago]
+Как приятно, когда всё работает, хотя и не понимаешь зачем оно и почему)))
+
+
+e.pekhterev [18 hours ago]
+в общем понятно, он запускает все тесты, когда мы билдим проект, согласно пом <build>
+_Плагин maven-surefire-plugin предназначен для запуска тестов и генерации отчетов по результатам их выполнения. По умолчанию на тестирование запускаются все java-файлы, наименование которых начинается с «Test» и заканчивается «Test» или «TestCase»_ (edited)
+
+Yevhen Maksymovych [18 hours ago]
+все, разобрался. поменялись сертификаты какие-то у оракла, и для линукса в архиве они лежат старые, надо вручную качать более свежий ждк, и оттуда вручную доставать сертификаты
+
+
+Alexey_P [Yesterday at 10:58 PM]
+in #hw3
+Забавная штука получается.
+При добавлении новой еды и если ты хочешь в теч. минуты съесть и записать кучу вкусных ништяков, 
+у тебя ничего не получится - секунды отбрасываются и ты получаешь 
+PreparedStatementCallback; ]; ОШИБКА: повторяющееся значение ключа нарушает ограничение уникальности "meals_datetime_user_id_idx"
+Для решения проблемы я изменил mealForm.jsp - поставил у инпута datetime атрибут step = "1" - теперь секунды видны и в MealServlet при записи нового meal вместо LocalDateTime.parse(request.getParameter("dateTime") поставил 
+LocalDateTime.parse(request.getParameter("dateTime"),
+     DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+Все, теперь в теч минуты можно есть и записывать разную еду:)
+Но показываем в табличке одинаковые минуты.
+Кто столкнулся с такой проблемой?
+
+
+10 replies
+Alexander Pilipenko [15 hours ago]
+При выводе используется пользовательский тег в котором используется ф-ия toString (edited)
+
+Alexander Pilipenko [15 hours ago]
+private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+   public static <T extends Comparable<? super T>> boolean isBetween(T value, T start, T end) {
+       return value.compareTo(start) >= 0 && value.compareTo(end) <= 0;
+   }
+
+   public static String toString(LocalDateTime ldt) {
+       return ldt == null ? "" : ldt.format(DATE_TIME_FORMATTER);
+   }
+
+
+Alexander Pilipenko [15 hours ago]
+Ну и в ней форматтер yyyy-MM-dd HH:mm
+
+
+Alexander Pilipenko [15 hours ago]
+Поэтому в таблице показывается до минут (edited)
+
+
+Alexey_P [15 hours ago]
+про таблицу не вопрос был.
+да, и форматтер не нужен, итак сек записываются.
+посыл был такой - в течение одной минуты еду записать нельзя
+
+Alexey_P [15 hours ago]
+не нужен, в смысле в моем тексте
+
+
+Alexander Pilipenko [15 hours ago]
+Но показываем в табличке одинаковые минуты.
+Кто столкнулся с такой проблемой? :slightly_smiling_face:
+
+
+Alexey_P [15 hours ago]
+)
+
+svis [2 hours ago]
+При добавлении новой еды и если ты хочешь в теч. минуты съесть и записать кучу вкусных ништяков...
+
+
+svis [2 hours ago]
+Я  конечно поесть люблю но это уже перебор :smiley:
+
+
+Jury Mironov [12:01 AM]
+uploaded and commented on this image: Snap 2018-07-16 at 23.53.52.png 
+
+Подскажите, пожалуйста, как пофиксить
+
+
+turhanow [Today at 1:55 AM]
+in #hw3
+> без дублирования в spring-app-memory.xml и spring-app.xml
+
+
+привет, подскажите куда копать?)) не получается в гугле накопать что то рабочее и дельное(
+
+
+4 replies
+Yevhen Maksymovych [5 hours ago]
+вспомни о принципе декомпозиции. если код дублируется в двух классах, имеет смысл вынести его в отдельный класс :slightly_smiling_face:
+
+
+Yevhen Maksymovych [5 hours ago]
+или использовать наследование...
+
+
+sky [4 hours ago]
+А наследование, это для случая если в java конфигурацию контекста делать? Или с xml-ями можно сделать что-то кроме импорта  в этом случае?
+
+
+Yevhen Maksymovych [4 hours ago]
+да и с xml никто не мешает посмотреть на какие-то общие вещи, и вынести часть их в другой xml
+
+
+Jury Mironov [10:31 AM]
+commented on Snap 2018-07-16 at 23.53.52.png
+Пришлось ручками удалить плагин и сделать реимпорт. Зависимости как-то подтянулись с десятого раза.
+
+Jury Mironov [10:59 AM]
+У меня конфликты при накатывании патчей
+
+
+Jury Mironov [Today at 11:00 AM]
+in #hw3
+почему-то есть класс, который лежит в mock.mock и его пакет неправильно указан
+
+
+1 reply
+Jury Mironov [3 hours ago]
+еще почему-то нет класса UserTestData
+
+
+Jury Mironov [11:00 AM]
+uploaded this image: Snap 2018-07-17 at 10.55.47.png 
+
+
+Jury Mironov [11:13 AM]
+uploaded and commented on this image: Snap 2018-07-17 at 11.12.28.png 
+
+Создал класс, говорит дубликат,  а я оригинала не вижу. Сплошная магия
+Jury Mironov [11:14 AM]
+Я так понимаю, что конфликт с тем, что в папке тест
+e.pekhterev [11:15 AM]
+Зачем ты закинул UserTestDate в сорсы? должен быть только в тестах
+
+Jury Mironov [11:16 AM]
+uploaded this image: Snap 2018-07-17 at 11.16.27.png 
+
+
+Yevhen Maksymovych [Today at 11:43 AM]
+in #hw3
+проверь, что  аналогичного класса нет в папке тест. для идеи - обе эти папки - сорцы в класспасе, для нее нет разницы, что один физически лежит в test\ru.topjava.webinar, а другой - в src\ru.topjava.webinar, это один и тот же пекедж, в нём не может быть двух одинаковых классов
+
+
+1 reply
+Jury Mironov [2 hours ago]
+в тесте есть как раз

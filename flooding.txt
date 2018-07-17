@@ -925,3 +925,111 @@ Victor [< 1 minute ago]
 
 Victor [< 1 minute ago]
 _фыав_
+
+
+Victor [4 days ago]
+ну стандартно * - для жирного, нижнее подчеркивание для прописного
+
+
+Maksim K [4 days ago]
+в смысле стандартно? я не в курсе)
+
+
+Victor [4 days ago]
+https://get.slack.help/hc/en-us/articles/202288908-Format-your-messages
+Slack Help Center
+Format your messages
+Use formatting to add clarity and detail to your message when you need it. There are two ways to format your text, depending on which Slack app you're using: Format as you type: On desktop and mo...
+ 
+
+
+Victor [4 days ago]
+повезло тебе, что самому было интересно. Эту ссылку искал целый час, чуть нашел...:rolling_on_the_floor_laughing:
+
+
+Maksim K [4 days ago]
+О. `спасибо` за
+```ссылку```
+:grin:
+
+
+Maksim K [4 days ago]
+Но блин, чего так сложно, то. Надо это запоминать. Мне нравится, как на `ДжаваРаш` сделали, типа пишешь сообщение, а сверху кнопочки типа выделить код, подчеркнуть, жирный, курсив. Конечно не очень много всего, но хоть что-то. и не надо вводить какие-то спец символы. просто нажал кнопку и все
+
+
+Vitaly [9:14 PM]
+смотрю пример rest сервиса на https://spring.io/guides/gs/rest-service/
+spring.io
+Building a RESTful Web Service
+this guide is designed to get you productive as quickly as possible and using the latest Spring project releases and techniques as recommended by the Spring team
+https://spring.io/img/spring-by-pivotal-9066b55828deb3c10e27e609af322c40.png
+в pom.xml есть
+   <build>
+       <plugins>
+           <plugin>
+               <groupId>org.springframework.boot</groupId>
+               <artifactId>spring-boot-maven-plugin</artifactId>
+           </plugin>
+       </plugins>
+   </build> (edited)
+есть парент:
+<parent>
+       <groupId>org.springframework.boot</groupId>
+       <artifactId>spring-boot-starter-parent</artifactId>
+       <version>2.0.3.RELEASE</version>
+   </parent>
+я лезу в него - в нем то же есть тот же самый плагин
+<plugin>
+                   <groupId>org.springframework.boot</groupId>
+                   <artifactId>spring-boot-maven-plugin</artifactId>
+                   <executions>
+                       <execution>
+                           <goals>
+                               <goal>repackage</goal>
+                           </goals>
+                       </execution>
+                   </executions>
+                   <configuration>
+                       <mainClass>${start-class}</mainClass>
+                   </configuration>
+               </plugin>
+а почему так? какой смысл?
+
+shtramak [9:22 PM]
+В модулях мавена от родителя к детям не все передается, это не как в джаве) (edited)
+
+Vitaly [9:22 PM]
+он вообще что по смыслу делает? потомок переопределяет предка? или дополняет его?
+и особо то отличий не нашел, goals-repackage - вроде ни о чем, мелочи.. зачем все это тогда..
+
+shtramak [9:24 PM]
+Ну например зависимости потомок не наследует, но в потомках можно не указывать версии зависимостей
+Там странная логика, согласен
+
+Vitaly [9:25 PM]
+вот в данном случае что делает потомок?
+я его цель не пойму ни разу
+
+shtramak [9:25 PM]
+Ну при сборке родителя соберутся дети
+И модули могут использовать другие модули
+
+Vitaly [9:26 PM]
+и что будет с мавен плагином, который объявлен и там, и там?))
+
+shtramak [9:28 PM]
+Затруднюсь ответить сходу))
+
+Vitaly [9:28 PM]
+я гуглить конечно умею, но тут не понятно сходу) (edited)
+
+Grigory Kislin [9:29 PM]
+spring-boot-maven-plugin- для запуска приложения как jar
+
+Vitaly [9:29 PM]
+но он же есть в parent-е (edited)
+к примеру, в том же паренте есть tomcat плагин, мы его не трогаем, а просто пользуемся
+
+Grigory Kislin [6:58 PM]
+нуда. из парента бурется плагины и версии зависимостей. 
+заглянул в парент и не нашел там tomcat плагина
