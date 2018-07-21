@@ -53,3 +53,10 @@ JavaWebinar
 `bf92b8d7` - 3_13_fix_servlet
 Show less
 JavaWebinar/topjava
+
+
+GitHub APP [12:13 AM]
+JavaWebinar
+*1 new commit pushed to `master`*
+`237ce3fe` - Add github tools integration
+JavaWebinar/topjava

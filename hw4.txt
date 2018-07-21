@@ -1,0 +1,1211 @@
+Grigory Kislin [1:03 AM]
+joined #hw4.
+
+Grigory Kislin [1:07 AM]
+Добро пожаловать на знятие https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson04.md
+Популирование данных через Spring, JPA/Hibernate, HSQLDB. 
+Материалов по JPA огромное количество. Чтобы не утонуть - не надо пытаться освоить все сразу. Пока достаточно того, что нужно для выполнения HW4
+После выполнения этого достаточно несложного HW4 можно *приступать к выполнению выпускного  проекта* (внизу занятия)
+канал для общения #graduation (edited)
+
+Prodigy [1:13 AM]
+joined #hw4.
+
+Grigory Kislin [1:18 AM]
+Миграцию на JUnit 5 будем делать после освоения JUnit 4 (он сейчас самый распространенный) на 7м занятии
+
+Daniel [1:19 AM]
+joined #hw4 along with 17 others.
+
+
+Stanislav [Jul 19th at 12:43 PM]
+in #hw4
+По цикломатической сложности, не очень понял. Получается что для *codacy.com* в *MealRestController* метод *getBetween*, 4 if-ов много? Если без формул, принцип, мало кода = мало ветвлений (if), много кода = можно чуть больше ветвлений? (edited)
+
+
+1 reply
+Grigory Kislin [2 days ago]
+Посмотри по ссылке, что такое цикломатическая сложности. 4 if означает 16 вариантов прохождения по коду
+
+
+realcorwin [1:21 PM]
+по большому счёту, всем пофиг. пиши просто и понятно. и не трать время на муть :slightly_smiling_face:
+
+Merkulov [1:27 PM]
+не всем)
+кстати, очень хороший инструмент для объективного анализа своего кода
+
+
+stea1th [Jul 19th at 3:11 PM]
+in #hw4
+а чего на почту урок4 не пришел?
+
+
+5 replies
+e.pekhterev [2 days ago]
+ахах) давай еще попросим письмо с анонсом прихода письма для каждого урока за неделю до и за день до))) (edited)
+
+
+Егорро [2 days ago]
+@e.pekhterev ох-ох. На дальнейший бессвязный набор слов отвечать не стану, уж извини - не владею языком. По теме - что такого якобы развеселого в том, что многим удобно получать уведомления именно на почту, как это и *было* со всеми предыдущими уроками? (edited)
+
+
+Grigory Kislin [2 days ago]
+Письмо будет вечером (свет отключили)
+
+
+
+e.pekhterev [2 days ago]
+@Grigory Kislin удобно, так удобно, воздержусь в следующий раз от бессвязных наборов)
+просто была четкая договоренность - уроки появляются каждый четверг, собсвтенно идём утром в слак и подключаем новый канал. (edited)
+
+
+Grigory Kislin [2 days ago]
+> воздержусь в следующий раз от бессвязных наборов)
+
+
+tim [5:39 PM]
+Со всеми этими упрощалками по типу Хибернет, превращаешься из писателя кода в читателя доков...
+
+
+realcorwin [Jul 19th at 5:56 PM]
+in #hw4
+понаделали, понимаешь, мерседесов... то ли дело на ишаке :slightly_smiling_face:... но по сути я согласен. хотя так было всегда: я ещё лет 25 назад называл себя алгоритмистом, а не программистом, потому что написать программу на условном языке мне было легко, а разбираться, какие конкретно команды и как делают то, что нужно, меня всегда выбешивало :slightly_smiling_face: (edited)
+
+
+2 replies
+SergeyA [2 days ago]
+Так у тебя талант аналитика значит :slightly_smiling_face:
+У меня вот наоборот - всегда нравилось на ассемблере zx-spectrum сделать что то удивительное, то что считается невозможным выполнить на таком компьютере. Т.е.как то хитро и нестандартно использовать команды, а учить паттерны сейчас прямо так не хочется...
+
+
+realcorwin [1 day ago]
+верно, аналитик я хороший :slightly_smiling_face:... а патерны, зачем их учить? бросай это гиблое дело :slightly_smiling_face:
+
+
+realcorwin [5:58 PM]
+я в 90-х апплеты писал. почти 20 лет потом меня от Явы воротило :slightly_smiling_face:
+майкрософтовская ява ещё худо бедно работала, а в сановской не работало почти вообще ничего, из того чт одекларировалось в документации :slightly_smiling_face:
+
+
+e.pekhterev [Jul 19th at 6:11 PM]
+in #hw4
+@Tanya @Katherine @Grigory Kislin почему связь тамблиц users и user_roles - один к многим, а не многие к многим?
+у юзера может быть несколько ролей - Окей;
+одна и та же роль может быть у многих юзеров
+
+
+13 replies
+Yevhen Maksymovych [2 days ago]
+Роль не энтитя
+
+
+e.pekhterev [2 days ago]
+я сейчас не с точки зрения нашего приложения смотрю, а когда мы смотрим таблички в базу. 
+а в базе user_roles - это сущность
+
+
+Yevhen Maksymovych [2 days ago]
+В базе это тоже не сущность
+
+
+e.pekhterev [2 days ago]
+или тут смысл в том, что у конкретной роли нет id?
+
+
+Yevhen Maksymovych [2 days ago]
+Роль в нашем воплощении - простое значение, точнее, набор простых значений, который хранится в связанной таблице. Хочешь иметь возможность манипулировать ролью как сущностью - ок, ты сам себе архитектор, делай из неё энтитю, сторь в отдельную таблицу и делай связь ManyToMany
+
+
+e.pekhterev [2 days ago]
+спасибо, будем копать
+
+sky [2 days ago]
+а ManyToMany разве не моветон требующий нормализации?
+
+
+Alexander Pilipenko [2 days ago]
+Нет. Не маветон. Часто встречается
+
+Alexander Pilipenko [2 days ago]
+Но не в этом случае.
+
+
+Alexander Pilipenko [2 days ago]
+По сути у  пользователя есть роли. Но у роли не может быть пользователей.
+
+
+e.pekhterev [2 days ago]
+ну вот похоже меня больше интересовало, почему мы не сделали все же энтити для ролей и связь многие к многим
+
+
+Alexander Pilipenko [2 days ago]
+Все написанное мной не совсем верно. Точнее совсем не верно.
+
+Grigory Kislin [2 days ago]
+можно хранить роли не как значения enum а как ordinal (0 и 1)- есть свои + и -.
+попробуй сделать табличку многие ко многим (просто на уровне базы, маппинг не нужен) и сравни что будет лучше (edited)
+
+
+e.pekhterev [Jul 19th at 7:04 PM]
+in #hw4
+в *JpaUserRepositoryImpl* до патча Apply 4_7_add_named_query_and_transaction.patch
+public boolean delete(int id) {
+      Query query = em.createQuery(" *DELETE FROM User u WHERE u.id=:id* ");
+      return query.setParameter("id", id).executeUpdate() != 0;
+  }
+
+Всё ли тут правильно? (я про запрос *DELETE FROM User...*) (edited)
+
+
+2 replies
+sky [2 days ago]
+дык hql запрос вроде как, в чем проблем (edited)
+
+
+e.pekhterev [2 days ago]
+)))) шоб я знал, что это, будем посмотреть)
+
+
+Jury Mironov [Jul 19th at 8:44 PM]
+in #hw4
+Писец,  я заколебался.  Третий раз проект с 0 собираю,  накатываю все патчи,  вечно что-то ломается и не деплоится.
+
+
+22 replies
+Stanislav [2 days ago]
+С 0 задания как создал, ни разу ни одной проблемы не было, при том, что я постоянно эксперементирую (с гитом, патчами). Что я делаю не так?
+
+
+Stanislav [2 days ago]
+И у меня 4 idea-и открыто одновремено (разные проекты).
+
+
+Stanislav [2 days ago]
+Это к тому, не в проекте дело. Стоит пересмотреть свои действия-подход.
+
+
+Jury Mironov [2 days ago]
+Ну а какие тут действия?  Apply patch по порядку?  Ну и мавен реимпорт.  Буду дома на ноуте или компе пробовать, на планшете задрало это делать
+
+
+Stanislav [2 days ago]
+Не совсем, перед тем как аплай патч, прочитать, может перед принятием надо что-то сделать (бывает что папку какую нибудь создать).
+
+
+Stanislav [2 days ago]
+Многие "запарывали" (хотя откат сделать не сложно и лучше сейчас потренироваться, чем потом на реальной работе) комитами hw в мастер.
+
+
+Stanislav [2 days ago]
+Кстати, мавен реимпорт делал всего 1 раз
+
+
+Stanislav [2 days ago]
+Иногда чистил кэш и перезагрузка
+
+
+Stanislav [2 days ago]
+Лучше 1 раз разобраться в чем причина и устранить, чем постояно с 0 собирать.
+
+
+Stanislav [2 days ago]
++к обучению, а с 0 собирать ни чему не научишься.
+
+
+Victor [2 days ago]
+у меня тоже накатывается. Ну иногда запорю, ветку master комментами испорчу. Но ведь hard reset работает. Григорий все по сути объясняет. Думаю стоит видео его пересмотреть тебе :slightly_smiling_face:
+
+
+e.pekhterev [2 days ago]
+мавен реимпорт не делал ни разу, всё патчится с нуля до сего задания без каких либо проблем
+
+
+e.pekhterev [2 days ago]
+после патча до коммита желательно всё проверить и всегда если чего не так можно спокойно ctrl+Z понажимать и патч уйдет (ну если вдруг порядок патчей неправильный или папка не была создана)
+
+
+Grigory Kislin [2 days ago]
+@Jury Mironov а в реальном проекте еще и последствия немалые за поломку будут
+
+
+Stanislav [2 days ago]
+Аха, типа такого :)  https://habr.com/company/flant/blog/330750/ (edited)
+
+
+
+Jury Mironov [2 days ago]
+Оно само ломается,  ахах).  Не знаю,  хрень какая-то.  Накатил патчи до HW2, проверил - meals таблицу вывел,  накатил до HW3, сломалось, достал ревмзию HW2 - ошибка 404 при выборе списка meal
+
+
+Yevhen Maksymovych [2 days ago]
+ну так-то оно и должно ломаться, там суть домашек - чинить то, что сломалось, и доделывать то, что не доделали в уроке
+
+
+Jury Mironov [2 days ago]
+Так раньше не ломалось,  буду разбираться.  Причем каждый раз новые проблемы). Статью прочитал,  жалко парня.  Но имхо должно быть сделано так,  чтобы при желании нельзя было накосячить.  Я в сфере авиации работаю,  у нас близко могут не поставить разные  болты,  даже если по расчету проходят,  чтобы тупо не перепутали при сборке. А увлекаюсь я вертолетами ралиоуправляемыми.  Вот если у тебя разъемы сделаны так,  что можно что-то перепутать,  то 100% рано или поздно замкнешь аккумулятор или спалишь еще что-то.  А аккумуляторы там машину завести могут, так что фейерверк и кучка кирпичей обеспечены)
+
+
+e.pekhterev [2 days ago]
+всё откладываю, а надо бы давно уже с гитом по серьезнее разобраться
+
+
+Kirilo [1 day ago]
+Это называется нужно правильно работь с инструментом контроля версий и искать причину. То есть у нас обучение многостороннее и это его элемент. (edited)
+
+
+Михаил [1 day ago]
+А не бывает сообщения "Maven projects need to be imported" в правом нижнем углу? (edited)
+
+
+Михаил [1 day ago]
+Ну и перед каждым коммитом можно просто делать архив папки проекта на всякий случай, чтобы с самого начала не начинать, git-овский репозиторий же внутри этой же папки хранится, проект Идеи тоже. (edited)
+
+
+matrocob [Jul 19th at 10:35 PM]
+in #hw4
+Подскажите пожалуйста в методе save класса JpaMealRepositoryImpl надо проверять юзера если еда не новая или можно сразу else em.merge? (edited)
+
+
+33 replies
+matrocob [1 day ago]
+И еще вопрос, почему нельзя сразу сделать метод
+  public Meal save(Meal meal, User user) ?
+Из-за того, что другие классы поплывут?
+
+
+Prodigy [1 day ago]
+желательно для новых сущностей использовать persist
+
+
+matrocob [1 day ago]
+не, это не тот ответ, как сохранить я уже понял, это легко, а вопрос в том, как правильно обновить?
+
+
+matrocob [1 day ago]
+все, до меня дошло, как четко обновить пользоватея!))
+
+
+Prodigy [1 day ago]
+и как?)
+
+
+e.pekhterev [1 day ago]
+ещё пока не дошел, но судя по предыдущим реализациям нужно проверять, ничего не должно изменяться, если еда не принадлежит авторизованному пользователю (edited)
+
+
+matrocob [1 day ago]
+блин, пипец с товарищем спорим, как думаете, вот такой вариант? 
+else if (meal.getUser().getId() == userId) {
+           return em.merge(meal);
+       }
+Просто он пишет - нельзя сравнивать входящие данные с входящими
+
+
+Prodigy [1 day ago]
+ну там вроде все проще: сначала проверяем новый мил или нет, если нет, то мержим
+
+Prodigy [1 day ago]
+я имею ввиду что так не очень красиво проверять юзера
+
+Prodigy [1 day ago]
+можно в try-catch засунуть мерж... тогда проверку можно не делать
+
+
+Prodigy [1 day ago]
+но я бы так не делал)
+
+
+matrocob [1 day ago]
+ты получается не проверяешь залогиненного юзера? а просто даешь на откуп метод udpate всем пользователям?))
+
+
+matrocob [1 day ago]
+типо "та вроде должен норм сработать метод merge" без всяких проверок))
+
+Prodigy [1 day ago]
+если мил не новый, значит ты его вытянул ранее, значит ты уже знаешь юзера.... и просто делаешь мердж уже существующей сущности
+
+
+Prodigy [1 day ago]
+зачем проверки еще
+
+
+Prodigy [1 day ago]
+в примере выше ты проверяешь по сути одного и того же юзера
+
+
+Prodigy [1 day ago]
+ты вытянул мил из базы по залогиненому юзеру, а потом ты эти два одинаковый айди юзера сравниваешь (edited)
+
+
+matrocob [1 day ago]
+если еда пришла - не новая, значит ее кто-то добавил, а этот кто-то User... а userId - это залогиненный наш пользователь. Теперь мы должны сравнить, Юзера, который добавил саму эту еду и Залогиненного юзера.. если id у этих пользователей разный то хренушки чувак тебе а не апдейт еды.
+если с id злоумышленник может попасть в какую-то еду то это норм?
+Как думаешь в если проект был связан с банковской системой, ты бы все равно не стал проверять id залогиненного пользователя? 
+Извини может я конечно заморачиваюсь, я не хочу доказать тебе или другому что надо именно проверять, наоборот меня неплохо было бы убедить =D
+
+
+Prodigy [1 day ago]
+т.е. ты полагаешь, что какойто юзер смог получить чужую еду, изменить ее и попытаться сохранить в базу?)
+
+Prodigy [1 day ago]
+тут вопрос открытый: КАК он может получить чужую еду)
+
+Stanislav [1 day ago]
+Легко
+
+Prodigy [1 day ago]
+чтобы получить чужую еду, ему нужно иметь id другого юзера
+
+
+Stanislav [1 day ago]
+если ты задаешь такие вопросы, то тебе надо почитать что такое Rest сервисы (мы это с 1 урока изучаем)
+
+
+Stanislav [1 day ago]
+http://localhost:8080/topjava/meals?action=update&id=100006 (ставь любой id)
+
+Stanislav [1 day ago]
+то же и с постом
+
+Prodigy [1 day ago]
+это у нас сейчас id юзера шестизначное число, а когда будет спринг-секурити например, там будут хеши, если я не ошибаюсь....
+
+
+Prodigy [1 day ago]
+так просто уже не поставишь любой айди
+
+
+Prodigy [1 day ago]
+ну хотя это зависит от реализации, не буду спорить, не уверен
+
+Stanislav [1 day ago]
+То что будет потом, будет потом. Сейчас обсуждаем то что сейчас.
+
+
+Prodigy [1 day ago]
+ну тогда вероятно нужно делать доп проверку на соответсвие юзера
+
+Grigory Kislin [1 day ago]
+@Prodigy да, проверку делать. об этом в ДЗ сказано много раз (в том числе и как очень просто отправить запрос на обновление чужой еды). при авторизации будут теже самые id еды
+
+
+Prodigy [7 hours ago]
+так на какой реализации остановился при проверке user_id?
+
+
+Prodigy [7 hours ago]
+рассматриваю такой вариант в начале метода save:
+if(meal.getUser().getId() != userId){
+           return null;
+       }
+
+
+Joanna [Yesterday at 12:16 AM]
+in #hw4
+скажите пожалуйста, после наката 4_1_HW3_Optional.patch в тестовом классе InMemoryAdminRestControllerSpringTest "repository" ище не внедрен в контекст. У Вас так тоже? (типа задумано переключаться между repository.jdbc в spring-app.xml) ?
+
+
+8 replies
+Victor [1 day ago]
+у меня `@ContextConfiguration("classpath:spring/spring-app.xml")` в InMemoryAdminRestControllerSpringTest на этом патче (edited)
+
+
+Victor [1 day ago]
+в spring-app.xml у меня `<context:component-scan base-package="ru.javawebinar.**.repository.jdbc"/>`
+
+
+Victor [1 day ago]
+то есть внедрен jdbc пакет репозитария
+
+Joanna [1 day ago]
+да, тоже так, но тогда repository подчеркнут красным, а чтоб не был и тесты отработали надо  просто закоментить .jdbc. А чтоб MealServiceTest отработал - обратно ".jdbc" в xml. Я просто когда домашку делала, в test/reporitory создавала отдельный xml для in-memory тестов
+
+
+Victor [1 day ago]
+все так :slightly_smiling_face:
+
+
+Joanna [1 day ago]
+ну лан, если у тя так, тогда я поехала дальше, спс
+
+
+Victor [1 day ago]
+я даже не задумался )))
+
+
+Joanna [1 day ago]
+Спкйнч :sleeping_accommodation:
+
+
+Yevhen Maksymovych [9:44 AM]
+Ребят, кто-нибудь может пояснить по зависимости org.glassfish:javax-el? (edited)
+я вижу ссылку, что у hibernate-validator'а нет встроенной реализации проверки, он опирается только на апи, но диаграмма зависимостей этого не подтверждает
+
+Yevhen Maksymovych [9:45 AM]
+uploaded this image: image.png 
+
+
+Yevhen Maksymovych [9:45 AM]
+в ней hibernate-validator чихать хотел на javax.el
+
+
+Yevhen Maksymovych [Yesterday at 9:46 AM]
+in #hw4
+validation-api отдельно, javax.el отдельно. или там validation-api сам каким-то хитрым образом находит в класспасе свои реализации? (edited)
+
+
+1 reply
+Grigory Kislin [1 day ago]
+в уроке есть ссылка, что хибернейту он нужен
+http://hibernate.org/validator/documentation/getting-started/#unified-expression-language-el
+как он инстанцииируется- не в курсе, можешь подебажить. например в конструктор брекпойнт поставь
+
+
+e.pekhterev [Yesterday at 10:55 AM]
+in #hw4
+как прицепиться к базе HSQLDB ? в выборе при создании подключения к базе нет embedded, только local и remote?
+
+
+11 replies
+Stanislav [1 day ago]
+Из другого моего проекта
+     ```<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="#{dbH2Props['driverClassName']}"/>
+        <property name="url" value="#{dbH2Props['url']}"/>
+        <property name="username" value="#{dbH2Props['username']}"/>
+        <property name="password" value="#{dbH2Props['password']}"/>
+    </bean>```
+
+
+Stanislav [1 day ago]
+Проперти
+ ```driverClassName           = org.h2.Driver
+url                       = jdbc:h2:file:./db_logs
+username                  =
+password                  =
+hibernate.dialect         = org.hibernate.dialect.H2Dialect
+hibernate.hbm2ddl.auto    = update
+hibernate.show_sql        = true
+hibernate.max_fetch_depth = 3
+hibernate.jdbc.fetch_size = 50
+hibernate.jdbc.batch_size = 10``` 
+
+
+Stanislav [1 day ago]
+     ```<bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="kz.shop.model"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+        </property>
+        <property name="jpaProperties" ref="dbH2Props"/>```
+
+
+Stanislav [1 day ago]
+1. Драйвер 2. Диалект 3. Проперти ну и для встроенной базы пул конектов (например через с3по) нет смысла указывать
+
+
+e.pekhterev [1 day ago]
+спасибо, попробую разобраться
+
+
+sky [1 day ago]
+А чем local не устраивает?
+
+
+e.pekhterev [1 day ago]
+всё устраивает, только в видео другая версия идеи и немного всё по другому выглядит, сейчас уже разобрался
+
+
+e.pekhterev [1 day ago]
+и думал, что всё же должна быть база инМемори, а не в файле, немного запутался в инструкциях в видео
+
+
+Stanislav [1 day ago]
+Не правильно тебе написал. Не так понял вопрос :slightly_smiling_face: Я так понял ты хотел ЕнтитиМенеджер настроить на эмбэдед базу...
+
+
+Stanislav [1 day ago]
+А ты про выбор в idea что бы в запросах он энтити красным не подчеркивал
+
+
+e.pekhterev [1 day ago]
+я про инструкции в видео *_6. Добавляем поддержку HSQLDB_* о подключении к базе данных HSQLDB embedded после запуска тестов сервиса юзеров. 
+Со всем разобрался (в видео просто старая версия Идеи и было не совсем понятно, что делать в новой, плюс упустил момент переключения базы на файловый режим, думал, что она должно быть в мемори)
+
+
+Jury Mironov [Yesterday at 11:25 AM]
+in #hw4
+на Prepare_to_HW4 после всех патчей проект должен деплоиться без ошибок?
+
+
+10 replies
+Stanislav [1 day ago]
+на 4_5 будет собираться
+
+
+Stanislav [1 day ago]
+4_5_create_mock_test_ctx.patch
+
+
+Jury Mironov [1 day ago]
+а у меня не хочет
+
+
+Stanislav [1 day ago]
+на каком патче
+
+
+Stanislav [1 day ago]
+Version Control -> Log сфотай
+
+
+Jury Mironov [1 day ago]
+я достал ревизию 4_5
+
+
+Jury Mironov [1 day ago]
+помогло maven clean install
+
+
+Daniel [1 day ago]
+@Jury Mironov так у тебя деплоится после всех патчей? у меня такую штуку выбрасывает *javax/xml/bind/JAXBException* (edited)
+
+
+Jury Mironov [1 day ago]
+деплоится , но при выборе user  или meal nullpointerException
+
+
+Daniel [1 day ago]
+Все, я одну dependency добавил, и тоже задеплоилось.
+
+
+Jury Mironov [11:40 AM]
+uploaded this image: Как это поправить кто-нибудь знает? 
+
+Prodigy [11:46 AM]
+а как объявлен entityManagerFactory ?
+Jury Mironov [11:48 AM]
+а где он объявляется?
+
+Yevhen Maksymovych [11:48 AM]
+там же, в spring-db.xml
+
+Prodigy [11:49 AM]
+commented on Jury Mironov’s file Как это поправить кто-нибудь знает?
+выше,  том же файле
+Jury Mironov [11:49 AM]
+<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+         p:dataSource-ref="dataSource"
+         p:packagesToScan="ru.javawebinar.**.model">
+       <!--p:persistenceUnitName="persistenceUnit">-->
+Prodigy [11:51 AM]
+вроде всё верно
+Prodigy [11:52 AM]
+после накатки патчей такое?
+
+Jury Mironov [11:53 AM]
+ага
+
+Prodigy [11:54 AM]
+похоже на глюк идеи... у меня тоже такие проблемы бывают, после накатки патчей
+
+Yevhen Maksymovych [11:55 AM]
+commented on Jury Mironov’s file Как это поправить кто-нибудь знает?
+попробуй сделать мавен клин и реимпорт. и проверь, что у тебя указана версия спринга, ну, мало ли, вдруг подтянулась какая-то старая реализация этого менеджерфакторибина, который не имплементирует нужный интерфейс
+
+
+Prodigy [Yesterday at 11:58 AM]
+in #hw4
+В видео к этому уроку вижу NamedQuery, а по факту мы не будем использовать уже такую реализацию?
+
+
+2 replies
+Yevhen Maksymovych [1 day ago]
+почему? будем
+
+
+Prodigy [1 day ago]
+аа.. сорри... еще не дошел до этого патча
+
+
+Jury Mironov [12:00 PM]
+commented on Как это поправить кто-нибудь знает?
+перезапустил идею, прошло)
+
+realcorwin [12:39 PM]
+семь бед - один reset :slightly_smiling_face:
+
+Prodigy [12:41 PM]
+@Grigory Kislin Посмотрел видео данного урока и возник вопрос: почему в проекте транзакционность вынесена на слой репозитория, почему не на слой сервиса? по своему скромному опыту могу сказать, что удобнее транзакциями пользоваться на слое сервисов, потому как бизнес логика реализуется обычно на слое сервисов, и бывает что нужно делать несколько операций в транзакции, что неудобно, когда транзакционность на слое репозитория. Интересны мысли по этому поводу.
+
+
+Grigory Kislin [Yesterday at 2:02 PM]
+in #hw4
+@Prodigy когда будем использовать в логике сервиса несколько запросов, то будем объявлять транзакции на сервисе. они по умолчанию Propagation.REQUIRED- поддерживают существующую
+а в репозитории удобно, тк не надо об этом думать в сервисах- так сделано в spring-data-jpa (edited)
+
+
+2 replies
+Prodigy [1 day ago]
+т.е. у нас и в слое сервисов и в слое репозитория будут транзакции? нет ли тут избыточности?
+
+
+Prodigy [1 day ago]
+или это нормально?
+
+
+Gagarina6794 [Yesterday at 2:08 PM]
+in #hw4
+@Entity
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})   у кого была проблема, поле нейм красным и не понимает его идея, так все нормально, вот это поле в юзер и еще в JpaUserRepositoryImpl  em.createNamedQuery(User.BY_EMAIL, User.class) тоже красное (edited)
+
+
+13 replies
+Stanislav [1 day ago]
+У всех была, необходимо в настройках проекта в фасете добавить JPA (в видео есть).
+
+
+Gagarina6794 [1 day ago]
+добавила и передовавила, все есть, бины есть и персистент тоже
+
+
+Gagarina6794 [1 day ago]
+только эти поля а так по всему проэкту норм
+
+Yevhen Maksymovych [1 day ago]
+а какой именно нейм не канает? из @Table или из @UniqueConstraint?
+
+
+e.pekhterev [1 day ago]
+@Gagarina6794 наведи на строку em.createNamedQuery(User.BY_EMAIL, User.class)и напиши сюда, что он там пишет (что не может создать энититиМенеджера)
+
+
+e.pekhterev [1 day ago]
+@Yevhen Maksymovych в юзере пишет, что не может резолвить этот name, а в репозитории - не может создать энтити менеджер)
+
+
+e.pekhterev [1 day ago]
+чёт там Хибернейту похоже совсем не хорошо
+
+Yevhen Maksymovych [1 day ago]
+не, я к тому, что там два нейма - возможно просто аннотация не из нужной либы импортнулась
+
+Gagarina6794 [1 day ago]
+createNamedQuery
+(String)
+in EntityManager cannot be applied
+to
+(String,
+java.lang.Class<ru.javawebinar.topjava.model.User>)
+
+
+Gagarina6794 [1 day ago]
+@Override
+   public User getByEmail(String email) {
+       List<User> users = em.createNamedQuery(User.BY_EMAIL, User.class)
+               .setParameter(1, email)
+               .getResultList();
+       return DataAccessUtils.singleResult(users);
+   }
+
+
+Yevhen Maksymovych [1 day ago]
+покажи гит, короче
+
+
+Gagarina6794 [1 day ago]
+ну пока потробую перезапустить патчи, а то после гита вообще все полохо станет
+
+
+Gagarina6794 [1 day ago]
+решила, там по невнимательности добавила автоматом jpaee.jar, надо было через мавен
+
+
+e.pekhterev [Yesterday at 2:48 PM]
+in #hw4
+в Meal.java  должна остаться ленивая инициализация по итогу?
+@ManyToOne(fetch = FetchType.LAZY)
+private User user;
+
+
+39 replies
+Prodigy [1 day ago]
+думаю это будет зависеть от того нужен будет тебе юзер или нет... вроде в видео Григорий говорил что не нужен будет
+
+
+e.pekhterev [1 day ago]
+ну нам же нужно user_id брать
+
+
+Prodigy [1 day ago]
+если на вэбе нужно брать user_id, то LAZY не подойдет
+
+
+Prodigy [1 day ago]
+внутри транзакции достаточно LAZY
+
+e.pekhterev [1 day ago]
+сервис тест потом ругается, что не может создать прокси
+
+e.pekhterev [1 day ago]
+org.hibernate.LazyInitializationException: could not initialize proxy [ru.javawebinar.topjava.model.User#100000] - no Session
+
+
+Prodigy [1 day ago]
+потому что он обращается к юзеру когда сессия уже завершена
+
+
+Prodigy [1 day ago]
+соответствнно прокси уже нету
+
+
+Prodigy [1 day ago]
+ну поставь EAGER
+
+e.pekhterev [1 day ago]
+ахах)) так кто-нибудь сделал так, чтобы была LAZY инициалиация и тесты сервиса при этом работали нормально? (edited)
+
+Prodigy [1 day ago]
+можно, если обернуть твои тесты транзакциями))
+
+alexey [1 day ago]
+я исключил user из тестирования:wink:
+
+
+Yevhen Maksymovych [1 day ago]
+>>если на вэбе нужно брать user_id, то LAZY не подойдет
+
+
+Yevhen Maksymovych [1 day ago]
+почему не подойдёт?
+
+Prodigy [1 day ago]
+потому что LAZY сущность будет доступна только внутри транзакции... а следовательно на веб улетит null
+
+Yevhen Maksymovych [1 day ago]
+если нам айдишник только нужен, обёртки с головой хватит-то
+
+Prodigy [1 day ago]
+под оберткой ты подразумеваешь прокси ?
+
+
+Yevhen Maksymovych [1 day ago]
+ага
+
+Prodigy [1 day ago]
+прокси будет недоступен
+
+Yevhen Maksymovych [1 day ago]
+почему? инстанцированный объект будет доступен, в нём будет сидеть живой праймари кей. другое дело, что остальные поля не сможет вытянуть, потому что транзакция закрыта, но нам только id и нужен
+
+
+Prodigy [1 day ago]
+org.hibernate.LazyInitializationException: could not initialize proxy [ru.javawebinar.topjava.model.User#100000] - no Session
+видишь какая у него была ошибка, что говорит о том что прокси недоступен после закрытия сессии
+
+
+Yevhen Maksymovych [1 day ago]
+ну так он хотел небось по полям что-то сравнивать
+
+
+Yevhen Maksymovych [1 day ago]
+я говорю только об id
+
+Prodigy [1 day ago]
+не важно, тут суть в том, что прокси недоступен, ни его id в том числе
+
+
+Yevhen Maksymovych [1 day ago]
+суть в том, что прокси недоступен, а id доступен :slightly_smiling_face:
+
+
+Yevhen Maksymovych [1 day ago]
+проверь сам
+
+
+Yevhen Maksymovych [1 day ago]
+        ```Meal actual = service.get(ADMIN_MEAL_ID, ADMIN_ID);
+//        System.out.println(actual.getUser());
+        System.out.println(actual.getUser().getId());```
+
+
+Yevhen Maksymovych [1 day ago]
+закоментированная строчка упадёт с эксепшеном, незакоментированная - выдаст тебе id
+
+
+
+Prodigy [1 day ago]
+это ты тестируешь в контроллере?
+
+Alexander Pilipenko [1 day ago]
+В тесте
+
+
+Yevhen Maksymovych [1 day ago]
+да без разницы в чем тестировать. хибернейт при создании референса на объект праймари кей вытягивает "насовсем", он будет доступен после закрытия транзакии
+
+Prodigy [1 day ago]
+вообще "на вэб" я имел ввиду передачу объекта например в jsp...
+
+
+Prodigy [1 day ago]
+по поводу id я не знал что он доступен
+
+Prodigy [1 day ago]
+т.е. после закрытия сессии, прокси продолжает висеть, чтобы предоставить доступ к id сущности? (edited)
+
+
+Yevhen Maksymovych [1 day ago]
+да, но кому он мешает? ты не парься, там нет каких-то накладных расходов на поддержание сессии или ещё чего: в хипе памяти просто висит инстанцированный наследник твоего юзера с одним заполненным атрибутом и отсылкой на какую-то хибернейт-магию, которая в свою очередь инстанцируется при открытии транзакции
+
+
+Yevhen Maksymovych [1 day ago]
+вот, тут небольшое объяснение
+
+Yevhen Maksymovych [1 day ago]
+http://blog.xebia.com/advanced-hibernate-proxy-pitfalls/
+Xebia Blog
+Advanced Hibernate: Proxy Pitfalls
+Shares 1
+
+
+Prodigy [1 day ago]
+ну понятно, прокси объекта существует пока существует сам объект, соответственно его id доступен даже вне сессии (хотя мне это непонятно, почему он существует вне сессии)
+
+
+Prodigy [1 day ago]
+статья этого не раскрывает
+
+
+Sergey [Yesterday at 3:28 PM]
+in #hw4
+Подскажите на каком уровне подвязывается переменная ${database.init} в xml спринга <jdbc:initialize-database enabled="${database.init}">. Интересует сама механика. Откуда XML знает, что у нас есть проперти и почему ссылка на него через "database".
+
+
+4 replies
+alexey [1 day ago]
+<context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/> тут говорим сканировать файл пропертей
+
+
+Sergey [1 day ago]
+да, это я понял) но после сканирования куда попадают переменные из файла и откуда они вытаскиваются ${} этой конструкцией?
+
+
+Sergey [1 day ago]
+Контекст спринга?
+
+
+Prodigy [1 day ago]
+всё варится в контексте спринга
+
+
+Jury Mironov [3:30 PM]
+uploaded this image: Snap 2018-07-20 at 15.28.53.png 
+
+
+Jury Mironov [3:31 PM]
+uploaded this image: can't resolve method 
+
+Jury Mironov [3:39 PM]
+package org.springframework.cglib.core;
+Jury Mironov [3:40 PM]
+public class CollectionUtils isEmpty  - метода такого нет
+
+Jury Mironov [3:43 PM]
+commented on Snap 2018-07-20 at 15.28.53.png
+так и должно быть,  как я понял?
+Johann [3:44 PM]
+package org.springframework.util;
+Jury Mironov [3:48 PM]
+хз,  почему у меня другой импорт
+Jury Mironov [3:48 PM]
+спасибо
+Jury Mironov [3:57 PM]
+Я jpa добавил,  а User все равно красным подчеркивает
+Johann [4:15 PM]
+похожая проблема, решена - https://topjava14.slack.com/archives/CBUBTP0TG/p1532084912000298
+Jury Mironov [4:24 PM]
+перезагрузил идею,  помогло
+
+Jury Mironov [4:55 PM]
+Не проходят тесты - Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment]
+
+e.pekhterev [5:13 PM]
+uploaded and commented on this image: LocalDateTime mismatch.png 
+
+У кого то была такая штука? и как бороться?
+Бился целый час, уже всё что можно перерыл/перечитал. 
+Потом проверил, а оно работает и всё хорошо, но Идея подсвечивает как ошибку.
+Join_Selectovich [5:27 PM]
+Странно что после where идет and
+e.pekhterev [5:27 PM]
+ничего странного, там подтер код))) не хочу просто решение светить
+Join_Selectovich [5:27 PM]
+))
+e.pekhterev [5:28 PM]
+и так свечу слишком много
+Join_Selectovich [5:31 PM]
+Select m from Meal m - тоже странно
+Join_Selectovich [5:31 PM]
+ты там тоже поддтер
+e.pekhterev [5:31 PM]
+это есть правильно
+Join_Selectovich [5:31 PM]
+m.*
+Join_Selectovich [5:32 PM]
+или название столбца вроде должно быть обычно
+e.pekhterev [5:32 PM]
+это HQL
+Yevhen Maksymovych [5:32 PM]
+это нормально. идея не успевает угнаться за синтаксисом hql
+Join_Selectovich [5:32 PM]
+ааа
+e.pekhterev [5:33 PM]
+вот блин, ну реально обидно)))) чассссссссссс, целый час пытался это исправить, а оно уже работало, и правильно работало)))) вот ёлы
+
+Join_Selectovich [5:34 PM]
+типичный разработческий процесс
+
+
+Prodigy [Yesterday at 6:04 PM]
+in #hw4
+посмотрел сколько участников в канале и в предыдущих уроках.... тенденция к уменьшению... интересно, народ не успевает или забивает
+
+
+6 replies
+Jury Mironov [1 day ago]
+Я офигеваю от происходящего).  У меня до дз не всегда доходит,  сижу поправляю ошибки,  а потом новый урок и куча непонятной фигни...
+
+
+Prodigy [1 day ago]
+ты первый раз на курсе? (edited)
+
+
+Jury Mironov [1 day ago]
+второй, первый раз бросил после HW2,  ахах
+
+
+Prodigy [1 day ago]
+А че? Тяжело было?
+
+
+Oleg K [1 day ago]
+так лето же в самом разгаре, не до стажировки:stuck_out_tongue_winking_eye:
+
+
+Maksim K [13 hours ago]
+Вот насчет лета согласен. Вроде и хочется обучению как можно больше времени уделять, но и лето про....пустить не хочется. Вот и приходится метаться как белка в колесе. И по поводу новой инфы: ее тут реально много. Я обычно дз начинаю делать уже за дня два-три до следующего дз) Поначалу хотелось все почитать, посмотреть по ссылкам, а только потом делать дз. Но сейчас понимаю, что это не реально. Поэтому знакомлюсь чисто поверхностно с материалом и дальше. Иначе нифига не успеешь. А еще надо еще один проект делать. Как все успеть, хз)
+
+
+Yevhen Maksymovych [6:05 PM]
+Второгодников количество уменьшается
+
+Prodigy [6:10 PM]
+в канале general 356 человек, в hw4 87
+
+
+Prodigy [Yesterday at 6:11 PM]
+in #hw4
+я чего то не понимаю наверное)
+
+
+18 replies
+e.pekhterev [1 day ago]
+часть народа присоединилось гораздо позже, и они ещё просто не дошли до 4-го ДЗ
+
+
+Prodigy [1 day ago]
+я понял, раскидало народ по каналам
+
+
+Join_Selectovich [1 day ago]
+Ещё 2ух дней не прошло даже , наверное ещё на выходные народ подойдёт, возможно не все по будням могут заниматься
+
+
+Join_Selectovich [1 day ago]
+И вообще на этот курс нужно заходить уже с небольшим background - ом.
+
+
+Join_Selectovich [1 day ago]
+А может и с большим. Возможно кто-то на base java перешёл (edited)
+
+vch [1 day ago]
+На javaops.ru указано, что в topjava всего было 1505 участников.
+Сейчас 14 поток, т.е. 1505/14 = 107 новых участников.
+Григорий говорил, что до финиша доходит 25%.
+Вот и считайте, сколько останется к HW10
+
+
+Join_Selectovich [1 day ago]
+25% !?! :flushed:
+
+
+realcorwin [1 day ago]
+не лучшая реклама для курса :slightly_smiling_face:
+
+
+realcorwin [1 day ago]
+в предыдущем потоке было интересно наблюдать, как с каждой неделей кол-во участников падает
+
+vch [1 day ago]
+Почему? А может наоборот - люди успешно находят работу уже в процессе учёбы? Тогда наоборот - реклама - нескольких занятий хватает для получения высокого уровня. Тут ведь как интерпретировать...
+
+
+Prodigy [1 day ago]
+А как было видно: по кол-ву участников в новых группах или по кол-ву обсуждений?
+
+realcorwin [1 day ago]
+интерпретировать нужно не отрываясь от реальности :slightly_smiling_face: ...по всему было видно. кстати, этот поток гораздо активнее
+
+Prodigy [1 day ago]
+Довольно большой обьем информации нужно пропустить через себя, не каждый готов к этому
+
+
+e.pekhterev [24 hours ago]
+@realcorwin я так понимаю на этом потоке активнее ребята с предыдущего потока.
+
+
+realcorwin [23 hours ago]
+в этой шутке есть доля шутки :slightly_smiling_face:
+
+Макс Куркудюк [6 hours ago]
+Як на мене, сюди приходило багатенько людей, які працюють на роботі і паралельно проходять даний курс. Як на мене, якщо робота - не в IT, то залишається мало часу для розуміння, д/з.. Тому такі люди відстають, або відкладають на потім.
+До того ж, ті, хто проходив курс навчання, наприклад на javarush (і т.п.), де у тебе необмежена к-сть часу (хто встигав ще ходити на роботу) - даний курс - дещо добре важкий.
+А коли, приділяєш навчанню майже кожен день, то все нор і результат також)
+
+
+Kirilo [3 hours ago]
+Я уже третий раз иду. Первый раз просто не успевал где-то с этого места и не так сильно вникал. Второй раз уже дошел до деплоя на Хироку, но в голове осталась каша по технологиям. Работа, семья. Все это отвлекает от нормального обучения. Сейчас уже в каждую строчку всматриваюсь, делаю все Д/З без исключения(опциональные обязательно). Для этого уволился с работы, предварительно побеспокоился, чтобы на несколько месяцев было за что жить, жену с детьми отправил в село к родителям - лето все-таки. Теперь от учебы полный восторг и понимание что, куда и зачем. :slightly_smiling_face: (edited)
+
+
+
+Макс Куркудюк [2 hours ago]
+З таким підходом - успіх не за горами:+1:
+
+
+Merkulov [Yesterday at 8:29 PM]
+in #hw4
+как можно в тестах проверять не всего пользователя, а только его Id ?
+
+
+7 replies
+Yevhen Maksymovych [1 day ago]
+просто проверяй сначала еду без пользователя, а потом отдельно ид пользователя
+
+
+Yevhen Maksymovych [1 day ago]
+или просто забей, и проверяй без пользователя
+
+
+Merkulov [1 day ago]
+Если нашему приложению Meal.user не требуется, не следует включать его в тесты. В следующем уроке мы потренируемся разными способами доставать зависимости Meal.user и User.meals
+
+
+Merkulov [1 day ago]
+еще уточнил у менторов исключить ли мне из тестов пользователя сказали, что да
+
+
+Prodigy [7 hours ago]
+т.е. не нужно делать проверку на соответствие залогиненного юзера и юзера в еде?
+
+
+Prodigy [7 hours ago]
+или о каких проверках id пользователя идет речь?
+
+
+dimlo [3 hours ago]
+@Merkulov "Исключить пользователя" - то есть метод getAll(int userId) в JpaMealRepository возвращает у Вас всю еду всех пользователей?
+
+
+Merkulov [Today at 11:31 AM]
+in #hw4
+Caused by: java.io.FileNotFoundException: class path resource [spring/spring-db.xml] cannot be opened because it does not exist
+снова такая трабла, я уже устал удалять папку .idea в чем может быть проблема ?
+
+
+5 replies
+Merkulov [11 hours ago]
+иногда помогает clean в мавене и compile
+
+Merkulov [11 hours ago]
+но не всегда
+
+
+Victor [11 hours ago]
+было у меня - незаметный пробел вписался. Проверь имя и path файла
+
+
+Merkulov [10 hours ago]
+имена это первое, что я проверил)
+
+
+Merkulov [10 hours ago]
+проблема решилась clean and compile
+
+
+Prodigy [Today at 2:49 PM]
+in #hw4
+`@Column(nullable = false)` если я не ошибаюсь это нужно только для генерации таблички? если мы сами сгенерили таблички скриптом, необязательно это указывать? (edited)
+
+
+3 replies
+Yevhen Maksymovych [8 hours ago]
+Вообще да, необязательно. Но лучше указать, а в настройках хибернейта для hbm2ddl указать validate. А то мало ли, вдруг кто-то альтернул какую-то таблицу, а мы этого не знаем
+
+
+Yevhen Maksymovych [8 hours ago]
+А так мы удостоверимся при запуске, что наши энтити смогут персистироваться в бд (edited)
+
+
+Prodigy [8 hours ago]
+ок, спасибо!
+
+
+matrocob [2:58 PM]
+Всем ссылочка к оптионал на доп материал для optional)
+мне понравилось)
+http://qaru.site/questions/799389/record-time-it-takes-junit-tests-to-run (edited)
+qaru.site
+java - Записывать время, которое требуется для запуска тестов JUnit - Qaru
+Я хотел бы записать, как долго мой тест JUnit запускается программно. У меня есть большое количество тестов в различных тестовых классах, и я хотел бы узнать, как долго проходит каждый отдельный метод тестирования. Я могу изменить структуру наследов
+
+
+Kirilo [Today at 5:40 PM]
+in #hw4
+Очень длинные видео порой - утомляет.  Нормально было бы делить длинные видео ролики на фрагменты не более 10 мин, информация усваивалась бы намного лучше.
+
+
+
+3 replies
+Макс Куркудюк [4 hours ago]
+Ніхто не заважає натиснути на паузу)
+
+
+Kirilo [4 hours ago]
+Можна і Машку за ляшку. Так і роблю. Подивись, для прикладу, як на степіку зроблено. Продукт комерційний і це додасть йому більшої привабливості. 
+"Можно и Машку за Ляшко. Так и делаю. Посмотри, например, как на Степике сделано. Продукт коммерческий и это придаст ему большей привлекательности".
+
+
+Victor [1 hour ago]
+80 минут можно на 3 подтемы разбить, и пользоваться удобнее. Если нужно пересмотреть, по названию видео удобно искать.
+
+
+Андрей [6:34 PM]
+помощниц привлекать к съёмкам обучающих видео
+
+
+Prodigy [Today at 7:10 PM]
+in #hw4
+В тесте есть метод `updateNotFound` который ожидает `NotFoundException`, метод `merge` никак не возвращает такой эксепшн. Вопрос: в методе `save`  нужно самому кидать такой эксепшн в случае если айди еды и юзера не совпадают? (какая то муть с этим юзером и с тестовыми данными без юзеров)
+
+
+2 replies
+Yevhen Maksymovych [3 hours ago]
+сервис бросает этот эксепшн, если репозиторий возвращает null. сделай дополнительную проверку на уровне репозитория, чтобы он вернул нулл при обновлении чужой еды
+
+
+Prodigy [3 hours ago]
+ты прав, как то я упустил из виду имплементацию в сервисе

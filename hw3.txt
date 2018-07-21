@@ -1983,3 +1983,1231 @@ Victor_D [16 minutes ago]
 
 Maksim K [4 minutes ago]
 раз 30-40 наверное) и clean тоже столько же. а может и больше. ниче не помогает. уже  даже надоело гуглить. ниче не помогает. может кто что дельное подскажет
+
+
+Yevhen Maksymovych [4 days ago]
+В смысле, у тебя в таргет так и указано 9.0.1? Покажи секцию build пома
+
+
+Андрей [4 days ago]
+Может уже тогда 10ку пробуй. "Java SE 9 has reached end of support. Users of Java SE 9 should switch to Java SE 10." (Oracle)
+
+
+sky [4 days ago]
+<fork>true</fork>
+   <executable>C:\Program Files\Java\jdk1.7.0_79\bin\javac</executable>
+разве здесь не на 9.0.1 javac нужно указывать? Да и выложи сюда помник свой, вдруг поможет
+
+
+Maksim K [3 days ago]
+@sky у меня в <executable> моя версия естественно указана. это я просто скопировал с того сайта по ссылке и сюда выкинул.
+
+
+sky [3 days ago]
+тогда печаль
+
+
+Maksim K [3 days ago]
+@Yevhen Maksymovych вот мой помник:
+<build>
+       <finalName>topjava</finalName>
+       <defaultGoal>package</defaultGoal>
+       <plugins>
+           <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-compiler-plugin</artifactId>
+               <version>3.7.0</version>
+               <configuration>
+                   <source>9.0.1</source>
+                   <target>9.0.1</target>
+                   <!--<verbose>true</verbose>-->
+                   <!--<fork>true</fork>-->
+                   <!--<executable>D:\Program Files\Java\jdk-9.0.1\bin\javac</executable>-->
+               </configuration>
+           </plugin>
+           <plugin>
+               <groupId>org.apache.maven.plugins</groupId>
+               <artifactId>maven-surefire-plugin</artifactId>
+               <version>2.22.0</version>
+               <configuration>
+                   <argLine>-Dfile.encoding=UTF-8</argLine>
+               </configuration>
+           </plugin>
+       </plugins>
+   </build>
+
+
+Maksim K [3 days ago]
+<verbose></verbose>
+<fork></fork>
+ <executable>
+пока временно закомментил. все равно это не помогает. ошибка остается
+
+
+Yevhen Maksymovych [3 days ago]
+гхм, а если указать соурс и таргет 1.9?
+
+
+Yevhen Maksymovych [3 days ago]
+а не 9.0.1
+
+Yevhen Maksymovych [3 days ago]
+и в настройках проекта в идее какой по факту jdk?
+
+
+Maksim K [3 days ago]
+ну у меня везде и в найстройках так указано
+
+Maksim K [3 days ago]
+я так понимаю здесь в треде нельзя фото скинуть
+
+
+Maksim K [3 days ago]
+в общем везде у меня стоит 9.0.1. и в settings и в project structure
+
+sky [3 days ago]
+settings -> maven -> runner -> куда указывает jre, все там ок?
+
+Maksim K [3 days ago]
+Use Project Jdk (java version "9.0.1", path:D:/Program Files/Java/jdk-9.0.1
+
+
+Maksim K [3 days ago]
+но я там пробовал менял и на Use Internal Jre восьмой версии. Ну типа идеевской. Все равно ошибка
+
+sky [3 days ago]
+settings -> compiler -> java compiler? 
+хотя я думаю уже будет проще переставить идею..  и винду.. даже если у тебя мак..
+
+Maksim K [3 days ago]
+@sky В общем произошло чудо)))
+Заработало!!!
+
+sky [3 days ago]
+как починил то?
+
+Maksim K [3 days ago]
+меня @Yevhen Maksymovych натолкнул на мысль. Он сказал попробовать в помнике прописать версию  1.9. Но я правда решил не 1.9, а просто 9 поставить вместо 9.0.1. И о чудо. Заработало. Я х.з. почему мавену именно так надо было
+
+
+Maksim K [3 days ago]
+Но может у кого тоже будет похожая проблема и кому-то поможет)
+
+Grigory Kislin [3 days ago]
+нуда. ему надо стршую цифру
+
+Grigory Kislin [3 days ago]
+вообще у тебя с 9 еще будут проблемы
+
+Maksim K [3 days ago]
+типа пора на десятку переходить?))
+
+Yevhen Maksymovych [3 days ago]
+@Maksim K девятая же уже снята с поддержки, её даже с сайта не скачать
+
+
+Yevhen Maksymovych [3 days ago]
+если ты не корпорат с расширенной поддержкой
+
+sky [3 days ago]
+а не 11 следующая стецбл будет?
+
+sky [3 days ago]
+стейбл
+
+Grigory Kislin [3 days ago]
+11- да. 9 и 10- примерно одинаково. просто xml api надо будет подключить (edited)
+
+
+Maksim K [3 days ago]
+и кстати, насчет settings -> compiler -> java compiler?. Меня  это тоже натолкнуло в принципе на мысль. Там когда я вручную выбирал версию то высвечивалась просто 9. Потом когда делал в мавене реимпорт и заходил туда в настройки то там уже было 9.0.1. Ну наверно потому что у меня так было в помнике прописано и идея меняла автоматом при реимпорте. И вот тогда я и решил поставить просто 9. и заработало
+
+
+Maksim K [3 days ago]
+@Yevhen Maksymovych
+
+
+Maksim K [3 days ago]
+@Yevhen Maksymovych я наверно немного не в теме. в смысле снята с поддержки и с сайта не скачать. тут как я понял еще на восьмой люди сидят. да и вообще в действующих проектах тоже я так понимаю еще есть ниже 9 версии
+
+
+Yevhen Maksymovych [3 days ago]
+там начиная с девятой джавы оракл перешли на версию sts-lts
+
+sky [3 days ago]
+8 вместо 1.8 в помнике кстати прекрасно работает.
+
+Yevhen Maksymovych [3 days ago]
+т.е. есть версии long-time-support (это на текущий момент восьмая) и промежуточные short-time-support
+
+Yevhen Maksymovych [3 days ago]
+которые поддерживаются что-то около полугода
+
+
+Maksim K [3 days ago]
+ах вот оно что. и чем это чревато?
+
+
+Yevhen Maksymovych [3 days ago]
+поддержка девятой джавы уже прекращена, десятая до сентября будет обновляться. потом выйдет одиннадцатая, которую будут поддерживать минимум три года
+
+Yevhen Maksymovych [3 days ago]
+ну, т.е. версии с коротким саппортом - это по сути такие превью для разработчиков, которые хотят пощупать что-то новое
+
+Maksim K [3 days ago]
+и что вообще значит поддерживаются? может глупый вопрос)) зачем поддерживать? типа баги какие-то править?
+
+
+Yevhen Maksymovych [3 days ago]
+ну да, чего-то фиксится в самой jvm и в библиотеках. вот восьмой джавы на текущий момент уже 181-й билд вышел
+
+Yevhen Maksymovych [3 days ago]
+а девятой всего четыре было или что-то типа того
+
+Yevhen Maksymovych [3 days ago]
+т.е. прекращение поддержки означает, что если в ветке девятой джавы обнаружатся какие-то критические ошибки, с большой долей вероятности они уже исправляться не будут
+
+
+Maksim K [3 days ago]
+о блин. Спасибо за инфу. а я и не в курсе был). я на девятую зимой перешел. Ну думаю ща вроде говорят каждые полгода будет новая версия выходить. Думаю уже 9 вышла, скоро 10. а я еще как лох на 8-ой)) Думаю, надо в ногу со временем идти)) и скачал)
+
+
+Maksim K [3 days ago]
+я так понял надо сразу будет на 11 переходить)
+
+
+Maksim K [3 days ago]
+а ты на какой джаве?
+
+
+Yevhen Maksymovych [3 days ago]
+на 8-й, меня вполне устраивает :slightly_smiling_face:
+
+sky [3 days ago]
+а пользовался чем из 9ки?
+
+Maksim K [3 days ago]
+это типа ты меня так подколоть решил)))
+я ж говорю просто решил идти в ногу со временем))
+
+Maksim K [3 days ago]
+я просто не в курсе ваще этой темы был. думаю 8 то уже давно вышла. типа устарела))
+
+Maksim K [3 days ago]
+ну вот теперь буду немного в курсе) это как не все йогурты одинаково полезны, так и не все новые джавы лучше старых, да?))
+
+
+sky [3 days ago]
+ну например Map.of() выглядет интересным
+
+Maksim K [3 days ago]
+и, кстати, вот еще вопрос. если  эти новые версии не собираются долго поддерживать, то зачем тогда их так часто выпускать. ну выпускали бы раз там в год или в два. и нормально поддерживали. А то я вот зимой только скачал 9 версию, а через полгода узнаю, что ее уже не поддерживают и вообще она проблемная
+
+
+sky [3 days ago]
+Здесь надо сначала понять, как оракл вообще зарабатывает на джаве
+
+
+Maksim K [3 days ago]
+то есть все оказалось гораздо прозаичнее. деньги и все?...и больше никакого смысла?
+
+
+Maksim K [3 days ago]
+а как он зарабатывает, кстати. типа всякие сертификаты? или это капля в море. я просто тоже не в курсе)
+
+
+Yevhen Maksymovych [3 days ago]
+вообще, вот эта модель на которую ораклы перешли - как по мне довольно спорна. я так понимаю, java начала терять в популярности как платформа, они решили несколько приоткрыть завесу над планами ее развития
+
+
+Yevhen Maksymovych [3 days ago]
+так-то java8 четыре года назад релизнулась
+
+
+Prodigy [Jul 18th at 1:06 PM]
+in #hw3
+решил вместо мускуля использовать хваленый постгрес, и с некоторым разочарованием обнаружил что нету такого типа как DATETIME в постгресе, который например в мускуле хорошо работает с LocalDateTime... я так понимаю, что мне придется пользоваться TIMESTAMP и конвертить его? кто что думает об этом..
+
+
+
+12 replies
+e.pekhterev [3 days ago]
+его и используем
+
+Stanislav [3 days ago]
+spring-jdbc За тебя все делает
+
+Stanislav [3 days ago]
+да и конвертация, 2 строчки кода (туда и обратно)...сложно....
+
+
+realcorwin [3 days ago]
+всё, что не знаешь - сложно :slightly_smiling_face:. просто - то, что знаешь :slightly_smiling_face:
+
+
+Prodigy [3 days ago]
+минус постгресу за многословность
+
+Stanislav [3 days ago]
+Timestamp.valueOf().toLocalDateTime()
+
+
+
+Stanislav [3 days ago]
+тоже не знал, 1 минуту назад, ctrl+лкм
+
+
+Prodigy [3 days ago]
+@Stanislav Благодарю):+1:
+
+
+Merkulov [3 days ago]
+я вообще ничего не конвертировал все и так работает
+
+
+Stanislav [3 days ago]
+я выше об этом написал: spring-jdbc За тебя все делает
+
+
+Stanislav [3 days ago]
+Просто показал как не сложно найти то что не знаешь
+
+
+Prodigy [3 days ago]
+да, я уже увидел, что есть методы конвертации из одного в другое... подумал сперва, что придется самому что-то писать для конвертации
+
+
+Prodigy [Jul 18th at 5:55 PM]
+in #hw3
+Нужно исправлять неработающие тесты InMemoryAdminRestControllerTest, InMemoryAdminRestControllerSpringTest ? или достаточно просто понять почему они не работают? (edited)
+
+
+6 replies
+tkorky [3 days ago]
+для optional части надо будет исправить
+
+
+Prodigy [3 days ago]
+там вроде проблема в переносе моковской реализации
+
+
+sky [3 days ago]
+По сути wildcard **  в пути компонет скана, позволит просканить папку repository и в пакедже main и в пакедже test. Но если вернуть все как было будет проблема с ambiguity (edited)
+
+
+Prodigy [3 days ago]
+пути что в main что в test одинаковые, но тем не менее перенесенная моковская реализация в тест не видна... при запуске тестов он четко ссылается на отсутствующую реализацию в main ветке
+
+
+sky [3 days ago]
+дык в контексте теперь компонент скан указывает не на repository  а на repository.jdbc или вы не про это?
+
+
+Prodigy [3 days ago]
+пардон, всё верно... мы ж изменили пакет.... значит он должен видеть в обоих ветках реализации
+
+
+Kirilo [Jul 18th at 6:27 PM]
+in #hw3
+Столкнулся с проблемой. Не выгружаются ресурсы при дебаге jdbc или при запуске. Если я разрываю принудительно соединение(красный квадрат), порт не освобождается и при следующем запуске пишет такое: "Error running 'topjava': Unable to open debugger port (127.0.0.1:49569): java.net.SocketException "socket closed"" (edited)
+
+
+25 replies
+Prodigy [3 days ago]
+надо скинуть зависшие джава процессы
+
+
+Kirilo [3 days ago]
+2 java процесса с диспетчера не удалялись. Почистил path, перегрузил windows и заменил Tomcat(возможно в нем причина и была, тем более, что в переменных окружениях конкретная версия была указана ), пока работает
+
+
+Prodigy [3 days ago]
+обычно сообщение (Address localhost:1099 is already in use) означает, что висит процесс который держит порт 1099... можно или порт поменять или скинуть процесс.. лучше процесс скинуть)
+
+Kirilo [3 days ago]
+Порт менял, а потом снова такая же балалайка возникла. Причем уже не помогала замена порта
+
+
+Kirilo [3 days ago]
+Кстати, Idea на своей копии java работает?
+
+
+Kirilo [3 days ago]
+JetBrains\IntelliJ IDEA 2018.1.6\jre64\bin
+
+Prodigy [3 days ago]
+это ты в своем проекте сам выбираешь какой jdk использовать, или встроенный в идею или свой
+
+
+Kirilo [3 days ago]
+Настраивал, но заметил, что две работают
+
+Prodigy [3 days ago]
+ну одно дело ты в системе установил JRE, а другое дело когда ты в проекте указываешь с каким jdk работать
+
+
+Kirilo [3 days ago]
+подключил коннект к локальной базе и сразу появилась Java от Idea
+
+
+Kirilo [3 days ago]
+может так и должно быть? (edited)
+
+
+Prodigy [3 days ago]
+где джава появилась?... это вроде как две несвязанные вещи.. или я что-то не понимаю?
+
+Prodigy [3 days ago]
+какую джаву использоавть ты указываешь в настройках проекта
+
+
+Kirilo [3 days ago]
+то есть еще один процесс java.exe но уже от Idea (edited)
+
+
+Kirilo [3 days ago]
+JetBrains\IntelliJ IDEA 2018.1.6\jre64\bin
+
+Kirilo [3 days ago]
+с этой папки запускает исполняемый java.exe (edited)
+
+Prodigy [3 days ago]
+аа.... я думаю что это наверное процесс который обслуживает саму идею... всё таки идея написана на джаве)
+
+Prodigy [3 days ago]
+но это не точно)
+
+
+Kirilo [3 days ago]
+Но как-то странно, что она для запуска драйвера jdbc использует свою копию, а не ту, что я указал в проекте (edited)
+
+
+Prodigy [3 days ago]
+ну, вероятно разработчикам идеи лучше знать как правильно запускать твой драйвер))
+
+
+Kirilo [3 days ago]
+ага, это не костыль, а фича :slightly_smiling_face:
+
+Prodigy [3 days ago]
+на самом деле запуск твоего драйвера это задача всё-таки веб-сервера, а не твоего приложения
+
+Kirilo [3 days ago]
+Проблема осталась и заметил, что такой баг происходит, если нажимаю на верхней панеле. Когда внизу(панель Debug), то все ОК.
+
+
+Grigory Kislin [3 days ago]
+я обычно убиваю все java прцессы и все (edited)
+
+Kirilo [3 days ago]
+невозможно "убить" java процесс даже специальной програмкой от Microsoft. Проверил - это висит Tomcat 8.5.32 (edited)
+
+
+Макс Куркудюк [9:21 PM]
+Доброго вечора)
+
+
+Макс Куркудюк [Jul 18th at 9:25 PM]
+in #hw3
+Дещо запізнився з виконанням завдання, тож лиш почав HW3...
+Підкажіть, як у populateDB.sql в скрипті створення Meel ввести LocalDateTime? Тобто, як перевести її у Timestamp в запиті...
+
+
+5 replies
+Kirilo [3 days ago]
+'2015-05-30 10:00:00'
+
+
+Макс Куркудюк [3 days ago]
+Дякую)
+
+
+Макс Куркудюк [3 days ago]
+Якраз, ще й щойно знайшов https://www.postgresql.org/docs/9.1/static/functions-datetime.html
+
+
+
+Alexander Pilipenko [3 days ago]
+Лучше не полагаться на то, что угадаешь формат и использовать ф-ию TO_TIMESTAMP (edited)
+
+
+Kirilo [3 days ago]
+мы же популируем всего один раз и то для теста
+
+
+Tanya [9:28 PM]
+віддаєш дату у відповідному форматі
+
+stea1th [9:57 PM]
+люди, у меня вопрос
+чтобы нельзя было поменять чужую еду надо сделать так:
+
+
+stea1th [Jul 18th at 9:57 PM]
+in #hw3
+"UPDATE meals SET datetime=:datetime," +
+                       " description=:description, calories=:calories" +
+                       " WHERE id=:id AND user_id=:userId "
+
+
+31 replies
+vch [3 days ago]
+Походит на правильный запрос. А в чём проблема?
+
+
+Maksim K [3 days ago]
+ну там вроде как во всех методах надо учитывать user_id.
+
+
+stea1th [3 days ago]
+ну у меня изначально не было ющер айди
+
+stea1th [3 days ago]
+был просто id
+
+
+stea1th [3 days ago]
+а может кто знает почему важен порядок столбцов в индексах?
+
+
+Maksim K [3 days ago]
+ну тут как бы логично. ведь в методы во все приходи user_id. значит его надо учитывать) а то вдруг кто мою еду съест)
+
+
+vch [3 days ago]
+Вспомни эталонное решение в HW2 - вложенные Map. Тот же индекс по сути - userId, mealId.
+Если тебе надо сначала фильтровать по mealId, то этот вложенный Map бесполезен и ускорения не даст
+
+
+stea1th [3 days ago]
+я сделал индекс по user-id и datetime
+
+stea1th [3 days ago]
+наверное неправильно?
+
+
+stea1th [3 days ago]
+CREATE UNIQUE INDEX meals_unique_datetime_user_idx ON meals (user_id, datetime);
+
+
+vch [3 days ago]
+если во всех запросах есть фильтр по userId - то индекс такой и надо - он будет использоваться в запросах.
+
+
+stea1th [3 days ago]
+все понятно теперь :slightly_smiling_face: спасибо огромное
+
+Kirilo [3 days ago]
+это все очевидно и понятно, я вот, долго тупил с индексом, оказывается он должен одинаково называться, как в юзерах, так и у еды, иначе получал null вместо индекса
+
+
+stea1th [3 days ago]
+это как?
+
+
+
+stea1th [3 days ago]
+я просто во многих вещах не шарю, поэтому громко не смейтесь :slightly_smiling_face:
+
+
+Kirilo [3 days ago]
+я назвал у еды mel_id вместо id и не мог понять, почему получаю null. А так, как у нас глобальный сиквенс и мы в еде ссылаемся на юзера, то получается, что ключи должны быть с одинаковыми названиями
+
+
+Kirilo [3 days ago]
+и вообще все запросы можно проверять в консоле
+
+
+vch [3 days ago]
+Ну то есть речь всё же не про названия индексов. Подозреваю, что 2 индекса с одинаковыми названиями не удастся создать.
+
+
+Kirilo [3 days ago]
+у нас еда и юзеры пересекаются индексами (edited)
+
+Kirilo [3 days ago]
+то есть по сути индексы у них из одного пула
+
+stea1th [3 days ago]
+наверно надо alias использовать?
+
+
+Alexander Pilipenko [3 days ago]
+Именно про это и говорилось в подсказках
+
+
+Kirilo [3 days ago]
+http://www.postgresqltutorial.com/
+postgresqltutorial.com
+PostgreSQL Tutorial - Learn PostgreSQL from Scratch
+Learn PostgreSQL quickly through a practical PostgreSQL tutorial designed for database administrators and application developers.
+
+
+stea1th [3 days ago]
+аааа, проблема видимо у тебя в том была , что у нас есть супер класс AbstractBaseEntity
+
+Kirilo [3 days ago]
+не знаю. Я после того и сеттер поставил в мил
+
+
+stea1th [3 days ago]
+и если ты мил айди иначе назовешь, то ничего не получится
+
+
+Kirilo [3 days ago]
+ну, вот, это мне как-то не особо понятно было
+
+stea1th [3 days ago]
+это не в базе данных дело
+
+stea1th [3 days ago]
+а в нашей реализации
+
+Alexander Pilipenko [3 days ago]
+10: Напомню: BeanPropertyRowMapper работает через отражение. Ему нужны геттеры/сеттеры и имена полей должны "совпадать" с колонками ResultSet (Column values are mapped based on matching the column name as obtained from result set metadata to public setters for the corresponding properties. The names are matched either directly or by transforming a name separating the parts with underscores to the same name using "camel" case).
+
+
+
+Kirilo [3 days ago]
+теперь уже понятно стало, после проб и мучений, что поля и там, и там должны совпадать (edited)
+
+
+stea1th [9:57 PM]
+_
+?
+
+
+stea1th [Jul 18th at 10:22 PM]
+in #hw3
+товарищи, а кто нибудь понимает в тестах и может доступно обьяснить как ими пользоваться??
+
+
+33 replies
+Kirilo [3 days ago]
+а что понимать?
+
+
+Yevhen Maksymovych [3 days ago]
+а в чем собсна проблема?
+
+
+Kirilo [3 days ago]
+сравниваешь два значения
+
+
+Kirilo [3 days ago]
+с одной тороны то, что должен получить, с другой стороны то, что реально получилось
+
+
+Yevhen Maksymovych [3 days ago]
+ты пишешь класс, в котором есть методы, которые в общем виде что-то делают, и возвращают значение. тесты нужны для того, чтобы убедиться, что возвращаемые значение соответствуют твоим ожиданиям
+
+Yevhen Maksymovych [3 days ago]
+по-хорошему метод может выполниться двумя способами - отработать корректно на корректные входные данные, и бросить эксепшн на некорректные. тебе надо проверять оба кейса :slightly_smiling_face:
+
+
+Yevhen Maksymovych [3 days ago]
+ну, это если на пальцах
+
+
+stea1th [3 days ago]
+а вот бы один примерчик
+
+stea1th [3 days ago]
+хотя погодите, может соображу сейчас сам
+
+Yevhen Maksymovych [3 days ago]
+там же в HW3 юзерсервис практически полностью покрыт тестами. я так понимаю, у тебя проблема с тем, что непонятно, на что должны быть тесты, а на что нет?
+
+Kirilo [3 days ago]
+там же в видео и в утильном классе юзера даже статические методы Григорий сделал, чтобы легче было понимать. (edited)
+
+
+stea1th [3 days ago]
+я наверное просто глупый... сейчас посижу, погляжу, попробую понять
+
+
+Yevhen Maksymovych [3 days ago]
+ну, в целом гляди, наверняка у тебя было такое, что ты пишешь какой-то кусок кода в классе, а потом, чтобы по-быстрому его проверить - в этом же классе городишь main, чтобы его запустить и протестить
+
+stea1th [3 days ago]
+да, было дело
+
+stea1th [3 days ago]
+вопрос
+
+
+stea1th [3 days ago]
+assertMatch(service.getAll(), ADMIN, newUser, USER);
+
+
+stea1th [3 days ago]
+зачем здесь передается вся эта команда юзеров?
+
+
+Yevhen Maksymovych [3 days ago]
+service.getAll() вернёт лист из всех юзеров в бд
+
+
+Yevhen Maksymovych [3 days ago]
+ADMIN, newUser, User склеятся в такой же лист, и этот ассёрт сравнит два этих листа
+
+Yevhen Maksymovych [3 days ago]
+погляди в классе юзер, там есть пара перегруженных методов, один сравнивает два листа, а второй лист и последовательность объектов
+
+
+Yevhen Maksymovych [3 days ago]
+точнее две итерабли
+
+
+stea1th [3 days ago]
+а USER и ADMIN у нас разве в базе?
+
+
+stea1th [3 days ago]
+public static final User USER = new User(USER_ID, "User", "user@yandex.ru", "password", Role.ROLE_USER);
+   public static final User ADMIN = new User(ADMIN_ID, "Admin", "admin@gmail.com", "admin", Role.ROLE_ADMIN);
+
+
+Yevhen Maksymovych [3 days ago]
+да, там перед тестами запускается скрипт популирования, который заносит в бд пользователей
+
+stea1th [3 days ago]
+хорошо, а получается с едой мне надо тоже будет всю еду, что у нас уже есть заносить через MealTestData?
+
+
+Yevhen Maksymovych [3 days ago]
+эти два пользователя (юзер и админ) создаются эксплицитно, но с данными, аналогичными пользователям из бд, по логике тестов они должны быть полностью идентичны пользователям из бд
+
+
+Yevhen Maksymovych [3 days ago]
+не обязательно всю. ты сам решай сколько будет достаточно для тестов
+
+stea1th [3 days ago]
+ну а если мы сравниваем getAll() и в базе у меня допустим 6 meals?
+
+stea1th [3 days ago]
+из базы временно удалить некоторые?
+
+Yevhen Maksymovych [3 days ago]
+да, норм, можно и три оставить, чтобы проверить на листах, можешь все запулить
+
+
+stea1th [3 days ago]
+или на них на всех сделать обьекты?
+
+
+Yevhen Maksymovych [3 days ago]
+в целом, чисто логически минимально достаточное количество еды, чтобы проверить все кейсы - две единицы: одна корректного пользователя, и одна некорректного :slightly_smiling_face:
+
+
+stea1th [3 days ago]
+а можно увидеть ваших пользователей для более глубокого понимания?
+
+
+Join_Selectovich [11:02 PM]
+Подскажите пожалуйста :sos: может кто сталкивался 
+при попытке вставить новое значение получаю Exception :
+
+
+Join_Selectovich [Jul 18th at 11:02 PM]
+in #hw3
+SQL [INSERT INTO meals (id, localdatetime, description, calories, user_id) VALUES(?, ?, ?, ?, ?)ОШИБКА: нулевое значение в столбце "id" нарушает ограничение NOT NULL
+ Detail: Ошибочная строка содержит (null, 2018-07-18 00:00:00, Завтрак, 1000, 100000).; nested exception is org.postgresql.util.PSQLException: ОШИБКА: нулевое значение в столбце "id" нарушает ограничение NOT NULL
+
+
+32 replies
+Join_Selectovich [3 days ago]
+почему когда идет вставка с нулевой id не срабатывает sequnece (edited)
+
+
+Yevhen Maksymovych [3 days ago]
+на id в бд забыл повесить генератор
+
+
+Yevhen Maksymovych [3 days ago]
+покажи скрипт генерации таблицы
+
+
+Join_Selectovich [3 days ago]
+вешал (edited)
+
+Join_Selectovich [3 days ago]
+CREATE TABLE meals
+(
+ id            INTEGER PRIMARY KEY DEFAULT nextval('global_seq'),
+
+
+Yevhen Maksymovych [3 days ago]
+а вставляешь через SimpleJdbcInsert или руками?
+
+Join_Selectovich [3 days ago]
+через  insertMeal.execute(map)
+
+
+Kirilo [3 days ago]
+лучше сделать по аналогии с юзером
+
+Join_Selectovich [3 days ago]
+хм... попробую
+
+
+Vitaly [3 days ago]
+а если просто убрать поле id
+
+
+Vitaly [3 days ago]
+ты же повесил на него ограничение notnull, и тут же сохраняешь null в него
+
+Vitaly [3 days ago]
+мне кажется просто убрать его (edited)
+
+
+Vitaly [3 days ago]
+SQL [INSERT INTO meals (localdatetime, description, calories, user_id) VALUES(?, ?, ?, ?)
+
+Join_Selectovich [3 days ago]
+not null я не вешал на него
+
+Join_Selectovich [3 days ago]
+и убирать пробовал
+
+
+Alexander Pilipenko [3 days ago]
+Это первичный ключ
+
+
+Join_Selectovich [3 days ago]
+да
+
+Alexander Pilipenko [3 days ago]
+Он всегда нот нул
+
+Join_Selectovich [3 days ago]
+ну да
+
+Alexander Pilipenko [3 days ago]
+В коде указал usingGeneratedKeyColumns ?
+
+Join_Selectovich [3 days ago]
+так, что-то этот момент упустил (edited)
+
+Join_Selectovich [3 days ago]
+это где примерно? (edited)
+
+
+Alexander Pilipenko [3 days ago]
+this.insertMeal = new SimpleJdbcInsert(dataSource)
+               .withTableName("meals")
+               .usingGeneratedKeyColumns("id");
+
+
+
+Join_Selectovich [3 days ago]
+матка боска....
+
+
+
+Join_Selectovich [3 days ago]
+млин, я его специально убрал, думал когда в БД будет вставка с пустой айди триггернет sequence, так нет же :face_vomiting: (edited)
+
+Yevhen Maksymovych [3 days ago]
+не. дефолтное значение сработает, если ты просто не укажешь, что ты вставляешь это поле. а если ты принудительно указываешь что-то бд понимает, что у тебя, как у человека, больше прав чем у машины
+
+
+
+Join_Selectovich [3 days ago]
+там уже спринг вставлял с id
+
+
+Join_Selectovich [3 days ago]
+и пустой чтобы он не был как раз и нужно добавлять *.usingGeneratedKeyColumns("id");*
+
+Join_Selectovich [3 days ago]
+я так понял
+
+
+Yevhen Maksymovych [3 days ago]
+ну, в данном случае ты как раз декларативно указываешь, что ид будет заполняться генератором, а не тобой
+
+
+Join_Selectovich [3 days ago]
+спасибо всем кто откликнулся :+1:
+
+Kirilo [3 days ago]
+поля ты можешь помечать как ненулевые или/и с дефолтным значение, если не подаешь ничего (edited)
+
+
+Join_Selectovich [Jul 18th at 11:40 PM]
+in #hw3
+и еще нэвэлички вопрос
+при попытке прочитать еду получаю
+java.lang.NullPointerException
+    ru.javawebinar.topjava.model.Meal.getDate(Meal.java:40)
+
+
+9 replies
+Yevhen Maksymovych [3 days ago]
+сэттеры сделал на поля мила?
+
+
+Join_Selectovich [3 days ago]
+я так понимаю что-то c rowMapper
+
+
+Join_Selectovich [3 days ago]
+делал
+
+
+Join_Selectovich [3 days ago]
+public void setDateTime(LocalDateTime dateTime) {
+       this.dateTime = dateTime;
+   }
+
+   public void setDescription(String description) {
+       this.description = description;
+   }
+
+   public void setCalories(int calories) {
+       this.calories = calories;
+   }
+
+
+Yevhen Maksymovych [3 days ago]
+тогда откуда getDate()? у тебя есть поле Meal.date?
+
+
+Alexander Pilipenko [3 days ago]
+Названия полей в таблице и классе одинаковые?
+ 
+
+
+Join_Selectovich [3 days ago]
+матка боска... ёмаё (edited)
+
+
+Join_Selectovich [3 days ago]
+@Alexander Pilipenko двойное спасибо тебе добрый человек (edited)
+
+
+Alexander Pilipenko [3 days ago]
+Пожалуйста :)
+
+
+Grigory Kislin [1:17 AM]
+----------------------------------------------------
+*Welcome на 4е занятие: #hw4*
+----------------------------------------------------
+
+
+Jury Mironov [Jul 19th at 10:05 AM]
+in #hw3
+Такая ошибка вылезает. Не знаю как исправить - org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'jbdcUserRepository' defined in class path resource [spring/spring-app.xml]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [ru.javawebinar.topjava.repository.jdbc.JdbcUserRepositoryImpl]: No default constructor found; nested exception is java.lang.NoSuchMethodException: ru.javawebinar.topjava.repository.jdbc.JdbcUserRepositoryImpl.<init>()
+
+
+14 replies
+Yevhen Maksymovych [2 days ago]
+вообще, покажи гит. первым дело глаз цепляется за "j_BD_dcUserRepository"
+
+
+Yevhen Maksymovych [2 days ago]
+судя по всему не может его инстанцировать, просит дефолтный конструктор, но по идее это ему мешать не должно, если есть недефолтный, помеченный @Autowired (а он помечен?)
+
+
+Jury Mironov [2 days ago]
+https://github.com/mironoff2007/topjava14/blob/master/src/main/java/ru/javawebinar/topjava/repository/jdbc/JdbcUserRepositoryImpl.java
+src/main/java/ru/javawebinar/topjava/repository/jdbc/JdbcUserRepositoryImpl.java
+```package ru.javawebinar.topjava.repository.jdbc;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.support.DataAccessUtils;```
+Show more…
+mironoff2007/topjava14Added by GitHub
+
+
+Yevhen Maksymovych [2 days ago]
+гляди, ты инстанцируешь бины вручную в spring-app.xml
+
+
+Yevhen Maksymovych [2 days ago]
+соответственно, тебе надо указать всего его параметры конструктора
+
+Yevhen Maksymovych [2 days ago]
+либо указать, что бины должен инстанцировать спринг сам на основании аннотаций
+
+
+Jury Mironov [2 days ago]
+Ок, понял куда копать, спасибо. Я думал, если  @Autowired есть, он сам разберется. Вроде, компонент скан нужен чтобы сам, если я не ошибаюсь
+
+
+Yevhen Maksymovych [2 days ago]
+да, когда ты указываешь в xml component-scan, спринг загружает в свой контекст beanpostprocessor'ы, которые после предварительной загрузки инфы о бине, сами разбираются, как его собрать на основании аннотаций
+
+
+Yevhen Maksymovych [2 days ago]
+если не указал компонент-скан, спринг вообще не смотрит на аннотации. для него ты просто вызываешь дефолтный конструктор, который он пытается вызвать через отражение, и не находит
+
+
+Yevhen Maksymovych [2 days ago]
+надо что-то типа такого:
+
+Yevhen Maksymovych [2 days ago]
+    ```<bean class="ru.javawebinar.topjava.repository.jdbc.JdbcUserRepositoryImpl" id="jbdcUserRepository">
+        <constructor-arg index="0" ref="dataSource" />
+        <constructor-arg index="1" ref="jdbcTemplate" />
+        <constructor-arg index="2" ref="namedJdbcTemplate" />
+    </bean>```
+
+
+Yevhen Maksymovych [2 days ago]
+ну либо вернуть на место обработку аннотаций
+
+Jury Mironov [2 days ago]
+спасибо)
+
+Yevhen Maksymovych [2 days ago]
+:+1:
+
+
+Prodigy [12:24 PM]
+uploaded and commented on this image: test.jpg 
+
+в тестах результат запроса возвращает null во всех полях, при этом сам запрос правильно отрабатывает.... непонятно в чем проблема.
+Yevhen Maksymovych [12:25 PM]
+сеттеры есть Meals?
+Prodigy [12:29 PM]
+в самой базе данные лежат правильные, не null
+Prodigy [12:30 PM]
+кстати да, сеттеров нету
+Yevhen Maksymovych [12:31 PM]
+:+1:
+Prodigy [12:31 PM]
+ты гений!)
+Prodigy [12:32 PM]
+в чем секрет?
+
+Merkulov [12:32 PM]
+тз нужно читать внимательнее)
+
+Stanislav [12:32 PM]
+Секрет во вдумчивом чтении и просмотре материалов которые тебе дают по курсу.
+
+Yevhen Maksymovych [12:33 PM]
+в пункте 3.3 домашки :slightly_smiling_face: >>>3.3. JbdcTemplate работает через сеттеры. Вместе с конструктором по умолчанию их нужно добавить в Meal
+кстати, вот это реально тупая фигня
+
+Stanislav [12:34 PM]
+Или просто смотреть что в патчах меняется и смотреть примеры с тех же сорсов (в даНном случае *User*)
+
+Yevhen Maksymovych [12:34 PM]
+почему нет стандарта? кто-то работает через отражение и маппинг полей напрямую, кто-то через сеттеры
+добавлять в класс кучу лишнего стандартного кода чисто для совместимости с другими фреймворками/либами - вообще не тру
+все должно работать через AOP ))
+
+Ignat [12:38 PM]
+Потому что это Java, возраст сказывается. И обилие бойлерплейта по тойже причине.
+Хочется красиво, это в котлин.
+
+Prodigy [12:39 PM]
+читал задание по диагонали... я даже не мог подумать что не будет сеттеров
+
+Андрей [1:52 PM]
+Можно свой RowMapper<Meal> заимплементить, тогда пустой конструктор и сеттеры не нужны.
+    ```private final RowMapper<Meal> mapper = (rs, rowNum) -> new Meal(
+            rs.getInt("id"),
+            rs.getObject("date_time", LocalDateTime.class),
+            rs.getString("description"),
+            rs.getInt("calories"));```
+Другое дело, что они все равно понадобятся для JPA.
+
+Nikolay [4:42 PM]
+jpa и через рефлекшн может работать, вроде
+
+
+Yevhen Maksymovych [Jul 19th at 4:53 PM]
+in #hw3
+я больше скажу, у нас он через рефлекшн и работает. мы же указали AccessType.FIELD, он у нас и не будет сеттеры дёргать
+
+
+4 replies
+e.pekhterev [2 days ago]
+чёт не понял, а где это мы указали?
+
+
+Yevhen Maksymovych [2 days ago]
+в четвертом уроке
+
+
+Yevhen Maksymovych [2 days ago]
+а, это же третьего тема
+
+
+e.pekhterev [2 days ago]
+то то я удивился, как раз сейчас ставлю патч 4_6_add_jpa.patch и увидел эту запись))
+
+
+Victor [Jul 19th at 8:05 PM]
+in #hw3
+`public void get() throws Exception {`
+почему мы в тестах объявляем, что метод бросает Exception , хотя он не бросает. И Idea отмечает их серым....
+
+
+5 replies
+shtramak [2 days ago]
+Потому что идея так сама по умолчанию тесты генерит
+
+
+shtramak [2 days ago]
+В тестах ловить исключения не принято и неправильно, посему идея за нас сама об этом побеспокоилась прилепив этот  throw
+
+
+Victor [2 days ago]
+понятно, если есть Exception, но здесь тест не бросает, зачем пробрасывать? Идея потом сама отмечает warning.
+
+
+shtramak [2 days ago]
+Канешн можешь убрать... На скорость не повлияет
+
+
+shtramak [2 days ago]
+Тем более что у нас нигде чекеды не проскакивают
+
+
+KaryNaiKo [Jul 19th at 9:08 PM]
+in #hw3
+как подключиться к серверу PostgreSQL? Выдает ошибку, что роль "PostgreSQL" не существует
+
+
+3 replies
+shtramak [2 days ago]
+Зайди в pgAdmin и глянь там какие роли определены... Определи ту, которая нужна тебе с нужными креденшлами и все должно завестись (edited)
+
+
+Grigory Kislin [2 days ago]
+в уроке есть картинки
+
+
+SergeyA [2 days ago]
+Или создай нового юзера с паролем. у меня почему то из интерфейса не было кнопки задать пароль ((  
+Пришлось использовать команду 
+Alter USER "user" WITH password 'password'
+
+
+stea1th [9:49 PM]
+а кто мне подскажет, почему когда я делаю тест, то мне выкидывает ошибку java.lang.AssertionError: ?
+
+stea1th [9:53 PM]
+uploaded this image: Screenshot_2.png 
+
+
+Yevhen Maksymovych [9:54 PM]
+калории перепутаны в 100_006 и 100_005 (edited)
+
+stea1th [9:54 PM]
+эм..
+а у нас же нету поля юзерайди?
+точно блин
+
+Grigory Kislin [9:55 PM]
+если нет- то да, 100006 нетот:) (edited)
+
+stea1th [9:56 PM]
+а так прошло
+
+Stanislav [9:57 PM]
+Та же ошибка была, 2 часа лазил по сайту (AsserJ) в итоге внимательно посмотрел что каллории не правильные (т.к. с утилс скопипастил). Но за то, за эти 2 часа много узнал про AssertJ :)
+
+stea1th [9:58 PM]
+те же яйца
+
+
+SergeyA [10:03 PM]
+added this Plain Text snippet: Как правильно обращаться к папке "test"  из основных классов? 
+Не могу разобраться: после патча у нас класс "UserTestData.java" перенесен в каталог тест:
+/src/test/java/ru/javawebinar/topjava/UserTestData.java
+тоже самое с классом InMemoryUserRepositoryImpl
+и в итоге не видно эти классы из кода:
+import ru.javawebinar.topjava.repository.mock.InMemoryUserRepositoryImpl;
+а полный путь не работает : 
+import src.test.java.ru.javawebinar.topjava.repository.mock.InMemoryUserRepositoryImpl;
+как к ним обращаться?
+Пробовал изменить пометку директории исходников в Идее: папку ".ru." сделать "unmarc as sources Root"
+Но сразу исчезает папка test (( почему?
+Collapse 
+
+stea1th [10:29 PM]
+вопрос
+а в тестах можно использовать статические методы из проекта, которые не обозначены в MealTestData?
+или не можно?
+
+
+stea1th [Jul 19th at 10:56 PM]
+in #hw3
+а почему когда я тестирую методы по отдельности, то все в порядке, а когда запускаю все вместе, то у меня там некоторые методы желтым загораются?
+
+
+3 replies
+Victor [1 day ago]
+а еще если запустишь все тесты сразу, через мавен, могут не пройти. Хотя отдельно по классам проходят.
+
+
+stea1th [1 day ago]
+а вопрос, как исправить инмеморитесты? куда смотреть?
+
+
+Victor [1 day ago]
+на конфиги спринга
+
+
+stea1th [11:01 PM]
+как сегодня здесь многолюдно однако
+
+
+e.pekhterev [Jul 19th at 11:03 PM]
+in #hw3
+ты портишь тестовые данные из MealTestData, 99.999999%
+подебаж по всем тестам, посмотри что происходит (edited)
+
+
+1 reply
+realcorwin [1 day ago]
+слово "подебаж" замечательное. кажется, ему не хватает "ъ" в середине :slightly_smiling_face:
+ 
+
+stea1th [11:04 PM]
+похоже понял, что ты имел ввиду
+
+
+stea1th [Jul 19th at 11:38 PM]
+in #hw3
+как исправить инмеморитесты? куда смотреть?
+
+
+1 reply
+Ma3stro [1 day ago]
+Смотри эксепшн. Они не попадают в контекст спринга, поправь
+
+
+Jury Mironov [10:41 AM]
+uploaded this image: после патча add_junit  такая шняга, как это понимать? 
+
+
+Jury Mironov [10:41 AM]
+uploaded this image: Snap 2018-07-20 at 10.39.27.png 
+
+
+Jury Mironov [10:42 AM]
+Ты видишь пакеты?
+нет
+А они есть
+:grin:
+
+
+Jury Mironov [Yesterday at 10:58 AM]
+in #hw3
+Обновление maven не помогало. Потыркался, почистил, прошло. Странно, что не начинает что-то работать, пока не спросишь)
+
+
+1 reply
+SergeyA [11 hours ago]
+а как прошло? у меня получилось только когда я классы из теста перенес обратно....

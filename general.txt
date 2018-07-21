@@ -3381,3 +3381,217 @@ https://help.github.com/articles/changing-a-commit-message/
 
 Ramil [6 hours ago]
 reword не активен
+
+
+Prodigy [Jul 18th at 4:44 PM]
+in #general
+новый урок мы ждем в четверг или во вторник?
+
+
+8 replies
+Yevhen Maksymovych [3 days ago]
+```19.07: 4-е занятие
+Разбор домашнего задания HW3 + Optional
+Методы улучшения качества кода
+Spring: инициализация и популирование DB
+Подмена контекста при тестировании
+ORM. Hibernate. JPA
+Поддержка HSQLDB
+Домашнее задание (HW4 + Optional)```
+
+
+sky [3 days ago]
+а свой проект с какого урока начинается?
+
+Prodigy [3 days ago]
+ага, спасибо
+
+
+Prodigy [3 days ago]
+пятый вроде, если не ошибаюсь
+
+
+Victor [3 days ago]
+с четвертого свой проект должен начинаться... как я помню
+
+
+
+Alexey_P [3 days ago]
+а как это выглядит - разработка своего проекта? Сам придумываешь прикладную задача, формулируешь требования, пишешь ТЗ и т.д. ? А потом с кураторами консультируешься и пишешь ПО?
+
+
+Yevhen Maksymovych [3 days ago]
+нет, дают готовую прикладную задачу, её надо реализовать
+
+
+Alexey_P [3 days ago]
+спс
+
+
+shomnest [Jul 18th at 5:52 PM]
+in #general
+Судари, есть кто, кто на ubuntu postgre ставил?
+
+
+19 replies
+Yevhen Maksymovych [3 days ago]
+Я ставил
+
+
+tema.emelyan [3 days ago]
+Сразу чо надо говори, чо тянуть-то? =)
+
+
+shomnest [3 days ago]
+@Yevhen Maksymovych после установки через apt-get сервер запущен?
+
+
+shomnest [3 days ago]
+Вот это мне выдала консоль после установки postgresql
+Success. You can now start the database server using:
+/usr/lib/postgresql/10/bin/pg_ctl -D /var/lib/postgresql/10/main -l logfile start
+
+
+shomnest [3 days ago]
+Я перешел в пользователя postgres  и запустил то, что мне сказали, а в ответ получил это
+pg_ctl: another server might be running; trying to start server anyway
+waiting for server to start.... stopped waiting
+pg_ctl: could not start server
+Examine the log output. (edited)
+
+
+tema.emelyan [3 days ago]
+Может не нужно было в пользователя постгрес переходить, а под рутом просто запустить команду?
+
+
+shomnest [3 days ago]
+@tema.emelyan пробовал, под рутом на ту же команду:
+pg_ctl: could not open PID file "/var/lib/postgresql/10/main/postmaster.pid": Отказано в доступе
+
+
+shomnest [3 days ago]
+upd: сервер после установки через apt-get оказался поднятым
+
+
+shomnest [3 days ago]
+@Yevhen Maksymovych можешь в общих фразах описать как устанавливал?
+
+
+Yevhen Maksymovych [3 days ago]
+сорри, не за ноутом был
+
+
+Yevhen Maksymovych [3 days ago]
+примерно так :
+
+
+Yevhen Maksymovych [3 days ago]
+ ```sudo apt-get install postgresql postgresql-contrib```
+
+
+Yevhen Maksymovych [3 days ago]
+а дальше для пользователя postgres пароль задал, и вроде всё
+
+
+Wladek [3 days ago]
+похоже, что он уже поднят, а ты его пытаешься поднять снова
+
+
+shomnest [3 days ago]
+@Wladek да так и было, решилось остановкой сервера на руте и запуском через юзера postgres
+
+
+shomnest [3 days ago]
+@Yevhen Maksymovych а конектился к серваку как? через какой pgadmin третий или четвертый? Там через репозитории какая-то кривая установка идет, либо я не понял какие параметры использовать. Попробовал на винде все встало и за работало с первого раза.
+
+
+Yevhen Maksymovych [3 days ago]
+если честно, я с убунты вообще пгадмином не коннектился :slightly_smiling_face: она у меня на серваке без гуи
+
+
+Yevhen Maksymovych [3 days ago]
+к ней с третьего коннекчусь
+
+
+shomnest [3 days ago]
+@Yevhen Maksymovych от тебя как обычно светлые мысли сыпятся, зачем мне гуй, я ж могу для проекто чисто из консоли создать бд и роли, достатошно же этого будет?
+
+
+Grigory Kislin [1:17 AM]
+@here
+----------------------------------------------------
+*Welcome на 4е занятие: #hw4*
+----------------------------------------------------
+
+
+Join_Selectovich [Jul 19th at 12:09 PM]
+in #general
+Подскажите пожалуйста почему в видеолекциях вместо Spring Container используют термин контекст спринга? Или это нормально т.к. это тождественные понятия?
+
+
+9 replies
+Yevhen Maksymovych [2 days ago]
+спринг контекст - одна из реализаций спринг контейнера
+
+
+Join_Selectovich [2 days ago]
+хм..интересно....
+
+
+Yevhen Maksymovych [2 days ago]
+в основном под спринг контейнером и подразумевается AppContext. Там есть ещё куча каких-то других контейнеров, которые более низкоуровневые операции манажат
+
+
+Yevhen Maksymovych [2 days ago]
+полистай spring in action, там по этому поводу чего-то писалось
+
+
+Yevhen Maksymovych [2 days ago]
+>>>There is no single Spring container. Spring comes with several container implementations that can be categorized into two distinct types. Bean factories (defined by the org.springframework.beans.factory.BeanFactory interface) are the simplest of containers, providing basic support for DI. Application contexts (defined by the org.springframework.context.ApplicationContext interface) build on the notion of a bean factory by providing application framework services, such as the ability to resolve textual messages from a properties file and the ability to publish application events to interested event listeners.
+
+
+Yevhen Maksymovych [2 days ago]
+вообще, я, если честно, не видел, чтобы где-то работали через бинфабрики в обход аппконтекста. но, вероятно, это возможно, если об этом пишут
+
+
+Yevhen Maksymovych [2 days ago]
+но у меня прям какого-то гигантского опыта в этом нет, возможно, все вокруг так делают, а контекст поднимают только в роликах для начинающих на ютьюбе )
+
+
+
+Join_Selectovich [2 days ago]
+Спасибо, нужно spring in action почитать
+
+Grigory Kislin [2 days ago]
+@Join_Selectovich спринг контейнер - это собственно реализация Spring функционала IoC.
+контекст спринга- это бины спринга, те содержимое, которое находится в этом контейнере
+
+
+Join_Selectovich [12:09 PM]
+uploaded this image: image.png 
+
+
+stea1th [Jul 19th at 3:08 PM]
+in #general
+а где следующий урок?
+
+
+5 replies
+vch [2 days ago]
+#hw4
+
+
+stea1th [2 days ago]
+а чего на почту не прислали?
+
+
+vch [2 days ago]
+как много претензий... Пришлют ещё. Куда торопиться. Главное - материалы уже есть.
+
+
+stea1th [2 days ago]
+да это не претензия... это вопросик был :slightly_smiling_face:
+
+
+Михаил [1 day ago]
+На почту письмо обычно приходит ночью.
