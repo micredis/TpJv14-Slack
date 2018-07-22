@@ -1209,3 +1209,379 @@ Yevhen Maksymovych [3 hours ago]
 
 Prodigy [3 hours ago]
 ты прав, как то я упустил из виду имплементацию в сервисе
+
+
+Prodigy [Today at 1:07 AM]
+in #hw4
+в видео поднималась тема с конвертером дат... но вроде и так всё работает... не?
+Была какая-то проблема в методе  `getBetween`, ругался на несоответствие типов дат, но она как то сама собой исчезла... че это было непонятно :face_with_rolling_eyes: (edited)
+
+
+15 replies
+Victor [14 hours ago]
+>hibernate-core 5.2.x включает hibernate-entitymanager >и hibernate-java8, Time API конверторы уже не нужны.
+ведь сразу под видео в уроке написано...
+
+
+Prodigy [14 hours ago]
+меня 2 ссылки чуть ниже сбили с толку(
+
+
+Prodigy [14 hours ago]
+ты прав!
+
+
+Prodigy [14 hours ago]
+идея почему то подчеркивает мою дату в запросе и жалуется на несоответствие типов
+
+
+Prodigy [14 hours ago]
+но при этом всё работает
+
+
+Victor [14 hours ago]
+да..., когда перечитаешь Hibernate and JPA, можно голову на полку положить на недельный отдых... )))
+
+
+Victor [13 hours ago]
+посмотри в чате выше, там кто-то писал про подчеркивания HQL
+
+
+Prodigy [13 hours ago]
+ага, нашел... похоже глюк идеи)
+
+
+Kirilo [13 hours ago]
+видео старые остались, а проект каждый раз меняется с появлением новых версий по каждой из технологий, плюс улучшения, доработки :slightly_smiling_face:
+
+
+Prodigy [13 hours ago]
+у меня такое впечатление что некоторые делают домашку в тот же день когда появляется урок))
+
+
+Kirilo [13 hours ago]
+я так не могу. Я за каждой фразой и движением слежу, чтобы ничего важного не пропустить
+
+
+Victor [13 hours ago]
+есть и такие... Все зависит от багажа знаний
+
+
+Kirilo [13 hours ago]
+а потом за два дня делаю
+
+
+Kirilo [13 hours ago]
+Здесь могут быть и сеньоры..., так, что... (edited)
+
+
+Prodigy [13 hours ago]
+не все обсуждения сразу понятны, пока не дойдешь сам до этой темы
+
+
+Kirilo [Today at 2:23 AM]
+in #hw4
+@NotBlank
+   @Size(min = 2, max = 100)
+   @Column(name = "name", nullable = false)
+В первой и последней строчке указано, что элемент должен быть не нулевым. Таким образом мы не дублируем условия?
+
+
+42 replies
+Prodigy [13 hours ago]
+этой что ли строчкой дублируем `nullable = false` ?
+
+
+Kirilo [13 hours ago]
+ну в верхней - это валидация. А там, да, так же указано, что не нулевая
+
+
+Kirilo [13 hours ago]
+Возможно оно в разных местах проверяется?
+
+Prodigy [13 hours ago]
+не, вторая строчка нужна если мы генерируем таблицу из энтити
+
+
+Prodigy [13 hours ago]
+по сути нам от нее толка нет
+
+
+Prodigy [13 hours ago]
+а первая строчка это чисто валидатор, который и делает проверку
+
+
+Kirilo [13 hours ago]
+по первой то я понял
+
+
+Kirilo [12 hours ago]
+Но в доке над nullable пишет такое: Whether the database column is nullable.
+
+Kirilo [12 hours ago]
+является ли нулевым...
+
+Prodigy [12 hours ago]
+мы чуть выше сегодня уже поднимали этот вопрос...
+
+
+Prodigy [12 hours ago]
+вроде это дело относится именно к генерации таблицы из энтити
+
+Prodigy [12 hours ago]
+You should additionally use the JPA annotation like @Column(nullable = false) to give the jpa provider hints to generate the right DDL for creating table columns with the database constraints you want.
+
+
+Kirilo [12 hours ago]
+то есть включать, или не включать столбец?
+
+
+Prodigy [12 hours ago]
+я не приписывал nullable за неимением смысла
+
+Kirilo [12 hours ago]
+надо будет потестировать различия, если они есть
+
+Kirilo [12 hours ago]
+с тру и фолс
+
+
+Kirilo [12 hours ago]
+И вообще, что-то мне с jdbc более понятно, нежели с хибернейтом и вообще с jpa
+
+
+Prodigy [12 hours ago]
+с хибернейтом как раз всё гораздо проще) ну ты поймешь это чуть позже)
+
+
+Kirilo [12 hours ago]
+в теории да, но если разбирать что и как работает, то не сказал бы (edited)
+
+Kirilo [12 hours ago]
+На таком небольшом примере, наоборот тяжелее
+
+Kirilo [12 hours ago]
+Это разве там, где много таблиц, то есть, как говорится в видео доменная модель большая (edited)
+
+
+Prodigy [12 hours ago]
+ну да, как говорит Григорий, где есть богатая доменная модель....
+
+
+Prodigy [12 hours ago]
+на самом деле мне jdbc кажется диким по сравнению с хибернейтом
+
+Kirilo [12 hours ago]
+все равно мы его не в чистом виде использовали, а через примочки спринга (edited)
+
+
+Kirilo [12 hours ago]
+там не было всяких экзекуторов и т.п. (edited)
+
+
+Prodigy [12 hours ago]
+ну хибернейт в чистом виде тоже не так прекрасен как со спрингом)
+
+
+Prodigy [12 hours ago]
+хотя нет, всё же прекрасен))
+
+Kirilo [12 hours ago]
+Это если по быстрому бабло срубить :slightly_smiling_face:
+
+Prodigy [12 hours ago]
+я использовал хибернейт и с jpa и чистый, он гораздо лучше jdbc
+
+
+Prodigy [12 hours ago]
+он удобен это факт!
+
+
+Kirilo [12 hours ago]
+так понятно, он же типа для того и создан, чтобы облегчить работу
+
+Prodigy [12 hours ago]
+ну да
+
+
+Kirilo [12 hours ago]
+но как оказывается, на серьезную нагрузку не расчитан
+
+
+Prodigy [12 hours ago]
+ну всё относительно
+
+Prodigy [12 hours ago]
+раз он такой популярный значит на нем много чего реализуют
+
+
+Kirilo [12 hours ago]
+Я смотрел видео, где для того, чтобы ускорить работу вообще коды возврата получают, вместо экзепшинов. То есть костыли самые настоящие делают
+
+
+Prodigy [12 hours ago]
+ну да, обработка исключительных ситуаций это затратная операция
+
+Prodigy [12 hours ago]
+на что только не идут ради оптимизации приложения)
+
+Kirilo [12 hours ago]
+сначала делаем быстро со всем набором технолоний, а затем, если нужно, все выбрасываем и пилим костыли :slightly_smiling_face:
+
+
+Prodigy [12 hours ago]
+да, таковы реалии)
+
+Kirilo [11 hours ago]
+Вот. Дошло. Это равнозначно тому, что мы делали в скрипте инициализации.
+name             VARCHAR                 NOT NULL,
+
+
+Kirilo [11 hours ago]
+А валидация @NotBlank - это предпроверка условия корректности данных, то что мы делали используя свой утильный класс.
+
+
+Prodigy [2:37 AM]
+uploaded and commented on this image: test cases.png 
+
+Обратите внимание на время прогона тестов подсчитанное идеей(слева) и моими подсчетами(справа)... интересная хренотень получается :slightly_smiling_face:
+Kirilo [2:40 AM]
+возможно там еще учитывается время на вызов каких-то оберток
+
+Prodigy [2:48 AM]
+интересно какие результаты у коллег по цеху
+
+Alexander Pilipenko [10:01 AM]
+https://clip2net.com/s/3VAJyAj
+clip2net.com
+8afc0-clip-73kb.png
+Clip2net — most popular image sharing tool
+http://clip2net.com/clip/m568095/thumb800/8afc0-clip-73kb.png
+
+Johann [10:18 AM]
+uploaded this image: 1.png 
+
+
+Crazz [10:40 AM]
+Подскажите плиз где почитать про Criteria чтоб сделать getBetween по датам, ну или как правильнее это реализовать, не в запросе же писать
+
+stea1th [10:43 AM]
+почему нет?
+
+shtramak [10:45 AM]
+Запрос хорош для простых запросов, Criteria для сложных фильтров
+
+Crazz [10:53 AM]
+ооок, просто такое ощущение что правильнее использовать JPA
+
+stea1th [11:26 AM]
+Can't apply 3 of 4 hunks... что делать в этом случае?
+
+Prodigy [11:30 AM]
+c JPA будет много кода
+
+stea1th [11:30 AM]
+что делать с hunks, которые нельзя apply?
+
+Prodigy [11:31 AM]
+commented on Johann’s file 1.png
+я смотрю у всех плюс/минус совпадает с идеей... интересно почему у меня такие результаты
+
+stea1th [11:37 AM]
+uploaded this image: Screenshot_3.png 
+
+
+stea1th [11:37 AM]
+как сделать так, чтоб красное тоже перенималось?
+
+Prodigy [11:39 AM]
+commented on test cases.png
+у меня сомнения вкрадываются уже правильно ли я посчитал.... хотя там же и считать то нечего, всё банально
+
+Crazz [12:32 PM]
+а как прикрутить тест? у меня ругается MealServiceTest - `org.hibernate.LazyInitializationException: could not initialize proxy [ru.javawebinar.topjava.model.User#100000] - no Session`
+
+
+Crazz [Today at 12:33 PM]
+in #hw4
+JpaMealRepositoryImpl реализован, работает
+
+
+7 replies
+sky [2 hours ago]
+5: Если нашему приложению Meal.user не требуется, не следует включать его в тесты.
+
+
+dimlo [2 hours ago]
+Мой вариант: в MealTestData подправил assertMatch на isEqualToIgnoringGivenFields(expected, "user"); в первом и на .usingElementComparatorIgnoringFields("user") в третьем
+
+
+dimlo [2 hours ago]
+ошибка уйдет, если в Meal у поля user сделать FetchType.EAGER, но сравнения по user все равно не проходят
+
+
+
+Crazz [2 hours ago]
+да, так лучше, спасибо
+
+
+dimlo [2 hours ago]
+:+1:
+
+
+Prodigy [2 hours ago]
+как по мне проще обернуть транзакцией тест, чем каждый раз менять LAZY на EAGER
+
+
+Prodigy [2 hours ago]
+в реальном проекте тоже будете менять аннотации чтоб тесты проходили?))
+
+
+Merkulov [Today at 12:37 PM]
+in #hw4
+3.3: вывод сводки в конце класса: имя теста - время выполнения с помощью чего реализовать? Вывод в лог файл реализовал после каждого теста, а вот с выводом общей статистики ... может есть какой Rule куда копать подскажите
+
+
+5 replies
+sky [2 hours ago]
+https://topjava14.slack.com/archives/CBUBTP0TG/p1532174313000038
+matrocob
+Всем ссылочка к оптионал на доп материал для optional)
+мне понравилось)
+http://qaru.site/questions/799389/record-time-it-takes-junit-tests-to-run
+Thread in #hw4Yesterday at 2:58 PM
+
+
+Merkulov [2 hours ago]
+ок спс
+
+
+Merkulov [2 hours ago]
+это я реализовал вывод в лог файл, теперь нужно сделать общий вывод в конце класса, получается если делать вывод в консоль, между тестами попадают инфа от хибернейта
+
+
+sky [2 hours ago]
+Я просто @AfterClass использовал (edited)
+
+
+Merkulov [1 hour ago]
+ага я тоже его использовал, только сделал
+
+
+dimlo [Today at 1:15 PM]
+in #hw4
+А было ли у кого следующее:
+при создании @NamedQuery GET_BETWEEN в Meal строку поиска по базе WHERE m.dateTime Idea подчеркивает красным с комментарием "expected Number, Date or String". После m.dateTime идут условия BETWEEN, в которые передаются localDateTime. При этом код работает, тесты проходят. Строкой выше m.dateTime используется в ORDER BY, там она не подчеркнута. Полагаю, что связано это с внедрением поддержки localDateTime в Hibernate, в pom указаны версии (из патча)
+<hibernate.version>5.3.2.Final</hibernate.version>
+<hibernate-validator.version>6.0.10.Final</hibernate-validator.version>
+
+
+2 replies
+sky [2 hours ago]
+mentioned e.pekhterev’s image: LocalDateTime mismatch.png
+14 Comments
+
+
+
+dimlo [1 hour ago]
+@sky спасибо тебе, добрый человек!:slightly_smiling_face:
