@@ -1585,3 +1585,317 @@ mentioned e.pekhterev’s image: LocalDateTime mismatch.png
 
 dimlo [1 hour ago]
 @sky спасибо тебе, добрый человек!:slightly_smiling_face:
+
+
+stea1th [17 hours ago]
+так почему она его подчеркивает?
+
+
+dimlo [13 hours ago]
+@stea1th глюк идеи
+
+
+stea1th [Yesterday at 5:56 PM]
+in #hw4
+Вопрос, у нас же datetime в meal не является уникальным?
+
+
+15 replies
+vch [18 hours ago]
+нет. Уникальна только комбинация user+datetime
+
+
+stea1th [18 hours ago]
+а это как то нужно отмечать , кроме как @Table(name = "meals", uniqueConstraints = {@UniqueConstraint(name = "meals_unique_user_datetime_idx", columnNames = {"user_id", "date_time"})})?
+
+
+vch [18 hours ago]
+А как ты ещё хочешь отметить? У нас же в скрипте создания базы есть создание констраинта, т.е. в базу физически невозможно сохранить дубликат.
+
+
+stea1th [18 hours ago]
+а фиг его знает.. может там какие подводные камни есть
+
+
+vch [18 hours ago]
+В нашем случае даже если не указывать `{@UniqueConstraint(name =` - поведение не изменится. Мы же базу вручную создаём.
+
+
+
+stea1th [18 hours ago]
+а нужно ли dateTime помечать как @DateTimeFormat?
+
+
+stea1th [18 hours ago]
+то есть этот индекс не облизательно вписывать?
+
+
+vch [18 hours ago]
+А что тебе даст этот `@DateTimeFormat`?
+Индекс вписывать необязательно, т.е. в данном случае он скорее для программиста указывается.
+Но лично я (в отличие от многих других) создаю БД не скриптами, а через все эти аннотации. Поэтому в моём варианте указывать индексы в Entity - обязательно.
+
+
+stea1th [18 hours ago]
+по большому счету получается, что так как база у нас через скрипт, то нам все эти проверки и все остальное просто не нужно?
+
+
+stea1th [18 hours ago]
+и даже в тех местах, где имя переменной совпадает с именем в базе не нужно @Column?
+
+
+vch [17 hours ago]
+Не совсем `не нужно`. Есть ещё валидация. Т.е. часть проверок (типа `@NotBlank` )делается хибернейтом при сохранении.
+А если просто переменная типа Boolean, без всяких `nullable = false` - то да, можно оставить вообще без аннотаций, поле попадёт в базу.
+Наоборот - чтобы не попало, надо помечать поле класса как `@Transient`
+
+
+stea1th [17 hours ago]
+не получается ли тут двойных проверок? и в базе мы пишем not null  и здесь _
+
+vch [17 hours ago]
+А тебе они мешают?
+Зато следующему программисту будет всё понятно.
+
+stea1th [17 hours ago]
+да в принципе не мешают, но нужно все это ручками прописывать ведь...
+
+
+vch [17 hours ago]
+И ещё будет тема "валидация" позже. Там для аннотированных проверок сообщения об ошибках приличные можно выдрать из хибернейта. А вот с теми, что только в базе (типа ограничения юзер+datetime) - придётся помучиться, чтобы выдать пользователю красивое сообщение об ошибке. (edited)
+
+
+Grigory Kislin [7:32 PM]
+commented on e.pekhterev’s file LocalDateTime mismatch.png
+в новой idea все хорошо
+
+stea1th [7:35 PM]
+uploaded this image: Screenshot_4.png 
+
+
+stea1th [7:35 PM]
+а как такое может быть?
+
+Joanna [7:44 PM]
+такая же фигня...(
+
+stea1th [7:46 PM]
+есть тут кто, кто может помочь разобраться?
+
+Yevhen Maksymovych [7:48 PM]
+юзер исключен из проверки? здесь для мила выводится тустринг
+в тустринге юзера нет, вот и вывод одинаковый
+
+Grigory Kislin [7:49 PM]
+@stea1th @Joanna вывод делается через toString, в котором поля могут не совпадать с теми, по которым идет сравнение
+
+stea1th [7:49 PM]
+надо тесты править?
+
+
+Grigory Kislin [Yesterday at 7:50 PM]
+in #hw4
+надо найти в чем причина и подумать, что с этим делать (edited)
+
+
+5 replies
+stea1th [16 hours ago]
+а подсказочку можно? а то я тут сейчас голову сломаю
+
+
+sky [16 hours ago]
+добавь юзера в тустринг мила
+
+
+sky [16 hours ago]
+эт не решение
+
+
+
+Grigory Kislin [16 hours ago]
+можно еще подсказки к занятию почитать:)
+
+
+stea1th [16 hours ago]
+сообразил
+
+
+Макс Куркудюк [Yesterday at 8:10 PM]
+in #hw4
+UserServiceTest не працює після патчів, це норм?
+
+
+3 replies
+sky [16 hours ago]
+должно все работать, причем на обеих субд (edited)
+
+
+sky [16 hours ago]
+какие не проходят тесты, что пишет?
+
+
+Макс Куркудюк [6 minutes ago]
+Всі не проходять.
+12:05:55.695 INFO  o.s.jdbc.datasource.DriverManagerDataSource.setDriverClassName:133 - Loaded JDBC driver: org.postgresql.Driver
+12:05:56.095 WARN  o.s.context.support.AbstractApplicationContext.refresh:558 - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [spring/spring-db.xml]: Invocation of init method failed; nested exception is java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException
+12:05:56.102 ERROR o.springframework.test.context.TestContextManager.prepareTestInstance:250 - Caught exception while allowing TestExecutionListener [org.springframework.test.context.support.DependencyInjectionTestExecutionListener@3e521715] to prepare test instance [ru.javawebinar.topjava.service.UserServiceTest@26a529dc]
+java.lang.IllegalStateException: Failed to load ApplicationContext
+    at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:125)
+
+
+Crazz [8:13 PM]
+игнорьте при проверке юзера:https://topjava14.slack.com/archives/CBUBTP0TG/p1532252227000018?thread_ts=1532252027.000042&cid=CBUBTP0TG
+dimlo
+Мой вариант: в MealTestData подправил assertMatch на isEqualToIgnoringGivenFields(expected, "user"); в первом и на .usingElementComparatorIgnoringFields("user") в третьем
+From a thread in #hw4Yesterday at 12:37 PM
+
+Grigory Kislin [8:16 PM]
+добавил в урок 2 подсказки (по AssertionError  и BETWEEN в IDEA)  и 2 ваших вопроса:
+
+> em.merge - при отсутствии старой записи (несуществующее id) создает новую. Те в JpaUserRepositoryImpl нарушается логика
+
+В Hibernate есть такая бага: https://hibernate.atlassian.net/browse/HHH-1661
+
+Hibernate unexpectedly issues INSERT instead of throwing the javax.persistence.OptimisticLockException, when a nonexistent entity is passed to merge()
+Should Hibernate Session#merge do an insert when receiving an entity with an ID?
+Если это действительно наш критичный бизнес кейс (например с многопоточным удалением entity) нужно искать варианты обходного решения. Если же это результат неверного запроса, то, мое мнение, можно это оставить как есть.
+
+> Почему в проекте транзакционность сделана в слое репозитория, а не сервиса? Транзакциями удобнее пользоваться на слое сервисов, так как здесь реализуется бизнес логика и бывает нужно делать несколько операций в одной транзакции.
+
+С классической точки зрения все транзакции действительно объявляются на уровне сервиса. Мы будем использовать в логике сервиса несколько запросов и тогда сделаем дополнительную транзакцию на методе сервисе. Новая транзакция при этом не создается (по умолчанию используется Propagation.REQUIRED, который поддерживают существующую), поэтому несколько @Transactional аннотаций ведут себя как одна. Я использую подход spring-data-jpa (будет на следующем занятии): в репозитории транзакции объявлять удобно, тк не надо думать о них в сервисах.
+
+
+Alexey_P [Yesterday at 8:27 PM]
+in #hw4
+Может кто-то знает:
+в spring-db после накатывания патчей в строке 
+<jdbc:script location="classpath:db/initDB.sql"/> iniDB не резольвится , красное. Почему?
+
+
+2 replies
+sky [16 hours ago]
+video 6. Добавляем поддержку HSQLDB
+Apply 4_8_add_hsqldb.patch
+ВНИМАНИЕ: патч меняет postgres.properties
+IDEA может ${jdbc.initLocation} подчеркивать красным - тупит...
+
+
+Alexey_P [16 hours ago]
+да уж, не прочел эти 2 строки) спасибо
+
+
+Victor [10:27 PM]
+вместо
+```"UPDATE Meal m SET m.description=:description, m.calories=:calories, m.dateTime=:date_time WHERE m.id=:id"```
+можно просто сделать:
+```"UPDATE Meal SET description=:description, calories=:calories, dateTime=:date_time WHERE id=:id"```
+
+Yevhen Maksymovych [10:27 PM]
+как же так, запрос, и без альяса...
+
+e.pekhterev [10:28 PM]
+я так понимаю тут объединения или запроса из 2-х таблиц нет, поэтому можно наверно опускать
+
+
+KaryNaiKo [Yesterday at 10:56 PM]
+in #hw4
+Подскажите, что за файл добавился при накатке патча 4.3?
+
+
+3 replies
+Kirilo [13 hours ago]
+С помощью специально инструмента, ссылку на который мы добавили в шапку readme.md файла (edited)
+
+
+Kirilo [13 hours ago]
+https://github.com/JavaWebinar/topjava
+JavaWebinar/topjava
+Stars
+----------------
+7
+
+Language
+----------------
+Java
+
+JavaWebinar/topjavaFeb 15th at 11:52 AM Added by GitHub
+
+
+dimlo [13 hours ago]
+Travis - некий инструмент, проверяющий сборку и оказывающий последующие сервисы. Дает бейджик travis-build, который можно прилепить к readme.md. Подробнее в видео про улучшение качества кода
+
+
+KaryNaiKo [10:56 PM]
+.travis.yml что это?
+
+
+Kirilo [Yesterday at 11:06 PM]
+in #hw4
+Интересно, каким образом marge возвращает entity, при использовании em.merge(...? По средствам создания запроса namedParameterJdbcTemplate.update("UPDATE...?
+
+
+8 replies
+Prodigy [12 hours ago]
+интересна внутренняя кухня хибернейта?)
+
+
+Kirilo [12 hours ago]
+ну, да. Как примерно он это делает. Тем более, что он построен над jdbc.
+
+
+Kirilo [12 hours ago]
+Понятно, почему при создании нового entity ничего не возвращается - база вроде как только колличество индексов возвращает. А здесь по идее он должен обновлять.
+
+
+Prodigy [12 hours ago]
+я так глубоко не копал
+
+
+Kirilo [12 hours ago]
+Все равно рано или поздно это нужно будет знать
+
+
+Prodigy [12 hours ago]
+я особого смысла не вижу влазить в кишки хибернейта, ну если только сильно интересно)
+
+
+Kirilo [12 hours ago]
+Смотрю, что идея не сильно хорошо и подсказывает, если по полям таблицы видит, то с индексами плохо (edited)
+
+
+Kirilo [12 hours ago]
+Это когда я определяю @UniqueConstraint
+
+
+Victor [Today at 3:08 AM]
+in #hw4
+Need help !
+Я сделал чтобы в лог время выводилось после каждого теста через @Rule TestWatcher. Но как собрать все названия тестов + время тестов и  в конце вывести в лог одним сообщением никак не придумаю. Подскажите кто, куда смотреть? Спасибо. (edited)
+
+
+1 reply
+Victor [9 hours ago]
+Один ответ сам нашел: через TestName + TestWatcher. Ниже скрин выложил. (edited)
+
+
+Victor [3:43 AM]
+uploaded this image: Вывод времени тестов через Рулы 
+
+
+Victor [3:43 AM]
+Не так красиво как у других, но работает )))
+
+
+Kirilo [Today at 9:52 AM]
+in #hw4
+Да, уж. По сравнению с jdbc на прошлом уроке, hibernate в этом уроке выглядит как "танцы с бубном". Да еще и все минусы "на лицо": вытягиваем с базы все поля объекта, а затем только проверяем юзера... (edited)
+
+
+1 reply
+dimlo [41 minutes ago]
+в лекции была волшебная строчка:
+User ref = em.getReference(User.class, userId);
+вот если этот ref передать в SELECT Meal ..... WHERE user=:user все работает
+
+
+

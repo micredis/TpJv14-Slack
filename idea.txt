@@ -971,3 +971,20 @@ https://blog.jetbrains.com/idea/2018/07/spring-and-spring-boot-improvements-in-i
 @Chensy скорее всего нет каталога test/java и мавен не в курсе, что в проекте есть тесты
 @sky будет на 8м уроке
 или гуглится на раз
+
+
+Ma3stro [6:51 PM]
+uploaded and commented on this image: image.png 
+
+Как сделать так, чтобы открытые вкладки, если их много, перетекали вниз, а не в табло, где располагается xml?
+sky [7:00 PM]
+Settings -> editor -> general -> editor tabs -> show tabs in single row
+
+Ma3stro [7:01 PM]
+Благодарю!
+
+kunduz [9:18 AM]
+https://vimeo.com/98922030
+VimeoOfficial ZeroTurnaround Account
+03 Mouseless Driven Development by Hadi Hariri
+In this talk we’re going to see how to use IntelliJ IDEA efficiently for Java and general development. You’ll learn many tips and tricks that you probably didn’t even know were possible, along with hidden features that even the IDEA developers don’t know about. You’ll be guaranteed to walk away knowing something new…but not too much!

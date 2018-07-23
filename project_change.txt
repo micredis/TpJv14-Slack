@@ -60,3 +60,19 @@ JavaWebinar
 *1 new commit pushed to `master`*
 `237ce3fe` - Add github tools integration
 JavaWebinar/topjava
+
+
+GitHub APP [6:22 PM]
+JavaWebinar
+*9 new commits pushed to `master`*
+`ed0d93a1` - 4_0_fix
+`cdd05f55` - 4_1_HW3
+`5fd75872` - 4_2_HW3_optional
+`d007d3d9` - 4_3_improve_code
+`561884c0` - 4_4_init_and_populate_db
+`3c761ea7` - 4_5_create_mock_test_ctx
+`629d3703` - 4_6_add_jpa
+`e48301f4` - 4_7_add_named_query_and_transaction
+`9bf71a66` - 4_8_add_hsqldb
+Show less
+JavaWebinar/topjava
