@@ -1898,4 +1898,1440 @@ User ref = em.getReference(User.class, userId);
 вот если этот ref передать в SELECT Meal ..... WHERE user=:user все работает
 
 
+Victor [2 days ago]
+>2: В JPQL запросах можно писать: >m.user.id=:userId
+и ничего вытаскивать не нужно перед проверкой
 
+
+
+Kirilo [1 day ago]
+Лично для меня - этот материал намного тяжелее. И в нашем примере я вообще преимуществ использования Hibernate не вижу. Особенно, что касается Lazy юзера. (edited)
+
+
+Victor [1 day ago]
+нет, конечно можно рассуждать о преимуществах не умея толком пользоваться, но я лучше помолчу
+
+
+
+Kirilo [1 day ago]
+Я сужу о конкретном случае. Пока я не вижу преимуществ на этом уроке.
+
+
+Victor [1 day ago]
+Задача - изучить Hibernate. Берем проект и прикручиваем. При чем здесь преимущества?
+
+
+Stanislav [1 day ago]
+Процетирую знаменитый фильм "Тренеруйся лучше на кошках"
+
+
+Victor [Jul 23rd at 1:37 PM]
+По поводу аннотаций Hibernate над полями:
+Ставить аннотации из практических соображений лучше над геттерами (хотя сам предпочитаю XML). Причины:
+- Если аннотации стоят на полях, вызов любого метода приводит к загрузки сущности/прокси. Это может повлиять на производительность. Нужно на последних версиях, но думаю ничего не поменялось.
+- Ставя аннотации на поля мы заставляем Hibernate работать с private class member'ами. Бывает что приложение разворачивается на чужих окружениях с restricted Security Manager'ом - это не позволит приложению взлететь. Такая необходимость, однако, - редкость.
+- BeanValidation аннотации (которые мы обычно ставим туда же, куда и ORM аннотации) не всегда будут работать на полях. Например, в случае если попадется не объект, а прокси. Обращение будет к полю прокси напрямую. А у него, как известно, все Entity поля - null. А если бы использовался метод, то прокси бы обратилось к proxy holder'y и получило бы настоящее значение.
+с форума javatalks.ru скопировал цитату.
+Помнил, что в доках Hibernate они на геттерах ставят, а тут все на полях. Вот и возник вопрос, как лучше?
+
+
+2 replies
+Grigory Kislin [22 hours ago]
+@Victor ссылку ниже дали. кроме того она над AbstractBaseEntity стоит. рекомендую ресурс stackoverflow отстальным.
+> Security Manager - ни разу не сталкивался. чтото совсем редкое
+
+
+> Если аннотации стоят на полях, вызов любого метода приводит к загрузки сущности/прокси
+> BeanValidation  с прокси- да, вижу такую багу: https://hibernate.atlassian.net/browse/HVAL-13
+
+
+вообще на мой взгляд это совсем неверно - пытаться доставать поля или их валидировать, если ты не вытащил объекта из базы в той же транзакции.  open-in-view паттерн, который позволяет тебе это не делать и открывает новую транзакцию- это зло, которое замазывает твой плохой код, нагружает лишний раз базу и который надо выключать сразу. (edited)
+
+
+Victor [22 hours ago]
+сейчас читаю Spring 4 для профессионалов, они тоже ставят над геттерами аннотации ORM. :slightly_smiling_face:
+может все из-за этой баги HVAL-13?
+последний абзац понял так: нужно доставать из бд сразу все что нужно за один раз.
+
+
+Yevhen Maksymovych [1:41 PM]
+вообще, смысл есть, но вот эти геттеры и сеттеры сами по себе boilerplate, делать их чисто для того, чтобы поставить на них аннотацию, которая в теоретических условиях может сработать отлично от такой же, но установленной на поле - ну, такое...
+про бинвалидейшн не очень понял. прокси мы получаем при обращении в бд. если объект персистировался, он уже априори валидный, и на эти аннотации нам как бы уже всё равно
+
+dimlo [2:04 PM]
+в лекции про это было:
+https://stackoverflow.com/questions/594597/hibernate-annotations-which-is-better-field-or-property-access/6084701#6084701
+Stack Overflow
+Hibernate Annotations - Which is better, field or property access?
+This question is somewhat related to Hibernate Annotation Placement Question. But I want to know which is better? Access via properties or access via fields? What are the advantages and disadvanta...
+
+
+Victor [Jul 23rd at 4:27 PM]
+как в нашем приложении пофиксить
+```org.hibernate.LazyInitializationException: could not initialize proxy [ru.javawebinar.topjava.model.User#100001] - no Session```
+появляется когда я тестирую метод get. Получается я обращаюсь к полям объекта, но не могу получить их, потому что нет сессии. Как я понимаю.
+
+
+1 reply
+Grigory Kislin [22 hours ago]
+да, см мой ответ  выше:)
+
+
+Yevhen Maksymovych [Jul 23rd at 4:27 PM]
+несколько вариантов:
+
+
+
+4 replies
+stea1th [1 day ago]
+а 4 пункт действительный?
+
+
+stea1th [1 day ago]
+я допустим сделал так, что ожидается Exception
+
+
+vch [1 day ago]
+если будет LazyException - то наверно функционал не будет работать?..
+
+
+stea1th [1 day ago]
+вообще не знаю что и делать
+
+
+Yevhen Maksymovych [4:28 PM]
+1. открывать транзакцию при работе с прокси
+2. вытаскивать не референс, а полновесный объект
+3. не использовать lazy-loading
+4. не обращать внимания :slightly_smiling_face:
+
+
+e.pekhterev [Jul 23rd at 4:37 PM]
+0. Прочитать подсказки к HW04: *_7: Если нашему приложению Meal.user не требуется, не следует включать его в тесты. В следующем уроке мы потренируемся разными способами доставать зависимости Meal.user и User.meals_*
+-1. Пошукать по этой ветки в предыдущих сообщениях - уже раза 3 это обсуждалось.
+-2. Фетчтип для User c LAZY на EAGER тут не стоит менять - завернут на ревью.
+-3. Не обращать внимание тоже не прокатит - завернут на ревью
+
+
+
+25 replies
+Victor [1 day ago]
+я за ветками слежу по большей части.
+Эту подсказу я не понял как нужно.
+Спасибо :slightly_smiling_face: Но начать понимать Hibernate за неделю для меня не возможно. Как оказалось, кроме того, что нужно не добавлять поле user, его еще и из асертов нужно исключить. Но я сам не додумался.
+
+
+Victor [1 day ago]
+просто когда я читал ветки, по факту, не понимал про что они.
+
+e.pekhterev [1 day ago]
+@Victor ну у меня затык тут же случился, потому как типа надо ж сначала постараться сделать ДЗ не читая подсказок.
+А про освоить за неделю - даааа, я вот сейчас читаю ссылку за ссылкой (что даны в задании) и мозк начинает плыть. ДЗ не очень большое, я сказал бы маленькое, но очень много нюансови, и очень уж много теории. Ну да, ещё ж надо теперь get - методы для JPA-репозитория с помощью Критерии сделать))) там тоже нужно залипнуть надолго))
+
+
+Victor [1 day ago]
+@e.pekhterev я вообще на попробовать решить без подсказок забил. Рад, если с подсказами получается. И это я уже месяц на  Hibernate потратил до стажи. Хуже всего, что я не понимаю как этим ОГРОМНЫМ объемом теории пользоваться.
+
+
+e.pekhterev [1 day ago]
+@Victor ну тут изи - нужно практиковаться))) вот как раз выпускной проект для этого
+
+Victor [1 day ago]
+времени нужно вагон, которого нет.
+
+
+e.pekhterev [1 day ago]
+завтра времени будет меньше или вообще не будет, завтра будет новая порция теории, так что только сегодня)))
+
+
+
+stea1th [1 day ago]
+может 4 ый раз обсудим?
+
+e.pekhterev [1 day ago]
+выше почитай, там длинющая ветка, даже Григорий пару-тройку комментов оформил, у нас лучшее не получится
+
+
+stea1th [1 day ago]
+уже решил, спасибо... дело было в том, что забыл сортировку
+
+Victor [1 day ago]
+@e.pekhterev спасибо, уже нашел и почитал.
+
+Tanya [1 day ago]
+>  Ну да, ещё ж надо теперь get - методы для JPA-репозитория с помощью Критерии сделать))) там тоже нужно залипнуть надолго))
+
+
+не надо, а можно попробовать, это ж в #flooding
+
+e.pekhterev [1 day ago]
+@Tanya если Таня чего то сказала - надо идти и делать)))
+
+
+
+Stanislav [1 day ago]
+Мое мнение, что не правильно воспринимают этот "курс". Этот курс не учит с нуля Spring, Hibernate и т.д но и многих ньюансов этот "курс" не затрагивает. Этот курс фрагментирует-убирает кашу с головы по средством практики, а так же дает возможность консультироваться-обсуждать и получать фидбэки по ДЗ. По тому же Хибернейту книги на 600+ страниц и это только по одному инструменту. Какие 3 месяца, года бы хватила что бы во всем разобраться досконально (на практике). К этому "курсу" приходят по другим соображениям, а не научиться с нуля. - имхо (edited)
+
+
+Grigory Kislin [22 hours ago]
+добавлю еще раз: не надо пытаться охватить все то по jpa-hibernate написано. я не смог:) точнее- и не пытался.. все по шагам делается.. пока достаточно ДЗ. мы JPA еще до 8го занятия будем ковырять потихоньку
+
+
+
+Victor [22 hours ago]
+Спасибо, а то как-то посмотришь на объем и оптимизм гаснет. Еще б совет: как то, что изучил и разобрал, запомнить. И сделать так чтобы быстро поднять теорию и использовать. (edited)
+
+
+Grigory Kislin [21 hours ago]
+совет - делать ДЗ и выпускной
+ 
+
+
+Victor [14 hours ago]
+Это однозначно. Но теорией сложно пользоваться. Каждый раз долго пересматривать 15 ссылок чтобы найти решение. Реализации разбросаны по бранчам, тоже тяжело систематизировать. Master комментировать нельзя...
+
+
+Victor [14 hours ago]
+Я лично просто в яндекс.диске веду какой-то конспект, где стараюсь сохранить все решения и теорию. Пока работает, но объем наработок растет, и уже даже поиск уже долго идет. И сам забываю что где лежит... И времени на конспектирование порядком уходит....
+
+
+Stanislav [14 hours ago]
+Прокачивай поиск в гугле. По своему опыту, не помогут эти конспекты.
+
+
+Stanislav [14 hours ago]
+Я уже как то раз скидывал интересную статью, сейчас еще раз скину.
+
+
+Stanislav [14 hours ago]
+https://vk.com/id189553434?w=wall189553434_251%2Fall
+
+
+
+Victor [14 hours ago]
+чем сложнее вопросы, тем тяжелее найти ответ. Последнее время все больше в книги лезу, а поиском пользуюсь когда exception вылетает. 
+Минусы поиска ответов в  гугл:
+- нужно найти подходящий ответ
+- нужно вникнуть и понять (ход мышления автора тяжело понять)
+у меня так. Интересно очень, как работающие программисты работают)))
+
+
+Victor [14 hours ago]
+Кроме всего гугл нужно уговорить показать тебе то что нужно, раньше было легче. Мне уже 30 и я 13 сознательных лет живу в поиске))) А цена всему - время.
+
+
+Stanislav [14 hours ago]
+Не спорю что гугл не все знает (или по крайне мере очень сложно найти), но это исключение чем правило.
+
+
+stea1th [Jul 23rd at 5:38 PM]
+Ребятки, кто поможет с этим getBetween?
+
+
+38 replies
+Kirilo [1 day ago]
+Такой как и getall,  только  BETWEEN AND добавляешь
+
+
+stea1th [1 day ago]
+я имел ввиду тест с ним
+
+
+stea1th [1 day ago]
+LazyInitializationException кидает
+
+Alexander Pilipenko [1 day ago]
+usingElementComparatorIgnoringFields
+
+
+Kirilo [1 day ago]
+так это MealTestData нужно править
+
+
+
+stea1th [1 day ago]
+assertThat(actual).usingElementComparatorIgnoringFields("user").isEqualTo(expected);
+
+
+stea1th [1 day ago]
+так стоит такое
+
+
+Alexander Pilipenko [1 day ago]
+Странно
+
+
+stea1th [1 day ago]
+вот и я дума, что за фигня
+
+
+Alexander Pilipenko [1 day ago]
+Поделись ссылкой на git
+
+stea1th [1 day ago]
+https://github.com/stea1th/topjava/tree/HW04
+
+stea1th [1 day ago]
+какие будут мысли?
+
+
+Alexander Pilipenko [1 day ago]
+У меня в твоем проекте тесты по mealservice идут без ошибок
+
+
+stea1th [1 day ago]
+потому что там я ожидаю ошибку
+
+stea1th [1 day ago]
+exception.expect(LazyInitializationException.class);
+
+
+Kirilo [1 day ago]
+в общем метод у тебя правильно сделан. Причина в чем-то другом
+
+
+stea1th [1 day ago]
+тогда сдам на проверку
+
+Kirilo [1 day ago]
+а...
+
+Kirilo [1 day ago]
+ты не сортируешь
+
+stea1th [1 day ago]
+в запросе
+
+stea1th [1 day ago]
+аааа
+
+
+Kirilo [1 day ago]
+ORDER BY
+
+
+stea1th [1 day ago]
+да, забыл
+
+
+stea1th [1 day ago]
+попробую сейчас
+
+
+stea1th [1 day ago]
+теперь все проходит
+
+
+stea1th [1 day ago]
+спасибо
+
+
+stea1th [1 day ago]
+это ж надо так
+
+Kirilo [1 day ago]
+у меня по другому было. В консоли работает, а в методе - нет (edited)
+
+
+Kirilo [1 day ago]
+И чудесным образом заработало через .setParameter
+
+
+Kirilo [1 day ago]
+А в строке - фига
+
+
+stea1th [1 day ago]
+странно
+
+
+Alexander Pilipenko [1 day ago]
+Убери user из  meal.toString
+
+stea1th [1 day ago]
+все заработало
+
+Alexander Pilipenko [1 day ago]
+Не томи. Что сделал?
+
+stea1th [1 day ago]
+сортировку в запросе забыл
+
+
+stea1th [1 day ago]
+в get сделал, а в getBetween забыл
+
+
+Alexander Pilipenko [1 day ago]
+Интересная ошибка: из-за того что в тесте ты сравниваешь неотсортированный список с отсортированным, тест должен упасть на failrue. При этом данные о сравниваемых объектах должны выводиться через toString. У тебя toString:
+@Override
+   public String toString() {
+       return "Meal{" +
+               "dateTime=" + dateTime +
+               ", description='" + description + '\'' +
+               ", calories=" + calories +
+               ", user=" + user +
+               ", id=" + id +
+               '}';
+   }
+
+Мы обращаемся к user proxy, и получаем ошибку LazyInitializationException (edited)
+
+
+Alexander Pilipenko [1 day ago]
+Поменяй meal.toString
+
+
+stea1th [Jul 23rd at 6:16 PM]
+а кто мне объяснит, зачем все эти танцы с бубнами типа  CMR, HQL, Criteria, если есть старый добрый JPQL?
+
+
+6 replies
+e.pekhterev [1 day ago]
+вот тут почитай http://docs.jboss.org/hibernate/orm/5.3/userguide/html_single/Hibernate_User_Guide.html#criteria
+
+
+e.pekhterev [1 day ago]
+я только начал, но переключился на чтение теории по хибернейт по ссылкам из занятия, а ты вот прочитаешь и нам потом всё объяснишь))) (edited)
+
+
+Kirilo [1 day ago]
+Я, вот, тоже пока не понял преимущества createNamedQuery перед createQuery (edited)
+
+
+Grigory Kislin [22 hours ago]
+@Kirilo createNamedQuery  создается на старте и кэшируется, объявляется декларативно и падает тоже на старте, если неверный (edited)
+
+
+e.pekhterev [22 hours ago]
+Criteria typeSafe, запрос проверяется на этапе компиляции, а не в рантайме как для HQL или JPQL (в которых все данные просто строки)
+
+
+Kirilo [21 hours ago]
+Будем знать.
+
+
+e.pekhterev [1 day ago]
+ща, погоди, я почитаю всю теорию по ссылкам, что Григорий в задании дал, может и найдется такая аннотация.
+но согласитесь, до коле мы будем писать эти геттеры и сеттеры (конечно в идее это делается одним махом через alt+enter, но код из-за них перегружен нереально). А тут просто 2 аннотации над классом и вся любовь))) (edited)
+
+Макс Куркудюк [1 day ago]
+Дякую)
+
+
+Vitaly [1 day ago]
+на эту тему есть очень хорошее обзорное видео
+
+
+Vitaly [1 day ago]
+https://www.youtube.com/watch?v=QmsMWCIf3nc
+YouTube letsCode
+Java Tools: Project Lombok - пишем меньше кода
+ 
+
+
+e.pekhterev [1 day ago]
+спасибо, обязательно посмотрю
+
+
+Vitaly [1 day ago]
+там бегло - почти по всем возможностям, особо меня порадовали Builder и Cleanup
+
+
+Kirilo [1 day ago]
+А разве он не делает то же самое, только у себя внутри?
+
+
+Vitaly [1 day ago]
+Делает, но ты этот код не пишешь
+
+
+Vitaly [1 day ago]
+лень - двигатель прогресса
+
+
+
+Vitaly [1 day ago]
+он в момент компиляции генерит все
+
+
+Kirilo [1 day ago]
+Просто, лично для меня - это только запутывает. Я привык допустим видеть такой код и это никогда не было проблемой
+
+
+Vitaly [1 day ago]
+а он будет доступен из других методов
+
+Kirilo [1 day ago]
+Мне кажется - это только замедляет программу
+
+
+Kirilo [1 day ago]
+как и все технологии обертки
+
+
+Vitaly [1 day ago]
+т.е. если ты поставишь над классом NoArgsContructor, и в другом методе начнешь набирать имя конструктора - идея покажет, что он есть
+
+
+Vitaly [1 day ago]
+личное дело каждого, когда просто в классе - с десяток полей, и для них нужны геттеры/сеттеры, конструкторы, а может еще и синхронизированный метод - это будет простыня на 3 листа
+
+
+Vitaly [1 day ago]
+а так - 3 аннотации
+
+Kirilo [1 day ago]
+Опять же, чтобы всем этим пользоваться, ты должен знать то, что описал
+
+
+Vitaly [1 day ago]
+логично, это вообще ко всему относится :grin: в жизни
+
+
+Kirilo [1 day ago]
+И когда будет человек без практики это все применять - получится как всегда (edited)
+
+e.pekhterev [1 day ago]
+как он может замедлить программу??? компилятор всё это соберет по аннотациям и либе и вставит всё теже геттеры и сеттеры, но нам, программистам/недопрограммистам, будет легче, когда кода будет в цать раз меньше - гораздо читабельней всё (edited)
+
+
+e.pekhterev [1 day ago]
+тоже самое можно сказать и про стримы, и про лямбды, да и вообще про те же аннотации, но ничего - народ хавает и не икает (edited)
+
+
+e.pekhterev [1 day ago]
+не понятно другое - почему это до сих пор не включили в jdk
+
+stea1th [1 day ago]
+Интересно, а этот Ломбок уже можно использовать в нашем проекте?
+
+
+Kirilo [1 day ago]
+нет, у тебя патчи не станут
+
+stea1th [1 day ago]
+Ну а если их в домашнем задании использовать?
+
+
+vch [1 day ago]
+@stea1th а разве где-то есть запрет? В своих HW никто не мешает поиграться с ним. Но вообще - его изучают в masterjava
+
+
+Kirilo [1 day ago]
+там ты можешь все, что угодно (edited)
+
+stea1th [1 day ago]
+А кто нибудь уже ходил на мастерджаву?
+
+
+vch [1 day ago]
+@stea1th А что конкретно интересует?
+
+
+Kirilo [1 day ago]
+Были бы лишние деньги, я бы и на отус пошел бы :slightly_smiling_face:
+
+
+stea1th [1 day ago]
+Что такое отус?
+
+Kirilo [1 day ago]
+конкуренты, но там дороже
+
+stea1th [1 day ago]
+А вы все после JavaRush?
+
+Kirilo [1 day ago]
+я - да
+
+stea1th [1 day ago]
+И как тебе курс?
+
+
+Kirilo [1 day ago]
+норм, там хорошо заряжают новичков на усидчивость, но долго растягивается в перспективе. Здесь уже ближе к боевым условиям, так сказать продолжение.
+
+
+Kirilo [1 day ago]
+Этого курса должно вполне хватить, если все делать
+
+
+stea1th [1 day ago]
+Мне тоже понравилось... Хотя есть ненужные вещи, типа Rmi
+
+
+stea1th [1 day ago]
+Как по мне
+
+Kirilo [1 day ago]
+У меня сразу был шок, от нагрузки и темпа
+
+Kirilo [1 day ago]
+Сейчас, как-бы понимаю, что так и нужно
+
+
+stea1th [1 day ago]
+Да вроде полегче стало?
+
+
+stea1th [1 day ago]
+Самое сложное в курсе - это понять что от тебя хотят
+
+Kirilo [1 day ago]
+Конечно, подозреваю, что на Отусе много еще интересного есть, но, может, потом как-нить
+
+
+stea1th [1 day ago]
+И самый жирный плюс что здесь всегда тебе помогут, ты не остаёшься 1 на 1 с проблемой
+
+
+Kirilo [1 day ago]
+Ну, да, Григорий один из пионеров нового онлайн обучения :slightly_smiling_face:
+
+stea1th [1 day ago]
+Есть конечно к чему стремиться, но остальное оч интересно :grinning:
+
+
+e.pekhterev [1 day ago]
+ёлы палы, там и @ToString есть)))) и его не надо переписывать, при каждом добавлении или изменении имени полей. (edited)
+
+
+stea1th [1 day ago]
+Сейчас попробую домашку с этой штукой переделать
+
+
+e.pekhterev [1 day ago]
+а я уже прошел все ревью, не получится блеснуть))))
+
+e.pekhterev [1 day ago]
+@stea1th давай, мож быть Григорию понравится и включат код в проект - бонусы получишь
+
+
+stea1th [1 day ago]
+потыркаю сейчас
+
+
+stea1th [1 day ago]
+эту ерунду еще фиг подключишь
+
+stea1th [1 day ago]
+у кого получилось подключить ломбок?
+
+e.pekhterev [1 day ago]
+всё подключается без проблем, только что проверил, и всё работает
+
+stea1th [1 day ago]
+как ты сделал?
+
+
+stea1th [1 day ago]
+я уже и плагин установил и мавен зависимость подключил... и все равно, идея не видит
+
+
+e.pekhterev [1 day ago]
+добавляешь в pom дипенденси - я дал ссылку в шапке и вперед, ну ты чего такой то)))) ?
+
+
+e.pekhterev [1 day ago]
+не знаю, что ты там устанавливал - нужно просто добавить депенденси в пом
+
+e.pekhterev [1 day ago]
+отдельно плагин устанавливать не надо, возможны конфликты
+
+
+stea1th [1 day ago]
+не ту зависимость поставил
+
+stea1th [1 day ago]
+там была lombok-maven
+
+
+Prodigy [1 day ago]
+это всё хорошо конечно, а если у сеттеров нужно предусловия проверять на входе на валидность данных, а если нужно из геттеров получать не в тупую поля, а какие-то немодифицированные данные? ломбок тут вряд ли поможет вам
+
+
+Prodigy [1 day ago]
+а в продашине сомневаюсь что всё так просто как у нас, нагенерил сеттеров геттеров и вперед)
+
+stea1th [1 day ago]
+на ноль он может проверить
+
+stea1th [1 day ago]
+все, остальное можно ручками сделать
+
+e.pekhterev [1 day ago]
+@Prodigy слишком много "а если", а по жизни 99% времени alt+enter и потом идешь сворачивать все сеттеры и геттеры
+
+
+Prodigy [1 day ago]
+@e.pekhterev а ты как программист с опытом это заявляешь?))
+
+
+e.pekhterev [1 day ago]
+заявляю, что мне, как недопрограммисту, это очень удобно)))
+
+
+e.pekhterev [1 day ago]
+а дальше жизнь покажет
+
+Prodigy [1 day ago]
+у Блоха в Эффективной джаве ситуации с сеттерами и геттерами описаны на предмет валидности передаваемых и получаемых данных... советую почитать, открывает мозги)
+
+
+e.pekhterev [1 day ago]
+давно хочу почитать, всё руки не дойдут
+
+
+e.pekhterev [1 day ago]
+да и опять же, вот наш проект на топДжаве, где у нас валидность будет? судя по эксепшинам - предположу, что на сервисе она и будет, или я не прав?
+
+e.pekhterev [1 day ago]
+я к тому, что геттер должне быть геттером, и про сеттер также, если он будет делать что то ещё, то возможно не стоит называть его геттером/сеттером, может я не прав. Опять же, ребята из ДжетБрейн явно читали и не раз Эффективную джаву, так почему же по альт+энтер мы не получаем сразу сеттер с проверкой хотя бы на null для ссылочных типов или хотя бы возможность выбора такого варианта? (edited)
+
+
+Prodigy [1 day ago]
+ну ситуации разные бывают, где то нужно защищать данные, потому как очень легко делать разные атаки и менять состояние объектов. В нашем случае наверное не стоит городить огород.
+
+
+e.pekhterev [1 day ago]
+так я ж не настаиваю, что нужно везде городить, мы можем это использовать, а можем и не использовать. вот взять к примеру наш нынешний класс Meal с полем User user с фетч типом Lazy и пишем сверху класса аннотация lombok-а @toString - что он сделает, я не пробовал, но думаю не то, что нам нужно. Везде есть свои ограничения, но не повод не использовать классную тулзу, там где это приемлемо и обоснованно. опять же всё там вполне настраиваемо, теже сеттеры с геттерами
+
+
+Prodigy [1 day ago]
+согласен, в каких то ситуациях это может быть удобно
+
+e.pekhterev [1 day ago]
+как я уже писал выше, из того, что я за 2 года накодил эта тулза легла бы в 99% как минимум (edited)
+
+
+Stanislav [1 day ago]
+Ломбок интересен для своих проектов, но не стоит к нему привыкать (потом будет боль).
+
+
+e.pekhterev [1 day ago]
+возможно
+
+
+stea1th [1 day ago]
+Отчего же?
+
+Stanislav [1 day ago]
+В реальной работе его мало где применяют.
+
+Stanislav [1 day ago]
+Хотите Ломбок изучайте Котлин
+
+
+stea1th [1 day ago]
+Но очень же удобно
+
+
+e.pekhterev [1 day ago]
+а вот кстати и аргументы правильные, что нечего логику вставлять в сеттеры и геттеры для модели - https://stackoverflow.com/questions/594597/hibernate-annotations-which-is-better-field-or-property-access/6084701#6084701
+Stack Overflow
+Hibernate Annotations - Which is better, field or property access?
+This question is somewhat related to Hibernate Annotation Placement Question. But I want to know which is better? Access via properties or access via fields? What are the advantages and disadvanta...
+ 
+(edited)
+
+
+Stanislav [1 day ago]
+Не хочу лазать по ссылкам (можно в нете много найти или на том же хабре), он нарушает некоторые правила, вроде как с javadoc-ом не работает, существуют долгосрочные риски обслуживания.  и т.д.
+
+
+Prodigy [1 day ago]
+статья хорошая и по делу, но это касается только сущностей базы данных, в остальном же логику реализовывать в сеттерах или геттерах или нет зависит от ситуации
+
+
+e.pekhterev [1 day ago]
+@Prodigy ну я сейчас именно за Model говорю, а так да, всякое может быть
+
+
+Prodigy [1 day ago]
+инетересно всё таки мнение кураторов проекта, с позиции своего опыта и их взгляд на такие проекты как ломбок
+
+vch [1 day ago]
+@Prodigy Lombok-у учат в курсе masterjava. Мне кажется, данный факт говорит сам за себя.
+
+
+e.pekhterev [1 day ago]
+спросил только что у знакомого мидла из Епам (помимо основной работы ведет в Епаме и курс двакор и стажировки типа нашей, только покруче):
+_- Привет, на продакшине используют библиотеку Lombok? вообще её пользуют или не рекомендуется?_
+_- Привет. Используют_
+_- Почему не всегда?_
+_- Сторонняя библиотека._
+
+Короче спорно, гуава и апачи комонс -  тоже сторонние библиотеки. (edited)
+
+
+Prodigy [1 day ago]
+@vch ну это не показатель... мы ж на данном курсе проходим темы сервлетов, jdbc, которые не факт что массово используются
+
+
+Stanislav [1 day ago]
+Эти вещи мы изучаем не для того что бы использовать, а что бы понимать что под капотом того же Spring MVC
+
+
+
+vch [1 day ago]
+Эээ... А как без сервлетов? Даже в Spring-контроллере есть прямой доступ к HttpServletRequest. Все эти JPA - тоже по сути обёртка над нативными запросами и JDBC. Одно другое вовсе не отрицает.
+
+
+stea1th [1 day ago]
+Как интересно вас почитать:grinning:
+
+Prodigy [1 day ago]
+конечно же мы это всё проходим чтобы понимать что "под капотом" современных технологий.... думаю ломбок из той же области, чтоб мы понимали что такое есть, а пользоваться или нет это уже на наше усмотрение)
+
+
+e.pekhterev [1 day ago]
+Ещё товарищ написал (почему не всегда используется Lombok) - *_Потому что они убогие. Ты начни юзать. Ставь анотации и компилируй_*
+
+
+e.pekhterev [1 day ago]
+видимо много лишнего залетает в байткод
+
+Grigory Kislin [22 hours ago]
+огось понаписали:) извините, если повторюсь- 
+1. я его люблю и юзаю
+2. используем в masterjava
+3. будет в след. курсе spring-boot
+
+
+turhanow [8:46 PM]
+ребят, привет) помогите разобраться) в тестах исключение)
+
+`Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [spring/spring-db.xml]: Invocation of init` 
+
+`Caused by: java.lang.NullPointerException
+    at org.hibernate.hql.internal.ast.HqlSqlWalker.createFromJoinElement(HqlSqlWalker.java:429)
+    at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.joinElement(HqlSqlBaseWalker.java:3920)
+    at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.fromElement(HqlSqlBaseWalker.java:3706)
+    at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.fromElementList(HqlSqlBaseWalker.java:3584)
+    at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.fromClause(HqlSqlBaseWalker.java:720)
+    at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.query(HqlSqlBaseWalker.java:576)
+    at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.selectStatement(HqlSqlBaseWalker.java:313)
+    at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.statement(HqlSqlBaseWalker.java:261)
+    at org.hibernate.hql.internal.ast.QueryTranslatorImpl.analyze(QueryTranslatorImpl.java:271)
+    at org.hibernate.hql.internal.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:191)
+    at org.hibernate.hql.internal.ast.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:143)
+    at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:119)
+    at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:80)
+    at org.hibernate.engine.query.spi.QueryPlanCache.getHQLQueryPlan(QueryPlanCache.java:153)
+    at org.hibernate.query.spi.NamedQueryRepository.checkNamedQueries(NamedQueryRepository.java:157)
+    at org.hibernate.internal.SessionFactoryImpl.checkNamedQueries(SessionFactoryImpl.java:574)
+    at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:321)
+    at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:467)
+    at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:939)
+    at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory`
+
+судя по логам, ошибки с HQLQ, но  я не менял инициализацию дб, как было в патче, подключение к бд пробовал останавливать...
+UserServiceTest тожже не проходит((
+
+turhanow [8:46 PM]
+ребят, привет) помогите разобраться) в тестах исключение)
+
+`Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [spring/spring-db.xml]: Invocation of init` 
+
+`Caused by: java.lang.NullPointerException
+    at org.hibernate.hql.internal.ast.HqlSqlWalker.createFromJoinElement(HqlSqlWalker.java:429)
+    at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.joinElement(HqlSqlBaseWalker.java:3920)
+    at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.fromElement(HqlSqlBaseWalker.java:3706)
+    at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.fromElementList(HqlSqlBaseWalker.java:3584)
+    at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.fromClause(HqlSqlBaseWalker.java:720)
+    at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.query(HqlSqlBaseWalker.java:576)
+    at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.selectStatement(HqlSqlBaseWalker.java:313)
+    at org.hibernate.hql.internal.antlr.HqlSqlBaseWalker.statement(HqlSqlBaseWalker.java:261)
+    at org.hibernate.hql.internal.ast.QueryTranslatorImpl.analyze(QueryTranslatorImpl.java:271)
+    at org.hibernate.hql.internal.ast.QueryTranslatorImpl.doCompile(QueryTranslatorImpl.java:191)
+    at org.hibernate.hql.internal.ast.QueryTranslatorImpl.compile(QueryTranslatorImpl.java:143)
+    at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:119)
+    at org.hibernate.engine.query.spi.HQLQueryPlan.<init>(HQLQueryPlan.java:80)
+    at org.hibernate.engine.query.spi.QueryPlanCache.getHQLQueryPlan(QueryPlanCache.java:153)
+    at org.hibernate.query.spi.NamedQueryRepository.checkNamedQueries(NamedQueryRepository.java:157)
+    at org.hibernate.internal.SessionFactoryImpl.checkNamedQueries(SessionFactoryImpl.java:574)
+    at org.hibernate.internal.SessionFactoryImpl.<init>(SessionFactoryImpl.java:321)
+    at org.hibernate.boot.internal.SessionFactoryBuilderImpl.build(SessionFactoryBuilderImpl.java:467)
+    at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:939)
+    at org.springframework.orm.jpa.vendor.SpringHibernateJpaPersistenceProvider.createContainerEntityManagerFactory`
+
+судя по логам, ошибки с HQLQ, но  я не менял инициализацию дб, как было в патче, подключение к бд пробовал останавливать...
+UserServiceTest тожже не проходит((
+
+
+stea1th [Jul 23rd at 9:54 PM]
+товарищи, а у кого в updateNotFound тесте выбрасывается исключение?
+
+
+51 replies
+Alexander Pilipenko [1 day ago]
+Какое?
+
+
+stea1th [1 day ago]
+NotFoundException
+
+
+stea1th [1 day ago]
+оно же по идее должно выбрасываться?
+
+
+Alexander Pilipenko [1 day ago]
+Да. Должно
+
+
+stea1th [1 day ago]
+а у меня почему то не выбрасывается
+
+stea1th [1 day ago]
+а ты можешь показать свой метод save?
+
+Merkulov [1 day ago]
+у тебя ожидается выброс исключения и если тест прошел успешно значит он был выброшен
+
+
+stea1th [1 day ago]
+в том то и дело, что эксепшн не выбрасывается
+
+Alexander Pilipenko [1 day ago]
+em.merge(meal); - не бросает исключение
+
+stea1th [1 day ago]
+и что делать? менять его?
+
+
+Alexander Pilipenko [1 day ago]
+Сейчас в meal ключ - id
+
+
+Alexander Pilipenko [1 day ago]
+Ты проверил что еда не новая
+
+
+Alexander Pilipenko [1 day ago]
+Потом сразу ее пытаешься проапдэтить.
+
+
+stea1th [1 day ago]
+@Transactional
+   public Meal save(Meal meal, int userId) {
+       User u = em.getReference(User.class, userId);
+       meal.setUser(u);
+       if (meal.isNew()) {
+           em.persist(meal);
+       } else {
+           em.merge(meal);
+       }
+       return meal;
+   }
+
+
+Merkulov [1 day ago]
+а где проверка на пользователя?
+
+
+
+Alexander Pilipenko [1 day ago]
+Ага. Ты ссылку на гит бросал
+
+
+stea1th [1 day ago]
+вооот
+
+Alexander Pilipenko [1 day ago]
+Не дал ты человеку победить ошибку :slightly_smiling_face:
+
+stea1th [1 day ago]
+я думал, что оно где то близко
+
+
+Alexander Pilipenko [1 day ago]
+Так близко же
+
+Alexander Pilipenko [1 day ago]
+3 строки
+
+
+stea1th [1 day ago]
+сейчас буду думать
+
+
+Merkulov [1 day ago]
+одна строчка и все)
+
+
+Alexander Pilipenko [1 day ago]
+ну можно и 1 :slightly_smiling_face:
+
+Merkulov [1 day ago]
+не старайся сразу кодить. сначала в голове построй логическую цепочку действий, так будет проще)
+
+Merkulov [1 day ago]
+хотя я сам не всегда этому правилу следую, но стараюсь)
+
+stea1th [1 day ago]
+вопрос, а если еда не новая, то у нее уже есть userId?
+
+
+Alexander Pilipenko [1 day ago]
+Да
+
+
+stea1th [1 day ago]
+if(meal.getUser().getId()==userId)
+               em.merge(meal);
+
+
+stea1th [1 day ago]
+такую проверку делать?
+
+Alexander Pilipenko [1 day ago]
+Прошел тест? (edited)
+
+
+stea1th [1 day ago]
+неа
+
+stea1th [1 day ago]
+что то у меня не получается
+
+
+Alexander Pilipenko [1 day ago]
+В тесте передается еда с незаполненным user :slightly_smiling_face:
+
+stea1th [1 day ago]
+public Meal save(Meal meal, int userId) {
+       User u = em.getReference(User.class, userId);
+       if (meal.isNew()) {
+           meal.setUser(u);
+           em.persist(meal);
+       } else {
+           if(meal.getUser().getId()==userId)
+               em.merge(meal);
+           else throw new NotFoundException("Not Found");
+       }
+       return meal;
+
+
+stea1th [1 day ago]
+какая то дичь, да?
+
+
+Alexander Pilipenko [1 day ago]
+Нет. Почти правильно
+
+
+stea1th [1 day ago]
+user надо проверить на ноль?
+
+Merkulov [1 day ago]
+нельзя проверять еду которая приходит, нужно ее сверить с тем что уже есть в бд
+
+
+
+Alexander Pilipenko [1 day ago]
+Хорошо сказал
+
+stea1th [1 day ago]
+так это у меня вроде метод не из теста
+
+
+stea1th [1 day ago]
+это метод из JpaMealRepository
+
+
+Alexander Pilipenko [1 day ago]
+В JdbcRepository ты делал
+
+Alexander Pilipenko [1 day ago]
+if (namedParameterJdbcTemplate.update("" +
+                           "UPDATE meals " +
+                           "   SET description=:description, calories=:calories, date_time=:date_time " +
+                           " WHERE id=:id AND user_id=:user_id"
+                   , map) == 0) {
+               return null;
+           }
+
+
+Merkulov [1 day ago]
+ты ведь создаешь эту еду ну или обновляешь, соответственно там могут быть подменянные данные и это не безопасно
+
+
+Alexander Pilipenko [1 day ago]
+Здесь тоже самое
+
+stea1th [1 day ago]
+понял
+
+stea1th [1 day ago]
+буду делать
+
+stea1th [1 day ago]
+все, сделал... фуф.. всем спасибо :slightly_smiling_face:
+
+
+
+Prodigy [1 day ago]
+не нужно кидать самому NotFoundException, сервис сам его кидает, просто null вернуть
+
+stea1th [1 day ago]
+public Meal save(Meal meal, int userId) {
+       User u = em.find(User.class, userId);
+       if (meal.isNew()) {
+           meal.setUser(u);
+           em.persist(meal);
+       } else {
+           if(get(meal.getId(), userId)!=null){
+               meal.setUser(u);
+               em.merge(meal);
+           } else {
+               return null;
+           }
+       }
+       return meal;
+
+
+Join_Selectovich [1:16 AM]
+Может кто-то сталкивался с такой ошибкой?
+Caused by: org.hibernate.hql.internal.ast.QuerySyntaxException: MEALS is not mapped
+01:03:31.132 ERROR org.hibernate.internal.SessionFactoryImpl.<init>:327 - HHH000177: Error in named query: Meal.get
+org.hibernate.hql.internal.ast.QuerySyntaxException: MEALS is not mapped [SELECT m FROM MEALS m where m.ID = :id and m.USER_ID= :user_id]
+
+
+Join_Selectovich [1:16 AM]
+Может кто-то сталкивался с такой ошибкой?
+Caused by: org.hibernate.hql.internal.ast.QuerySyntaxException: MEALS is not mapped
+01:03:31.132 ERROR org.hibernate.internal.SessionFactoryImpl.<init>:327 - HHH000177: Error in named query: Meal.get
+org.hibernate.hql.internal.ast.QuerySyntaxException: MEALS is not mapped [SELECT m FROM MEALS m where m.ID = :id and m.USER_ID= :user_id]
+
+
+Victor [Yesterday at 3:07 AM]
+А где в нашем проекте в конфиге dialect у Hibernate настраивается???
+в спринг для профессионалов он в LocalContainerEntityManagerFactoryBean, а у нас нет... Он автоматические детектиться?
+
+
+1 reply
+Grigory Kislin [22 hours ago]
+есть такой вопрос в занятии
+
+
+e.pekhterev [Yesterday at 8:30 AM]
+@Grigory Kislin @Tanya @Katherine
+1. В каких случаях и что лучше использовать: nullable = false или optional = false ?
+_if you try to persist an entity with a null field it will throw an exception if it is marked as optional=false (without contacting the database) and the entity will not be added to the JPA persistence context. If it is only annotated to be nullable=false the entity will be added to the persistence context and when trying to write the entity to the database (for example via flush) it will try to write the entity to the database which will deny this and it will throw an exception then._
+
+2. Как задавать каскадирование (cascade = CascadeType.ALL) для нашего случая, когда у нас односторонняя связь на стороне подчиненной энтити (я про поле User user в Meal классе), или это работает только для дуплексных связей? (насколько я понял, каскадирование должно задаваться на стороне владельца, т.е. в классе User, но у а насто одностороняя связь) (edited)
+
+
+3 replies
+Grigory Kislin [22 hours ago]
+по каскаду у нас будет видео на след. уроках
+optional = false- а что это и куда это?
+
+
+e.pekhterev [22 hours ago]
+это из ссылочки по заданию))))
+
+e.pekhterev [22 hours ago]
+вот эта красота, как и во всех уроках этого автора, ну и Lombok оттуда же 
+
+*@OneToOne(optional = false, mappedBy = "passport")*
+
+https://easyjava.ru/data/jpa/jpa-i-svyazi-mezhdu-obektami/
+EasyJava
+JPA и связи между объектами
+Классы в Java могут не только наследоваться друг от друга, но и включать в себя другие классы или даже коллекции классов в качестве полей. Мы уже знаем, что в столбцах таблиц, за некоторыми исключениями, нельзя хранить сложные составные типы и коллекции таких типов, что не... #h2 #hibernate #jpa (84 kB)
+Mar 30th, 2016 at 10:20 PM
+(edited)
+
+
+Tanya [Yesterday at 8:48 AM]
+1) по первому не скажу, надо почитать
+2) cascade = CascadeType.ALL это совсем плохая идея, удалишь еду -> удалишь юзера
+
+
+5 replies
+e.pekhterev [1 day ago]
+*2) cascade = CascadeType.ALL это совсем плохая идея, удалишь еду -> удалишь юзера* - это я как раз и понимаю, поэтому и спрашиваю как в таком случае задать каскадирвоание, когда у нас однонаправленная связь.
+Через аннотации это вообще возможно? (про скрипты sql и hql помню, что там это есть). (edited)
+
+
+Tanya [1 day ago]
+только на стороне юзера
+
+
+e.pekhterev [1 day ago]
+а на юзере ничего нет))) ну ладно, спасибо)
+
+
+Alexander Pilipenko [1 day ago]
+@Tanya И еще к вопросу про optional. При ManyToOne и OneToOne связях, почти во всех примерах вместе с LAZY используют optional = false. Это обязательное требование? В докуменации про это ничего нет :disappointed:
+
+
+e.pekhterev [1 day ago]
+@Alexander Pilipenko ну вот оттуда же и у меня вопрос появился  - почему мы пишешь nullable = false, а не optional = false;
+
+
+tim [Yesterday at 3:34 PM]
+Подскажите как в jpa console увидеть SQL  запросы ?
+
+
+1 reply
+Alexander Pilipenko [24 hours ago]
+Не знаю, то ли это
+https://www.jetbrains.com/help/idea/using-jpa-console.html
+
+
+e.pekhterev [3:48 PM]
+Кто-нибудь разобрался как get с Критерией без дублирования сделать? всё завязано на CriteriaBuilder, CriteriaQuery и Root, можно было бы предикат отправлять в какой то общий метод, но для него опять же нужны эти объекты
+*_"кто у же сделал ДЗ, предлагаю поколупать Criteria Api, и сделать get (SELECT...) методы  через CriteriaBuilder и так чтобы без дублирования"_* (edited)
+
+Alexander Pilipenko [3:49 PM]
+А последнее откуда?
+
+Yevhen Maksymovych [3:49 PM]
+Таня писала в чате
+
+Alexander Pilipenko [3:49 PM]
+Упс
+
+
+This message was deleted.
+
+
+1 reply
+Alexander Pilipenko [24 hours ago]
+Когда мы заводили репозитории был материал про отличия репозитория и DAO. Там был подобный пример (edited)
+
+
+e.pekhterev [Yesterday at 3:54 PM]
+Ну так чего, кто направит по Критерии? отдельно в каждом запросе всё делаю через критерию, а вот как теперь убрать дублирование
+
+
+3 replies
+Nikolay [23 hours ago]
+я через querydsl сделал, но смысл такой же :
+private JPAQuery<Meal> createQuery(int userId, Predicate o) {
+       return jpaQueryFactory.selectFrom(meal).where(meal.user.id.eq(userId), o).orderBy(meal.dateTime.desc());
+   }
+
+
+e.pekhterev [23 hours ago]
+Через критерию там всё по другому
+
+
+Nikolay [23 hours ago]
+тоже самое
+
+
+Alexander Pilipenko [Yesterday at 3:54 PM]
+Посмотри в спойлере. Может это то что нужно
+
+
+5 replies
+e.pekhterev [24 hours ago]
+эммм, ты о чём?
+
+
+Alexander Pilipenko [24 hours ago]
+https://habr.com/post/263033/
+Хабр
+Забудьте о DAO, используйте Repository
+Недавно задумался о том, чем отличаются паттерны, позволяющие абстрагироваться от работы с хранилищем данных. Много раз поверхностно читал описания и различные... (50 kB)
+
+
+e.pekhterev [24 hours ago]
+эммм, честно говоря не втыкаю, как это может мне помочь
+
+
+Alexander Pilipenko [23 hours ago]
+Там готовый пример :)
+
+
+Alexander Pilipenko [23 hours ago]
+Сам ещё не делал
+
+
+Yevhen Maksymovych [Yesterday at 4:05 PM]
+кста, ребята, у меня одного такая фигня, что всплывающие оповещения в слаке приходят с опозданием на 10 минут?
+
+
+2 replies
+Prodigy [23 hours ago]
+не... норм всё
+
+
+Егорро [23 hours ago]
+В РФ, насколько знаю, после попыток РКН что-то там блокировать Слак в принципе криво работает - какое-то время вообще не коннектился, сейчас часто подвисает, задумывается, просто не реагирует ни на что по минуте и больше...
+
+
+Kirilo [Yesterday at 4:43 PM]
+Ветку по выпускному проекту открыли или как попасть на канал #graduate_project?
+
+
+2 replies
+Victor [23 hours ago]
+#graduation
+ 
+
+
+Grigory Kislin [22 hours ago]
+поправил в ДЗ
+
+
+Jury Mironov [Yesterday at 7:49 PM]
+В spring-db локейшн classpath:/ resources горит красным,  предлагает создать папку и создает ее в пакете test.  Как исправить?
+
+
+5 replies
+Макс Куркудюк [19 hours ago]
+Маєш це на увазі?
+<jdbc:script location="classpath:db/${jdbc.initLocation}"/>
+
+
+Jury Mironov [19 hours ago]
+а по русски можно?
+
+
+
+Макс Куркудюк [19 hours ago]
+Имеешь в виду это?
+<jdbc:script location="classpath:db/${jdbc.initLocation}"/> (edited)
+
+
+Jury Mironov [18 hours ago]
+не совсем, где postgres.properties
+
+
+Jury Mironov [15 hours ago]
+<context:property-placeholder location="classpath:/resources/db/postgres.properties" system-properties-mode="OVERRIDE"/>
+
+
+Zearg [Yesterday at 7:49 PM]
+Кто-нибудь знает, почему у меня в базу время заносится нормально, а когда достаю то получаю +5 часов. База mysql.
+
+
+1 reply
+Alexander Pilipenko [19 hours ago]
+Не видя кода, могу предположить только, что сохраняешь в поле с типом данных хранящим временную зону (edited)
+
+
+SergeyA [8:59 PM]
+Привет! Кто нибудь обьясните систему именования: 
+Это фишка Мавена или самой Java?
+Untitled 
+        import ru.javawebinar.topjava.web -почему команда import использует путь начинающийся именно с "ru"?
+topjava\src\main\java\ru\javawebinar\topjava\web -полный путь к файлу:
+    \src\main\java\ru\javawebinar\topjava\web
+       package ru.javawebinar.topjava.web; - в пакет зависимость загружается с таким путем
+    \src\test\java\ru\javawebinar\topjava\web - а в тестировании вообще папка тест, но импортирует описания из соседней ветки:
+        import ru.javawebinar.topjava.web.user.AdminRestController; - и почему это видит из класса теста, хотя путь для ветки кода ?!
+Collapse 
+
+Tanya [9:08 PM]
+как указал структуру так и будут Import формироваться
+project structure -> modules
+
+
+Tanya [Yesterday at 9:08 PM]
+image.png
+
+
+
+3 replies
+SergeyA [17 hours ago]
+Да я видел что можно отметить директорию в ИДЕЕ, (хоть и не понимаю до конца этого). Это значит что проект не будет компилироваться из командной строки? 
+И я все так же не понимаю как из одной ветки мы получаем классы другой - и зачем структура каталогов должна совпадать?
+
+
+Kirilo [16 hours ago]
+Должна совпадать для наката патчей. Просто они не станут куда надо. (edited)
+
+
+Kirilo [16 hours ago]
+А зачем он должен компилироваться из командной строки? Это все мэйвен делает за нас (edited)
+
+
+Join_Selectovich [11:24 AM]
+Камрады, выручайте. Запулил проект на работу. и Теперь сражаюсь с таким исключением, хотя дома все работало. Пишеть что не может создать бин entityManagerFactory , не могу понять почему так, и чего не хватает, вроде все подкачалось, но похоже чегото не хватает
+Failed to load ApplicationContext 
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [spring/spring-db.xml]: Invocation of init method failed; nested exception is java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException
+Caused by: java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException
+Caused by: java.lang.ClassNotFoundException: javax.xml.bind.JAXBException
+
+Yevhen Maksymovych [11:25 AM]
+java 9?
+или даже 10?
+
+Join_Selectovich [11:25 AM]
+9
+
+Yevhen Maksymovych [11:25 AM]
+знакомая ошибка ))
+
+Join_Selectovich [11:25 AM]
+поменять на 1.8?
+
+Yevhen Maksymovych [11:25 AM]
+или поменяй на 8, или добавь в пом
+```<dependency>
+    <groupId>javax.xml.bind</groupId>
+    <artifactId>jaxb-api</artifactId>
+    <version>2.1</version>
+</dependency>```
+
+Join_Selectovich [11:28 AM]
+Спасибо большое, что б я без вас делал... Java ЁЁ (ЁмаЁ)
+
+Prodigy [12:13 PM]
+гуглил бы))
+
+
+Join_Selectovich [Today at 12:18 PM]
+В основном то да, но бывают сложные случаи
+
+
+10 replies
+Victor [2 hours ago]
+копипаст ошибки в гугл дает правильный ответ почти всегда
+
+
+Join_Selectovich [1 hour ago]
+Ну так вот как раз тут нужен уже такой уровень понимания чтобы примерно понимать какую именно ошибку гуглить, нужно точно понимать где то место из-за которого все посыпалось. Это приходит наверное с опытом или у некоторых интуитивно или еще как-то. Новичкам тяжело сориентироваться когда экран заливается тысячами строк эксепшенов кровавого цвета..
+
+
+Join_Selectovich [1 hour ago]
+Где-то в видео лекциях был небольшой момент как раскуривать эти эксепшены. Думаю что это один из главнейших навыков для разработчика - разруливать такие вещи.
+
+Victor [1 hour ago]
+причина последнего эксепшена и есть корень проблемы, как Григорий писал.
+
+
+Victor [1 hour ago]
+у меня пока, каждый раз так.
+
+
+Join_Selectovich [1 hour ago]
+Почему последнего а не первого?
+
+
+Victor [45 minutes ago]
+я тоже думал первого, но оказалось последнего, а от него уже каскад других начинается. Раньше первый в гугл бросал, и было тяжелее найти. (edited)
+
+
+Join_Selectovich [26 minutes ago]
+Может кто помнит в каком месте рассказывается про разбор эксепшенов...
+
+
+Join_Selectovich [18 minutes ago]
+Начинать смотреть нужно с последнего эксепшен внизу списка или вверху? (edited)
+
+
+Victor [10 minutes ago]
+внизу
+
+
+Join_Selectovich [12:22 PM]
+Пока не достигнешь некоторого уровня знаний, не знаешь даже какой примерно сформировать поисковый запрос

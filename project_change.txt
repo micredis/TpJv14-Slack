@@ -76,3 +76,38 @@ JavaWebinar
 `9bf71a66` - 4_8_add_hsqldb
 Show less
 JavaWebinar/topjava
+
+
+GitHub APP [9:25 AM]
+Pull request opened by alexxxp
+alexxxp
+#2 4
+JavaWebinar/topjavaToday at 9:25 AM
+Codacy/PR Quality Review: Up to standards. A positive pull request.
+
+GitHub APP [9:33 AM]
+Pull request opened by alexxxp
+alexxxp
+#3 Merge pull request #1 from JavaWebinar/doc
+Doc
+JavaWebinar/topjavaToday at 9:33 AM
+Codacy/PR Quality Review: Hang in there, Codacy is reviewing your Pull request.
+Pull request closed by alexxxp
+#3 Merge pull request #1 from JavaWebinar/doc
+JavaWebinar/topjavaToday at 9:33 AM
+Pull request opened by alexxxp
+alexxxp
+#4 Merge pull request #1 from JavaWebinar/doc
+Doc
+Comments
+1
+JavaWebinar/topjavaToday at 9:34 AM
+Codacy/PR Quality Review: Codacy was unable to analyse your pull request.
+
+GitHub APP [9:59 AM]
+Pull request closed by alexxxp
+#4 Merge pull request #1 from JavaWebinar/doc
+JavaWebinar/topjavaToday at 9:34 AM
+Pull request closed by alexxxp
+#2 4
+JavaWebinar/topjavaToday at 9:25 AM
