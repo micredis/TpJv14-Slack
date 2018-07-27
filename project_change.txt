@@ -111,3 +111,18 @@ JavaWebinar/topjavaToday at 9:34 AM
 Pull request closed by alexxxp
 #2 4
 JavaWebinar/topjavaToday at 9:25 AM
+
+
+GitHub APP [8:37 PM]
+JavaWebinar
+*8 new commits pushed to `master`*
+`73f1cfd1` - 5_1_HW4
+`a6d4d345` - 5_2_fix_hibernate_issue
+`c6a412ea` - 5_3_HW4_optional
+`cadd6421` - 5_4_log_colored
+`a7291409` - 5_5_profiles_connection_pool
+`aec68a5e` - 5_6_profile_resolver
+`9410760f` - 5_7_spring_data_jpa
+`4ed8db0e` - 5_8_spring_cache
+Show less
+JavaWebinar/topjava

@@ -988,3 +988,49 @@ https://vimeo.com/98922030
 VimeoOfficial ZeroTurnaround Account
 03 Mouseless Driven Development by Hadi Hariri
 In this talk we’re going to see how to use IntelliJ IDEA efficiently for Java and general development. You’ll learn many tips and tricks that you probably didn’t even know were possible, along with hidden features that even the IDEA developers don’t know about. You’ll be guaranteed to walk away knowing something new…but not too much!
+
+
+Kirilo [Jul 25th at 5:45 PM]
+Как вернуть настройки по умолчанию для changelist vcs git? Я поставил галочку, когда Idea спросила и теперь у меня список и по умолчанию и если новый файл создаю, в отдельный список падает, приходится каждый раз новому файлу указывать дефолтный список.
+
+
+1 reply
+Ignat [2 days ago]
+Нажми ctrl+shift+a и набери changelist. Оттуда сможешь прыгнуть в настройки листов, либо прямо там менять настройки. Настройку которая тебе нужна я не помню, к сожалению.
+Pasted image at 2018-07-25, 7:47 PM
+
+
+tema.emelyan [Yesterday at 6:45 PM]
+ребята, идея после обновления ест весь процессор, у кого-нибудь также или я один?
+
+
+5 replies
+Yevhen Maksymovych [1 day ago]
+У меня все ок
+
+
+Gagarina6794 [1 day ago]
+У меня так было когда комп не чищен и не оптимизирован был, прям зависал и ни на что не реагировал загруженность была при запущенной идее 99%
+
+
+Victor [23 hours ago]
+не обновляю до окончания стажи ))) и так проблем хватает.
+
+
+Ignat [10 hours ago]
+Попробуй кэш сбросить. "File -> Invalidate cache / Restart -> Invalidate and Restart". В некоторых случаях помогает.
+
+
+Ignat [10 hours ago]
+Была на одной машине такая проблема. Инвалидация не помогла, решил проблему увеличив heap у JVM IDEA. Вот это лучше прочитать перед тем как тюнить https://github.com/FoxxMD/intellij-jvm-options-explained. Там кратко и по делу.
+FoxxMD/intellij-jvm-options-explained
+Common JVM options used with Intellij and what they do
+Stars
+----------------
+323
+
+Last updated
+----------------
+2 days ago
+
+FoxxMD/intellij-jvm-options-explainedOct 6th, 2016 at 6:47 PM Added by GitHub

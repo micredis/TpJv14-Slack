@@ -3332,6 +3332,309 @@ Join_Selectovich [18 minutes ago]
 Victor [10 minutes ago]
 внизу
 
+Join_Selectovich [2 days ago]
+Но почему например в видео https://drive.google.com/file/d/0B9Ye2auQ_NsFVWZYcHoyUF9qX2M/view
+где разбирался эксепшен на 1:03:40 @Grigory Kislin начинал смотреть сверху списка? (edited)
+
+
+Victor [2 days ago]
+оно одно там, если есть другие, фраза caused by будет. Вроде так.
+
+Join_Selectovich [2 days ago]
+ну даже если одно - он же начал сверху списка смотреть а не снизу и взял самый верхний (edited)
+
+
+Victor [2 days ago]
+ты не так понимаешь, сори нет времени объяснять
+
+
+Join_Selectovich [2 days ago]
+Да, я к сожалению не понимаю, уже тошнит от этих эксепшенов
 
 Join_Selectovich [12:22 PM]
 Пока не достигнешь некоторого уровня знаний, не знаешь даже какой примерно сформировать поисковый запрос
+
+
+Grigory Kislin [4:56 PM]
+так самое время учиться это делать!
+
+Join_Selectovich [4:56 PM]
+Ну да :slightly_smiling_face: :grinning:
+
+
+Join_Selectovich [Jul 25th at 4:58 PM]
+@Grigory Kislin в видео было или в рекомендациях к ДЗ как работать с исключениями высыпающимися в оутпут? (edited)
+
+
+17 replies
+Stanislav [2 days ago]
+Разве это не Base java?
+
+
+Join_Selectovich [2 days ago]
+возможно, но я на топджаву пошел сразу
+
+
+Stanislav [2 days ago]
+Я не к тому, что это в курсе, а что это Java Core
+
+
+Join_Selectovich [2 days ago]
+я имею в виду как разруливать исключения
+
+Join_Selectovich [2 days ago]
+которые в отпут высыпаются
+
+Join_Selectovich [2 days ago]
+нужно именно техника или подход, как правильно с ними работать
+
+
+Alexander Pilipenko [2 days ago]
+Обработка исключений будет в следующих уроках
+
+
+Join_Selectovich [2 days ago]
+я не это имею в виду (edited)
+
+
+Join_Selectovich [2 days ago]
+Главная проблема, как правильно разбирать лог исключений которые высыпаются в оутпут после попытки скомпилировать проект (edited)
+
+
+Stanislav [2 days ago]
+Техника...понимая что такое исключения, какие бывают, иерархию, стектрейс, дебаг и умение гуглить. Тут нет четкого алгоритма, смотришь стектрейс и разбираешься - имхо
+
+
+
+Stanislav [2 days ago]
+Читал случаи, неделями не могли понять (но это было в многопоточной среде)
+
+
+Alexander Pilipenko [2 days ago]
+Может ввел в заблуждение. В уроках будет как из правильно обрабатывать в веб рест, а ни как их читать
+
+
+Grigory Kislin [2 days ago]
+эээ..
+исключения хаватются в catch и логируются 
+или я вопрос не понял..
+
+
+Join_Selectovich [2 days ago]
+Вопрос был в том Как правильно разбирать список исключений которые высыпаются в оутпут после попытки скомпилировать проект (edited)
+
+
+Grigory Kislin [2 days ago]
+верх самого нижнего в портянке исключения. я в видео говорил и в письме. пробуй сформулировать четко вопрос сразу:) (edited)
+
+
+
+Join_Selectovich [2 days ago]
+Спасибо, постараюсь а в каком это видео?
+
+Grigory Kislin [1 day ago]
+видео- не скажу, думаю во многих
+есть в письме участника и в HW1:
+> Учись исследовать проблему. Внимательное чтение логов и умение дебажить - основные навыки разработчика. В логах надо читать верх самого нижнего эксепшена - там причина всей портянки.
+
+
+Andrew [Jul 25th at 7:41 PM]
+А можно ли добавлять объекты в базу без использования метода EntityManager.persist ( Object ) . А с помощью какого-то query ?
+
+
+3 replies
+Yevhen Maksymovych [2 days ago]
+полагаю, что можно, с помощью того же jdbc, но без персиста они не попадут в persistenceContext...
+
+
+Andrew [2 days ago]
+в домашке получается реализовал все через createQuery() а вот с добавлением видимо тут по другому нельзя. Нет без jdbc, я имел в виду контекст четвертого урока.
+
+
+sky [2 days ago]
+There is no INSERT statement in JPA
+как и в jpql, т.е. только persist/save (edited)
+
+
+Jury Mironov [Jul 25th at 9:10 PM]
+А почему мы не создаем сессию и не используем sessionFactory?  Я смотрю на наш код и ниче не понимаю какие-то jbdc темплейты,  row маперы и прочее..Как-то замороченно
+
+
+30 replies
+Yevhen Maksymovych [2 days ago]
+мы ведь используем jdbc-темплейты и маппер в jdbc-реализации. а сессия - это уже кухня хибернейта (edited)
+
+
+
+Andrew [2 days ago]
+кстати а кто и как управляет сессией в нашем примере, у меня mealTest падают с ошибкой no session
+
+
+Join_Selectovich [2 days ago]
+Для того чтобы разобраться с этой ошибкой рекомендуют почитать статью https://easyjava.ru/data/jpa/jpa-entitymanager-upravlyaem-sushhnostyami/
+EasyJava
+JPA EntityManager: управляем сущностями
+Как определять сущности и связи между ними я уже писал. Пора рассказать, как сущностями управлять. Хотя в сущности :) большую часть управления сущностями я описал в вводном примере. Фабрика Управление сущностями начинается с создания EntityManagerFactory, которая отвечает за... #h2 #hibernate #jpa (19 kB)
+Apr 19th, 2016 at 9:18 PM
+
+
+Join_Selectovich [2 days ago]
+и исключить поле user из сравнения
+
+Join_Selectovich [2 days ago]
+тут подсказывают как именно это реализовать https://topjava14.slack.com/archives/CBUBTP0TG/p1532279616000016
+Crazz
+игнорьте при проверке юзера:https://topjava14.slack.com/archives/CBUBTP0TG/p1532252227000018?thread_ts=1532252027.000042&cid=CBUBTP0TG
+https://topjava14.slack.com/archives/CBUBTP0TG/p1532252227000018?thread_ts=1532252027.000042&cid=CBUBTP0TG
+Posted in #hw4Jul 22nd at 8:13 PM
+(edited)
+
+
+Join_Selectovich [2 days ago]
+https://topjava14.slack.com/archives/CBUBTP0TG/p1532252227000018?thread_ts=1532252027.000042&cid=CBUBTP0TG
+Dmitry Loshchenkov
+Мой вариант: в MealTestData подправил assertMatch на isEqualToIgnoringGivenFields(expected, "user"); в первом и на .usingElementComparatorIgnoringFields("user") в третьем
+From a thread in #hw4Jul 22nd at 12:37 PM
+
+
+Andrew [2 days ago]
+исключил, но что-то не помогает
+
+
+Join_Selectovich [2 days ago]
+ошибка та же?
+
+Andrew [2 days ago]
+LazyInitializationException: could not initialize proxy [ru.javawebinar.topjava.model.User#100000] - no Session
+
+
+Andrew [2 days ago]
+мда, задачка)
+
+Join_Selectovich [2 days ago]
+ты 2 метода поправил?
+
+Andrew [2 days ago]
+да
+
+Join_Selectovich [2 days ago]
+попробуй перекомпилировать проект может
+
+Andrew [2 days ago]
+увы, буду разбираться
+
+
+Alexander Pilipenko [2 days ago]
+В meal  toString переопределял?
+
+
+Andrew [2 days ago]
+э... нет
+
+Alexander Pilipenko [2 days ago]
+Это хорошо
+
+Alexander Pilipenko [2 days ago]
+LazyInitializationException - когда возникает?
+
+Andrew [2 days ago]
+проходит только один тест
+001.png
+
+
+
+Alexander Pilipenko [2 days ago]
+Не тот компаратор
+
+Alexander Pilipenko [2 days ago]
+Нужен usingElementComparatorIgnoringFields
+
+Alexander Pilipenko [2 days ago]
+И игнорировать user
+
+Join_Selectovich [2 days ago]
+@Andrew покажи методы assertMatch из класса MealTestData
+
+Andrew [2 days ago]
+Как ты выше писал вроде бы...
+001.png
+
+
+
+Alexander Pilipenko [2 days ago]
+В последнем методе у тебя используется 2 компаратора (edited)
+
+Alexander Pilipenko [2 days ago]
+Верхний ты забыл удалить
+
+Alexander Pilipenko [2 days ago]
+Должна быть только 1 проверка с usingElementComparatorIgnoringFields
+
+
+Andrew [2 days ago]
+что-то прошло))
+
+
+Alexander Pilipenko [2 days ago]
+:slightly_smiling_face:
+
+
+Andrew [2 days ago]
+спс)
+
+
+Grigory Kislin [10:15 PM]
+> jbdc темплейты,  row маперы и прочее
+это обертка spring над jdbc
+никакого отношения ни к hibernate ни к JPA
+мы делаем доступ к базе 3мя способами: Spring JdbcTemplate, Spring JPA и (уже совсем скоро)- Spring Data JPA (edited)
+
+
+Victor [Yesterday at 3:20 AM]
+Кто-нибудь смог сделать через Criteria? У меня второй день никак не получается(((
+
+
+5 replies
+Victor [1 day ago]
+А вот и получилось, только так и не смог сразу проверить на userId в запросе.
+
+
+e.pekhterev [1 day ago]
+там не совсем очевидно, но решаемо
+
+
+dimlo [1 day ago]
+Я сделал. На основании этого (из лекции):
+http://www.objectdb.com/java/jpa/query/criteria
+И этого:
+https://www.ibm.com/developerworks/ru/library/j-typesafejpa/index.html
+Перенес на Criteria методы get и delete. Новую лекцию не смотрел еще, так что не знаю, актуально ли еще)
+objectdb.com
+JPA Criteria API Queries (CriteriaBuilder, CriteriaQuery)
+Explains how to use the JPA Criteria API (CriteriaBuilder, CriteriaQuery, etc.) to build JPQL like queries.
+ ibm.com
+Динамические типобезопасные запросы в JPA 2.0
+В JPA 2.0 появился интерфейс Criteria, представляющий собой первое Java-решение для обеспечения безопасности типов в запросах. Прочитав эту статью, вы узнаете о создании динамических, типобезопасных запросов при помощи API Critera и API Metamodel.
+ 
+ 
+
+
+Victor [1 day ago]
+@dimlo спасибо за ссылку.
+Я делая Criteria нашел сайт с разными примерами кода, по нему решал.
+https://www.programcreek.com/java-api-examples/index.php?api=javax.persistence.criteria.CriteriaBuilder
+может будет полезным...
+programcreek.com
+Java Code Examples javax.persistence.criteria.CriteriaBuilder
+This page provides Java code examples for javax.persistence.criteria.CriteriaBuilder. The examples are extracted from open source Java projects.
+
+
+dimlo [1 day ago]
+@Victor Ага, спасибо :+1:
+
+
+KaryNaiKo [8:15 PM]
+Что такое hsqldb? Зачем оно нужно?
+
+Stanislav [8:17 PM]
+А ты точно читал-смотрел 4 урок-лекцию?

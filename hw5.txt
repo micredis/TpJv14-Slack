@@ -1,0 +1,500 @@
+Grigory Kislin [6:25 AM]
+joined #hw5.
+
+Grigory Kislin [6:25 AM]
+Добро пожаловать на урок 5: https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson05.md (edited)
+Заканчиваем с базой данных (Spring Data JPA), на следующем уроке перейдем к слою web. (edited)
+
+Kirilo [6:28 AM]
+joined #hw5 along with 18 others.
+
+Prodigy [12:31 PM]
+Есть вопрос: в нашем многопользовательском приложении для каждого пользовательского запроса создается отдельный экземпляр EntityManager с своим контекстом хранения?
+
+
+Yevhen Maksymovych [Yesterday at 12:47 PM]
+Энтити менеджер создаётся на каждый запрос, а общий контекст, я так понимаю, сидит в фабрике
+
+
+73 replies
+e.pekhterev [1 day ago]
+точно ли на каждый запрос? 
+репозиторий у нас синглТон, у него есть поле *em*, и т.е. ты хочешь сказать на каждом запросе у нас это поле меняется (получает из фабрики новый экземпляр EntityManager)? (edited)
+
+
+Prodigy [1 day ago]
+я так понимаю что в каждой транзакции создается контекст хранения, который по закрытии транзакции закрывается, что с объектом EntityManager происходит, он существует один на всех или же он создается каждый раз?
+
+
+Yevhen Maksymovych [1 day ago]
+гхм, вот щаз задумался. документация говорит, что энтитименеджер легковесный объект, который является аналогом сессии, но здесь мы его действительно автовайрим при создании
+
+
+Prodigy [1 day ago]
+и как вообще тогда шарится объект EntityManager между пользователми
+
+
+Yevhen Maksymovych [1 day ago]
+думаю, проще всего поставить дебаг в какой-нибудь криэйт, вызвать его несколько раз кряду, и посмотреть, что происходит с энтитименеджером
+
+
+Yevhen Maksymovych [1 day ago]
+щаз под рукой нет ноута с проектом
+
+e.pekhterev [1 day ago]
+чёт я думал, что один на всех, особенно в том плане, что если мы создадим бин CriteriaBuilder по классике через xml и будем его автовааярить в репозитории, то по идее и он тогда должен переопределяться, короче спортное утверждение.
+
+
+Yevhen Maksymovych [1 day ago]
+дёрнуть его из нескольких сессий, и проверить, один он, или много его, собаки такой )) (edited)
+
+
+
+e.pekhterev [1 day ago]
+ща проверю
+
+Yevhen Maksymovych [1 day ago]
+если кто-то попробует, напишите, самому интересно, а то до ноута раньше вечера не доберусь
+
+
+e.pekhterev [1 day ago]
+дернул из разных браузеров и просто посмотрел что в туСтринге:
+------------------!!!!!!!! ENTITY MANAGER !!!!!!!!!!!!!!----------------------
+Shared EntityManager proxy for target factory [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean@4a62b7dc]
+
+
+e.pekhterev [1 day ago]
+ну как бы один и тот же EM, что и требовалось доказать
+
+Yevhen Maksymovych [1 day ago]
+а контекст его вывести на каждом запросе?
+
+e.pekhterev [1 day ago]
+как?
+
+e.pekhterev [1 day ago]
+ааа, пропертиез
+
+
+e.pekhterev [1 day ago]
+хотя нет
+
+e.pekhterev [1 day ago]
+как вывести контекст?
+
+Prodigy [1 day ago]
+т.е. когда у нас в один момент куча пользователей пытается дергать данные из базы, один единственный объект EntityManager разрывается между всеми контекстами хранения пользователей? или может он в очередь ставит запросы от пользователей?
+
+
+e.pekhterev [1 day ago]
+черт его знает
+
+
+e.pekhterev [1 day ago]
+я попробовал из разных браузеро - и под юзером, и под админом ссылается на тот же объект EM
+
+e.pekhterev [1 day ago]
+ну оно и логично с точки зрения синглтона репозитория
+
+Yevhen Maksymovych [1 day ago]
+с точки зрения архитектуры вопросов нет, странно с точки зрения логики
+
+
+Yevhen Maksymovych [1 day ago]
+http://www.spring-source.ru/docs_simple.php?type=manual&theme=docs_simple&docs_simple=chap03_p03
+spring-source.ru
+Spring framework - Основные интерфейсы
+Spring Framework на русском языке. Автор сайта: Бородин Артем. Категория: Программирование, Язык: русский. Тема: Spring framework Основные интерфейсы
+
+
+Prodigy [1 day ago]
+возможно тут можно проверить как, это посмотреть куда ссылается  объект EntityManager в каждом запросе пользователя (edited)
+
+Yevhen Maksymovych [1 day ago]
+вот тут в статье каждый рез берётся новый энтитименеджер для каждой новой транзакции
+
+
+Prodigy [1 day ago]
+это фабрика - org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean@4a62b7dc
+
+Yevhen Maksymovych [1 day ago]
+может мы для простоты савтовайрили его, а на практике так делать не следует, следует вайрить фабрику?
+
+e.pekhterev [1 day ago]
+в том то и дело, что в нашем реешнии мы не юзаем явно транзакции, не коммитим их, и не закрываем после EM
+
+Yevhen Maksymovych [1 day ago]
+а, так там и есть фабрика
+
+
+Yevhen Maksymovych [1 day ago]
+я не глянул лог
+
+e.pekhterev [1 day ago]
+да, фабрика у нас, которая дает нам один EM с помощью аннотации @PersistenceContext
+
+e.pekhterev [1 day ago]
+Expresses a dependency on a container-managed EntityManager and its associated persistence context.
+
+e.pekhterev [1 day ago]
+т.е. контекст у нас всё же один для одного EM
+
+e.pekhterev [1 day ago]
+короче странно, нужно мнение менторов и объясннение, а то так не понятно
+
+
+e.pekhterev [1 day ago]
+а то это как то с требованиям ACID для трансакций не согласуется
+
+Prodigy [1 day ago]
+контекст у нас точно разный для каждой транзакции должен быть
+
+e.pekhterev [1 day ago]
+раз разный контекст, значит и разные EM должны быть
+
+e.pekhterev [1 day ago]
+но у нас один, либо я что то не так делаю
+
+Prodigy [1 day ago]
+по идее в каждом потоке должна быть своя копия данных и контекст хранения, который должен видимо создаваться фабрикой, значит и EntityManager должен быть уникальный
+
+
+e.pekhterev [1 day ago]
+в общем не понятно в чём тут суть
+
+Yevhen Maksymovych [1 day ago]
+а давайте позовём Дедушку Мороза
+
+Yevhen Maksymovych [1 day ago]
+не в том плане, что Григорий морозится, а в том, что дедушка мороз всегда выручит ))
+
+Yevhen Maksymovych [1 day ago]
+короче, надо мнение знатока :slightly_smiling_face:
+
+e.pekhterev [1 day ago]
+да хотя бы Снегурочка пришла что ли)))) (edited)
+
+e.pekhterev [1 day ago]
+@Yevhen Maksymovych добавь вызовы деда мороза и снегурочек в шапку этой ветки с помощью собак, может обратят внимание)) (edited)
+
+
+Grigory Kislin [1 day ago]
+@Prodigy честно- не понимаю...
+есть целое первое видео + комментарий к нему снизу про EntityManager ...с прямым ответом на вопрос...
+
+
+
+Prodigy [1 day ago]
+:slightly_smiling_face::slightly_smiling_face::slightly_smiling_face:
+
+e.pekhterev [1 day ago]
+я ещё не смотрел))) сейчас приступлю))
+
+Prodigy [1 day ago]
+признаюсь, я еще не дошел до этого урока)
+
+Prodigy [1 day ago]
+начал разбираться с темой не в контексте данного урока
+
+Prodigy [1 day ago]
+довольно ясно, спасибо!
+
+
+Merkulov [1 day ago]
+EntityManager это по сути прокси обертка над Hibernate Session, которая создается каждый раз при открытии транзакции.
+
+e.pekhterev [1 day ago]
+кто создается))? обертка или сессия))? (edited)
+
+Merkulov [1 day ago]
+ну прочти еще раз)
+
+
+
+e.pekhterev [1 day ago]
+ну а ты читал, что мы выше обсуждали?
+
+Stanislav [1 day ago]
+http://www.adam-bien.com/roller/abien/entry/is_in_an_ejb_injected
+
+
+Yevhen Maksymovych [1 day ago]
+короче, по сути это пустышка, потому нет проблем, что она везде одна и та же. а при каждой транзакции под эту пустышку подтягивается новая сущность
+
+e.pekhterev [1 day ago]
+как я понимаю обертка (EM) таже, а вот сессии в ней каждый раз новые на каждую трансакцию
+
+Stanislav [1 day ago]
+ ```With an application-managed entity manager, on the other hand, the persistence context is not propagated to application components, and the lifecycle of EntityManager instances is managed by the application.
+
+Application-managed entity managers are used when applications need to access a persistence context that is not propagated with the JTA transaction across EntityManager instances in a particular persistence unit. In this case, each EntityManager creates a new, isolated persistence context. The EntityManager and its associated persistence context are created and destroyed explicitly by the application. They are also used when directly injecting EntityManager instances can't be done because EntityManager instances are not thread-safe. EntityManagerFactory instances are thread-safe.``` 
+(edited)
+
+
+Yevhen Maksymovych [1 day ago]
+вон оно чё
+
+Alexander Pilipenko [1 day ago]
+Интересно. А ссылку можно?
+
+Stanislav [1 day ago]
+https://docs.oracle.com/javaee/6/tutorial/doc/bnbqw.html
+
+
+
+Alexander Pilipenko [1 day ago]
+Погоди
+
+Alexander Pilipenko [1 day ago]
+У нас
+
+Alexander Pilipenko [1 day ago]
+Container-Managed Entity Managers
+With a container-managed entity manager, an EntityManager instance’s persistence context is automatically propagated by the container to all application components that use the EntityManager instance within a single Java Transaction API (JTA) transaction.
+JTA transactions usually involve calls across application components. To complete a JTA transaction, these components usually need access to a single persistence context. This occurs when an EntityManager is injected into the application components by means of the javax.persistence.PersistenceContext annotation. The persistence context is automatically propagated with the current JTA transaction, and EntityManager references that are mapped to the same persistence unit provide access to the persistence context within that transaction. By automatically propagating the persistence context, application components don’t need to pass references to EntityManager instances to each other in order to make changes within a single transaction. The Java EE container manages the lifecycle of container-managed entity managers.
+To obtain an EntityManager instance, inject the entity manager into the application component:
+@PersistenceContext
+EntityManager em;
+
+
+e.pekhterev [1 day ago]
+вот именно
+
+Alexander Pilipenko [1 day ago]
+Жесть :slightly_smiling_face:
+
+Stanislav [1 day ago]
+Скинул книгу, страница 227
+
+Alexander Pilipenko [1 day ago]
+Как уже выше сказал Григорий - в уроке все  есть :slightly_smiling_face:
+
+Alexander Pilipenko [1 day ago]
+Дополнительно (ни разу не сталкивался): еще есть редкий случай ручного управления @PersistenceContext(type = PersistenceContextType.EXTENDED), когда он используется в нескольних транзакциях (long-running session or session-per-conversation). 
+Spring and PersistenceContextType.EXTENDED
+Transaction-scoped vs Extended Persistence
+
+
+e.pekhterev [1 day ago]
+уже поглядели))
+
+Prodigy [1 day ago]
+забавно переводят в разных книга persistance context: "контекст постоянства", "контекст хранения"
+
+
+tim [4 hours ago]
+One question that comes to mind is, how can @PersistenceContext inject an entity manager only once at container startup time, given that entity managers are so short lived, and that there are usually multiple per request.
+
+The answer is that it can't: EntityManager is an interface, and what gets injected in the spring bean is not the entity manager itself but a context aware proxy that will delegate to a concrete entity manager at runtime.
+
+Usually the concrete class used for the proxy is 
+SharedEntityManagerInvocationHandler, this can be confirmed with the help a debugger.
+
+
+Join_Selectovich [Yesterday at 1:42 PM]
+Скажите может кто знает? я так подозревают что через HQL/JPQL нельзя сделать сложный запрос например с использованием аналитических функций... если нельзя то можно ли через Hibernate  отправить нативный оракловский запрос с использованием аналитических функций
+
+
+1 reply
+Grigory Kislin [1 day ago]
+SQL+ NamedQuery c аттрибутом nativeQuery (edited)
+
+
+Stanislav [Yesterday at 2:05 PM]
+Страница 227
+PDF
+Изучаем_JavaEE7_2014.pdf
+13 MB
+PDF
+ Click to view
+
+
+
+
+
+4 replies
+sky [1 day ago]
+Немного не в тему вопрос, но может кто подскажет. Нужно приложение, с которого было бы удобно читать пдф на винде. На андроиде есть FBreader с плагином, который позволяет обрезать поля (лишнее) для всех страниц одновременно, имеет инверсную (или темную) тему отображения. Читалки что пробовал на винде норм, чтобы что-то глянуть, но читать в них - мучение..
+
+
+Alexander Pilipenko [1 day ago]
+https://ru.fbreader.org/win32
+FBReader
+FBReader для Windows
+Стабильная версия 0.12.10
+Oct 29th, 2011 at 10:16 PM
+
+
+sky [1 day ago]
+нагугливался в процессе поиска на это, но там "Последняя на сегодняшний день стабильная версия была выпущена в 2010 году", врядли там пдф плагин есть, хотя я не ставил..
+
+
+Andrew [1 day ago]
+А зачем лишний мусор в компе, через браузер, во вариант!)
+
+
+Alexander Pilipenko [2:10 PM]
+И за книжку спасибо :slightly_smiling_face:
+
+
+Yevhen Maksymovych [Yesterday at 4:32 PM]
+в новом релизе идея научилась строить диаграммы бинов спринга. выглядит, правда, как ночной кошмар
+
+
+1 reply
+Alexey_P [1 day ago]
+видел у Тимура Батыршинова в курсе Spring видео 2014 года, там эклипс уже умел кажется
+
+
+realcorwin [4:33 PM]
+ночной кошмар студентки филологического факультета :slightly_smiling_face:
+
+
+Maksim K [Yesterday at 9:39 PM]
+Спасибо за книжечку. Чтоб кто еще про Hibernate на русском скинул книжечку))
+
+
+14 replies
+Stanislav [1 day ago]
+В эл. варианте в нете ни чего нет (на русс.). Взял https://www.ozon.ru/context/detail/id/141415731/  и не пожалел. Ozon быстро доставляет (с учетом что я не в России).
+Ozon.ru
+Книга «Java Persistence API и Hibernate» Кристиан Бауэр, Гэвин Кинг, Гэри Грегори - купить на OZON.ru книгу с быстрой доставкой | 978-5-97060-180-8
+Купить книгу «Java Persistence API и Hibernate» автора Кристиан Бауэр, Гэвин Кинг, Гэри Грегори и другие произведения в разделе Книги в интернет-магазине OZON.ru. Доступны цифровые, печатные и аудиокниги. На сайте вы можете почитать отзывы, рецензии, отрывки. Мы бесплатно доставим книгу «Java Persistence API и Hibernate» по Москве при общей сумме заказа от 3500 рублей. Возможна доставка по всей России. Скидки и бонусы для постоянных покупателей. (104 kB)
+(edited)
+
+
+Alexey_P [1 day ago]
+написано - товар закончился. Все ломанулись похоже)
+
+
+Alexey_P [1 day ago]
+на английском есть 3 штуки, сам пока не читал.
+
+
+Maksim K [1 day ago]
+Ну я вот эту книжечку и имел ввиду) Сам ее в инете искал на русском скачать. Нету... Надо посмотреть скок стоит. Может купить
+
+
+Maksim K [1 day ago]
+Да. И в наличии уже нет. А на английском я читаю так себе. Да ладно, кого я обманываю, вообще почти не читаю(
+
+
+Stanislav [1 day ago]
+Не надо экономить на такие вещи, месяц пиво не попей. Кому нужно, тот найдет.
+
+
+Alexey_P [1 day ago]
+https://www.labirint.ru/books/596462/
+пишут "на складе"
+Labirint.RU
+Java Persistence API и Hibernate
+Java Persistence - механизм, помогающий обеспечить сохранность данных после завершения программы, что является главной чертой современных приложений. Hibernate - наиболее популярный инструмент Java для работы с базами данных, предоставляющим...
+ 
+
+
+Alexey_P [1 day ago]
+а Яндекс сообщил, что здесь сильно дешевле
+https://www.combook.ru/product/11821227/?_openstat=bWFya2V0LnlhbmRleC5ydTvQmtC40L3QsyDQky4sINCR0LDRg9GN0YAg0JouICJKYXZhIFBlcnNpc3RlbmNlIEFQSSDQuCBIaWJlcm5hdGUiO3cyaENsSVdJODA0Y3FjdGp1Um9zNnc7&frommarket=http%3A%2F%2Fmarket.yandex.ru%2Fpartner&ymclid=326342339736131652000001
+combook.ru
+Java Persistence API и Hibernate
+Java Persistence – механизм, помогающий обеспечить сохранность данных после завершения программы, что является главной чертой современных приложений. Hibernate – наиболее популярный инструмент Java дл... (16 kB)
+
+
+Alexey_P [1 day ago]
+и это не месяц пива, а разочек)
+
+Maksim K [1 day ago]
+я и так пиво за последний год пару раз пил
+
+Maksim K [1 day ago]
+куда уж больше экономить)
+
+Victor [24 hours ago]
+попробуй на торрентах посмотри, я оттуда много брал, но я English стараюсь читать, русских нет.
+
+
+Victor [24 hours ago]
+хотя мое мнение доки по hibernate - очень даже хороши
+
+
+realcorwin [22 hours ago]
+Пересылка книг за границу обычно сильно дороже самих книг...
+
+
+Merkulov [12:15 PM]
+Spring Data JPA очень удобная штука, стоит просто правильно написать название метода и все работает!
+
+
+shtramak [Today at 12:21 PM]
+Как я понял из доклада Борисова «Spring Data, да та», этот фреймворк придуман в первую очередь, чтобы легко переключаться между разными базами, в том числе между видами баз (sql, nosql), чтобы определить, какая бд вам нужна. 
+
+Но когда вы уже определись с базой и либой для работы с ней, без нативных запросов и реализаций не обойтись
+
+
+1 reply
+Merkulov [11 hours ago]
+я к тому, что простые рутинные запросы делаются легко, понятно, что если делаешь что-то сложное то придется писать нативные запросы
+
+
+shtramak [12:22 PM]
+Потому что серебряной пули не существует
+
+
+stea1th [Today at 12:53 PM]
+ребята, а почему у меня так:
+
+
+
+3 replies
+sky [10 hours ago]
+change profiles
+
+
+
+Victor [9 hours ago]
+maven не обновил. У меня только что покрасило в красный, я обновил зависимости, и все пропало. В общем у тебя нет зависимости этой
+
+
+Grigory Kislin [4 hours ago]
+выставь профиль справа вверху конфигурации- postgres либо hsqldb
+
+
+stea1th [12:53 PM]
+после патча 5.5
+
+svis [2:34 PM]
+У меня возник вопрос про Spring Cache - насколько часто он используется в реальный проектах на продакшн?
+Или он как и Spring Data - используется на этапе разработки (тестирование, прототипирование)?
+
+
+svis [Today at 2:36 PM]
+А на продакшн юзают кэш в Хибернейт (edited)
+
+
+4 replies
+vch [9 hours ago]
+А чем кэш Hibernate лучше чем Spring Cache?
+
+
+svis [9 hours ago]
+Просто лучше-хуже - это как то слишком общие рассуждения ИМХО:face_with_rolling_eyes: Лучше-хуже для чего? Если говорить об архитектуре - Spring это сборщик других фреймворков среди которых Hibernate. У Хибернейта тоже есть кэширование и оно более низкоуровневое. Использовать кэш спринга очевидно проще.  Но и в роликах Григорий не рекомендует использовать его для данных которые меняются “слишком часто“. Отсюда сразу опасение что там есть проблемы с производительностью ( скажу сразу - не измерял). Отсюда мой вопрос - как часто используется спринг кэш именно на продакшн
+
+
+vch [9 hours ago]
+Я использую, проблем не припомню. 
+P.S. Ролик не смотрел
+
+
+svis [9 hours ago]
+OK, спасибо
+
+
+Grigory Kislin [7:26 PM]
+1.  Spring Data (если JPA на проекте) счас стандарт
+2. про кэши- если он требуется- то используют. на каждом проекте разные( от спицифика зависит)
+если данные часто меняются и их очень много - то НЕ используют (edited)
+
+tema.emelyan [8:26 PM]
+я такого никогда ещё не делал, но похоже можно спринг дата репозитории расширять, автоварить туда энтити менеджеры и в итоге довольно гибко получается (edited)
+https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.customize-base-repository
+ну и само собой нативные query даже без всего этого можно делать если в аннотации `@Query(native = true, ...)` (edited)
