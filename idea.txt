@@ -1034,3 +1034,10 @@ Last updated
 2 days ago
 
 FoxxMD/intellij-jvm-options-explainedOct 6th, 2016 at 6:47 PM Added by GitHub
+
+
+Sole Noid [5:18 PM]
+Видел несколько раз у Григория в видео что он в консоли использует вкладку 3: Find
+Как мне тоже это подключить? 
+У меня в IDEA после "View --> Tool Windows" строка "Find  Alt+3" отсутствует в списке . На одном ноуте. А на другом ноуте "Find  Alt+3" серая, неактивируемая.
+Как активировать?

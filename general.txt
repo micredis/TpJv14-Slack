@@ -3705,3 +3705,32 @@ Grigory Kislin [6:27 AM]
 *5е занятие: #hw5* 
 Успехов!
 *----------------------------------------------------------* (edited)
+
+
+SergeyA [Today at 2:24 PM]
+Вопрос: в модулях длинные списки import'а, после какого количества рекомендуете заменять все это на более общую форму "import java.sql.*"   ?:
+import java.sql.BatchUpdateException;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.SQLWarning;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map; (edited)
+
+
+2 replies
+e.pekhterev [4 hours ago]
+понажимай ctrl+alt+O, идея сама решит, надо что то заменять или нет.
+
+
+Victor [4 hours ago]
+Есть такая тема: Если в import точно указал класс, то если у твоего кода будет конфликт по именам, то приоритет будет у импорта. А если через общий импорт то приоритет будет у твоего класса.

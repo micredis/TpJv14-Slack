@@ -498,3 +498,614 @@ tema.emelyan [8:26 PM]
 я такого никогда ещё не делал, но похоже можно спринг дата репозитории расширять, автоварить туда энтити менеджеры и в итоге довольно гибко получается (edited)
 https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.customize-base-repository
 ну и само собой нативные query даже без всего этого можно делать если в аннотации `@Query(native = true, ...)` (edited)
+
+
+stea1th [Today at 1:26 PM]
+Screenshot_2.png
+
+
+
+15 replies
+e.pekhterev [5 hours ago]
+посмотри что у тебя в Profiles
+
+
+e.pekhterev [5 hours ago]
+public static final String ACTIVE_DB = POSTGRES_DB;
+
+
+e.pekhterev [5 hours ago]
+а у тебя там явно не постгрес, а hsqldb
+
+stea1th [5 hours ago]
+Screenshot_3.png
+
+
+
+stea1th [5 hours ago]
+у нас же автоматом меняться должно
+
+
+e.pekhterev [5 hours ago]
+должно
+
+stea1th [5 hours ago]
+значит не тут затык
+
+e.pekhterev [5 hours ago]
+Reimport для мавен сделай
+
+
+stea1th [5 hours ago]
+сейчас
+
+e.pekhterev [5 hours ago]
+и clean, может починится
+
+
+stea1th [5 hours ago]
+делал
+
+
+stea1th [5 hours ago]
+урл странный стоит
+
+
+stea1th [5 hours ago]
+<beans profile="postgres">
+       <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
+
+       <bean id="dataSource"
+             class="org.apache.tomcat.jdbc.pool.DataSource"
+             p:driverClassName="org.postgresql.Driver"
+             p:url="${database.url}"
+             p:username="${database.username}"
+             p:password="${database.password}"/>
+   </beans>
+
+
+e.pekhterev [5 hours ago]
+а у тебя случаем не оба профиля в мавене выбраны?
+
+
+stea1th [5 hours ago]
+нет, верхний закоменчен
+
+
+stea1th [1:26 PM]
+почему ничего не работает? сделано все как в видео
+
+
+Vitaly [Today at 1:32 PM]
+написан драйвер от postgre, а url стоит на hsqldb (edited)
+
+
+1 reply
+stea1th [5 hours ago]
+так я ничего не менял... это после патчей такое... я тоже это заметил
+
+
+Vitaly [1:37 PM]
+image.png 
+
+так у тебя просто не переключился профиль на postgres
+он потянул url из другого prop
+
+
+stea1th [Today at 1:39 PM]
+Screenshot_4.png
+
+
+
+28 replies
+e.pekhterev [5 hours ago]
+этот и не будет никогда переключать, профиль переключается в другом месте.
+
+
+e.pekhterev [5 hours ago]
+1.png
+
+
+
+stea1th [5 hours ago]
+я похоже знаю где затык
+
+
+stea1th [5 hours ago]
+Screenshot_5.png
+ 
+
+
+e.pekhterev [5 hours ago]
+ты накатывал 5_5_profiles_connection_pool.patch????
+
+
+e.pekhterev [5 hours ago]
+у тебя уже не должно быть этой строчки вообще
+
+
+e.pekhterev [5 hours ago]
+к пятому занятию уже надо бы научиться патчи по порядку накатывать
+
+
+stea1th [5 hours ago]
+ты думаешь я совсем плохой?
+
+stea1th [5 hours ago]
+Screenshot_6.png
+
+
+
+e.pekhterev [5 hours ago]
+а чего не пушил после каждого патча
+
+
+e.pekhterev [5 hours ago]
+у тебя после 5_5 пачта должны были уйти эти строки
+
+
+stea1th [5 hours ago]
+не знаю... пушу обычно после всех... чтоб можно было откатиться назад
+
+
+stea1th [5 hours ago]
+почему не ушли/?
+
+
+e.pekhterev [5 hours ago]
+spring-db.xml
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+​
+  <context:component-scan base-package="ru.javawebinar.**.repository.jpa"/>
+​
+  <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
+    <jdbc:script location="classpath:db/${jdbc.initLocation}"/>
+    <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>
+  </jdbc:initialize-database>
+​
+  <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+     p:dataSource-ref="dataSource"
+     p:packagesToScan="ru.javawebinar.**.model">
+    <!--p:persistenceUnitName="persistenceUnit">-->
+​
+    <property name="jpaPropertyMap">
+      <map>
+        <entry key="#{T(org.hibernate.cfg.AvailableSettings).FORMAT_SQL}" value="${hibernate.format_sql}"/>
+        <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_SQL_COMMENTS}"
+            value="${hibernate.use_sql_comments}"/>
+        <entry key="#{T(org.hibernate.cfg.AvailableSettings).JPA_PROXY_COMPLIANCE}" value="false"/>
+        <!--<entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_AUTO}" value="${hibernate.hbm2ddl.auto}"/>-->
+      </map>
+    </property>
+​
+    <property name="jpaVendorAdapter">
+      <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
+         p:showSql="${jpa.showSql}">
+      </bean>
+    </property>
+  </bean>
+​
+  <tx:annotation-driven/>
+​
+  <!-- Transaction manager for a single JPA EntityManagerFactory (alternative to JTA) -->
+  <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
+     p:entityManagerFactory-ref="entityManagerFactory"/>
+​
+  <!--
+    <context:component-scan base-package="ru.javawebinar.**.repository.jdbc"/>
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+      <constructor-arg ref="dataSource"/>
+    </bean>
+​
+    <bean id="namedJdbcTemplate" class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate">
+      <constructor-arg ref="jdbcTemplate"/>
+    </bean>
+  -->
+​
+  <beans profile="hsqldb">
+    <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>
+​
+    <!--no pooling-->
+    <bean id="dataSource"
+       class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+       p:driverClassName="org.hsqldb.jdbcDriver"
+       p:url="${database.url}"
+       p:username="${database.username}"
+       p:password="${database.password}"/>
+  </beans>
+​
+  <beans profile="postgres">
+    <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
+​
+    <bean id="dataSource"
+       class="org.apache.tomcat.jdbc.pool.DataSource"
+       p:driverClassName="org.postgresql.Driver"
+       p:url="${database.url}"
+       p:username="${database.username}"
+       p:password="${database.password}"/>
+  </beans>
+</beans>
+Collapse
+
+
+e.pekhterev [5 hours ago]
+вот такой должен быть spring-db.xml после патча 5_6_profile_resolver.patch
+в нём уже нет тех строк, что ты выше показал, они ушли после патча 5_5
+
+
+stea1th [5 hours ago]
+ну видишь, а они есть
+
+
+e.pekhterev [5 hours ago]
+ещё раз - некорректно накатаны патчи
+
+
+stea1th [5 hours ago]
+хорошо, что я делаю не так... я откачусь до начального состояния
+
+
+e.pekhterev [5 hours ago]
+чтоб я знал, я же сижу рядом, я накатываю патчи по порядку, и ещё ни разу проблем не было
+
+
+e.pekhterev [5 hours ago]
+тьфу тьфу тфьу
+
+stea1th [5 hours ago]
+не поверишь... делаю точно так же
+
+
+e.pekhterev [5 hours ago]
+конечно не поверю))) ты уже вродь не первый раз так попадаешь)
+
+
+stea1th [5 hours ago]
+первый
+
+
+stea1th [5 hours ago]
+ты считаешь, что я из разряда особо одаренных и патчи накатываю в рандомном порядке?
+
+
+e.pekhterev [5 hours ago]
+я не знаю, есть проблема, и вижу, что накат выполнен по каким то причинам некорректно, а кто насколько одарен - это не мне судить
+
+
+stea1th [5 hours ago]
+вот и мне интересно, отчего такое проявляется... есть ли момент, который я упускаю
+
+
+stea1th [5 hours ago]
+по идее пушить или не пушить дело каждого... главное по порядку делать Apply Patch
+
+
+zippospb [2 hours ago]
+Посмотри список файлов в каждом из патчей. Патч мог накатиться частично,  если были сделаны какие - то изменения в пропатчиваемом файле. Например, среди файлов в патче 5.5 нет spring-db.xml
+
+
+stea1th [1:41 PM]
+так что надо сделать?
+
+
+stea1th [Today at 1:41 PM]
+почему он не переключает?
+
+
+38 replies
+Grigory Kislin [5 hours ago]
+В занятии есть как между hsqldb и postgres переключаться
+
+stea1th [5 hours ago]
+надо закоменчивать?
+
+
+Gagarina6794 [5 hours ago]
+Видео внимательно смотреть)
+
+
+stea1th [5 hours ago]
+так в чем затык то? я понимаю, что можно немножко похохотаться, но от этого яснее не станет
+
+
+e.pekhterev [5 hours ago]
+дело не в видео, тут проблема исключительно в накатке патчей
+
+
+Stanislav [5 hours ago]
+Пробовать самому разобраться (не такая уж и сложная проблема). На работе недельку потерпят (у меня там, тут, не работает) и досвиданья скажут.
+
+
+stea1th [5 hours ago]
+может мне код идеи поковырять и выяснить, почему она патчи криво накатывает?
+
+
+stea1th [5 hours ago]
+или я недостаточно прямо по левой кнопки мыши шлепаю на разделе Apply Patch?
+
+
+Stanislav [5 hours ago]
+99% накатывпет норм, а у вас нет...сделайте откат (вы в гите как ни как работаете) накатите заново...смысл ясен, есть вопросы мелочи которые обязан программист сам разбирать, а не дергать постояно того за кем закреплен, а есть реальные серьезные вопросы.
+
+
+stea1th [5 hours ago]
+может дело в версии интелидж? может в самом патче?
+
+
+stea1th [5 hours ago]
+просто что можно сделать не так, накатывая патч?
+
+
+stea1th [5 hours ago]
+может это баг новой версии идеи?
+
+
+stea1th [5 hours ago]
+почему запуская патч, я не получаю уведомления, что что то пошло не так?
+
+
+stea1th [5 hours ago]
+Screenshot_6.png
+
+
+
+stea1th [5 hours ago]
+даже здесь видно, что spring_db не обновился
+
+
+stea1th [5 hours ago]
+а я пушкин знать что должно вообще было обновиться?
+
+
+stea1th [5 hours ago]
+по большому счету это вопрос к @Grigory Kislin
+
+
+Gagarina6794 [5 hours ago]
+В каждом патче можно даже вручную зайти и посмотреть что меняется
+
+
+stea1th [5 hours ago]
+хорошо, может тогда вы скажете, почему должно меняться, не меняется и об этом не пишется?
+
+
+Stanislav [5 hours ago]
+Ты не Пушкин, ты будующий программист (наверно), любой патч открывается ( хоть блокнотом) и смотрится что в патче.
+
+
+stea1th [5 hours ago]
+вы каждый патч просматриваете ?
+
+
+Stanislav [5 hours ago]
+Да и не просто просматриваю, а вдумчиво и читаю что изменилось (история проекта)
+
+
+stea1th [5 hours ago]
+но после того, как его установили
+
+
+stea1th [5 hours ago]
+и я просматриваю и пытаюсь понять что и как
+
+
+Stanislav [5 hours ago]
+И если с чем то не согласен лезу в гугл и ищу мнения людей
+
+
+stea1th [5 hours ago]
+но я не исхожу из того, что половина в патче просто не поставилась
+
+stea1th [5 hours ago]
+видимо вы более продвинуты в этом плане, чем я
+
+
+Stanislav [5 hours ago]
+Нет, просто считаю что профессия программист означает в начале самому разобраться н-ное время, а не сразу дергать людей или задавать на стоковерфлоу вопросы (как у нас уже был какой то тут умник, по jsp на стоковерфлоу вопрос накатал).
+
+
+stea1th [5 hours ago]
+хорошо, можете ли вы ответить на вопрос, почему патч накатывается, а какие то файлы не меняются и об этом не появляется предупреждение?
+
+
+stea1th [5 hours ago]
+вот чисто как программист недопрограммисту
+
+
+Stanislav [5 hours ago]
+С ходу ответить не могу ибо нужен ваш гит, делать форк, разбираться, а мне влом (у самого дел много). Я бы сделал откат на тот коммит который норм и до патчил заново
+
+
+stea1th [5 hours ago]
+а почему такое вообще возможно?
+
+
+Victor [4 hours ago]
+Попробуй проверять галочки на классах когда apply patch. Иногда галочки слетают и не все классы обновляются. У меня так было (кривые руки)
+
+
+stea1th [4 hours ago]
+Все галочки стоят
+
+
+Victor [4 hours ago]
+сейчас уже работает все?
+
+
+stea1th [4 hours ago]
+Не совсем... Короче появляется типа красного поля, что не идея не может поставить... Жмёшь на Apply, и что то ставится, что то нет
+
+stea1th [4 hours ago]
+Не знаю как эту проблему решить
+
+Gagarina6794 [3 hours ago]
+сделай откат на начало урока до 5.1  и накати заново
+
+
+Gagarina6794 [3:22 PM]
+Вопрос, почему мы здесь не проверяем getCache на null? @Before
+   public void setUp() throws Exception {
+       cacheManager.getCache("users").clear();
+   }  идея об этом предупреждает
+
+
+Maksim K [Today at 3:50 PM]
+Товарищи, вопрос по патчу 5_7. У меня почему то не хочет в помнике применять строку  `<spring-data-jpa.version>2.0.8.RELEASE</spring-data-jpa.version>`. Пишет not applied. Сам патч ставится, но в помник эта строчка не добавляется. ЕЕ просто потом вручную добавить или как?
+
+
+11 replies
+Victor [3 hours ago]
+```<spring.version>5.0.7.RELEASE</spring.version>
+        <spring-data-jpa.version>2.0.8.RELEASE</spring-data-jpa.version>
+        <tomcat.version>8.5.31</tomcat.version>```
+у меня так после 7ого патча
+
+
+Maksim K [3 hours ago]
+вот у меня вот эта строка  `<spring-data-jpa.version>2.0.8.RELEASE</spring-data-jpa.version>` не хочет применяться почему-то. в итоге я патч накатил и эту строку вручную добавил. вроде все норм. правда тесты не идут. наверно так надо. еще не дошел до этого
+
+
+Victor [3 hours ago]
+нет, тесты должны идти
+
+
+Victor [3 hours ago]
+но там по видео правильно нужно сделать: нажать clean, выбрать базу в maven и сделать import
+
+
+Maksim K [3 hours ago]
+ща как раз видео смотрю) потом поглядим)
+
+Maksim K [2 hours ago]
+все я понял) че ты меня обманываешь?)) не должны тесты проходить. мы же типа ща тестим dataJpa. а там у нас еще никакой реализации. ну юзер тестится, а еда нет
+
+
+Victor [2 hours ago]
+да проходят. Ну user тесты конечно, ане meal.
+
+
+Victor [2 hours ago]
+Я же у себя запускаю
+
+Maksim K [2 hours ago]
+я просто тест еды запускал)
+
+Victor [2 hours ago]
+хотел meal тест запустить? Крутяк )))
+
+Maksim K [2 hours ago]
+ну просто я только патч применил и не видел что там поменялся  <context:component-scan>. попробовал запустить и фиг там) если его закомментить, а наш старый раскомментить, то все работает))
+
+
+Join_Selectovich [Today at 4:30 PM]
+Поясните пожалуйста фразу 
+_*При загрузке Meal, Hibernate на основе поля meal.user_id делает ленивую прокcи к User, у которой нет ничего, кроме id.*_
+Не могу уловить суть проксирования в чем тут заключается (edited)
+
+
+10 replies
+Join_Selectovich [2 hours ago]
+Это получается что создается урезанная  сущность юзер у которой все кроме id пустое? (edited)
+
+
+shtramak [2 hours ago]
+Вместо реального объекта user получается получается прокси
+
+
+Join_Selectovich [2 hours ago]
+Что значит прокси, это сущность в данном случае?
+
+
+Victor [2 hours ago]
+тоесть над объектом user делается обертка в которой есть id. Вместо остальных полей метод. И если обратиться к полю, то будет выполнен метод и поле будет вытянуто из базы
+
+Join_Selectovich [2 hours ago]
+наверное обертка над классом User
+
+shtramak [2 hours ago]
+Там заморочено конечн)
+
+
+
+shtramak [2 hours ago]
+Ну это сделано, чтобы экономить время и ресурсы и не тянуть все лишние данные из базы
+
+
+shtramak [2 hours ago]
+Иначе ставится fetchtype.eager
+
+
+tema.emelyan [2 hours ago]
+https://stackoverflow.com/questions/20988626/what-is-proxy-in-the-context-of-load-method-of-hibernate
+https://stackoverflow.com/questions/2227836/what-is-the-meaning-of-using-proxy-dynamic-proxy-in-spring-framework (edited)
+
+
+
+Join_Selectovich [2 hours ago]
+C eager/lazy понятно, не понятно как оно устроено
+
+
+Join_Selectovich [4:32 PM]
+Это в пояснениях перед строкой 
+*Apply 5_3_HW4_optional.patch*
+
+shtramak [4:34 PM]
+Так у нас же fetch.lazy
+
+
+stea1th [Today at 4:37 PM]
+как откатить патчи до начала пятого урока?
+
+
+9 replies
+Gagarina6794 [2 hours ago]
+Сделать ресет ветки на последний коммит
+
+
+stea1th [2 hours ago]
+где он делается
+
+
+stea1th [2 hours ago]
+?
+
+
+Gagarina6794 [2 hours ago]
+В локал чейндж на ветке мастера на последнем коммите правая кнопка мыши и в меню обновление ветки к такому то коммиту
+
+
+stea1th [2 hours ago]
+скрин можешь сделать?
+
+
+Gagarina6794 [2 hours ago]
+Сейчас не могу, немного позже
+
+Gagarina6794 [2 hours ago]
+Новый точечный рисунок.bmp
+
+
+
+Gagarina6794 [2 hours ago]
+versionControl-> log
+
+
+Gagarina6794 [2 hours ago]
+на последнем комите
+
+
+stea1th [4:37 PM]
+так чтобы следов не осталось ... я их не коммитил
+
+Merkulov [4:48 PM]
+Для достать по id пользователя вместе с его едой я в User добавил List<Meal> meals 
+что-то этого не замечаю после патчев, у всех так?
