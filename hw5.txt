@@ -3521,3 +3521,7 @@ Maksim K [< 1 minute ago]
            <version>2.3.0</version>
        </dependency>`
 в помнике это попробуй прописать
+
+
+Alexander Pilipenko [< 1 minute ago]
+Это для jdk-9 и выше?
