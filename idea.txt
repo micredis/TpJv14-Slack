@@ -1073,3 +1073,81 @@ git clone https://github.com/[Ваш аккаунт]/topjava.git
 
 Grigory Kislin [1 hour ago]
 еще- не смотрел программу basejava? можно сделать паузу на основы... (edited)
+
+
+stea1th [3 days ago]
+Я отлично пушу через черепаху, но я хотел попробовать пушить через idea... Но нигде не нашёл места, куда можно вставить свой private key
+
+
+stea1th [3 days ago]
+А зачем там делать паузу? Да, мне часто бывает непонятно описание, но задания домашние я все делаю сам, если успеваю, то и optional делаю
+
+
+stea1th [3 days ago]
+Насколько я вообще понял - это головняк привязать идею к своему аккаунту на гитхабе
+
+
+Ignat [3 days ago]
+Я в идее никогда не настраивал ключи. Просто добавляешь свой ключ в папку .ssh. Тебе должна вот эта инструкция помочь https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
+
+
+Ignat [3 days ago]
+Проверить ключ можно так
+ ```ssh -T git@github.com```
+
+
+stea1th [3 days ago]
+Аааа, понял... Так и сделаю, спасибо большое
+
+
+Ignat [3 days ago]
+И ещё проверь как origin настроил. Если  ты клонировал по https ссылки, то работать не будет, если не ошибаюсь. Введи
+ ```git remote show origin```
+
+
+Ignat [3 days ago]
+Fetch и Push должны начинаться с `git@github.com`
+
+
+Ignat [3 days ago]
+Pasted image at 2018-07-29, 10:33 PM
+
+
+
+stea1th [3 days ago]
+Хм...посмотрю... Я вроде черепахой клонировал
+
+
+stea1th [3 days ago]
+Через ssh
+
+
+Ignat [3 days ago]
+Пульни  `ssh -T git@github.com`. Если вернёт приветствие значит всё должно быть ок.
+
+
+stea1th [3 days ago]
+Сейчас домой приеду, попробую и в приват тебе напишу... Спасибо:grinning:
+
+
+stea1th [2 days ago]
+все получилось... спасибо... класс :slightly_smiling_face:
+
+
+Ignat [2 days ago]
+пожалуйста:+1:
+
+
+stea1th [2 days ago]
+оказывается в гите свой кейгенератор
+
+
+stea1th [2 days ago]
+и там не подходит ключ от PiTTY
+
+
+Kirilo [5 hours ago]
+https://screenshots.firefox.com/hYtxUenmRtHuYfiW/null
+screenshots.firefox.com
+git.png (Зображення PNG, 1920 х 1080 пікселів) - Масштабоване (85%)
+From null (68 kB)

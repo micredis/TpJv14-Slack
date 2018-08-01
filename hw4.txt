@@ -3638,3 +3638,120 @@ KaryNaiKo [8:15 PM]
 
 Stanislav [8:17 PM]
 А ты точно читал-смотрел 4 урок-лекцию?
+
+
+SergeyA [8:16 AM]
+Прошу помощи с ошибкой которая появилась при накатывании патча 3го урока "3_10_db_implementation.patch" создающего данный бин jdbcUserRepositoryImpl:
+"
+......................
+Disconnected from the target VM, address: '127.0.0.1:57936', transport: 'socket'
+Exception in thread "main" org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name ' *jdbcUserRepositoryImpl* ' defined in file [C:\Projects\topjava\target\classes\ru\javawebinar\topjava\repository\jdbc\JdbcUserRepositoryImpl.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'javax.sql.DataSource' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+..................."
+В уроке говорилось что "появилась ошибка которую починим позже" - разобраться я с  этим не смог, но надеялся что далее в 4м уроке патчи все исправят. Но ошибка так и осталась после применения патчей 4го занятия.
+- Кто то сталкивался с таким? (edited)
+
+
+Yevhen Maksymovych [7 hours ago]
+глупый вопрос, но на всякий случай: реимпорт через мавен делал? ну и покажи гит, так проще будет
+
+
+SergeyA [7 hours ago]
+Гит: https://github.com/SergeyAblaev/topjava
+SergeyAblaev/topjava
+Java Enterprise: Maven/ Spring/ Security/ JPA(Hibernate)/ REST(Jackson)/ Bootstrap(CSS)/ jQuery
+Language
+----------------
+Java
+
+Last updated
+----------------
+4 days ago
+
+SergeyAblaev/topjavaJun 25th at 8:56 PM Added by GitHub
+
+
+SergeyA [7 hours ago]
+Реимпорт - делал (на pom.xml правой клавишей/maven/reimport).
+В меню сборки Mavena так же делал "Clean"  а "Package"  завершается все той же ошибкой "..UnsatisfiedDependencyException: Error creating bean with name 'jdbcUserRepositoryImpl'.." (edited)
+
+
+Yevhen Maksymovych [6 hours ago]
+с мастер веткой проблема?
+
+
+Stanislav [6 hours ago]
+Что конкретно запускаешь (тесты, сервлет, меин)?
+
+
+Yevhen Maksymovych [6 hours ago]
+в любом случае, я так понял, проблема в том, что мы разнесли конфиг по двум файлам, а при поднятии контекста @SergeyA не указывает их все, соответственно, репозиторий и не может синитится без датасорса, который лежит в отдельном файле, про который спринг ничего не знает
+
+
+Yevhen Maksymovych [6 hours ago]
+но мы это вроде чинили в следующих патчах/дз
+
+
+Yevhen Maksymovych [6 hours ago]
+может патч какой пропустил?
+
+Stanislav [6 hours ago]
+В тестах эта ошибка будет вылетать у: SpringMain и все что находится в web
+
+
+SergeyA [6 hours ago]
+@Yevhen Maksymovych  извини что долго. - да верно с мастер веткой. она по идее должна  соответствовать началу 4го урока. (патчи 4го урока применял локально, на Гит не пушил.
+
+
+SergeyA [6 hours ago]
+@Stanislav запускаю SpringMain  и так же сборку Мавеном когда делаю ошибка сразу.
+
+
+Stanislav [6 hours ago]
+Выше написал
+
+
+Stanislav [6 hours ago]
+Смотри внимательно какой спринг контекст подгружаешь (в том что запускаешь) и что в нем находится.
+
+
+SergeyA [6 hours ago]
+Попробовал перенести SpringMain  из тестов в основную ветку (topjava\src\main\java\ru\javawebinar\topjava\web\SpringMain.java)  ошибка все та же - т.е. на стадии компиляции.
+
+
+SergeyA [6 hours ago]
+Пробовал явно в контекст прописать второй файл: 
+"        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml","spring/spring-db.xml")) {
+"
+не помогло.
+И отладчиком посмотреть что в контексте не могу, т.к. при попытке создания контекста падает. (( (edited)
+
+
+Stanislav [6 hours ago]
+По коммитам бардак, не по порядку, накатываешь то что уже накатывал при этом не накатывешь последовательно...
+
+
+Yevhen Maksymovych [5 hours ago]
+я проверил в спринг-тест, нормально всё поднимается при добавлении spring/spring-db.xml :confused:
+
+
+SergeyA [4 hours ago]
+@Yevhen Maksymovych А без добавления  spring/spring-db.xml - тоже все падало?  Т..е. попробовать еще раз - я кажется после добавления реимпорт не сделал..
+
+
+Yevhen Maksymovych [4 hours ago]
+без добавление само собой падало :slightly_smiling_face:
+
+
+SergeyA [3 hours ago]
+Спасибо за помощь. есть прогресс:  При реимпорте выдало: 
+01.08.2018
+14:19    Spring Configuration Check
+            Unmapped Spring configuration files found.
+            Please configure Spring facet.
+            topjava (1 file)
+            Show Help Disable...
+Я сконфигурировал app contecst  spring/spring-db.xml 
+Теперь другая ошибка:  
+Error creating bean with name 'userServiceImpl'
+
+Буду разбираться дольше :slightly_smiling_face:

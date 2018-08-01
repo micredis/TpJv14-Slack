@@ -1399,3 +1399,2125 @@ sky [2 minutes ago]
 
 Merkulov [5:26 PM]
 Кто сталкивался с циклической зависимостью полей у User' а при сравнение ожидаемого значения с фактическим в тестах?
+
+
+Join_Selectovich [Jul 29th at 6:34 PM]
+Помогите разобраться. Как так получилось что в класс DataJpaUserRepositoryImpl в видео был проинжектирован интерфейс, а не экземпляр какого-либо класса
+  @Autowired
+   private CrudUserRepository crudRepository;
+и это все рабтает?! как так? :frowning: (edited)
+
+
+19 replies
+sky [3 days ago]
+Когда передается интерфес или абстрактный класс, умный спринг смотрит, есть ли у него реализации с нужной аннотацией, и если есть, и она одна, то ее он и впрыснет (если несколько, и нет разделения с помощью профилей или еще чего, то эксепшн) (edited)
+
+
+e.pekhterev [3 days ago]
+в видео Григорий как раз про это рассказывал - чёрная магия
+
+
+Join_Selectovich [3 days ago]
+охренеть...
+
+e.pekhterev [3 days ago]
+он наследуюется от JpaRepository, а при запуске там всё инжектится - так работает фреймворат spring-data-jpa
+
+
+Merkulov [3 days ago]
+https://www.youtube.com/watch?v=nwM7A4TwU3M&t=817s
+YouTube JUG .ru
+Евгений Борисов — Spring Data? Да, та!
+ 
+
+
+Merkulov [3 days ago]
+Спринг налету создает имплементацию интерфейса
+
+Join_Selectovich [3 days ago]
+@sky так у нас же в проекте нигде нет реализации этого инерфейса!? :astonished: CrudMealRepository (edited)
+
+e.pekhterev [3 days ago]
+фреймворк реализует
+
+
+e.pekhterev [3 days ago]
+так же как и метод  User getByEmail(String email);
+
+
+sky [3 days ago]
+есть SimpleJpaRepository
+
+
+Join_Selectovich [3 days ago]
+Уже несколько раз пересматриваю видео, что-то эта тема очень тяжело дается... :disappointed_relieved:
+
+
+realcorwin [3 days ago]
+самый прекрасный раздел в спринге. все бы разделы так легко и удобно работали :slightly_smiling_face:
+
+
+Join_Selectovich [3 days ago]
+я так понимаю что в spring-db.xml тег 
+_<jpa:repositories base-package="ru.javawebinar.**.repository.datajpa"/>_
+как раз просит у спринга инстансыировать в ioc-контейнере всех наследников класса JpaRepository. Так или нет? (edited)
+
+
+e.pekhterev [3 days ago]
+нет, тут мы получаем только классы, отмеченные аннотацией @Repository (edited)
+
+
+e.pekhterev [3 days ago]
+а они в свою очередь уже автоваярят наши крудИнтерфейсы, которые наследуются от JpaRepository, который в свою очередь не класс, а интерфейс тоже)))) (edited)
+
+Join_Selectovich [3 days ago]
+:exploding_head:
+
+
+e.pekhterev [3 days ago]
+я ж говорю - это всё магия)))
+
+
+e.pekhterev [3 days ago]
+черная
+
+Grigory Kislin [1 day ago]
+1. `<jpa:repositories base-package=`  jn spring-data-jpa сканирует в заданном пакете все имплементации `JpaRepository` и делает из них классы, наследуемые от `SimpleJpaRepository`. можно в дебаге посмотреть, что там в результате
+2. далее все стандартно
+
+
+matrocob [Jul 29th at 6:47 PM]
+ребят подскажите или дайте пожалуйста наводку, как реализовать профайл в spring-db
+
+
+17 replies
+matrocob [3 days ago]
+когда пытаюсь перенести
+<context:component-scan base-package="ru.javawebinar.**.repository.datajpa"/>
+   <jpa:repositories base-package="ru.javawebinar.**.repository.datajpa"/>
+в профайл datajpa начинается в тестах сыпаться ошибки..
+Выбрать реализацию пула коннектов может надо добавить? (edited)
+
+
+sky [3 days ago]
+а ты в тестах выбираешь профиль? Чтобы тесты не сыпались надо выполнить сначала 3е задание (edited)
+
+
+matrocob [3 days ago]
+так в классах тестов и так стоит активпрофиль для выбора бд... ладно, попробую третье задание сделать может разберусь...
+
+
+sky [3 days ago]
+вот-вот  - для бд, а для repository-implementation там активпрофиль как раз и не стоит
+
+
+matrocob [3 days ago]
+смотри, но по сути сам профиль
+  <beans profile="datajpa">
+       <context:component-scan base-package="ru.javawebinar.**.repository.datajpa"/>
+       <jpa:repositories base-package="ru.javawebinar.**.repository.datajpa"/>
+   </beans>
+должен итак работать для теста с datajpa.. Я его выбираю же в spring-db и он у меня активный становится (edited)
+
+
+sky [3 days ago]
+сверху через Change profiles выбираешь? галочку ставишь? (edited)
+
+
+matrocob [3 days ago]
+ну да
+
+
+matrocob [3 days ago]
+Безымянный.jpg
+
+
+
+matrocob [3 days ago]
+но... ошибка тест ложится после того, как
+ <context:component-scan base-package="ru.javawebinar.**.repository.datajpa"/>
+       <jpa:repositories base-package="ru.javawebinar.**.repository.datajpa"/>
+этот код вырезаю и вставляю в профайл datajpa
+
+
+sky [3 days ago]
+4 видео из урока с 9 минуты смотри
+
+
+sky [3 days ago]
+а лучше все видео смотри целиком
+
+matrocob [3 days ago]
+сейчас гляну, спасибо вам большое) та уже смотрел раза 3))
+
+
+
+matrocob [3 days ago]
+Все, додумался.... Я так понимаю... нельзя ставить две аннотации ActiveProfiles над классом, тогда как запустить чтобы и бд подцепить и реализацию к примеру jpa? использовать { } ?
+
+
+matrocob [3 days ago]
+@ActiveProfiles({ActiveDbProfileResolver.class, DATAJPA})
+как-то так?
+
+sky [3 days ago]
+подсказка 10 в конце урока
+
+matrocob [3 days ago]
+спасибо!)
+
+
+
+matrocob [3 days ago]
+лучший просто))
+
+
+e.pekhterev [Jul 29th at 6:54 PM]
+На этой лекции была ссылка на статью о @Transactional ( https://www.ibm.com/developerworks/ru/library/j-ts1/ )
+мол @Transactional(readOnly = true) нам ничего не гарантирует. И в нашем проекте, если эта аннотация стоит на классе и удалить @Transactional c методов delete и save - то всё прекрасно рабоет. Так зачем мы тогда упорно пишем аннотации @Transactional  для этих методов?  
+Вопрос даже немного о другом, пусть мы даём аннотации @Transactional  для методов save и delete, но как нам обеспечить именно ридОнли транзакционность для других методов?
+ibm.com
+Распространенные ошибки
+В этой статье Марк Ричардс описывает распространенные подводные камни, которые могут привести к потере согласованности. Они объясняются на примерах, взятых из инфраструктуры Spring Framework и спецификации EJB (Enterprise JavaBeans) 3.0.
+ 
+(edited)
+
+
+37 replies
+Victor [3 days ago]
+вот только что попробовал не поставить на delete @Transactional когда на классе @Transactional( readOnly = true), и сразу вылетел Exception. Поругалось что я пытаюсь внести изменения, когда стоит read only.
+
+
+
+Victor [3 days ago]
+получается если поставил на классе, то методы без аннотации обеспечены read only транзакционностью
+
+e.pekhterev [3 days ago]
+да, действительно
+
+e.pekhterev [3 days ago]
+проверял только для метода save - он отлично без трансакции работает, хотя по хорошему она ему нужна (edited)
+
+
+e.pekhterev [3 days ago]
+всё, разобрался, мы вызываем у круда save, который на самом деле вызывается у SimpleJpaRepository, а там этот мето как раз @Transactional, поэтому и эксепшина нет (edited)
+
+
+Johann [3 days ago]
+в CrudMealRepository в методе deleteByIdAndUser_Id  на тесте "delete" будет вылетать javax.persistence.TransactionRequiredException, если не отметить его как  @Transactional
+
+
+Victor [3 days ago]
+@Johann deleteByIdAndUser_Id - cделал без @Query ?
+
+Johann [3 days ago]
+без, там же готовая белая магия, главное правильный порядок слов в заклинании
+
+Victor [3 days ago]
+блиин думал точно так же попробовать, но решали, что не получиться )))
+
+Johann [3 days ago]
+idea поможет, главное начать с правильного глагогла)
+
+
+e.pekhterev [3 days ago]
+как без квери? намже нужно юзер_id ещё привязать
+
+Victor [3 days ago]
+Работает )) спасибо за поджопник ))
+
+
+e.pekhterev [3 days ago]
+с ЮзерId?
+
+Victor [3 days ago]
+почитай https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation
+
+
+Victor [3 days ago]
+я решил что не будет, а оказалось магия 80 лвл там )))
+
+
+e.pekhterev [3 days ago]
+черт, не прочитал, но сделал и заработало)))) (изи, уже так делал, но видимо транзакшинел забыл) (edited)
+
+Victor [3 days ago]
+фишка номер 2:
+так тоже работает `deleteByIdAndUserId`
+
+e.pekhterev [3 days ago]
+ну я так и сделал
+
+Victor [3 days ago]
+я думал что _ обязательно типа вместо точки
+
+
+e.pekhterev [3 days ago]
+а ты до этого живого юзера передавал))?
+
+
+Victor [3 days ago]
+deleteByIdAndUser_Id - думал так ворожить нужно
+
+
+e.pekhterev [3 days ago]
+нет, так не нужно
+
+
+e.pekhterev [3 days ago]
+нужно по названию поля в модели корректно в кэмелКейсе писать
+
+e.pekhterev [3 days ago]
+а я тут блин квери пишу как лузер
+
+e.pekhterev [3 days ago]
+другое дело, что все эти deleteByIdAndUser_Id  немного дороже, чем аналогичные методы с квери, потому как в первом случае фреймворк расшифровывает название методы и сам варганит запрос, а во втором - мы ему даём уже готовый запрос, т.е. первый вариант по идее чутка дороже.
+
+
+Victor [3 days ago]
+это ж всё компилируется. Раз собрало и юзает. Думаю разница нет. Наверное.
+
+
+e.pekhterev [3 days ago]
+возможно
+
+e.pekhterev [3 days ago]
+надо остальные методы попробовать замучить
+
+
+
+e.pekhterev [3 days ago]
+а то я всё в запросах делал
+
+
+Victor [3 days ago]
+буду комментить query методы, чтоб опыт не пропадал за зря...
+
+
+e.pekhterev [3 days ago]
+да, я тоже оставлю, но Катерина всяко за это наругает
+
+
+Victor [3 days ago]
+я уже приготовился ))))
+
+e.pekhterev [3 days ago]
+тапкой по лицу натучит)))
+
+e.pekhterev [3 days ago]
+со словами - доколе))))
+
+Johann [3 days ago]
+deleteByIdAndUser_ такая конструкция сразу после подчеркивания в выпадающем меню выдает все поля юзера в качестве опции, так чуть поудобнее кмк
+
+
+
+Victor [3 days ago]
+getbetween через магию - это нечто ))))))
+
+
+e.pekhterev [3 days ago]
+да оно всё там выглядит магией до неприличия.
+
+
+Gagarina6794 [Jul 29th at 9:16 PM]
+@Autowired
+   private CrudUserRepository crudRepository;  Идея говорит аннотация здесь не требуется, без нее все работает
+
+
+15 replies
+sky [3 days ago]
+у меня не сработало. Вообще вроде как сейчас становится принятым делать эти переменные финал, и делать конструктор. И вот тогда все заработает, причем конструктор без аннотации автовайред. Но по мне, какая-то неправильная практика, ведь просто переменная интерфейса с аннотацией и более читаемая, и нет бойлеркодного конструктора
+
+
+Gagarina6794 [3 days ago]
+да, так можно  и запутаться, на поля читала редко ставят @Autowired и не рекомендуют
+
+sky [3 days ago]
+Вот по этому поводу неплохо было бы услышать мнение Григория
+
+
+Gagarina6794 [3 days ago]
+он уже где-то пару раз обьяснял почему он так сделал, вот забыла ...
+
+
+sky [3 days ago]
+вот например что люди пишут по поводу автовайреда над сеттером против поля 
+"this would give me flexibility later on to move away from Spring"
+Но кто же в здравом уме захочет со спринга слезать..
+
+
+Gagarina6794 [3 days ago]
+вот пока не знаю, может чего другого юзают паралельно
+
+Gagarina6794 [3 days ago]
+Spring я так поняла не самый хороший фреймворк
+
+
+sky [3 days ago]
+Этож вроде про Hibernate. Альтернатива спринг даже не гуглится (по крайней мере с ходу) там только Java EE
+
+
+Gagarina6794 [3 days ago]
+https://habr.com/post/334118/
+Хабр
+Почему я ненавижу Spring
+В начале своей карьеры я реально влюбился в Spring. Я так долго ждал его. Я использовал его во всех своих проектах. Вдобавок мне даже удалось впихнуть туда кучу... (50 kB)
+
+
+Gagarina6794 [3 days ago]
+но тут вроде автор просто неопытный
+
+Gagarina6794 [3 days ago]
+нашла кое-что https://www.dailyrazor.com/blog/best-java-web-frameworks/
+DailyRazor.com
+Best Java Web Frameworks for 2018 - Spring MVC, Struts, Vaadin, etc.
+Listing of the top 10 Best Java Web Frameworks for easy and rapid Java web application development. Find the best Java web framework for your project needs.
+Jan 1st at 3:30 PM
+ 
+
+
+sky [3 days ago]
+Struts ? https://ru.stackoverflow.com/questions/412706/%D0%A7%D1%82%D0%BE-%D0%B2%D1%8B%D0%B1%D1%80%D0%B0%D1%82%D1%8C-%D0%B8%D0%B7-java-%D1%84%D1%80%D0%B5%D0%B9%D0%BC%D0%B2%D0%BE%D1%80%D0%BA%D0%BE%D0%B2-%D0%B4%D0%BB%D1%8F-%D0%B2%D1%8B%D0%B2%D0%BE%D0%B4%D0%B0-%D0%BA%D0%BE%D0%BB%D0%BB%D0%B5%D0%BA%D1%86%D0%B8%D0%B8-spring-mvc-struts-mojarr (edited)
+
+
+Gagarina6794 [3 days ago]
+мы просто пока мало видели чего из жизни ит, думаю Spring промышленный стандарт, но людям под разные задачи может что и другое требуется
+
+Grigory Kislin [1 day ago]
+насчет @Autowired на поля- я часто встречал, несмотря на то, что не рекомендуют, потому что короче
+с lombok коротко получается с `@RequiredArgsConstructor`, спринг автоматически в конструктор инжектит
+
+
+Grigory Kislin [1 day ago]
+10 фреймворков, Егором Бугаенко и прочие ругатели ООП, Спринг, Хибернайт вам счас срорее вредны
+
+
+Join_Selectovich [Jul 29th at 9:26 PM]
+Кто может объяснить каким чудом в видео *6. Spring Data JPA*  на 24:35 вдруг появились методы в интерфейсе ProxyUserRepository, вроде HotKey никаких не нажималось ?!?! (edited)
+
+
+5 replies
+sky [3 days ago]
+Я думаю нажимался HotKey ctrl+v
+
+
+
+e.pekhterev [3 days ago]
+по любому
+
+
+Join_Selectovich [3 days ago]
+обычно все нажатия выводятся на экран, тут как-то раз и магия
+
+
+Merkulov [3 days ago]
+видео наврное монтированное
+
+
+Join_Selectovich [3 days ago]
+:male_mage:  похоже да...
+
+
+Merkulov [Jul 29th at 9:33 PM]
+Ребята, нужна помощь, который час бьюсь, тест все не проходит, достаю User и вместе с ним его еду и получатся ожидаемое значения пользователь и его еда, а сервис тащит за собой еще и пользователя этой еды, получается циклическая зависимость, куда копать?
+
+
+7 replies
+vch [3 days ago]
+Т.е. при запросе из базы юзера ты получаешь List<Meal> ? А зачем? Юзер без еды обычно используется.
+
+
+Merkulov [3 days ago]
+это из optional 7.1: достать по id пользователя вместе с его едой
+
+
+sky [3 days ago]
+Я по разному делал, там где просто в транзакции обращался к полю meals - так же циклично все, а где через query сделал (юзера доставал, left join) там все ок. Думаю что еще есть вариант, просто вытащить оба элемента и засетить 1 в другой, думаю цикличности тоже не будет
+
+
+Merkulov [3 days ago]
+ок, тоже попробую через Query
+
+Nikolay [2 days ago]
+сделай lazy инициализацию у пользователя еды, и у еды в пользователе тоже можно сделать, так как смысла тащить всегда еду  нет (edited)
+
+
+
+Merkulov [2 days ago]
+даже если сделать lazy все равно остается циклическая зависимость и через LeftJoin и это вроде как логично связь то  у нас двунаправленная, встает вопрос так как корректно сравнить эти объекты в тестах
+
+
+Grigory Kislin [1 day ago]
+по умолчанию должно быть lazy. с ним не зацикливается
+
+
+Merkulov [9:48 PM]
+2: В реализациях JdbcMealRepository код не должен дублироваться. Если вы возвращаете тип Object, посмотрите в сторону дженериков.
+про какие две реализации идет речь?
+
+
+Merkulov [Jul 29th at 9:49 PM]
+зачем там две реализации?
+
+
+5 replies
+sky [3 days ago]
+для 2 db профилей
+
+
+Merkulov [3 days ago]
+зачем
+
+
+Merkulov [3 days ago]
+там ведь можно сделать просто два бина с одним интерфейсом и инжестить его и в зависимости от активного профиля будет конвертация которая нужна
+
+
+Merkulov [3 days ago]
+лично я так сделал. тогда значит не нужно делать два класса, это хорошо)
+
+
+Grigory Kislin [1 day ago]
+@Merkulov осталось дублирование кода в классах убрать
+
+
+hav [Jul 30th at 10:18 AM]
+6: В Data-Jpa метод для ссылки на entity (аналог em.getReference) : T getOne(ID id). Что-то я не понял этого пункта... Как в DataJpaMealRepositoryImpl получить ссылку на юзера?
+
+
+3 replies
+Alexander Pilipenko [2 days ago]
+Заинжекти и CrudUserRepository вместе с CrudMealRepository (edited)
+
+
+hav [2 days ago]
+Такая мысль у меня была, но показалась не очень правильной.
+
+
+Maksim K [2 days ago]
+о. хороший вопрос. я вот тоже думал инжектить или как по-другому)
+
+
+Alexander Pilipenko [10:20 AM]
+Когда-то давно поднимался вопрос про optional = false
+
+Сейчас опять столкнулся с этой опцией.
+У меня было сделано так:
+@ManyToOne(fetch = FetchType.LAZY)
+   @JoinColumn(name = "user_id", nullable = false)
+   @NotNull
+   private User user;
+
+При этом при выполнении:
+@Override
+   public List<Meal> getAll(int userId) {
+       return crudMealRepository.findByUser_Id(SORT_DATE_TIME_DESC, userId);
+   }
+
+Генерируется следующий запрос:
+10:06:24.618 INFO  o.springframework.jdbc.datasource.init.ScriptUtils.executeSqlScript:510 - Executed SQL script from class path resource [db/populateDB.sql] in 15 ms.
+Hibernate:
+   /* select
+       generatedAlias0
+   from
+       Meal as generatedAlias0
+   left join
+       generatedAlias0.user as generatedAlias1
+   where
+       generatedAlias1.id=:param0
+   order by
+       generatedAlias0.dateTime desc */ select
+           meal0_.id as id1_0_,
+           meal0_.calories as calories2_0_,
+           meal0_.date_time as date_tim3_0_,
+           meal0_.description as descript4_0_,
+           meal0_.user_id as user_id5_0_
+       from
+           meals meal0_
+       left outer join
+           users user1_
+               on meal0_.user_id=user1_.id
+       where
+           user1_.id=?
+       order by
+           meal0_.date_time desc
+
+Если в использовать 
+@ManyToOne(fetch = FetchType.LAZY, optional = false)
+   @JoinColumn(name = "user_id", nullable = false)
+   @NotNull
+   private User user;
+
+То получим:
+/* select
+       generatedAlias0
+   from
+       Meal as generatedAlias0
+   where
+       generatedAlias0.user.id=:param0
+   order by
+       generatedAlias0.dateTime desc */ select
+           meal0_.id as id1_0_,
+           meal0_.calories as calories2_0_,
+           meal0_.date_time as date_tim3_0_,
+           meal0_.description as descript4_0_,
+           meal0_.user_id as user_id5_0_
+       from
+           meals meal0_
+       where
+           meal0_.user_id=?
+       order by
+           meal0_.date_time desc (edited)
+
+
+shtramak [2 days ago]
+Не понятно, в чем вопрос
+
+
+shtramak [2 days ago]
+У тебя в листе данные дублируются или что?
+
+
+Alexander Pilipenko [2 days ago]
+Вопрос зачем при необязательном поле делать left join
+
+
+Alexander Pilipenko [2 days ago]
+Если поле заполнено - данные уже есть и лезть никуда не нужно. Если поле не заполнено, мы все равно получим кривые данные (edited)
+
+
+shtramak [2 days ago]
+не могу сказать, не видел этого обсуждения про optional  ¯\_(ツ)_/¯
+
+Alexander Pilipenko [2 days ago]
+Там ни к чему не пришли :disappointed:
+
+
+Alexander Pilipenko [2 days ago]
+Нашел ссылку https://stackoverflow.com/questions/43949099/spring-data-jpa-unnecessary-left-join
+Stack Overflow
+spring data jpa unnecessary left join
+I have the following model: I want to get all Institutions (Intituciones) with specified sectorId. In the tbInstitucion model I have a relationship with tbSector: @ManyToOne(fetch=FetchType....
+ 
+ 
+
+
+Alexander Pilipenko [2 days ago]
+Там сказано, что нужно сделать чтобы не было left join, но почему он появился не понятно
+
+
+Alexander Pilipenko [2 days ago]
+@Grigory Kislin @Tanya @Katherine Уважаемые менторы, пожалуйста, выскажите свое мнение по данному вопросу
+
+
+Grigory Kislin [1 day ago]
+я за то, чтобы делать все явно
+если хочется достать через join - делай fetch либо энтити граф. Либо- как роли- EAGER. 
+Кроме того я стараюсь делать все через NamedQuery. 
+как хибернайте ведет себя c optional при data-jpa маджик запросах- только в документации и stackowerflow знает
+
+
+Alexander Pilipenko [1 day ago]
+Спасибо
+
+
+Join_Selectovich [Jul 30th at 11:10 AM]
+В crud interface для выборки еды можно создать методы:
+1) getAllByUserId
+2) getAllByUser_Id
+причем они работают одинаково, но наверное в первом случае обращение к таблице идет через поле класса, а во втором случае наверное напрямую к полю таблицы. Так или нет? как думаете ? (edited)
+
+
+21 replies
+Join_Selectovich [2 days ago]
+если так, то лучше обращаться за едой через поле класса т.е. получается первый вариант лучше..  как вы считаете?
+
+
+Victor [2 days ago]
+в обоих случаях через поле класса. ПОтому что по названию метода формируется HQL, а в нем только поля и классы.
+
+
+Join_Selectovich [2 days ago]
+Но у еды нет же поля User_Id
+
+
+Victor [2 days ago]
+это магия :slightly_smiling_face:
+
+
+Victor [2 days ago]
+он когда парсит убирает _ (edited)
+
+
+Join_Selectovich [2 days ago]
+сейчас проверю - добавляю два подчеркивания (edited)
+
+
+Join_Selectovich [2 days ago]
+с двумя не работает, наверное убирает ровно одно подчеркиваение  :slightly_smiling_face: (edited)
+
+Victor [2 days ago]
+все равно будет HQL и не будет обращения к полям таблицы
+
+Maksim K [2 days ago]
+https://topjava14.slack.com/archives/CBX6WTJQ2/p1532939282000289?thread_ts=1532938247.000229&cid=CBX6WTJQ2
+у еды и поля UserId вроде как нет)
+Rey
+Но у еды нет же поля User_Id
+From a thread in #hw5Jul 30th at 11:28 AM
+ 
+
+
+Join_Selectovich [2 days ago]
+Получается при написании(именовании) этих чудо :male_mage:  методов нужно опираться на названия столбцов таблицы .. (edited)
+
+
+Maksim K [2 days ago]
+Я наверно совсем не в теме, но какая разница как назвать метод? Если даже назвать его известным словом из трех букв, то он все равно будет работать. И я не очень понял что написал @Victor по поводу того, что по названию метода формируется HQL. Это как? Жду его объяснений))
+
+
+Join_Selectovich [2 days ago]
+Нет, при именовании нужно придерживаться определенных правил,  я пробовал подмешивать левак - все сразу ломается. (edited)
+
+
+vch [2 days ago]
+левак тоже по-разному можно подмешивать. Например, `findПожалуйстаByIdAndUserId` должно сработать
+
+
+
+Victor [2 days ago]
+https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation
+
+
+Maksim K [2 days ago]
+@Victor я еще не читал твою ссылку, но уже кое-что понял. вернее не понял)) я просто методы реализовывал через запрос к базе данных. поэтому у меня и можно было называть их как угодно. а ща попробовал через этот getAllByUser_Id и без всяких запросов и работает. внатуре магия. надо почитать по этому поводу, как оно так работает
+
+
+Join_Selectovich [2 days ago]
+да, через findПожалуйстаByIdAndUserId работает, и через getПожалуйстаByIdAndUserId работает тоже, но если в другие места мусор подмешивать то нет как-то (edited)
+
+
+
+Victor [2 days ago]
+https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories.query-methods.details
+
+
+
+dimlo [1 day ago]
+У еды поле UserId наследуется от Abstract BaseEntity
+
+Grigory Kislin [1 day ago]
+я когдато подебажил как это работает (кстати рекомендую этот метод - пользы будет больше чем от угадываний): https://habr.com/post/232381/
+Spring Data JPA (edited)
+
+
+Grigory Kislin [1 day ago]
+@Maksim K это вопрос про magic методы, HQL которых генерится по их названию
+
+Maksim K [1 day ago]
+https://topjava14.slack.com/archives/CBX6WTJQ2/p1532970677000092?thread_ts=1532938247.000229&cid=CBX6WTJQ2
+да там вроде как еда наследует свой айдишник, а не юзера...
+Dmitry Loshchenkov
+У еды поле UserId наследуется от Abstract BaseEntity
+From a thread in #hw5Jul 30th at 8:11 PM
+(edited)
+
+
+alexey [Jul 30th at 3:32 PM]
+Народ а кто нибудь понял как проверить, что в DataJpaMealRepositoryImpl все обращения к DB выполняются в одной транзакции?? Что то не пойму нужно какой то доп код писать или что?
+
+
+5 replies
+Alexander Pilipenko [2 days ago]
+Имхо - дополнительного кода не нужно
+Нужно проверить, что если в методе выполняется 2 и более операции с БД, то такой метод и все дочерние методы начинают/продолжают транзакцию.
+
+
+alexey [1 day ago]
+)Спасибо, а то сижу голову ломаю
+
+
+Victor [1 day ago]
+то есть нужно правильно аннотации расставить, как я понял.
+
+
+Alexander Pilipenko [1 day ago]
+И 2 раза проверить, что они там где надо
+
+
+Alexander Pilipenko [1 day ago]
+Ну и в дополнение:
+Можно добавить в настройки логгирования
+<logger name="org.springframework.transaction" level="trace"/>
+
+После этого в лог будет выведена информация о транзакциях.
+
+
+Maksim K [Jul 30th at 5:12 PM]
+Вопрос по 
+`2.2: Для интеграции с IDEA не забудте выставить в spring-db.xml справа вверху в Change Profiles... профили, например datajpa, postgres`
+Я вот чего не пойму: какую бы я БД в Change Profiles не выставил все равно будет использоваться та, что в профиле Мавен стоит.  Как сделать чтобы выбиралась та база, что в Change Profiles выставлена?
+
+
+12 replies
+Yevhen Maksymovych [1 day ago]
+эта опция не изменяет выбранную реализацию БД, а только заставляет корректно работать интеграцию спринга и идеи. т.е. будет во всяких dependency injection тебя перебрасывать на верную реализацию по клику, и подсказки генерить согласно выбранному профилю (edited)
+
+
+
+sky [1 day ago]
+в мавене выбирай реализацию базы
+
+
+Maksim K [1 day ago]
+то есть весь этот сыр бор только для интеграции???
+
+
+Yevhen Maksymovych [1 day ago]
+что значит только для интеграции? ты недооцениваешь этот функционал ))
+
+
+Yevhen Maksymovych [1 day ago]
+когда у тебя штук пять профилей, сотня переменных инжектится, и тебе надо это отлаживать, вот эта интеграция делает погоду
+
+
+
+Yevhen Maksymovych [1 day ago]
+понятно, что когда у тебя в контексте четыре бина сидит, и ты их все по именам знаешь, можно и без этого обойтись
+
+
+Maksim K [1 day ago]
+эмм.. ну может и так) я пока не силен во всем этом. буду иметь ввиду. спасибо)
+
+
+Maksim K [1 day ago]
+@Yevhen Maksymovych еще вопрос. а можно хоть один пример, где мне может пригодиться такая интеграция в нашем коде. Ну то есть где у нас в коде можно посмотреть какую бд я выбрал в Change Profiles?
+
+
+Yevhen Maksymovych [1 day ago]
+@Maksim K если ты про коммит после накатки патчей (до выполнения ДЗ), то у нас там по разным профилям разнесён разный dataSource только, там как таковой интеграции ты красивой не увидишь (мы напрямую в коде датасорс не используем, толкьо для создания других бинов), единственное, тебе идея будет выдавать предупреждение, что у тебя в одном контексте лежит два бина с одинаковым ид. Если выберёшь один из профилей, соответственно, это предупреждение пропадёт. А так-то тебе надо будет разнести по разным профилям реализации репозиториев - тут уже интеграция налицо, ты в сервисе сможешь прыгнуть по щелчку на репозитории в нужную реализацию (ту, которая выбрана в текущем профиле)
+
+
+Victor [1 day ago]
+тут наоборот получилось. В зависимости от того, какой профиль выбран в Maven, собирается правильная конфигурация Spring через ActiveDbProfileResolver.
+
+Grigory Kislin [1 day ago]
+@Maksim K в занятии вся эта информация есть (про только для интергации). просто надо внимательней смотреть видео и читать текст
+
+Maksim K [1 day ago]
+@Grigory Kislin да вроде все смотрю и читаю. и стараюсь внимательно. ну правда по ссылкам не все читаю. их очень много и прочитать все не успеваю.
+
+
+Alexander Pilipenko [Jul 30th at 6:09 PM]
+Раз уж зашел разговор про смену профилей, то натолкните, пожалуйста, на мысль как починить ActiveProfile(resolver). Он должен возвращать необходимые профили. Профиль БД мы выбираем по наличию класса драйвера.
+Но как выбрать нужную реализацию репозитория? (edited)
+
+
+9 replies
+e.pekhterev [1 day ago]
+репо автоматом и не должен выставляться, только БД.
+тесты сами решают, что им юзАть.
+
+
+alexey [1 day ago]
+жестко прописывай в тестах реализацию
+
+Alexander Pilipenko [1 day ago]
+Спасибо.
+
+Victor [1 day ago]
+найти dependency, которые соответствуют только одному из профилей у меня не получилось. Поэтому сделал так:
+```return new String[]{Profiles.getActiveDbProfile(), "jdbc"};```
+(edited)
+
+
+e.pekhterev [1 day ago]
+@Victor прекращай уже решения публиковать) (edited)
+
+
+
+e.pekhterev [1 day ago]
+тем более, если ещё и неправильное решение, если речь о резолвере
+
+
+Victor [1 day ago]
+не знаю на сколько правильное, но у меня работает. Можно сюда еще вместо string константу для удобства вставить из Profiles.
+
+
+e.pekhterev [1 day ago]
+дай возможность людям  хоть чутка самим подумать)))
+
+
+Victor [1 day ago]
+ок, уговорил, молчу :grin:
+
+
+svis [7:43 PM]
+Странное дело, после накатки второго патча из 5-го урока почему-то в spring-db.xml  idea ругается на jdbc.initLocation в строке -   <jdbc:script location="classpath:db/${jdbc.initLocation}"/>
+при этом все нормально компилируется и тесты проходят
+
+
+svis [Jul 30th at 7:44 PM]
+ни у кого такого не было?
+
+
+4 replies
+Victor [1 day ago]
+у меня всегда ругалась... Может не замечал?
+
+
+Maksim K [1 day ago]
+и у меня ругается. забей)
+
+
+Grigory Kislin [1 day ago]
+https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson04.md
+после Apply 4_8_add_hsqldb.patch
+> IDEA может ${jdbc.initLocation} подчеркивать красным - тупит...
+когда затупить- получается сама решает... (edited)
+
+
+svis [1 day ago]
+Коллеги, спасибо за комментарии! Теперь понятно.
+
+
+shtramak [7:44 PM]
+красным подчеркивает? это чаще всего норм
+Apply 4_8_add_hsqldb.patch
+ВНИМАНИЕ: патч меняет postgres.properties
+IDEA может ${jdbc.initLocation} подчеркивать красным - тупит...
+
+Victor [8:17 PM]
+Коллеги, пишете в треды! Зачем flood разводить? (edited)
+
+
+Ma3stro [Jul 30th at 8:36 PM]
+Куда смотреть для реализации следующего?
+```7.1: достать по id пользователя вместе с его едой
+7.2: достать по id еду вместе с пользователем```
+(edited)
+
+
+7 replies
+Alexander Pilipenko [1 day ago]
+В задании ссылка
+
+
+Ma3stro [1 day ago]
+@Alexander Pilipenko, Не вижу. Мог бы ты скинуть ссыль?:)
+
+Alexander Pilipenko [1 day ago]
+Сделать и протестировать в сервисах методы (тесты и реализация только для DataJpa)
+7.1: достать по id пользователя вместе с его едой
+7.2: достать по id еду вместе с пользователем
+7.3: обращения к DB сделать в одной транзакции (можно сделать разные варианты). Java Persistence/OneToMany
+
+
+Alexander Pilipenko [1 day ago]
+https://en.wikibooks.org/wiki/Java_Persistence/OneToMany
+
+
+shtramak [1 day ago]
+а что дает эта ссылка?)  Почитай про spring data, что это https://spring.io/blog/2011/02/10/getting-started-with-spring-data-jpa
+
+
+
+shtramak [1 day ago]
+И реализуй по подобию userrepo
+
+
+Alexander Pilipenko [1 day ago]
+Спасибо за ссылку
+
+
+Maxim Gusev [Yesterday at 1:58 AM]
+А как у нас вообще резолвится имплементация репозитория? 
+
+В отличие от БД (@ActiveProfiles(resolver = ActiveDbProfileResolver.class)) для репозиториев такого нет
+
+
+3 replies
+Victor [1 day ago]
+пробую через @Profile, но что-то никак SpringMain не запущу
+
+
+Victor [1 day ago]
+с @Profile сделать не вышло, видно не правильный это подход. Запустил другим способом, но не знаю на сколько он хороший.
+
+
+e.pekhterev [1 day ago]
+дана хорошая ссылка в с самое уроке, так что не вижу смысла что то придумывать:
+https://dzone.com/articles/using-spring-profiles-xml
+dzone.com
+Using Spring Profiles in XML Config - DZone Java
+Learn how to use spring profiles in an XML config with this great tutorial. (22 kB)
+
+
+Merkulov [Yesterday at 11:40 AM]
+Интересный момент в имплементации метода save вроде как есть уже работа в транзакции :
+```@Transactional
+    public <S extends T> S save(S entity) {
+
+        if (entityInformation.isNew(entity)) {
+            em.persist(entity);
+            return entity;
+        } else {
+            return em.merge(entity);
+        }
+    }```
+но без явного объявления транзакции над методом в интерфейсе не работает метод
+
+
+15 replies
+Yevhen Maksymovych [1 day ago]
+должно работать. ну, разве что мы его оверрайднули просто так, и над оверрайднутым методом не указали транзакцию
+
+
+
+Merkulov [1 day ago]
+не работает, пробовал тесты валятся
+
+
+Alexander Pilipenko [1 day ago]
+Интересно. Покажи код из интерфейса и реализации.
+
+Merkulov [1 day ago]
+```@Override
+    User save(User user);```
+а реализация в классе SimpleJpaRepository выше
+
+
+Yevhen Maksymovych [1 day ago]
+ну так я об этом и говорил, оверрайд есть, а транзакции нет
+
+
+Yevhen Maksymovych [1 day ago]
+зачем зря оверрайдить, если не предполагается изменения реализации :slightly_smiling_face:
+
+
+Merkulov [1 day ago]
+ну попробуй без оверайд
+
+Merkulov [1 day ago]
+это первое что я проверил
+
+Merkulov [1 day ago]
+не работает и без оверайда
+
+Yevhen Maksymovych [1 day ago]
+Pasted image at 2018-07-31, 12:00 PM
+
+
+
+Yevhen Maksymovych [1 day ago]
+нет, ты не понял, без овеерайда, я имею в виду вообще убрать этот метод из CRUSUserRepository, если не предполагается его реализация. в данном случае, если мы указали, что он оверрайдится, но не сделали реализацию, умный спринг дата сам сделает реализацию. но при этом он сам не откроет транзакцию, потому что от дефолтной реализации мы отказались
+
+
+
+Merkulov [1 day ago]
+ааа ты про это)
+
+
+Merkulov [1 day ago]
+ок, спс, попробовал работает
+
+Yevhen Maksymovych [1 day ago]
+:+1:
+
+
+Victor [1 day ago]
+я на save поставил @Transactional, а чем плохо? Зато в интерфейсе видны методы, которые используешь. Легче для восприятия.
+
+
+dimlo [Yesterday at 1:06 PM]
+Господа, а кто-нибудь использовал T getOne(ID id), чтобы получить ссылку на Юзера и вставить ее в еду?
+
+
+13 replies
+e.pekhterev [1 day ago]
+всё должны использовать в этом задании
+
+
+
+Victor [1 day ago]
+да, я использовал:slightly_smiling_face:
+
+
+e.pekhterev [1 day ago]
+там можно конечно по другому - на скорее всего заругают
+
+
+dimlo [1 day ago]
+Вот я по-другому как раз и сделал:
+в CrudMealRepository создал getUser с @Query наверху)
+T getOne(Integer id) возвращает Meal, класс Юзера в него не передать... Намекните, что я упустил)
+
+e.pekhterev [1 day ago]
+ну так ты же сам себе и отвечаешь сейчас, что вот этот наш репозиторий не работает с Юзерами
+public interface CrudMealRepository extends JpaRepository<Meal, Integer> (edited)
+
+
+
+e.pekhterev [1 day ago]
+т.е. надо что тогда?
+
+
+Victor [1 day ago]
+как понимаю нужно использовать Crud*User*Repository, чтобы достать reference.
+
+
+
+dimlo [1 day ago]
+Спасибо) Не хотел в CrudUserRepository лезть, подумал, что это увеличит зацепление
+
+e.pekhterev [1 day ago]
+@Victor, ну когда ж ты перестанешь подсказывать (edited)
+
+dimlo [1 day ago]
+@e.pekhterev да я уже накодил к этому времени)
+
+
+e.pekhterev [1 day ago]
+всё равно, другие могут прочитать
+
+
+realcorwin [1 day ago]
+на ГитХабе в минуту находятся все решения по всем заданиям. Спасать на пепелище уже нечего :slightly_smiling_face:.
+
+
+svis [20 hours ago]
+да это все равно в подсказке есть 6: В Data-Jpa метод для ссылки на entity (аналог em.getReference) : T getOne(ID id)
+
+
+Joanna [Yesterday at 3:10 PM]
+здравствуйте, подскажите пожалуйста, в классе MealServiceImpl repository подчеркивается красным, так как оно не может сделать autowired, поскольку есть несколько бинов. В Maven -> Profiles стоит hsqldb, в файле spring-db.xml - Change Profiles ->hsqldb. Тесты и сервлет вылетают с ошибкой: Caused by: org.springframework.beans.factory.NoUniqueBeanDefinitionException: No qualifying bean of type 'ru.javawebinar.topjava.repository.MealRepository' available: expected single matching bean but found 4: inMemoryMealRepositoryImpl,dataJpaMealRepositoryImpl,jdbcMealRepositoryImpl,jpaMealRepositoryImpl. C переключанием профилей вроде норм, единственное что знаю это @Qualifier, но есть ли другой способ и в чем подвох? Как сделать так чтобы эти бины не стикались?
+
+
+20 replies
+Yevhen Maksymovych [1 day ago]
+разделить по профилям в конфигурации спринга
+
+
+Yevhen Maksymovych [1 day ago]
+ну и, соответственно, при запуске тестов указывать, какой профиль использовать
+
+
+Joanna [1 day ago]
+https://github.com/JolaPsh/topjava/blob/HW05/src/main/resources/spring/spring-db.xml
+src/main/resources/spring/spring-db.xml
+```<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"```
+Show more…
+JolaPsh/topjavaAdded by GitHub
+
+
+Joanna [1 day ago]
+а если  уже разделила?
+
+Yevhen Maksymovych [1 day ago]
+```<context:component-scan base-package="ru.javawebinar.**.repository"/>```
+
+
+Yevhen Maksymovych [1 day ago]
+вот эта штука у тебя сидит вне профилей, она просканирует все репозитории, и все загрузит в контекст
+
+
+Yevhen Maksymovych [1 day ago]
+независимо от того, какой профиль ты выберешь
+
+
+Yevhen Maksymovych [1 day ago]
+потому все четыре туда и падают
+
+
+
+Joanna [1 day ago]
+спасибо большое, а то я бы долго думала, че с этим делать) буду исправлять, но уже другие ошибки:relaxed:
+
+Yevhen Maksymovych [1 day ago]
+:+1:
+
+e.pekhterev [1 day ago]
+@Joanna *_HW05_Not_finished_yet_* - шикарнейшее имя для коммитов))
+
+
+
+Joanna [24 hours ago]
+ну блин.........а у тя как?
+
+
+e.pekhterev [24 hours ago]
+я обычно коммичу каждый выполненный пункт дз
+
+e.pekhterev [24 hours ago]
+1.png
+
+
+e.pekhterev [24 hours ago]
+оно хотя бы понятно потом, что в каждом коммите есть
+
+
+Joanna [23 hours ago]
+по-рабочему
+
+e.pekhterev [23 hours ago]
+лучше сейчас уже привыкать делать правильно, чем получать по рукам на работе
+
+Joanna [23 hours ago]
+ок, буду исправляться:jack_o_lantern:
+
+
+Joanna [23 hours ago]
+:skull:
+
+
+e.pekhterev [23 hours ago]
+)))
+
+
+Merkulov [Yesterday at 4:34 PM]
+При получении пользователя с едой не проходит тест, пишет что данные еды не совпадают с ожидаемым результатом, хотя полностью уже все перепроверил данные идентичны , в чем может еще быть проблема ?
+Сравниваю вот так :
+```assertThat(actual).isEqualToIgnoringGivenFields(expected, "registered", "roles");```
+
+
+9 replies
+vch [23 hours ago]
+а если в 2 этапа проверку сделать - проверять поля юзера без еды? И отдельно - лист с едой сравнить с эталонным?
+
+
+Merkulov [23 hours ago]
+без еды проходит, а с едой нет
+
+vch [23 hours ago]
+зачем тебе сразу с едой проверять? Ты ведь уже игнорируешь часть полей при сравнении. Добавь в игнорирование поле `meals`
+
+
+Merkulov [23 hours ago]
+ну это ведь по заданию нужно сравнить еду пользователя
+
+Merkulov [23 hours ago]
+кстати когда проверяешь по отдельности все работает
+
+
+vch [23 hours ago]
+Но не написано, что это должен быть 1 вызов `assertThat`. Можно 2 раза вызвать - отдельно юзера с игнором еды и отдельно еду
+
+
+Merkulov [23 hours ago]
+нужно разобраться почему не работает за один вызов
+
+Merkulov [23 hours ago]
+интересно, может как-то кеш влияет, хотя вроде как перед каждым тестом идет его очищение, непонятно
+
+
+Merkulov [23 hours ago]
+проверяю по отдельности вот так :
+```// FIXME
+    @Test
+    public void getByIdWithMeals() throws Exception {
+        User actual = service.getByIdWithMeals(ADMIN_ID);
+        UserTestData.assertMatch(actual, UserTestData.ADMIN);
+        MealTestData.assertMatch(actual.getMeals(), MealTestData.ADMIN_MEAL2, MealTestData.ADMIN_MEAL1);
+    }```
+
+
+Prodigy [Yesterday at 5:14 PM]
+Народ, кто-то как-то изгалялся с названиями методов в CrudMealRepository или писали запросы вручную?
+
+
+28 replies
+Join_Selectovich [23 hours ago]
+конечно эксеперементировали :microscope:
+
+
+Prodigy [23 hours ago]
+получилось что-то?
+
+
+Join_Selectovich [22 hours ago]
+ну да
+
+
+e.pekhterev [22 hours ago]
+только с методом getWithUser не вышло магию применитьь
+
+
+e.pekhterev [22 hours ago]
+остальные методы отлично на черненькой работают без доп. квери
+
+Johann [22 hours ago]
+вся реализация получается без запросов, кроме getWithUser, как уже подметили
+
+Join_Selectovich [22 hours ago]
+поля user в таблице нет - поэтому и не работает (edited)
+
+Prodigy [22 hours ago]
+getWithUser это вы имеете ввиду получить всю еду пользователя?
+
+
+e.pekhterev [22 hours ago]
+вот тут почитай - буквально только что обсуждали всё это - https://topjava14.slack.com/archives/CBX6WTJQ2/p1532938247000229
+Rey
+В crud interface для выборки еды можно создать методы:
+1) getAllByUserId
+2) getAllByUser_Id
+причем они работают одинаково, но наверное в первом случае обращение к таблице идет через поле класса, а во втором случае наверное напрямую к полю таблицы. Так или нет? как думаете ?
+Thread in #hw5Jul 30th at 11:10 AM
+
+
+e.pekhterev [22 hours ago]
+и ещё выше было тоже обсуждение
+
+
+e.pekhterev [22 hours ago]
+@Prodigy нет, getWithUser - получить один meal по его id и при этом чтоб юзер у него в поле был не лейзи
+
+
+Prodigy [21 hours ago]
+и с between получилось?
+
+Prodigy [21 hours ago]
+чет не найду ничего внятного
+
+dimlo [21 hours ago]
+получилось
+
+
+dimlo [21 hours ago]
+https://docs.spring.io/spring-data/jpa/docs/current/reference/html/
+find between по документу)
+
+
+Prodigy [21 hours ago]
+эээ.... я тут смотрел уже, но у нас же специфичный метод с тремя аргументами..... но я выкрутился, длинный метод получился)
+
+
+e.pekhterev [21 hours ago]
+только на магии или с доп. квери?
+
+dimlo [21 hours ago]
+ну да, у меня тоже
+
+dimlo [21 hours ago]
+@e.pekhterev только
+
+e.pekhterev [21 hours ago]
+ну оно и правильно - что квери был бы длинный, что название метода, которое будет разобрано для получения этого же квери
+
+
+Prodigy [21 hours ago]
+ага, без доп квери
+
+tim [20 hours ago]
+А с сортировкой пробовали по типу:    List<Meal> findAllByUserIdSort(int userId, Sort sort);
+
+
+tim [20 hours ago]
+у меня не заработало...
+
+
+Prodigy [20 hours ago]
+а так `OrderByDateTimeDesc` не работало?
+
+tim [20 hours ago]
+Так не пробовал а где все эти ключевые  слова можно увидеть в одной табличке?
+
+Prodigy [20 hours ago]
+чуть выше ссылку давали
+
+tim [20 hours ago]
+Спасибо! Так работает:slightly_smiling_face:
+
+
+Kirilo [5 hours ago]
+идея сама подсказывает что писать, главное подбирать :slightly_smiling_face: Все довольно логично и интуитивно понятно сделано (edited)
+
+
+Join_Selectovich [Yesterday at 8:50 PM]
+Товарищи подскажите пожалуйста, может кто на такую ошибку натыкался после переключения БД на HSQLDB получаю для JDBC реализации
+_org.springframework.jdbc.BadSqlGrammarException: PreparedStatementCallback; bad SQL grammar [SELECT * FROM meals WHERE user_id=?  AND date_time BETWEEN  ? AND ? ORDER BY date_time DESC]; nested exception is java.sql.SQLSyntaxErrorException: incompatible data type in conversion_ (edited)
+
+
+3 replies
+Yevhen Maksymovych [19 hours ago]
+hsqldb нашей версии не умеет в LocalDateTime
+
+
+
+Join_Selectovich [19 hours ago]
+аааа..... точно (edited)
+
+
+Kirilo [4 hours ago]
+Кстати, H2 поддерживает: https://marschall.github.io/2017/01/11/h2-310.html (edited)
+
+
+stea1th [Yesterday at 11:46 PM]
+товарищи, так сколько должно быть классов в 3 задании?
+
+
+9 replies
+Join_Selectovich [16 hours ago]
+у меня было 2 а стало 9
+
+
+
+e.pekhterev [16 hours ago]
+у меня было 2, а стало 11)))
+
+
+stea1th [16 hours ago]
+ого
+
+
+stea1th [16 hours ago]
+а зачем столько?
+
+
+stea1th [16 hours ago]
+мне только для 3 задания.. без опционала
+
+
+Join_Selectovich [16 hours ago]
+почитай 5ый пункт и по подсказкам пройдись
+
+
+stea1th [16 hours ago]
+я пока до пятого пункта не дошел... меня интересуе количество классов для 3 пункта
+
+stea1th [16 hours ago]
+как я понял для 3-его пункта достаточно 3 классов... 1 общий абстрактный и два наших старых класса, унаследованные от него?
+
+
+Join_Selectovich [16 hours ago]
+да, и для каждой реализации репозитария еще т.е. умножай на 3
+
+
+Join_Selectovich [Today at 12:01 AM]
+Не пойму как подступиться к пункту 
+*5: Разделить JdbcMealRepositoryImpl для HSQLDB (она не умеет работать с Java8 Time API) и Postgres через @Profile (для Postgres оставить LocalDateTime).*  дайте пожалуйста наводку :slightly_smiling_face:
+
+
+55 replies
+Victor_D [16 hours ago]
+2: В реализациях JdbcMealRepository код не должен дублироваться (edited)
+
+
+
+zippospb [16 hours ago]
+Hsqldb не понимает localDateTime. Ему подавай вариант из java.util.date. Разделение реализаций надо будет с помощью паттерна шаблонный метод
+
+
+Victor_D [16 hours ago]
+там скорее java.sql.Timestamp
+
+zippospb [16 hours ago]
+Так он из этого пакета и есть (edited)
+
+zippospb [16 hours ago]
+Аа не
+
+zippospb [16 hours ago]
+Он экстендит java.util.date наврал
+
+Join_Selectovich [16 hours ago]
+А, так получается 2 реализации ЖиДиБиСи реопзитория нужно запилить...
+
+zippospb [16 hours ago]
+Ага
+
+
+Victor_D [16 hours ago]
+можно и окольными путями пойти...
+
+
+zippospb [16 hours ago]
+Окольными? Там же сказано, каким именно путем пойти
+
+Victor_D [16 hours ago]
+После выполнения разделения можно предложить решение проще.
+
+zippospb [16 hours ago]
+Блин. Согласен
+
+
+
+Stanislav [16 hours ago]
+Наводка: паттерн шаблонный метод можно инкапсулировать. (edited)
+
+
+Stanislav [15 hours ago]
+По поводу
+```решение проще```
+выше уже обсуждали, делается 1 строчкой.
+
+
+Join_Selectovich [15 hours ago]
+я так понял в 5ом пункте @Profile = @ActiveProfile имелся в виду? (edited)
+
+
+Join_Selectovich [15 hours ago]
+Пытаюсь понять:
+_Например при сконфигуренном @Profile({"postgres","jdbc"}) бин попадет в контекст, если в профилях запущенного приложения есть хотя бы один из них (например "jdbc")._
+т.е. если включена БД постгрес - то в контейнер бинов подгрузятся экземпляры спрофилированные в jdbc разделе, так что-ли? (edited)
+
+
+Alexander Pilipenko [15 hours ago]
+Одной строчкой сразу в 2 методах ?
+
+Victor_D [15 hours ago]
+@Join_Selectovich `@Profile({"postgres", "jdbc"}) - бин под этой аннотацией будет работать, если будут выбраны профайлы  postgres и jdbc
+https://dzone.com/articles/using-spring-profiles-xml (edited)
+
+
+Join_Selectovich [7 hours ago]
+Блин, так тут речь шла о профилях Maven.... теперь все понятно стало
+
+Kirilo [6 hours ago]
+а ты запусти тесты с включенным только профилем hsqldb в maven
+
+Join_Selectovich [6 hours ago]
+я запускал
+
+
+Kirilo [6 hours ago]
+Сразу видно какие методы отвалились
+
+Join_Selectovich [6 hours ago]
+create , update , between - все кто с датой работают (edited)
+
+
+Kirilo [6 hours ago]
+не. Открой jdbc и увидешь (edited)
+
+
+Kirilo [6 hours ago]
+у нас же save - это и create и update
+
+
+Kirilo [6 hours ago]
+https://stackoverflow.com/questions/8992282/convert-localdate-to-localdatetime-or-java-sql-timestamp
+Stack Overflow
+Convert LocalDate to LocalDateTime or java.sql.Timestamp
+I am using JodaTime 1.6.2. I have a LocalDate that I need to convert to either a (Joda) LocalDateTime, or a java.sqlTimestamp for ormapping. The reason for this is I have figured out how to convert
+ 
+
+
+Kirilo [6 hours ago]
+Я вот так сделал: @Profile(Profiles.HSQL_DB)
+public class HsqlJdbcMealRepositoryImp extends AbstractJdbcMealRepositoryImpl {....
+}
+
+
+
+Kirilo [6 hours ago]
+В тестах тоже можно дебажить, тогда видно в каком ты профиле находишься, когда проганяется каждый метод теста (edited)
+
+Alexander Pilipenko [5 hours ago]
+@Kirilo А можно скриншот, где это указано? (edited)
+
+
+Kirilo [5 hours ago]
+меняешь профиль и проганяешь тесты. Сразу видишь где остановится, с каким профилем (edited)
+
+Alexander Pilipenko [5 hours ago]
+Так поэтому и спросил, что не вижу
+
+Alexander Pilipenko [5 hours ago]
+Pasted image at 2018-08-01, 10:54 AM
+
+
+
+Kirilo [5 hours ago]
+В даном случае профиль базы в maven галочки ставим/убираем, а профиль реализации репозитория в файле Profiles
+
+Alexander Pilipenko [5 hours ago]
+:disappointed:
+
+
+Alexander Pilipenko [5 hours ago]
+А так хотелось зайти в отладку и увидеть какой точно профиль выбран
+
+
+Alexander Pilipenko [5 hours ago]
+А не смотреть в maven
+
+Kirilo [5 hours ago]
+Я ставил брекпойнты в методах тестов, менял значения константы REPOSITORY_IMPLEMENTATION = ... И запускал тесты, а базы в maven галочки переставлял (edited)
+
+Alexander Pilipenko [5 hours ago]
+Пока нашел только такой вариант, который действительно показывает  задействованные профили:
+
+Добавляем туда, где нужно отлаживаться (например в тест)
+@Autowired
+   public org.springframework.core.env.Environment env;
+
+После этого в этой переменной можно увидеть activeProfiles
+
+
+Alexander Pilipenko [5 hours ago]
+Pasted image at 2018-08-01, 11:04 AM
+
+
+
+Kirilo [5 hours ago]
+ну, да. В отладке есть. Но мне так дольше было искать, чем просто править, запускать дебаг и смотреть в каком файле остановка. Я выбирал всю папку service. А Идея, заметил, подглючивает даже с раскраской профилей. (edited)
+
+Alexander Pilipenko [5 hours ago]
+В файл мы можем попасть по разным профилям да еще и по ошибке.
+
+
+Kirilo [5 hours ago]
+мы видим какой профиль задействован
+
+Kirilo [5 hours ago]
+из-за того, что у нас в рантайме подмена реализации
+
+
+Alexander Pilipenko [5 hours ago]
+Ок. У нас 2 БД postgres. DEV и TEST. Соответствующие профили.
+Мы попадаем в 1 и тот же метод
+Если не прописывать org.springframework.core.env.Environment env
+Где посмотреть по какому профилю я пошел? (edited)
+
+
+Kirilo [5 hours ago]
+одну только выбирать (edited)
+
+Kirilo [5 hours ago]
+Я не заморачивался так. Просто галочку в maven снимал и оставлял только одну из двух
+
+
+Alexander Pilipenko [5 hours ago]
+Так база одна и таже :slightly_smiling_face: В мавен тот же профиль
+
+
+Kirilo [5 hours ago]
+так у нас два профиля
+
+Kirilo [5 hours ago]
+для базы и для репозиториев (edited)
+
+Alexander Pilipenko [5 hours ago]
+А еще наше приложение работает с 2 установленными галочками в maven
+
+
+Kirilo [5 hours ago]
+одну оставлять нужно Иначе не поймешь (edited)
+
+Kirilo [5 hours ago]
+Потому, как по умолчанию постгрес выбирается (edited)
+
+
+Kirilo [5 hours ago]
+вторая только по экзепшину выберется в таком случае (edited)
+
+Alexander Pilipenko [5 hours ago]
+:slightly_smiling_face:
+
+Kirilo [5 hours ago]
+public class Profiles {
+   public static final String
+           JDBC = "jdbc",
+           JPA = "jpa",
+           DATAJPA = "datajpa";
+
+   public static final String REPOSITORY_IMPLEMENTATION = JPA;
+
+   public static final String
+           POSTGRES_DB = "postgres",
+           HSQL_DB = "hsqldb";
+
+   //  Get DB profile depending of DB driver in classpath
+   public static String getActiveDbProfile() {
+       try {
+           Class.forName("org.postgresql.Driver");
+           return POSTGRES_DB;
+       } catch (ClassNotFoundException ex) {
+           try {
+               Class.forName("org.hsqldb.jdbcDriver");
+               return Profiles.HSQL_DB;
+           } catch (ClassNotFoundException e) {
+               throw new IllegalStateException("Could not find DB driver");
+           }
+       }
+   }
+}
+
+
+Andrew [Today at 12:32 AM]
+Народ, а есть какие сылочки по профилированию? Проблема возникает при работе с профилем (beans profile не видит datasource) в то же время если прописываю datasource, как простой бин приложение работает, знать бы хоть в каком направлении смотреть...
+
+
+10 replies
+Join_Selectovich [15 hours ago]
+что значит _beans profile не видит datasource_ ?
+
+
+Victor_D [15 hours ago]
+ссылки из дз https://dzone.com/articles/using-spring-profiles-xml
+https://www.mkyong.com/spring/spring-profiles-example/
+dzone.com
+Using Spring Profiles in XML Config - DZone Java
+Learn how to use spring profiles in an XML config with this great tutorial. (22 kB)
+
+
+Prodigy [14 hours ago]
+статья, увы, не раскрывает тему вложенных бинов, а только краем ее касается. Тоже какая-то лабуда с профайлами
+
+
+Kirilo [5 hours ago]
+Мне очень здорово помог дебаг. Ставишь брекпойнты на все свои методы и запускаешь тесты. А дальше крутишь свои профили как хочешь и снова запускаешь тесты (edited)
+
+
+Prodigy [5 hours ago]
+у него проблема в том что он сделал вложенные бины а активные профиля в тестах не указал, поэтому ничего не видит
+
+Kirilo [5 hours ago]
+Я заметил, что с каждым уроком все тяжелее делать задания. Столько подводных камней всплывает.
+
+
+Andrew [5 hours ago]
+и где мне ставить брекпойнты в XML ? У меня при запуске простого списка еды вылетает: NoSuchBeanDefinitionException: No bean named 'dataSource' available
+
+
+Kirilo [5 hours ago]
+Помоему, как с профилями работать становится понятно, после второго задания с перетягиванием бинов по профилям в spring-db. Если делать по одному профилю и дебажишь каждый файл репозитория, то все становится ясно (edited)
+
+Kirilo [5 hours ago]
+Сейчас будут работать только тесты
+
+
+Kirilo [5 hours ago]
+А чинится все в optional, когда контекст спринга настраиваешь, добавляя профили (edited)
+
+
+turhanow [Today at 1:57 AM]
+привет всем. у кого то такое было?
+`Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'ru.javawebinar.topjava.repository.MealRepository' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}`
+
+не могу вылечить...
+
+
+41 replies
+Prodigy [14 hours ago]
+с профайлами небось воюешь?... как я тебя понимаю
+
+
+turhanow [14 hours ago]
+иногда у меня складывается впечатление, что я тупее других в группе...:white_frowning_face:
+
+
+Prodigy [14 hours ago]
+у меня та же проблема, пока не понимаю где я че упустил и как оно структурно должно быть
+
+Prodigy [14 hours ago]
+я по поводу профайлов
+
+turhanow [14 hours ago]
+соответсвенно я даже не знаю проходят тесты или нет, потому базовую часть не получается выполнить..
+
+
+Prodigy [14 hours ago]
+ты сначала по профайлам разнес всё ?
+
+Prodigy [14 hours ago]
+у меня такая фигня после разнесения по профайлам конфигурации
+
+
+turhanow [14 hours ago]
+то есть тесты до разнесения у тебя ок? (edited)
+
+
+Prodigy [14 hours ago]
+ага
+
+Victor [13 hours ago]
+чтобы тесты сделать, копируйте нужные бины из профайлов в основную часть (временно)
+а победить их тяжело, у меня много времени ушло.
+
+
+Victor [13 hours ago]
+Что интересно, у меня уже 3мя способами получилось сделать, может еще и четвертый получиться осилить.:face_with_head_bandage: (edited)
+
+
+Prodigy [13 hours ago]
+судя по ошибке он не видит реализацию MealRepository, т.е. он ВООБЩЕ не видит что у нас во вложеных <beans profile=
+
+
+Prodigy [13 hours ago]
+куда воткнуть аннотацию @Profile
+
+Prodigy [13 hours ago]
+а так вообще правильно сделать `@ActiveProfiles(profiles = {"hsqldb","jpa"})` ?.... так все работает (edited)
+
+
+Kirilo [4 hours ago]
+:slightly_smiling_face: У нас же должно выбираться, через галочки. (edited)
+
+
+Kirilo [4 hours ago]
+@Repository
+@Profile(Profiles.HSQL_DB)
+
+Prodigy [4 hours ago]
+над репозиторием профайл?... это было неожиданно.... а куда тогда воткнуть `Profiles.JPA` ?
+
+
+Prodigy [4 hours ago]
+шото с этими профилями много вопросов и мало ответов
+
+Kirilo [4 hours ago]
+а то уже из другой оперы
+
+
+Kirilo [4 hours ago]
+У нас два профиля. Один на базу, другой на репозитории (edited)
+
+
+Kirilo [4 hours ago]
+Мы не должны жестко прикручивать профиль к файлам
+
+Kirilo [4 hours ago]
+Это только для конкретного случая с jdbc и hsqldb
+
+
+Kirilo [4 hours ago]
+У нас все конфигурится через спринг контекст и maven, когда мы переставляем галочки перед запуском. (edited)
+
+Kirilo [3 hours ago]
+Для начала нужно запустить все тесты, а в задании optional все остальное чинится.
+
+
+dimlo [3 hours ago]
+Я остановился на следующем варианте: после разделения тестов ActiveProfiles(resolver = ...) поставил над AbstractTest (класс, от которого наследую все тесты), а над каждым тестом указал профиль реализации
+
+
+Kirilo [3 hours ago]
+Ну, да. Для тестов так и требовалось, над каждым свой профиль, но я вот, так делал, например, @ActiveProfiles(Profiles.DATAJPA) (edited)
+
+Maksim K [3 hours ago]
+@turhanow у тебя эта ошибка скорее всего из-за того, что ты в ...ServiceTest не указываешь какой профиль доступа к БД использовать. то есть для выполнения тестов тебе нужно подконектиться к бд, а тесты не могут найти хоть какую реализацию.
+
+
+Maksim K [3 hours ago]
+или ты указываешь, но неправильно)
+
+Kirilo [3 hours ago]
+Чтобы понять, нужно на всех методах в реализациях репозиториев брекпойнты поставить и запустить все тесты. Если нигде не остановится, значит профиль вообще не выбран.
+
+Prodigy [3 hours ago]
+@Kirilo а смысл тогда над репозиторием ставить аннотацию `@Profile`? тогда какой толк будет от переключения галочек, если придется ходить в каждый репозиторий и менять вручную профиль
+
+
+Kirilo [3 hours ago]
+А там задание есть, нужно разделить (edited)
+
+
+Kirilo [3 hours ago]
+Optional
+
+   5: Разделить JdbcMealRepositoryImpl для HSQLDB (она не умеет работать с Java8 Time API) и Postgres через @Profile (для Postgres оставить LocalDateTime).
+
+
+Prodigy [3 hours ago]
+ну ладно... я еще до этого не дошел. То есть, мы накидываем на каждый тест активные профиля и это будет правильным решением?
+
+
+Kirilo [3 hours ago]
+@Prodigy Толк будет только в момент конфигурации спринга. Там подмениваем константы, когда выбираем галочки. Это уже в Optional (edited)
+
+
+Kirilo [3 hours ago]
+3: Сделать тесты всех реализаций (jdbc, jpa, datajpa) через наследование (без дублирования)
+
+   3.1 сделать один базовый класс для MealServiceTest и UserServiceTest.
+
+Prodigy [3 hours ago]
+хорошо, делаем базовый класс, а потом мы должны от каждого *ServiceTest сделать наследников для каждой реализации?(jdbc,jpa,datajpa) (edited)
+
+
+Kirilo [3 hours ago]
+логично. И как думаешь, что там поменяется у них?
+
+Prodigy [3 hours ago]
+ну видимо только @ActiveProfile
+
+Kirilo [3 hours ago]
+:slightly_smiling_face:
+
+
+Kirilo [3 hours ago]
+Класно тут Григорий с ООП, тестами и контекстом спринга понакручивал, сразу все проходишь, заодно и дебаг, и идею изучаешь. (edited)
+
+
+Prodigy [3 hours ago]
+ага, без сто грамм не разобраться)
+
+
+stea1th [Today at 1:04 PM]
+ребята, а кто что делал, чтоб тесты не копились?
+
+
+17 replies
+Kirilo [3 hours ago]
+Третье задание?
+
+
+stea1th [3 hours ago]
+вот это : 9: Проверьте, что все тесты запускаются из Maven (имена классов тестов удовлетворяют соглашению) и итоги тестов класса выводятся корректно (не копятся)
+
+
+Kirilo [3 hours ago]
+Это знает только Григорий, наверное :slightly_smiling_face:
+
+
+stea1th [3 hours ago]
+это мне Таня на ревью написала
+
+
+Kirilo [3 hours ago]
+Надо уточнить, что такое "копятся" :slightly_smiling_face: (edited)
+
+
+stea1th [3 hours ago]
+ну чтобы не повторялись
+
+Stanislav [3 hours ago]
+Если не умеешь читать код, напиши своими словами как формируются итоги в нашем проекте.
+
+
+
+stea1th [3 hours ago]
+---------------------------------
+Test                 Duration, ms
+---------------------------------
+updateNotFound                114
+create                         47
+delete                        182
+getAll                         30
+update                         92
+getNotFound                    27
+deleteNotFound                 16
+get                            19
+getBetween                     39
+updateNotFound                 31
+create                        132
+delete                         18
+getAll                         17
+update                         12
+getNotFound                    11
+deleteNotFound                 12
+get                            23
+getBetween                     19
+updateNotFound                 25
+create                         63
+delete                         24
+getAll                         17
+update                         20
+getNotFound                    18
+deleteNotFound                 69
+get                            25
+getBetween                     26
+create                        218
+delete                         37
+getAll                         18
+update                         24
+getNotFound                    14
+get                            14
+deletedNotFound                13
+getByEmail                     22
+duplicateMailCreate            33
+create                         45
+delete                         21
+getAll                         15
+update                         21
+getNotFound                    12
+get                            12
+deletedNotFound                14
+getByEmail                     20
+duplicateMailCreate            99
+create                         28
+delete                         38
+getAll                         23
+update                         26
+getNotFound                    21
+get                            23
+deletedNotFound                17
+getByEmail                     17
+duplicateMailCreate            21
+---------------------------------
+
+
+stea1th [3 hours ago]
+чтоб видимо такого не было
+
+
+Alexander Pilipenko [3 hours ago]
+проcтыня :slightly_smiling_face: (edited)
+
+
+Alexander Pilipenko [3 hours ago]
+https://topjava14.slack.com/archives/CBX6WTJQ2/p1533118414000099?thread_ts=1533117845.000051&cid=CBX6WTJQ2
+Stanislav Esin
+Если не умеешь читать код, напиши своими словами как формируются итоги в нашем проекте.
+From a thread in #hw5Today at 1:13 PM
+
+
+Alexander Pilipenko [3 hours ago]
+Ну или посмотри в логе. Сначала итог по первому классу тестов. Потом по второму классу тестов.
+
+
+Kirilo [3 hours ago]
+Это для седьмого задания Optional вопрос
+
+Kirilo [3 hours ago]
+Потому как у нас старые тесты не меняются практически
+
+stea1th [3 hours ago]
+нет, это для обычного задания
+
+Kirilo [3 hours ago]
+А как ты умудрился их поменять?
+
+stea1th [3 hours ago]
+короче надо просто каждый раз обнулять стрингбилдер и все
+
+
+Alexander Pilipenko [1:33 PM]
+Начиная со Spring 5.1 можно будет в @Profile использовать операцию AND: https://jira.spring.io/browse/SPR-12458 (edited)
+
+
+Макс Куркудюк [Today at 3:26 PM]
+У мене після останнього патча не робить жоден тест...
+java.lang.IllegalStateException: Failed to load ApplicationContext
+...
+Caused by: java.lang.ClassNotFoundException: com.sun.xml.internal.bind.v2.ContextFactory
+
+Може у когось була така проблема... (edited)
+
+
+10 replies
+Maksim K [24 minutes ago]
+скинь всю ошибку
+
+
+Макс Куркудюк [16 minutes ago]
+Новый текстовый документ.txt
+java.lang.IllegalStateException: Failed to load ApplicationContext
+  at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:125)
+  at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:108)
+  at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.injectDependencies(DependencyInjectionTestExecutionListener.java:117)
+  at org.springframework.test.context.support.DependencyInjectionTestExecutionListener.prepareTestInstance(DependencyInjectionTestExecutionListener.java:83)
+  at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:246)
+  at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.createTest(SpringJUnit4ClassRunner.java:227)
+  at org.springframework.test.context.junit4.SpringJUnit4ClassRunner$1.runReflectiveCall(SpringJUnit4ClassRunner.java:289)
+  at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:12)
+  at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.methodBlock(SpringJUnit4ClassRunner.java:291)
+  at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:246)
+  at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.runChild(SpringJUnit4ClassRunner.java:97)
+  at org.junit.runners.ParentRunner$3.run(ParentRunner.java:290)
+  at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:71)
+  at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:288)
+  at org.junit.runners.ParentRunner.access$000(ParentRunner.java:58)
+  at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:268)
+  at org.springframework.test.context.junit4.statements.RunBeforeTestClassCallbacks.evaluate(RunBeforeTestClassCallbacks.java:61)
+  at org.springframework.test.context.junit4.statements.RunAfterTestClassCallbacks.evaluate(RunAfterTestClassCallbacks.java:70)
+  at org.junit.runners.ParentRunner.run(ParentRunner.java:363)
+  at org.springframework.test.context.junit4.SpringJUnit4ClassRunner.run(SpringJUnit4ClassRunner.java:190)
+  at org.junit.runner.JUnitCore.run(JUnitCore.java:137)
+  at com.intellij.junit4.JUnit4IdeaTestRunner.startRunnerWithArgs(JUnit4IdeaTestRunner.java:68)
+  at com.intellij.rt.execution.junit.IdeaTestRunner$Repeater.startRunnerWithArgs(IdeaTestRunner.java:47)
+  at com.intellij.rt.execution.junit.JUnitStarter.prepareStreamsAndStart(JUnitStarter.java:242)
+  at com.intellij.rt.execution.junit.JUnitStarter.main(JUnitStarter.java:70)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [spring/spring-db.xml]: Cannot create inner bean 'org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter#2a8d39c4' of type [org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter] while setting bean property 'jpaVendorAdapter'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter#2a8d39c4' defined in class path resource [spring/spring-db.xml]: Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.config.internalCacheAdvisor': Cannot resolve reference to bean 'org.springframework.cache.annotation.AnnotationCacheOperationSource#0' while setting bean property 'cacheOperationSource'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.annotation.AnnotationCacheOperationSource#0': Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.config.internalJCacheAdvisor': Cannot resolve reference to bean 'org.springframework.cache.jcache.interceptor.DefaultJCacheOperationSource#0' while setting bean property 'cacheOperationSource'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.interceptor.DefaultJCacheOperationSource#0': Cannot resolve reference to bean 'ehCacheManager' while setting bean property 'cacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'ehCacheManager' defined in class path resource [spring/spring-tools.xml]: Cannot create inner bean 'org.springframework.cache.jcache.JCacheManagerFactoryBean#38234a38' of type [org.springframework.cache.jcache.JCacheManagerFactoryBean] while setting bean property 'cacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.JCacheManagerFactoryBean#38234a38' defined in class path resource [spring/spring-tools.xml]: Invocation of init method failed; nested exception is javax.cache.CacheException: org.ehcache.xml.exceptions.XmlConfigurationException: Error parsing XML configuration at file:/D:/Project/topjava/target/classes/cache/ehcache.xml
+  at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveInnerBean(BeanDefinitionValueResolver.java:327)
+  at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:124)
+  at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1611)
+  at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1363)
+  at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:580)
+  at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:503)
+  at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:317)
+  at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+  at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315)
+  at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+  at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1089)
+  at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:859)
+  at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+  at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:128)
+  at org.springframework.test.context.support.AbstractGenericContextLoader.loadContext(AbstractGenericContextLoader.java:60)
+  at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.delegateLoading(AbstractDelegatingSmartContextLoader.java:107)
+  at org.springframework.test.context.support.AbstractDelegatingSmartContextLoader.loadContext(AbstractDelegatingSmartContextLoader.java:243)
+  at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:99)
+  at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:117)
+  ... 24 more
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter#2a8d39c4' defined in class path resource [spring/spring-db.xml]: Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.config.internalCacheAdvisor': Cannot resolve reference to bean 'org.springframework.cache.annotation.AnnotationCacheOperationSource#0' while setting bean property 'cacheOperationSource'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.annotation.AnnotationCacheOperationSource#0': Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.config.internalJCacheAdvisor': Cannot resolve reference to bean 'org.springframework.cache.jcache.interceptor.DefaultJCacheOperationSource#0' while setting bean property 'cacheOperationSource'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.interceptor.DefaultJCacheOperationSource#0': Cannot resolve reference to bean 'ehCacheManager' while setting bean property 'cacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'ehCacheManager' defined in class path resource [spring/spring-tools.xml]: Cannot create inner bean 'org.springframework.cache.jcache.JCacheManagerFactoryBean#38234a38' of type [org.springframework.cache.jcache.JCacheManagerFactoryBean] while setting bean property 'cacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.JCacheManagerFactoryBean#38234a38' defined in class path resource [spring/spring-tools.xml]: Invocation of init method failed; nested exception is javax.cache.CacheException: org.ehcache.xml.exceptions.XmlConfigurationException: Error parsing XML configuration at file:/D:/Project/topjava/target/classes/cache/ehcache.xml
+  at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:589)
+  at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:503)
+  at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveInnerBean(BeanDefinitionValueResolver.java:312)
+  ... 42 more
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.config.internalCacheAdvisor': Cannot resolve reference to bean 'org.springframework.cache.annotation.AnnotationCacheOperationSource#0' while setting bean property 'cacheOperationSource'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.annotation.AnnotationCacheOperationSource#0': Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.config.internalJCacheAdvisor': Cannot resolve reference to bean 'org.springframework.cache.jcache.interceptor.DefaultJCacheOperationSource#0' while setting bean property 'cacheOperationSource'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.interceptor.DefaultJCacheOperationSource#0': Cannot resolve reference to bean 'ehCacheManager' while setting bean property 'cacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'ehCacheManager' defined in class path resource [spring/spring-tools.xml]: Cannot create inner bean 'org.springframework.cache.jcache.JCacheManagerFactoryBean#38234a38' of type [org.springframework.cache.jcache.JCacheManagerFactoryBean] while setting bean property 'cacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.JCacheManagerFactoryBean#38234a38' defined in class path resource [spring/spring-tools.xml]: Invocation of init method failed; nested exception is javax.cache.CacheException: org.ehcache.xml.exceptions.XmlConfigurationException: Error parsing XML configuration at file:/D:/Project/topjava/target/classes/cache/ehcache.xml
+  at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:378)
+  at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:110)
+  at org.sp...
+Collapse This snippet was truncated for display: see it in full.
+
+
+Alexander Pilipenko [7 minutes ago]
+Может я не прав, но в ошибке есть: Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [spring/spring-db.xml]: Cannot create inner bean 'org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter#2a8d39c4'
+
+
+Alexander Pilipenko [6 minutes ago]
+У тебя профиль spring в тесте и профиль maven одинаковые?
+
+
+Alexander Pilipenko [5 minutes ago]
+Ну и попробуй maven clean, а затем реимпорт в мавене
+
+
+Макс Куркудюк [5 minutes ago]
+Так, postgres в обох випадках..
+
+Maksim K [5 minutes ago]
+а джава какая стоит?
+
+
+Макс Куркудюк [2 minutes ago]
+jdk-9.0.4
+
+Maksim K [1 minute ago]
+:grin:
+
+
+Макс Куркудюк [< 1 minute ago]
+maven clean і реимпорт в мавене не допомогли..
+
+Макс Куркудюк [< 1 minute ago]
+Просто до останнього патча - всі тести працювали.. Перевіряв.
+
+Maksim K [< 1 minute ago]
+`<dependency>
+           <groupId>javax.annotation</groupId>
+           <artifactId>javax.annotation-api</artifactId>
+           <version>1.3.1</version>
+       </dependency>
+       <dependency>
+           <groupId>javax.xml.bind</groupId>
+           <artifactId>jaxb-api</artifactId>
+           <version>2.3.0</version>
+       </dependency>
+       <dependency>
+           <groupId>com.sun.xml.bind</groupId>
+           <artifactId>jaxb-core</artifactId>
+           <version>2.3.0</version>
+       </dependency>
+       <dependency>
+           <groupId>com.sun.xml.bind</groupId>
+           <artifactId>jaxb-impl</artifactId>
+           <version>2.3.0</version>
+       </dependency>`
+в помнике это попробуй прописать
