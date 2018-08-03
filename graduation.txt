@@ -634,3 +634,164 @@ Join_Selectovich [1 day ago]
 
 Grigory Kislin [1 day ago]
 если я правильно понял проблему- к базе может приконнектится либо приложение, либо тесты, либо ты сам (те нельзя одновременно) (edited)
+
+
+Jury Mironov [Aug 2nd at 9:52 AM]
+Всем привет. Как лучше реализовать счетчик , чтобы не было проблем с многопоточностью? В итоговом задании нужно считать голоса для ресторана. У меня счетчик - поле класса, который кладется в БД. Можно сделать atomic Intrger, но в базе нет такого типа данных
+
+
+32 replies
+Stanislav [1 day ago]
+https://stackoverflow.com/questions/46173921/how-to-persist-an-atomicinteger-in-hibernate-instead-of-integer
+Stack Overflow
+How to persist an AtomicInteger in hibernate instead of Integer?
+I try to persist an object that have an AtomicInteger variable instead of an Integer using the hibernate java framework (I need use the object in a thread safe scenario after save it) but when i t...
+ 
+
+
+Stanislav [1 day ago]
+Но то как ты реализовываешь, не очень нравится
+
+Stanislav [1 day ago]
+Это по сути аналог DTO MealWithExceed свойство exceed
+
+
+Jury Mironov [1 day ago]
+exceed же булеан
+
+
+Alexander Pilipenko [1 day ago]
+А в чем разница?
+
+e.pekhterev [1 day ago]
+я бы не делал этот счётчик внутри ресторана
+
+
+Alexander Pilipenko [1 day ago]
+ИМХО я бы вообще не делал счетчик. И даже считал голоса с помощью БД
+
+Jury Mironov [1 day ago]
+можно и так, думал об этом
+
+Stanislav [1 day ago]
+sql count (edited)
+
+
+Jury Mironov [1 day ago]
+типа в отдельную таблицу сложить все голоса, а потом посчитать?
+
+
+e.pekhterev [1 day ago]
+ну я пока в эту сторону смотрю
+
+e.pekhterev [1 day ago]
+ведь голоса у нас динамичны до 11.00
+
+e.pekhterev [1 day ago]
+да и они зависят от даты, поэтому ну просто не выжу смысла заталкивать такую переменную в ресторан (edited)
+
+Stanislav [1 day ago]
+Голос отдельная сущность
+
+e.pekhterev [1 day ago]
+это кто сказал)??
+
+
+Stanislav [1 day ago]
+У Меня Голос отдельная сущность - я сказал :wink:
+
+
+e.pekhterev [1 day ago]
+@Stanislav а дальше как? ресторан имеет ленивую коллекцию *голоса*?
+
+Stanislav [1 day ago]
+@e.pekhterev нет :slightly_smiling_face:
+
+
+Stanislav [1 day ago]
+Я голосую не за ресторан
+
+
+e.pekhterev [1 day ago]
+@Stanislav я думал в другую сторону. делаем табличку 
+дата, user_id, restaurant_id
+в эту табличку каждый юзер может писать (отдавать голос или изменять его) до 11.00
+
+
+e.pekhterev [1 day ago]
+параллельная таблица
+дата, ресторан_id, menu_id
+
+
+Stanislav [1 day ago]
+можно и так, реализаций много может быть
+
+e.pekhterev [1 day ago]
+да я не спорю
+
+e.pekhterev [1 day ago]
+просто не догоняю пока твой вариант с голосами как сущностями
+
+Alexander Pilipenko [1 day ago]
+дата, user_id, restaurant_id - вот это и есть сущность Голос
+
+
+e.pekhterev [1 day ago]
+@Alexander Pilipenko пока не могу сказать, но как минимум для этой сущности тут нехватает голос_id
+
+
+Alexander Pilipenko [1 day ago]
+Ну будет id, дата, user_id, restaurant_id
+
+
+Alexander Pilipenko [1 day ago]
+Это уже детали
+
+e.pekhterev [1 day ago]
+надо попробовать
+
+
+Grigory Kislin [1 day ago]
+>  В итоговом задании нужно считать голоса для ресторана
+это где такое в ТЗ???
+
+Jury Mironov [1 day ago]
+Users can vote on witch restaurant they want to have lunch.  Не написано,  что надо их считать,  но как-то сложить же надо голоса куда-то. Не говорится как это должно быть релизовано и как их засчитывать.  По идее можно сделать int и с новым голосом будет просто увеличиваться значение на один.
+
+
+Grigory Kislin [1 day ago]
+я бы рекомендовал НЕ ДЕЛАТЬ подсчет. огромное кол-во ошибок получают в реализации того, чего нет в ТЗ
+
+
+svis [3:00 PM]
+Есть небольшой вопросик к стейкхолдерам (Григорию, Татьяне и Катерине) по поводу  ревью garduation проекта.
+
+
+svis [Aug 2nd at 3:01 PM]
+C какого момента готовности проекта (или прохождения курса topjava) можно приглашать Вас на ревью?
+
+
+6 replies
+vch [1 day ago]
+Вроде ревью выпускного проекта делается только 1 раз?..
+
+
+
+svis [1 day ago]
+Я вот не знаю. Может это где-то говорилось, но как-то мимо прошло
+
+
+Prodigy [1 day ago]
+ага, 1 раз и желательно по окончании проекта
+
+
+Join_Selectovich [1 day ago]
+ну да, где-то говрили что 1 раз тока )
+
+
+Grigory Kislin [1 day ago]
+подтверждаю- 1 раз, делаю я. поэтому лучше, кода уже будет все готово, но до дедлайна (edited)
+
+
+svis [1 day ago]
+ok, спасибо

@@ -3934,3 +3934,242 @@ Prodigy [23 hours ago]
 
 Wladek [18 hours ago]
 в 90% случаев - действительно легко. Интерфейсы стандартные. Если же запрос действительно хитрый -только ручками переписывать (специфика реализации)
+
+
+Grigory Kislin [12:55 AM]
+@here
+*--------------------------------------------------------------------*
+*Прошу на 6-е занятие: #hw6*
+*--------------------------------------------------------------------*
+
+
+alabra [Aug 2nd at 11:21 AM]
+Добрый день. Подскажите как в spring mvc правильно обработать ситуацию. 
+В dto есть List<Category> categories передаю его во вьюху.
+Во вьюхе у меня есть select где выбираются категории из списка всех категорий.
+<form:select path="categories">                        
+     <form:options items="${item.allCategories}"  itemLabel="title" value="category_id"/>
+</form:select>     
+Когда из вьюхи отправляется результат выбора, то в контроллер он приходит в виде массива String (содержащего id выбранных категорий). 
+Как сделать чтобы в контроллере в параметре categories был List<Category>? (edited)
+
+
+6 replies
+vch [1 day ago]
+Можно сделать `@PathVariable("id") Product product`. Насчёт List не знаю.
+См. https://stackoverflow.com/questions/48413179/how-to-map-form-parameter-with-hibernate-entity-class-in-spring-mvc-controller (edited)
+
+
+Prodigy [1 day ago]
+я делал мультиселектный комбо и передавал айдишники, которые приходят как List<Integer>... по поводу передачи листа Category, придется конвертер какой то писать... или options раскладывать подробно циклом, где указывать id и name класса Category, тогда он прилетит тебе листом объектов Category
+
+
+alabra [1 day ago]
+А как сделать хотя бы чтобы пришли как List<Integer>? У меня почему то приходят как String[]
+На вьюхе же типов нет в html, все строки?
+
+
+Prodigy [1 day ago]
+создаешь ТО с листом Integer, который передаешь во вьюху, там заполняешь , и вернется тебе лист интеджеров
+
+Grigory Kislin [1 day ago]
+погугли- spring List может принимать
+но по поводу преобразования id в Category- я бы это конверторам не отдавал. лучше в сервисе-репозиториях (edited)
+
+
+alabra [17 hours ago]
+Добрый день Григорий. Сделал пока через конвертер. 
+@Component
+public final class StringToCategoryConverter implements Converter<String, Category> {
+
+    private CategoryService categoryService;
+    
+    @Autowired(required = true)
+    @Qualifier(value = "categoryService")
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+    
+    @Override
+    public Category convert(String source) {        
+        return categoryService.getCategoryById(Integer.parseInt(source));
+    }
+}
+А как в сервисе-репозитории это можно сделать?
+
+
+Mihail Kedel [Aug 2nd at 6:22 PM]
+бесплатное участие в следущих выпусках topjav'ы работает,если платил через javarush?
+
+
+2 replies
+Tanya [1 day ago]
+работает
+
+
+Grigory Kislin [1 day ago]
+все будет доступно ближе к концу из профиля javaops
+
+
+Jury Mironov [Aug 2nd at 7:50 PM]
+А почему мы делаем роль отдельной таблицей,  а не делаем полем класса User и в таблицу users роль записывать?
+
+
+3 replies
+Alexander Pilipenko [1 day ago]
+А как будешь хранить если у него 5 ролей?
+
+
+
+Grigory Kislin [1 day ago]
++. у юзера в реальном приложении много ролей
+
+
+Jury Mironov [8 hours ago]
+понял,  спасибо
+
+
+Alexey Levin [Yesterday at 12:24 PM]
+Привет всем, кто хочет попилить проект(блокчейн, AR, мобилки, бэк на java для мобилок писать), за 8-10$/h? Удаленка или Краснодар (edited)
+
+
+18 replies
+svis [13 hours ago]
+8-10h - здесь h - это гривна? :wink:
+
+
+Valery.Shkerdin [13 hours ago]
+Венгерский форинт?
+
+
+Valery.Shkerdin [13 hours ago]
+А если серьёзно, что за проект и что за h?
+
+
+Alexey Levin [12 hours ago]
+проект java
+
+
+Alexey Levin [12 hours ago]
+:slightly_smiling_face: ну чтоб поучаствовать могу направить на собеседование
+
+
+Alexey Levin [12 hours ago]
+там блокчейн, AR, мобилки, бэк для мобилок писать
+
+
+Alexey Levin [12 hours ago]
+8-10$/h
+
+
+Alexey Levin [12 hours ago]
+h - hour, $/в час (edited)
+
+
+Alexey Levin [12 hours ago]
+оплата
+
+Alexey Levin [12 hours ago]
+а, удаленка еще, ну или Краснодар, кому как удобней (edited)
+
+
+Valery.Shkerdin [12 hours ago]
+собеседование в каком формате?
+
+
+Yevhen Maksymovych [12 hours ago]
+вот если бы на пару часиков в день
+
+
+Alexey Levin [12 hours ago]
+спрошу про пару часиков
+
+
+Alexey Levin [12 hours ago]
+@Valery.Shkerdin скайп
+
+Valery.Shkerdin [12 hours ago]
+@Alexey Levin требования какие к кандидату?
+
+Alexey Levin [11 hours ago]
+#вакансия#backend #Java
+Java разработчик. 
+Удаленка 
+8-10$/h
+фуллтайм до 100к/р на руки 
+
+ОБЯЗАННОСТИ:
+Разработка клиент-серверных приложений на языке Java.
+Функциональное и нагрузочное тестирование разрабатываемых решений.
+Анализ требований и выбор наиболее предпочтительных технологий и алгоритмов.
+
+ПРОФЕССИОНАЛЬНЫЕ ТРЕБОВАНИЯ:
+-Опыт программирование на языке Java от 1 года.
+-Знание и опыт работы с технологиями JDBC, JSP, JSON, REST.
+-Знание и опыт использования фреймворков Hibernate, Spring (Boot, Security, Cloud, Data и т.п.)
+-Опыт создания web-приложений.
+-Знание и понимание принципов объектно-ориентированного программирования.
+-Знание и опыт применения шаблонов проектирования.
+-Опыт работы с системами контроля версий (Git).
+-Опыт организации и проведение функционального и нагрузочного тестирования.
+
+МЫ ПРЕДЛАГАЕМ:
+-Конкурентную заработную плату (обсуждается с успешными кандидатами).
+-Работу в стабильной компании в актуальной отрасли;
+-Удобный график работы: 5/2, с плавающим началом рабочего дня;
+-Комфортное, оборудованное рабочее место в Краснодаре
+-Трудоустройство в полном соответствии с ТК РФ;
+-Возможность работать удаленно.
+
+
+Alexey Levin [11 hours ago]
+@Yevhen Maksymovych 10 или 15 в неделю?
+
+Alexey Levin [3 hours ago]
+@Yevhen Maksymovych Вобщем и не обязательно прям фулл-тайм, но хотя бы 15-20 было бы хорошо)
+
+
+Yevhen Maksymovych [Yesterday at 12:26 PM]
+на постоянку - в смысле, заниматься этим полный день?
+
+
+1 reply
+Alexey Levin [12 hours ago]
+Да, желательно на полный день участие в этом проекте
+
+
+c010b0c [Yesterday at 12:37 PM]
+если h - рубли. то за 8-ми часовой день 64 рубля плучается... хм... :thinking_face:
+
+
+7 replies
+svis [13 hours ago]
+Предположил что это гривны - тогда больше получается..
+
+
+c010b0c [13 hours ago]
+а вдруг это биткоины...
+
+
+svis [13 hours ago]
+:money_with_wings::money_with_wings::money_with_wings::money_mouth_face:
+
+
+Yevhen Maksymovych [12 hours ago]
+с гривнами тоже не особо попляшешь. ну, на один биг мак в день хватит, но уже без колы )
+
+
+e.pekhterev [11 hours ago]
+при чем тут h и рубли? 8-10$/h - это развес не 8-10$ за час?
+
+
+c010b0c [9 hours ago]
+8-10$/h - это не первоначальная версия, сразу было - 8-10h
+
+
+e.pekhterev [8 hours ago]
+ок
+
+
+Alexey Levin [1:27 PM]
+одни рофлеры в чате, никто работать не хочет)

@@ -3525,3 +3525,215 @@ Maksim K [< 1 minute ago]
 
 Alexander Pilipenko [< 1 minute ago]
 Это для jdk-9 и выше?
+
+
+Maksim K [2 days ago]
+ага! ну не ручаюсь за какие-то будущие версии, но на нынешние канает вроде)
+
+
+Alexander Pilipenko [2 days ago]
+А у тебя ссылочки не осталось на сайт откуда брал информацию по настройкам?
+
+
+Maksim K [2 days ago]
+ща
+
+
+Alexander Pilipenko [2 days ago]
+Просто в сентябре все будут начинать переходить на 11 версию
+
+
+Maksim K [2 days ago]
+для всех почитателей 9 Джавы (типа меня:blush:) 
+https://stackoverflow.com/questions/48204141/replacements-for-deprecated-jpms-modules-with-java-ee-apis/48204154#48204154
+Stack Overflow
+Replacements for deprecated JPMS modules with Java EE APIs
+Java 9 deprecated six modules that contain Java EE APIs and they are going to be removed soon: java.activation with javax.activation package java.corba with javax.activity, javax.rmi, javax.rmi.CO...
+ 
+ 
+
+
+Maksim K [2 days ago]
+ну правда автор вопроса молчит. может ему это не поможет. но мне помогло
+
+
+Alexander Pilipenko [2 days ago]
+У него в ошибке: Caused by: javax.xml.bind.JAXBException: Implementation of JAXB-API has not been found on module path or classpath.
+- with linked exception:
+
+
+Макс Куркудюк [2 days ago]
+Цей виручив ще на HW4)
+<dependency>
+          <groupId>javax.xml.bind</groupId>
+          <artifactId>jaxb-api</artifactId>
+          <version>2.3.0</version>
+      </dependency>
+А от за інші - Дякую!)
+Ура!)
+
+
+Maksim K [2 days ago]
+Пожалуйста)
+
+
+Alexander Pilipenko [2 days ago]
+https://javarush.ru/groups/posts/541-bezvremennihy-konec-ehpokhi-jdk-8
+JavaRush
+К чему приведёт частый выпуск новых версий JDK
+Для Java наступает эпоха перемен. Теперь версии JDK будут выпускать не по мере появления новых функциональных возможностей, а по расписанию. У такого подхода есть свои плюсы и минусы, но как такие перемены отразятся на JDK 8? Саймон Риттер, известный Java ... (16 kB)
+ 
+
+Grigory Kislin [12:55 AM]
+@here
+*--------------------------------------------------------------------*
+*Прошу на 6-е занятие: #hw6*
+*--------------------------------------------------------------------*
+
+
+Егорро [Aug 2nd at 4:10 PM]
+Кто мне объяснит по 5.7, зачем было вообще заморачиваться и добавлять к методу delete(int id) свой SQL-запрос? Разве метод сам по себе не делает точно то же самое, или это не обязательное условие, а просто пример того, как можно использовать свои запросы?
+
+
+25 replies
+Yevhen Maksymovych [1 day ago]
+делит по умолчанию войд
+
+
+
+Grigory Kislin [1 day ago]
+те мы еще делаем проверку на несуществующую в базе запись
+
+
+Егорро [1 day ago]
+Ну или я туплю уже совсем, или что-то все же не так)) Убираю запрос - точно так же тест проходит, никаких несовместимостей не возникает
+idea64_2018-08-02_16-12-13.jpg
+
+
+
+Grigory Kislin [1 day ago]
+тупишь. запускай тест  на несуществующую в базе запись
+
+
+Егорро [1 day ago]
+Тоже проходит без проблем
+
+
+Макс Куркудюк [1 day ago]
+Без @Modifying - не проходять перевірку тести delete і deleteNotFound.
+А от @Query("DELETE FROM User u WHERE u.id=:id") теж нічого не змінює в тестах (CrudUserRepository повертає ті ж самі числа). (edited)
+
+
+Yevhen Maksymovych [1 day ago]
+забавно. по идее, отсутствие @Modifying должно заставить спринг дату использовать дефолтную реализацию метода (а не нашу из запроса), и, следовательно, дефолтная реализация не возвращает нам то, что надо.
+
+
+Yevhen Maksymovych [1 day ago]
+но при этом если указать @Modifying, но не указать запрос, метод чудесным образом отработает
+
+
+Yevhen Maksymovych [1 day ago]
+магия
+
+realcorwin [1 day ago]
+либо магия, либо одно из двух! :slightly_smiling_face:
+
+Alexander Pilipenko [1 day ago]
+https://stackoverflow.com/questions/43665090/why-do-we-have-to-use-modifying-annotation-for-queries-in-data-jpa
+Stack Overflow
+why do we have to use @Modifying annotation for queries in Data Jpa
+for example I have a method in my CRUD interface which deletes a user from the database: public interface CrudUserRepository extends JpaRepository<User, Integer> { @Transactional @
+ 
+
+
+Alexander Pilipenko [1 day ago]
+И все-таки это уличная магия
+
+Alexander Pilipenko [1 day ago]
+Pasted image at 2018-08-02, 5:22 PM
+
+
+
+Alexander Pilipenko [1 day ago]
+Да. Без прописанного Query тест работает
+
+Alexander Pilipenko [1 day ago]
+Но обратите, пожалуйста, внимание на запрос в логе (edited)
+
+Alexander Pilipenko [1 day ago]
+В нем видно, что использовался User.delete
+
+Yevhen Maksymovych [1 day ago]
+умный этот спринг дата, собака
+
+
+Alexander Pilipenko [1 day ago]
+Ага. А там named query @NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id=:id"),
+
+
+Alexander Pilipenko [1 day ago]
+А вот если named query удалить, то получим ошибку что не найдено свойство User.delete :slightly_smiling_face:
+
+Yevhen Maksymovych [1 day ago]
+возможно всё это отголоски бута в других фреймворках, с новым уровнем AOC, когда по дефолту соответствующие названия переменных могут инжектиться даже без аннотаций
+
+Alexander Pilipenko [1 day ago]
+Похоже
+
+
+Андрей [1 day ago]
+Все то он умеет, этот спринг дата, а как я его попросил сразу boolean на delete вернуть тут то он и потух:confused:
+
+
+Yevhen Maksymovych [1 day ago]
+булин, думаю, не вернёт, потому что для апдейт-запроса логично возвращать числовое значение из бд, а логику преобразования этого числа в булин дата за тебя вряд ли сможет предусмотреть
+
+
+Yevhen Maksymovych [1 day ago]
+вообще, в этом плане борисова можно посмотреть, он там пару фокусов показывает
+
+Андрей [1 day ago]
+это ради интереса было:slightly_smiling_face:
+компилятор и сам спринг с рефлекшеном скушали, ошибка уже на этапе возврата результата
+
+
+Victor [Aug 2nd at 6:01 PM]
+дошел до 4 патча:
+реализация public abstract class JdbcMealRepositoryImpl<T> implements MealRepository - тяжелая для моего восприятия. Зачем делать внутренние классы? Может по этому месту видео короткое с объяснением можно снять, @Grigory Kislin.
+
+
+1 reply
+Grigory Kislin [1 day ago]
+почитай про внутренние классы. они связаны логически с родителем. те группировка + экономится место (edited)
+
+
+Join_Selectovich [Aug 2nd at 10:43 PM]
+Хлопцы, в одних случаях мы использовали @ActiveProfiles и в других @Profile, у меня так получилось что все правильно расставил и все работает, но где какой использовать осознано не понятно. Если их менять то работать перестает. 
+В каких случаях и какой применять?..в видеоразъяснениях не заметил пояснений на этот счет. Подскажите пожалуйста как вы подбирали необходимый?
+
+
+6 replies
+Yevhen Maksymovych [1 day ago]
+@ActiveProfiles - это аннотация из org.springframework.test.context, а @Profile - из org.springframework.context
+
+
+
+Yevhen Maksymovych [1 day ago]
+первой, соответственно, пользуемся в тестах, а второй - везде, где используем контекст
+ 
+
+
+Yevhen Maksymovych [1 day ago]
+кста, а Обсервер - хорошая игра?
+
+Grigory Kislin [1 day ago]
+подтверждаю: @ActiveProfiles - задает активные профили при запуске тестов а @Profile- это условия включения бина в контекст в зависимости от запущенного профиля
+
+
+
+Join_Selectovich [1 day ago]
+@Yevhen Maksymovych на счет игры Обсервер ничего не знаю, по молодости в стар крафт первый больше всего любил :slightly_smiling_face: протосами зергов погонять (edited)
+
+
+Yevhen Maksymovych [20 hours ago]
+@Join_Selectovich у тебя на аватарке просто лого из неё, вот и подумалось :slightly_smiling_face:

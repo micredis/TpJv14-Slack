@@ -1151,3 +1151,29 @@ https://screenshots.firefox.com/hYtxUenmRtHuYfiW/null
 screenshots.firefox.com
 git.png (Зображення PNG, 1920 х 1080 пікселів) - Масштабоване (85%)
 From null (68 kB)
+
+
+Sole Noid [3:51 PM]
+Обновил IDEA до Ultimate 2018.1.6 и теперь у меня на панели Toolbar отсутствуют кнопки Undo и Redo ( аналог Ctr+Z и Ctr+Shift+Z) . Как мне их вернуть на место?
+
+Grigory Kislin [4:00 PM]
+@Sole Noid https://www.google.ru/search?ei=WABjW6eSCITYwQLotLKwAg&q=jetbrains+idea+customize+toolbar&oq=jetbrains+idea+customize+toolbar&gs_l=psy-ab.3...5639.6716.0.7057.4.4.0.0.0.0.195.579.0j4.4.0....0...1c.1.64.psy-ab..0.3.383...33i22i29i30k1j0i22i30k1.0.yRJylMBZpCE (edited)
+
+
+Kirilo [Aug 2nd at 5:11 PM]
+На каком уроке было как на левой боковой панельке подсвечивать бины? Перезапустил проект на другой версии Idea и забыл как это сделать.
+
+
+2 replies
+Ignat [1 day ago]
+4 занятие, 5 урок, с 51й минуты
+ 
+
+
+Kirilo [1 day ago]
+Спасибо. 52-ая минута :slightly_smiling_face:
+
+
+Sole Noid [8:10 PM]
+Как поменять изображение значка для кнопки Undo? Пока добавлял кнопки на панель, каким то образом изменил само изображение значка на какую то ерунду. Обыскал всю папку С/Программы/JetBrains/Intellij IDEA 2018.1.6 - не нахожу там нигде этих иконок. Где они?
+1.jpg 
