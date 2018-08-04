@@ -347,3 +347,86 @@ Grigory Kislin [3 hours ago]
 
 zippospb [12:21 AM]
 Скажите, у всех при загрузке страницы /meals нормально подхватывается style.css? у меня его на /users и /index видит великолепно, а вот в /meals - никак. И root в RootController тоже не отрабатывал пока в GetMapping не поставил "/index"
+
+
+Grigory Kislin [12 hours ago]
+кэш обновлял? Ctrl+f5 для хром
+
+
+zippospb [11 hours ago]
+да
+
+
+Grigory Kislin [8 hours ago]
+посмотри вкладку Network в браузере
+
+
+Daniel [5 hours ago]
+@zippospb зайди в meals.jsp, в хедере поменяй ссылку на стиль на *resources/css/style.css*. У меня заработало. (edited)
+
+
+e.pekhterev [Today at 2:36 PM]
+@Grigory Kislin в *JpaUtil* равноценны ли будут две реализации?
+>public void clear2ndLevelHibernateCache() {
+>        Session s = (Session) em.getDelegate();
+>        SessionFactory sf = s.getSessionFactory();
+>        sf.getCache().evictAllRegions();
+>}
+и
+>public void clear2ndLevelHibernateCache() {
+>        em.getEntityManagerFactory().getCache().evictAll();
+>}
+
+
+И в первом, и во втором случае работаем с кэшем второгу уровня (в первом - с org.hibernate.Cache extends javax.persistence.Cache, а во втором - с его папкой javax.persistence.Cache). (edited)
+
+
+2 replies
+Grigory Kislin [8 hours ago]
+не знаю. дебажил?
+
+
+e.pekhterev [6 hours ago]
+Разобрались:
+evictAll - Hibernate impl - we only evict entity data here in keeping with the JPA intent (JPA only defines caching for entity data).  For evicting all cache regions (collections, natural-ids and query results), use evictAllRegions() instead. (edited)
+
+
+zippospb [Today at 3:23 PM]
+Вот блин. сначала сделал MealController полностью на аннотациях, а теперь вчитался в задание и придется переделывать на костыльный вариант с HttpServletRequest ))))
+
+
+
+1 reply
+Grigory Kislin [8 hours ago]
+раз сделал- оставь
+
+
+Victor [3:40 PM]
+replied to a thread:
+
+@Grigory Kislin по факту мы выносим настройки. в  context.xml вместо использования .properties файла. Для этого нужно добавлять плагин, как-то по особому его настраивать, подключать урезанный .properties файл (!), понимать что да как с контекстом происходит, деплоить по особому. И все это ради, того чтобы занести настройки  базы в контекст во время для development'а. 
+Какая польза для меня как разработчика, в таком усложнении. Сложно = больше вероятность ошибки. Можно сделать проще - нужно делать проще. Или мы уже все в девопсы должны морально готовиться? :slightly_smiling_face:
+
+Victor [8:38 PM]
+Теория, в видео с 3:30 о контекстах, мне кажется, расходится с той, что в доках.
+1. Исходя из скрина, даже если бин занесен в два контекста, конфликта не будет. Потому что делегирование идет только если бин не найдет.
+2. WebAppContext тоже один, но при желании его можно шарить с другими DispatcherServlet, но по разному конфигурировать.
+> For many applications having a single WebApplicationContext is simple and sufficient. It is also possible to have a context hierarchy where one root WebApplicationContext is shared across multiple DispatcherServlet (or other Servlet) instances, each with its own child WebApplicationContext configuration.
+2018-08-04_20-01-31.png 
+
+
+Yevhen Maksymovych [3 hours ago]
+делегирование идёт, если бин не найден, но повторная инициализция бина может привести к нежелаемым последствиям :slightly_smiling_face:
+
+
+
+Yevhen Maksymovych [3 hours ago]
+вдруг у него в при поднятии есть какая-то логика, которая происходит в посткриэйте, и закрывается в предестрое. а так мы ее вызовем дважды подряд
+
+
+Victor [3 hours ago]
+понял, то есть сам факт поднятия двух одинаковых синглтон бинов может вызвать проблемы. Даже если мы к бину из root не будем обращаться. (edited)
+
+
+Grigory Kislin [1 hour ago]
+нуда. с ними и сталкивался. в отличии от нескольких DispatcherServlet - ни разу не встречал, думаю что-то редкое. но спасибо за информацию

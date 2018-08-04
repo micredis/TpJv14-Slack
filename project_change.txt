@@ -126,3 +126,25 @@ JavaWebinar
 `4ed8db0e` - 5_8_spring_cache
 Show less
 JavaWebinar/topjava
+
+
+GitHub APP [10:12 PM]
+JavaWebinar
+*15 new commits pushed to `master`*
+`08d21893` - 6_01_HW5_data_jpa
+`ffbf816d` - 6_02_HW5_profile_test
+`3cc9c03b` - 6_03_extract_rules
+`70bb402e` - 6_04_HW5_optional_fix_jdbc_profiles
+`5168cf50` - 6_05_update_hsqldb
+`7bdd8809` - 6_06_HW5_optional_fetch_join
+`5987932c` - 6_07_HW5_graph_batch_size
+`effebec2` - 6_08_add_test_validation
+`4b6c9068` - 6_09_hibernate_cache
+`a91903e4` - 6_10_cascade_ddl
+`73de785c` - 6_11_spring_web
+`03c9d1b3` - 6_12_jsp_jstl_i18n
+`f59cba75` - 6_13_tomcat_pool_jndi_cargo
+`51beb684` - 6_14_spring_webmvc
+`332269aa` - 6_15_spring_i18n
+Show less
+JavaWebinar/topjava

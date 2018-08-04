@@ -4173,3 +4173,167 @@ e.pekhterev [8 hours ago]
 
 Alexey Levin [1:27 PM]
 одни рофлеры в чате, никто работать не хочет)
+
+
+This message was deleted.
+
+
+6 replies
+e.pekhterev [10 hours ago]
+какие тесты не работают?
+
+
+e.pekhterev [10 hours ago]
+если проблема только с тестами jdbc (в шетом уроке), то так и должно быть
+
+
+SergeyA [10 hours ago]
+сорри недооформил вопрос .. щас )
+
+
+Victor [10 hours ago]
+так edit же можно нажать
+зачем удалять?
+
+
+SergeyA [10 hours ago]
+Едит не дает картинку вставить )
+
+
+SergeyA [10 hours ago]
+ниже новый пост сделал
+
+
+SergeyA [Today at 2:02 PM]
+Странная фигня с этими патчами - уже не первый раз у меня ломается проект :disappointed:  сегодня столкнулся с тем что на ноутбуке после Git  /  pull  не заработали тесты. Хотя на стационарном все Ок.  Git rebase не помог..
+В итоге обнаружил 2 одинаковых класса в разных папках (или в одной папке?) - вот не зря же я спрашивал ранее про именования папок проекта.
+*Как такое может быть, и какой в итоге класс вызывается?* (edited)
+duble_class.png
+
+
+
+23 replies
+e.pekhterev [10 hours ago]
+ранее неправильно были накатаны патчи, перед накаткой какого то патча нужно было вроде как создать папу тест, иначе он нетуда накатывал, вот собственно и результат
+
+
+
+SergeyA [10 hours ago]
+И да, я отстаю - еще на 4м уроке . . сорри (
+
+
+e.pekhterev [10 hours ago]
+перед нами зачем извиняться))? только перед собой)))
+
+
+SergeyA [10 hours ago]
+вывод патчи зло. -  после синхронизации Идея говорит что все АпТуДейт  - а по факту Гит и проект на ноутбуке вообще не сходятся ((
+
+
+SergeyA [10 hours ago]
+А вторая половина вопроса -  какой из классов в итоге работает?
+
+
+Victor [10 hours ago]
+и вроде если не правильно файл отправил, и его нужно удалить. 
+То нужно как-то по особому делать.
+Тут не в патчах зло.
+
+
+SergeyA [10 hours ago]
+эти 2 класса с одинаковым путем - какой когда теперь вызываться будет? так можно вообще делать? :slightly_smiling_face:
+
+
+e.pekhterev [10 hours ago]
+ревер нужно на этом удалении файла делать в Local Changes, чтоб он в гит этот изменение на передавал
+
+
+Victor [10 hours ago]
+какой патч последний накатан у тебя?
+
+
+SergeyA [10 hours ago]
+4_2 последний накатывал (edited)
+
+
+e.pekhterev [10 hours ago]
+проблема явно возникала ещё на третьем занятии:
+>ВНИМАНИЕ!! Перед накаткой патча создайте каталог test (из корня проекта путь \src\test), иначе часть файлов попадет в src\main.
+>*Apply 3_07_add_junit.patch*
+(edited)
+
+
+Victor [10 hours ago]
+```package ru.javawebinar.topjava;
+
+import ru.javawebinar.topjava.model.Role;
+import ru.javawebinar.topjava.model.User;
+
+import java.util.Arrays;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static ru.javawebinar.topjava.model.AbstractBaseEntity.START_SEQ;
+
+public class UserTestData {
+    public static final int USER_ID = START_SEQ;
+    public static final int ADMIN_ID = START_SEQ + 1;
+
+    public static final User USER = new User(USER_ID, "User", "user@yandex.ru", "password", Role.ROLE_USER);
+    public static final User ADMIN = new User(ADMIN_ID, "Admin", "admin@gmail.com", "admin", Role.ROLE_ADMIN);
+
+    public static void assertMatch(User actual, User expected) {
+        assertThat(actual).isEqualToIgnoringGivenFields(expected, "registered", "roles");
+    }
+
+    public static void assertMatch(Iterable<User> actual, User... expected) {
+        assertMatch(actual, Arrays.asList(expected));
+    }
+
+    public static void assertMatch(Iterable<User> actual, Iterable<User> expected) {
+        assertThat(actual).usingElementComparatorIgnoringFields("registered", "roles").isEqualTo(expected);
+    }
+}```
+
+
+e.pekhterev [10 hours ago]
+патчи тут не при чем, кто делает правильно  - у них всё хорошо. я на 2-х машинах работаю, всё накатывается и синхронизируется замечательно
+
+
+Victor [10 hours ago]
+такой код после 3_11 патча, потом не менялся
+
+
+e.pekhterev [10 hours ago]
+всегда опять же можно сходить в оригинальный репозиторий, открыть там нужный коммит и посмотреть, что там по структуре и наполнению, сделать у себя так же
+
+
+
+SergeyA [10 hours ago]
+@e.pekhterev как не причем - утром только проект сломал. Было как то так: накатил патч 4_1 ; 4_2 потом закомитил патч 4_2 и увидел что 4_1 автоматом не ушел (думал что оба закомитятся в Гит) Запушил еще и 4_1. после чего тесты перестали работать..  лечил resetom на предыдущий шаг по логу изменений (( (edited)
+
+
+e.pekhterev [10 hours ago]
+а коммичу/пушу после каждого патча
+
+e.pekhterev [10 hours ago]
+так оно гарантированно будет в правильном порядке
+
+e.pekhterev [10 hours ago]
+и дешевле для здоровья
+
+
+e.pekhterev [10 hours ago]
+опять же потом удобно смотреть, что в каждом патче было сделано, просматривая коммиты
+
+
+Victor [9 hours ago]
+я коммичу, потом пушу все вместе в конце работы. Если возникнут проблемы, легче reset сделать, когда у тебя в компе всё. На порядок это точно не влияет.
+
+
+Victor [9 hours ago]
+> что 4_1 автоматом не ушел (думал что оба закомитятся в Гит)
+что значит автоматом? все ж вручную
+
+
+e.pekhterev [9 hours ago]
+на какую папку/файл с изменениями поставишь курсор, то и закоммитится, тоже надо внимательнее с этим (edited)

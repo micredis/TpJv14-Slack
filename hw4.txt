@@ -3755,3 +3755,26 @@ SergeyA [3 hours ago]
 Error creating bean with name 'userServiceImpl'
 
 Буду разбираться дольше :slightly_smiling_face:
+
+
+SergeyA [Today at 11:00 PM]
+@Grigory Kislin а зачем мы используем в методе Get()  класса JdbcMealRepositoryImpl излишний код, ограничивающий выборку из базы. Ведь можно ограничить кол. строк прямо в запросе.  В Постгрес это:
+"SELECT * from meals WHERE id = 100002 AND user_id = 100000 *Limit 1* "
+а в MS SQL
+" *SELECT TOP (1)* * from meals WHERE id = 100002 AND user_id = 100000 "
+Или так как это нестандартный код, его не используют в JAVA? (edited)
+Untitled
+  public Meal get(int id, int userId) {
+    List<Meal> meals = jdbcTemplate.query(
+        "SELECT * FROM meals WHERE id = ? AND user_id = ?", ROW_MAPPER, id, userId);
+    return DataAccessUtils.singleResult(meals);
+  }
+---------------------------------
+ведь
+Collapse
+
+
+1 reply
+Victor [37 minutes ago]
+может чтобы без try catch сделать обработку ошибок?
+что будет, если по запросу с clause limit не найдется результат, или будет больше одного результата? (edited)
