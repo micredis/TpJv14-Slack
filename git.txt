@@ -656,3 +656,7 @@ Gagarina6794 [2 hours ago]
 
 Gagarina6794 [2 hours ago]
 Зато сколько уже научилась благодаря этому курсу, где такое "допустимо" делать, сколько уже чего умею ЧИНИТЬ))
+
+
+izgarshev.pavel [3:06 PM]
+Подскажите, почему при накатке патча я сталкиваюсь с такой ошибкой? File to patch found outside content root: pom.xml

@@ -485,3 +485,92 @@ Yevhen Maksymovych [1:04 PM]
 
 Crazz [1:10 PM]
 точно, спасибо
+
+
+turhanow [Today at 8:41 PM]
+всем привет! это только у меня после накатки всех патчей томкат зависает с таким исключением?
+Untitled
+Caused by: org.hibernate.service.spi.ServiceException: Unable to create requested service [org.hibernate.engine.jdbc.env.spi.JdbcEnvironment]
+  ... 88 more
+  at org.hibernate.service.internal.AbstractServiceRegistryImpl.createService(AbstractServiceRegistryImpl.java:275)
+Caused by: java.lang.ClassNotFoundException: org.postgresql.Driver
+  at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:237)
+  at org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1285)
+  at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+  at org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1119)
+  at org.hibernate.id.factory.internal.DefaultIdentifierGeneratorFactory.injectServices(DefaultIdentifierGeneratorFactory.java:152)
+  at java.lang.Class.forName0(Native Method)
+  at org.hibernate.service.internal.AbstractServiceRegistryImpl.injectDependencies(AbstractServiceRegistryImpl.java:286)
+  at java.lang.Class.forName(Class.java:348)
+  at org.hibernate.service.internal.AbstractServiceRegistryImpl.initializeService(AbstractServiceRegistryImpl.java:243)
+  at org.apache.tomcat.jdbc.pool.ClassLoaderUtil.loadClass(ClassLoaderUtil.java:38)
+  at org.hibernate.service.internal.AbstractServiceRegistryImpl.getService(AbstractServiceRegistryImpl.java:214)
+  ... 89 more
+  at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.<init>(InFlightMetadataCollectorImpl.java:179)
+  at org.hibernate.boot.model.process.spi.MetadataBuildingProcess.complete(MetadataBuildingProcess.java:119)
+06-Aug-2018 20:38:09.578 INFO [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+  at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.metadata(EntityManagerFactoryBuilderImpl.java:904)
+06-Aug-2018 20:38:09.596 SEVERE [RMI TCP Connection(3)-127.0.0.1] org.apache.catalina.core.StandardContext.startInternal One or more listeners failed to start. Full details will be found in the appropriate container log file
+  at org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl.build(EntityManagerFactoryBuilderImpl.java:935)
+06-Aug-2018 20:38:09.597 SEVERE [RMI TCP Connection(3)-127.0.0.1] org.apache.catalina.core.StandardContext.startInternal Context [/topjava] startup failed due to previous errors
+Collapse
+
+
+8 replies
+Victor [3 hours ago]
+вот это проверял? Caused by: java.lang.ClassNotFoundException: org.postgresql.Driver
+
+
+turhanow [3 hours ago]
+в мавен я не менял ничего, у меня там вот это:
+<dependency>
+                <groupId>org.postgresql</groupId>
+                   <artifactId>postgresql</artifactId>
+                   <version>${postgresql.version}</version>
+               </dependency>
+
+
+turhanow [3 hours ago]
+а вот на стековерфлоу пишут что мол надо скачать библиотеку https://stackoverflow.com/questions/38410850/hibernate-postgresql-driver-issue/38411466#38411466
+Stack Overflow
+Hibernate: PostgreSQL Driver issue
+I know that there are similar questions already, but the answers there didn't help me. So please would you mind to take a look at my particular question? I am not very experienced with Hibernate y...
+ 
+
+
+turhanow [3 hours ago]
+но что то мне подсказывает что никто в группе этим не занимался, видимо ошибка в другом..
+
+
+turhanow [2 hours ago]
+проблему решил скачав из мавен репозитория драйвер постгрис и положил его в lib tomcat.
+но насколько это правильно...
+
+
+Andrew Kuzin [2 hours ago]
+вроде бы у меня была такая ошибка. но я избавился сменой профиля + немного перенастроил адрес, пароль и логин постгреса т.к. постгрес у меня был настроенный до этого курса
+
+
+turhanow [1 hour ago]
+> я избавился сменой профиля + немного перенастроил адрес
+
+
+вот здесь поподробнее плиз
+
+
+Andrew Kuzin [32 minutes ago]
+ну есть файл postgres.properties, там параметры подключения к постгресу. котрые мне лично приходится менять) хотя помоему это не ваш случай.
+
+
+Jury Mironov [Today at 10:33 PM]
+P_20180806_223147.jpg
+
+
+
+2 replies
+Ignat [1 hour ago]
+Сверху Query закомментируй
+
+
+Jury Mironov [1 hour ago]
+спасибо
