@@ -574,3 +574,227 @@ Ignat [1 hour ago]
 
 Jury Mironov [1 hour ago]
 спасибо
+
+
+turhanow [Today at 9:23 AM]
+Хей гайс, у кого все найс с MVC?:slightly_smiling_face:
+я никак не могу понять вот что. У нас в RootController есть:
+`
+@GetMapping("/users")
+   public String users(Model model) {
+       model.addAttribute("users", service.getAll());
+       return "users";
+   }
+`
+из метода видно что мы возвращаем стрингу. Теоретически я догадываюсь, что возвращаем то мы не совсем стрингу, а модель с атрибутом users, но object==String (!). И вот здесь у меня в голове засада, как jsp понимает что ему  с бэкенда возвратилась по факту коллекция, которую нужно отобразить в таблице юзеров??? (edited)
+
+
+19 replies
+Alexander Pilipenko [14 hours ago]
+Возвращаем мы совсем стрингу return "users";
+
+Alexander Pilipenko [14 hours ago]
+В атрибуты заносим пользователей через model.addAttribute("users", service.getAll());
+
+
+turhanow [14 hours ago]
+Саш...а как модель с атрибутами попадает в JSP... я вот где то в уроке есть ссылка про это почитать? может я пропустил
+
+
+turhanow [14 hours ago]
+и почему м именно стринг возвращаем, на каком этапе именно этот тип данных нам требуется..
+
+
+Alexander Pilipenko [14 hours ago]
+Думаю что зедесь
+
+
+Alexander Pilipenko [14 hours ago]
+http://www.mkyong.com/spring-mvc/spring-mvc-hello-world-example/
+
+Alexander Pilipenko [14 hours ago]
+https://www.baeldung.com/spring-mvc-model-model-map-model-view
+Baeldung
+Model, ModelMap and ModelView in Spring MVC | Baeldung
+Learn about the interfaces Model, ModelMap and ModelView provided by Spring MVC.
+Oct 17th, 2017 at 4:54 PM
+ 
+
+
+Alexander Pilipenko [14 hours ago]
+https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#mvc-ann-arguments
+
+
+Alexander Pilipenko [14 hours ago]
+String
+
+A view name to be resolved with ViewResolver's and used together with the implicit model — determined through command objects and @ModelAttribute methods. The handler method may also programmatically enrich the model by declaring a Model argument (see above).
+
+
+shtramak [13 hours ago]
+return "users" означает вернуть jsp, в имени которой есть users. ViewResolver внутри добавить префикс и суффикс, который ему прописали. Это может быть даже view/users.jsp , это уж как душе угодно.
+
+
+shtramak [13 hours ago]
+а атрибут "users" и return "users" между собой никак не связаны
+
+turhanow [13 hours ago]
+> return "users" означает вернуть jsp, в имени которой есть users
+вот за это от души спасибо! я то думал мы возвращаем аттрибут с именем users, а оказывается jsp
+
+
+turhanow [13 hours ago]
+@GetMapping("/users")
+  public String users(Model model) {
+      model.addAttribute("users", service.getAll());
+      *return "users_page";*
+  }
+если бы названия в проекте немного различали, было бы удобнее разобраться.. (edited)
+
+
+shtramak [13 hours ago]
+:+1:
+
+
+Yevhen Maksymovych [13 hours ago]
+фактически, надо понимать, что хотя мы возвращаем только имя вида, с ним незримо гоняется модель :slightly_smiling_face:
+
+
+
+Kirilo [7 hours ago]
+При помощи интерфейса ViewResolver DispatcherServlet определяет, какой Вид нужно использовать на основании полученного имени.
+
+Kirilo [7 hours ago]
+В Spring web MVC вся работа происходит через DispatcherServlet. Так по имени выбирается нужный файл. https://www.tutorialspoint.com/spring/images/spring_dispatcherservlet.png (27 kB)
+
+
+Alexander Pilipenko [5 hours ago]
+и в видео про это рассказывается
+
+
+Alexander Pilipenko [5 hours ago]
+https://drive.google.com/open?id=0B9Ye2auQ_NsFQThUX2VyQXNiTHM
+
+
+Maksim K [2:32 PM]
+Хеллоу, парни и девушки!) Я снова с вами. То есть наконец-то перешел на 6 левел) И сразу вопросики) По вот этому:
+`Apply 6_01_HW5_data_jpa.patch В get получаем и фильтруем Optional<User>`
+Я так понимаю здесь описка и имеется ввиду `Optional<Meal>`. Или я что-то не так понимаю?)
+И еще, а почему в реализации дз Григорий не использовал "уличную" магию с выводом запросов из названия методов, а использовал @Query. В видео он говорит, что, мол, эта магия работает медленнее и сам же потом говорит, что эта скорость это все относительно. Думаю для нашего проекта это не критично в плане производительности (или нет?). Но зато в целях обучения, для наглядности было бы неплохо использовать эту самую магию)) (edited)
+
+
+Stanislav [Today at 3:20 PM]
+Не могу понять: почему
+```redirect:/meals```
+работает нормально, а
+```redirect:meals```
+конкатенирует (http://localhost:8080/topjava/meals/meals), а в RootController-е работает и так и так. (edited)
+
+
+21 replies
+shtramak [8 hours ago]
+ну наверн над контроллером стоит @RequestMapping("/meals")? (edited)
+
+
+Stanislav [8 hours ago]
+да :slightly_smiling_face:
+
+
+Stanislav [8 hours ago]
+только до меня не доходит, почему он конкатенирует
+
+
+shtramak [8 hours ago]
+ну вот он и складывает, когда даешь путь относительный (без слеша в начале)
+
+
+Stanislav [8 hours ago]
+спасибо
+
+Stanislav [8 hours ago]
+вроде понял)
+
+
+Stanislav [8 hours ago]
+нет, раньше стояло @RequestMapping(value = "/meals") поставил @RequestMapping(value = "meals") все равно то же самое
+
+
+shtramak [8 hours ago]
+Хм, давай все сначала)
+
+
+shtramak [8 hours ago]
+У тебя стоит над контроллером маппинг? Он будет работать для всех методов в контроллере и для view, которые возвращаются как return "string";
+
+
+shtramak [8 hours ago]
+Те маппинги, которые стоят над методами, будут добавлять еще один уровень в урл
+
+Stanislav [8 hours ago]
+Все правильно, над JspMealController стоит @RequestMapping(value = "meals")
+
+
+shtramak [8 hours ago]
+а над методом что?
+
+
+Stanislav [8 hours ago]
+@GetMapping("/delete") который return "redirect:meals"
+
+
+shtramak [8 hours ago]
+вот суть в "redirect:meals" и "redirect:/meals"
+
+
+shtramak [8 hours ago]
+в первом случае слеша в начале нет, путь относительный. Он прибавит маппинг контроллера (как я понимаю)
+
+Stanislav [8 hours ago]
+В общем понял, тут то же самое что и в файловой системе, относительный-обсолютный
+
+shtramak [8 hours ago]
+я не хочу сам лишнего сказать)) Потому что у меня именно насчет redirect сомнения
+
+shtramak [8 hours ago]
+https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#mvc-redirecting-redirect-prefix
+
+Stanislav [8 hours ago]
+он убирает delete и ставит meals
+
+
+shtramak [8 hours ago]
+Здесь крохи написаны, по-подробнеее бы
+
+
+Stanislav [8 hours ago]
+все, спасибо
+
+
+Mihail Kedel [Today at 5:06 PM]
+request.getParameter  в сервлете это тоже самое что аннотация RequestParam в контролере?
+
+
+1 reply
+Kirilo [7 hours ago]
+Да. Это спринговская обертка передает ссылки на сервлет таким образом
+
+
+This message was deleted.
+
+
+2 replies
+Yevhen Maksymovych [7 hours ago]
+в тестах же
+
+
+Mihail Kedel [7 hours ago]
+да уже нашёл,спасибо (edited)
+
+
+Jury Mironov [Today at 5:47 PM]
+Как переключать профили, чтобы бины. dataSource не были дублями?  Это в spring-db. xml
+
+
+1 reply
+Ma3stro [5 hours ago]
+попробуй mvn clean
