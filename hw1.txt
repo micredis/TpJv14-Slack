@@ -3002,3 +3002,14 @@ added this Plain Text snippet: Untitled
 
 Grigory Kislin [9:07 PM]
 @Albert Alt+F1  на том месте попробуй- idea предлагает решение
+
+
+pal548 [11:59 PM]
+всем привет, создал тесты, только не могу их запустить. Сначала создались тесты в пакете java.ru.javawebinar.topjava.dao
+
+pal548 [12:01 AM]
+говорило, что неправильный пакет, ну я переименовал, убрал java. Теперь выдаёт ошибку Class not found: "java.ru.javawebinar.topjava.dao.MealsDaoTestInMemory"
+
+что-то нужно еще настроить в Идее?
+
+перезагрузка Идеи помогла)

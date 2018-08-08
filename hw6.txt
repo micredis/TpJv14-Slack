@@ -798,3 +798,250 @@ Jury Mironov [Today at 5:47 PM]
 1 reply
 Ma3stro [5 hours ago]
 попробуй mvn clean
+
+
+Jury Mironov [8 hours ago]
+Не понятно как с этими профилями обращаться и переключаться
+
+
+Ma3stro [6 hours ago]
+@Jury Mironov профиль базы можно выбрать во вкладке maven'a, профиль репозитория в tomcat, web.xml и помнике. А для тестов аннотацией
+
+
+Jury Mironov [5 hours ago]
+А где в томкате это?
+
+
+Ma3stro [4 hours ago]
+VM options -Dspring.profiles.active=...
+
+
+hav [Yesterday at 10:39 AM]
+Помогите разобраться с ошибкой javax.servlet.jsp.JspTagException: No message found under code 'app.title' for locale 'ru_RU'
+
+
+10 replies
+alexey [13 hours ago]
+а что конкретно не понятно? app.title есть у тебя в русской локали?
+
+
+hav [13 hours ago]
+файлы есть, app.title есть, но не видит
+
+
+vch [13 hours ago]
+переменная окружения точно создана?
+
+hav [13 hours ago]
+да
+
+
+alexey [13 hours ago]
+если остальные видит значит орфография
+
+
+hav [13 hours ago]
+для английской локали тоже не видит... Файлы не трогал, созданы патчем
+
+
+alexey [13 hours ago]
+остальные то видит?
+
+
+hav [13 hours ago]
+app.properties, app_ru.properties - не видит
+
+
+tema.emelyan [13 hours ago]
+переменная окружения не подтянулась скорее всего. Может попробуй её всунуть через IDE или перезагрузись?
+
+
+hav [12 hours ago]
+Все, разобрался. Прописывал в системе переменную, а она была прописана в конфиге запуска идеи, причем неправильно...
+
+
+alexey [11:26 AM]
+Получилось у кого нибудь настроить вывод запросов в базу для Jdbc????
+
+
+Stanislav [Yesterday at 11:28 AM]
+По какой причине после
+ ```form method="post" action="meals/filter"``` 
+и
+ ```return "meals"``` 
+адресная строка становится
+ ```/topjava/meals/filter``` 
+- это же не гет и не "redirect:/meals"
+
+
+2 replies
+Yevhen Maksymovych [13 hours ago]
+"action" тебя фактически перебрасывает на этот урл, в контроллере ты возвращаешь вид без редиректа, соответственно, остаёшься на том урле, на котором ты попал в этот метод контроллера
+
+
+Stanislav [13 hours ago]
+ясно спс
+
+
+Jury Mironov [Yesterday at 3:37 PM]
+Could not resolve placeholder 'hibernate. format_sql'
+
+
+1 reply
+Jury Mironov [8 hours ago]
+При запуске одного из тестов.  Это можно починить?  Не понимаю как с профилями разобраться
+
+
+matrocob [Yesterday at 7:29 PM]
+подскажите пожалуйста, после накатки всех патчей ошибка такая вылетает при запуске томката... Может я где-то, что-то не досмотрел?
+HTTP Status 500 - An exception occurred processing JSP page /WEB-INF/jsp/index.jsp at line 6
+
+
+5 replies
+matrocob [5 hours ago]
+а в консоли вылетает такая ошибка
+
+Stacktrace:
+    at org.apache.jasper.servlet.JspServletWrapper.handleJspException(JspServletWrapper.java:579)
+
+
+matrocob [4 hours ago]
+Снимок.JPG
+
+
+
+hav [4 hours ago]
+Смотри переменные окружения. у меня то же самое было.
+
+
+hav [4 hours ago]
+https://topjava14.slack.com/archives/CC0F4AC1W/p1533713945000057
+Aleksandr Khromov
+Помогите разобраться с ошибкой javax.servlet.jsp.JspTagException: No message found under code 'app.title' for locale 'ru_RU'
+Thread in #hw6Yesterday at 10:39 AM
+
+
+matrocob [4 hours ago]
+спасибо, сейчас гляну
+
+
+hav [Yesterday at 7:56 PM]
+Подскажите по 1.2 Починить Jdbc тесты (валидацию исключить). Не могу разобраться. Тесты падают на подключении JpaUtil. Как сделать чтобы  JpaUtil игнорировалось в jdbc тестах?
+
+
+30 replies
+Stanislav [4 hours ago]
+Сделать так, что бы JpaUtils (сброс кеша) поднимался-производился только для Jpa
+
+
+Stanislav [4 hours ago]
+Еще одну абстракцию сделай
+
+
+Victor_D [4 hours ago]
+ну или можно из бинов его убрать в нужной реализации
+
+
+Stanislav [4 hours ago]
+В какой реализации, он внедряется в AbstractServiceTest
+
+
+hav [4 hours ago]
+Я не пойму как сделать чтоб он не внедрялся в jdbc реализации...
+
+
+Stanislav [4 hours ago]
+Есть 2 пути: 1. То что предложил Victor, прописать JpaUtils (и для чего он используется) только в тех где он нужен (где используется хибернейт + кэш 2 ур.) - но это дублирование 4 класса
+
+
+Stanislav [4 hours ago]
+2. Сделать еще одну абстракцию
+
+
+Stanislav [4 hours ago]
+Как AbstractServiceTest
+
+
+Victor_D [4 hours ago]
+не обязательно дублировать в 4 класса
+
+
+Stanislav [4 hours ago]
+ой 2 класса, у нас в User только кэш (edited)
+
+
+Stanislav [4 hours ago]
+все равно дублирование
+
+
+Victor_D [4 hours ago]
+есть аннотация, у нее есть поле
+
+
+Victor_D [4 hours ago]
+т.е. с помощью нее можно заглушить бин
+
+
+Stanislav [4 hours ago]
+По профилю?
+
+
+hav [4 hours ago]
+как
+
+
+Victor_D [4 hours ago]
+не только по профилю
+
+hav [4 hours ago]
+Можно подробнее какая аннотация
+
+hav [4 hours ago]
+Пока у меня только вариант - перенести на уровень ниже, в реализации jpa и datajpa.
+
+
+Victor_D [4 hours ago]
+имеет право на жизнь, но не практично, @Stanislav говорил про абстрации, тебе в эту сторону двигаться :slightly_smiling_face:
+
+
+Victor_D [4 hours ago]
+если я правильно его понял
+
+
+Stanislav [4 hours ago]
+Правильно, только я не понимаю про какую аннотацию ты пишешь, самому интересно :slightly_smiling_face: (edited)
+
+
+Victor_D [4 hours ago]
+Autowired
+
+
+Victor_D [4 hours ago]
+она же бин подтягивает
+
+
+Victor_D [4 hours ago]
+и она не только на поле ставится
+
+
+Stanislav [4 hours ago]
+я понял через какое место :slightly_smiling_face:
+
+hav [3 hours ago]
+Спасибо за подсказки, сделал. Autowired на сеттер, переопределенный в jdbc реализации.
+
+zippospb [3 hours ago]
+В autowired ещё есть параметр,  который делает внедрение необязательным
+
+
+hav [3 hours ago]
+Да, required, только я не понял как его применить.
+
+
+zippospb [2 hours ago]
+Ставишь false и тогда туда инжект происходит только если это возможно
+
+
+
+hav [2 hours ago]
+Работает, и сеттер можно не переопределять

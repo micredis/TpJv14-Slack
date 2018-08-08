@@ -4337,3 +4337,17 @@ Victor [9 hours ago]
 
 e.pekhterev [9 hours ago]
 на какую папку/файл с изменениями поставишь курсор, то и закоммитится, тоже надо внимательнее с этим (edited)
+
+
+SergeyA [Yesterday at 12:07 PM]
+В вики проекта упоминается канал '#interview_job'.  Он есть? Что то не могу найти..
+
+
+2 replies
+Ignat [11 hours ago]
+Такое есть группе выпускников проекта
+
+
+Ignat [11 hours ago]
+Поищи в ЛК на javaops.ru
+Pasted image at 2018-08-08, 1:02 PM
