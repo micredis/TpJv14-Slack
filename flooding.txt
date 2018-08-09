@@ -2242,3 +2242,37 @@ Tanya [2 hours ago]
 
 Grigory Kislin [12:06 AM]
 не надо смешивать кол-во запросов в базу для получения необходимых данных и сложность запроса. это разные вещи. возможно из-за дублирования данных действительно вместо join иногда вместо 1 лучше 2-3 запроса. но не 1000 (edited)
+
+
+Vladimir Gorbatenko [Today at 2:28 PM]
+https://cdn-tn.fishki.net/26/upload/post/2018/08/09/2672236/df7d99125937c00b75c771c9ad8b6b9c.jpg (33 kB)
+
+
+
+1 reply
+Ignat [8 hours ago]
+Аж первый курс универа перед глазами проплыл. Учил так, что диффуры и интегралы снились пару раз. В кошмарах...:confounded:
+
+
+Yevhen Maksymovych [3:00 PM]
+я когда прошлый раз проходил топджава где-то на моменте шестого урока приложил похожую картинку :slightly_smiling_face: (edited)
+
+
+Yevhen Maksymovych [Today at 3:00 PM]
+во, нашёл
+
+
+1 reply
+Vladimir Gorbatenko [8 hours ago]
+да, помню )
+
+
+Yevhen Maksymovych [3:01 PM]
+Pasted image at 2018-08-09, 3:01 PM 
+
+
+Daniel [3:01 PM]
+Я думал у меня у одного только подобные ассоциации и метафоры в голове всплывают с середины курса...
+
+Join_Selectovich [3:07 PM]
+не у одного это :100:

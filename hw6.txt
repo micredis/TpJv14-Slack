@@ -1045,3 +1045,209 @@ zippospb [2 hours ago]
 
 hav [2 hours ago]
 Работает, и сеттер можно не переопределять
+
+
+svis [12:41 AM]
+При сохранении вновь созданной еды постоянно возникает ошибка Bad value for type timestamp/date/time: {1}; nested exception is org.postgresql.util.PSQLException. Судя по логу не нравится символ "Т" перед временем
+java.lang.NumberFormatException: Trailing junk on timestamp: 'T00:37'
+Кто-нибудь с таким сталкивался на этом задании?
+
+
+svis [Today at 12:59 AM]
+Can't infer the SQL type to use for an instance of java.time.LocalDateTime. Use setObject() with an explicit Types value to specify the type to use.
+
+
+2 replies
+svis [20 hours ago]
+В общем теперь ставлю timestamp вместо localdatetime для sql
+
+
+svis [20 hours ago]
+Timestamp dt = Timestamp.valueOf(meal.getDateTime());
+       MapSqlParameterSource map = new MapSqlParameterSource()
+               .addValue("id", meal.getId())
+               .addValue("description", meal.getDescription())
+               .addValue("calories", meal.getCalories())
+               .addValue("date_time", dt)
+               .addValue("user_id", userId);
+
+
+Tanya [1:30 AM]
+частая ошибка, поэтому уточню
+> "1.3.2 в одном контроллере нельзя использовать другой. Чтобы не дублировать код можно сделать наследование. "
+- не надо `JspMealController extends MealRestController` - контроллеры должны быть независимы один от другого (edited)
+
+
+turhanow [Today at 3:36 AM]
+парни, может вопрос слегка глупый...но почему мы не можем в JspMealController использовать MealRestController? а должны использовать сервис? ведь MealRestController дает нам уже готовую функциональность...
+
+я про это:
+@Autowired
+   private MealService service; (edited)
+
+
+4 replies
+Tanya [17 hours ago]
+это две разные реализации, независимые друг от друга
+JspMealController не является MealRestController-ом, и 
+MealRestController не является JspMealController-ом (edited)
+
+
+hav [10 hours ago]
+Можно сделать AbstractMealController, и оба унаследовать от него.
+
+
+Crazz [8 hours ago]
+почему не можем, я наследовал Jsp от Rest контроллера
+
+
+turhanow [6 hours ago]
+Таня выше писала же: 
+частая ошибка, поэтому уточню
+"1.3.2 в одном контроллере нельзя использовать другой. Чтобы не дублировать код можно сделать наследование. "
+- не надо JspMealController extends MealRestController - контроллеры должны быть независимы один от другого (edited)
+
+
+Макс Куркудюк [Today at 11:29 AM]
+А якщо у мене tomcat 9.0, через що не запускається через plagins-cargo-cargo:run, то краще завантажити 8 версію чи можна цю проблему вирішити якось інакше, щоб залишити tomcat 9?
+
+
+3 replies
+Kirilo [5 hours ago]
+тобі треба змінити версію в pom.xml По ідеї плагін повинен з'явитися відповідний (edited)
+
+
+Макс Куркудюк [5 hours ago]
+Змінював версію Tomcat у pom.xml, але всеодно cargo:run запускається з tomcat8.5.31
+Ну, вже вияснив, що це не залежить від того, яка версія tomcat у мене встановлена на ноуті.
+
+
+Kirilo [5 hours ago]
+більше того, при запускі цього плагіна цей tomcat викачує залежності з інтернету до свого репозиторію. (edited)
+
+
+hav [1:14 PM]
+Не срабатывает переключение профилей Запускаю так:
+```mvn clean package -Dspring.profiles.active="postgres,jdbc" -DskipTests=true org.codehaus.cargo:cargo-maven2-plugin:1.6.7:run```
+Куда копать?
+
+
+Макс Куркудюк [Today at 4:22 PM]
+Вже поставив tomcat 8.5.32. Але всеодно через plagins-cargo-cargo:run не запускається. Просто, через tomcat-run - запускається... В чому може бети проблема? Патчі нормально лягли..
+
+
+6 replies
+Yevhen Maksymovych [7 hours ago]
+карго запускает его не через твой установленный томкат, а через свой встроенный томкат, установка томката на это вообще никак не влияет
+
+
+
+Yevhen Maksymovych [7 hours ago]
+попробуй сделать по очереди mvn:clean mvn:package cargo:run
+
+
+Yevhen Maksymovych [7 hours ago]
+ну, собственно, он у тебя в эрроре и говорит, что мавен-то он запустил, но отдеплоить ему туда нечего, нет предварительно собранного варника
+
+
+Макс Куркудюк [7 hours ago]
+Пропустив цю настанову Григорія:
+Для сборки проекта в окне Maven отключите тесты (Toggele 'Skip Tests' Mode)
+
+
+Макс Куркудюк [7 hours ago]
+Без цього варник збирався не вірно, так як у нас є непрацюючі тести..
+
+
+Макс Куркудюк [7 hours ago]
+Дякую)
+
+
+Maksim K [Today at 5:20 PM]
+А кто-нибудь понял, как можно указать мавен плагину, чтобы он запускал  tomcat тот, который у меня установлен.  `По умолчанию он скачивает его из центрального maven репозитория (можно также указать свой в <container><home>${container.home}</home></container>)`
+Это написано в задании. Но что-то у меня не получается указать свой tomcat
+
+
+1 reply
+Maksim K [4 hours ago]
+Получилось. Ругалось на отсутствие папки host-manager. У меня скачано несколько версий tomcat и только в одной из них была эта папка. А в остальных нет. Хз как и где я качал эти версии, но этой папки в них не было, причем что все эти версии работали и через LocalTomcat в Идее запускались норм. Для чего cargo-maven2-plugin нужна эта папка так и не понял. (edited)
+
+
+Kirilo [Today at 5:48 PM]
+Кто подскажет, как при создании RowMapper у нас появляется ResultSet? Здесь так же участвует контекст спринга и делает эту магию?
+
+
+12 replies
+Yevhen Maksymovych [5 hours ago]
+тут вообще магии никакой
+
+
+Yevhen Maksymovych [5 hours ago]
+resultset появляется как результат jdbc-запроса
+
+
+Yevhen Maksymovych [5 hours ago]
+а rowmapper - это собственно, маппер, который мапит поля этого резалтсета на поля объекта. маппер спринговый, но это и руками делать можно. собственно, раньше так с jdbc и работали
+
+
+
+Yevhen Maksymovych [5 hours ago]
+получили connection, создали statement, отправили запрос, получили плоский resultset, замапили его на объект
+
+
+Kirilo [5 hours ago]
+Да понимаю, что это тимплейт спринговский (edited)
+
+
+Yevhen Maksymovych [5 hours ago]
+спринг это немного автоматизировал, но совсем чуть-чуть
+
+
+Kirilo [5 hours ago]
+Ага, то бишь, когда он получает данные по запросу, через JdbcTemplate то он ничего не знает о типах получаемых данных и мы как бы указываем ему переопределяя mapRow в RowMapper
+
+Yevhen Maksymovych [5 hours ago]
+да, там просто, грубо говоря, табличка приходит. а благодаря RowMapper'у он понимает, какой там тип должен быть у каждого поля, и как оно должно называться в объекте конечном
+
+
+Kirilo [5 hours ago]
+Странно, тогда, почему не допили для enum
+
+
+Kirilo [5 hours ago]
+BeanPropertyRowMapper<Role> ROW_MAPPER
+
+Kirilo [5 hours ago]
+чтобы так работало (edited)
+
+
+Victor_D [1 hour ago]
+ResultSet появляется из запроса, RowMapper мапит по row.
+*RowMapper* же :slightly_smiling_face:
+а запрос всех пользователей или админа выдаст нам 2 строки админа ( с ролью админа и с ролью юзера), соответственно нужно что-то иное для one-to-many
+https://stackoverflow.com/questions/10074025/what-is-difference-between-resultsetextractor-vs-rowmapper (edited)
+
+
+Макс Куркудюк [10:31 PM]
+Це нормально, що у мене так багато context` ів?
+Може які лишні.. (edited)
+Снимоewrк.PNG 
+
+
+Maxim Gusev [11:09 PM]
+В
+```JdbcMealRepositoryImpl```
+добавил
+
+ ```private PlatformTransactionManager transactionManager;
+
+    public void setTransactionManager(PlatformTransactionManager txManager) {
+        this.transactionManager = txManager;
+    }
+
+    TransactionDefinition txDef;
+    TransactionStatus txStatus;```
+
+В конструктор добавил
+        ```TransactionDefinition txDef = new DefaultTransactionDefinition();
+        TransactionStatus txStatus = transactionManager.getTransaction(txDef);```
