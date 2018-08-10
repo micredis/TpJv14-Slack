@@ -1234,7 +1234,9 @@ https://stackoverflow.com/questions/10074025/what-is-difference-between-resultse
 Снимоewrк.PNG 
 
 
-Maxim Gusev [11:09 PM]
+Maxim Gusev [Yesterday at 11:09 PM]
+2.1. Помогите разобраться
+
 В
 ```JdbcMealRepositoryImpl```
 добавил
@@ -1248,6 +1250,40 @@ Maxim Gusev [11:09 PM]
     TransactionDefinition txDef;
     TransactionStatus txStatus;```
 
+
 В конструктор добавил
         ```TransactionDefinition txDef = new DefaultTransactionDefinition();
         TransactionStatus txStatus = transactionManager.getTransaction(txDef);```
+В профиль jdbc добавил:
+        ```<bean id="jdbcTransactionManager"
+              class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+            <property name="dataSource" ref="dataSource" />
+        </bean>
+
+        <bean id="???"
+              class="ru.javawebinar.topjava.repository.jdbc.JdbcMealRepositoryImpl">
+            <property name="dataSource" ref="dataSource" />
+            <property name="transactionManager" ref="transactionManager" />
+        </bean>```
+
+
+Не знаю, какое поставить имя бина. Подскажите, я в правильном направлении двигаюсь? (edited)
+
+
+3 replies
+hav [13 hours ago]
+Все проще. В JdbcMealRepositoryImpl только аннотации расставить. Ну и пару строчек в профиль jdbc добавить...
+
+
+Victor_D [13 hours ago]
+> 8: Проверьте @Transactional(readOnly = true) сверху Jdbc..RepositoryImpl
+я думаю, тебе в эту сторону :slightly_smiling_face:
+ну и зачем
+> class="ru.javawebinar.topjava.repository.jdbc.JdbcMealRepositoryImpl">
+           <property name="dataSource" ref="dataSource" />
+           <property name="transactionManager" ref="transactionManager" />
+       </bean> (edited)
+
+
+Merkulov [13 hours ago]
+тебе просто нужно подключить праильный менеджер транзакции (2.1 Добавить транзакционность (DataSourceTransactionManager) в Jdbc реализации )для твоего Jdbc профиля ну и сделать чтбы все транзакции работали через аннотацию @Transactional
