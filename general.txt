@@ -4351,3 +4351,42 @@ Ignat [11 hours ago]
 Ignat [11 hours ago]
 Поищи в ЛК на javaops.ru
 Pasted image at 2018-08-08, 1:02 PM
+
+
+SergeyA [4 days ago]
+@Ignat А какой адрес этого слака?  из ЛК мне отвечает что  
+"Ответ от Slack: already_in_team", но ссылки нет (( (edited)
+
+
+Ignat [4 days ago]
+@SergeyA javaops.slack.com
+
+
+Daria [1 day ago]
+javaops.slack.com имя рабочей области как и topjava.slack.com в этой рабочей области есть каналы, в которых есть канал про интервью...
+
+
+SergeyA [Yesterday at 1:54 PM]
+Привет! Не могу разобраться с JPA конструкцией:
+---------------------
+@Entity
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", *name* = "users_unique_email_idx")})
+---------------------
+В примерах с @UniqueConstraint нигде не акцентируется поле *name*. Как его использовать?
+Проблема в том что у меня на компе все работает. А на ноуте IDEA поле *name* выделяет красным и пaдает при компиляции с ошибкой:
+---------------------
+/Users/sergey/projects/topjava/src/main/java/ru/javawebinar/topjava/model/User.java в классах meal и user
+Error:(21, 93) java: cannot find symbol
+ symbol:   method name()
+ location: @interface javax.persistence.UniqueConstraint
+---------------------
+, а причину я не могу понять ((( (edited)
+
+
+2 replies
+sky [10 hours ago]
+spring-data-jpa.version одинаковая и там и там?
+
+
+SergeyA [6 hours ago]
+@sky я только 5й урок прохожу, патчи 5го еще не накатил, spring data нет

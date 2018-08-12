@@ -826,3 +826,11 @@ Mihail Kedel [Today at 5:40 PM]
 1 reply
 Ma3stro [5 hours ago]
 А как доступ по ролям настраивать?)
+
+
+Kirilo [3:59 PM]
+может кому пригодится: http://developerkiselev.blogspot.com/2016/11/restcontroller-vs-controller.html
+developerkiselev.blogspot.com
+@RestController vs. @Controller
+Spring MVC и REST  Spring - MVC фреймфорк, использующий аннотации, которые позволяют облегчить процесс создания RESTfull веб-сервиса....
+https://lh4.googleusercontent.com/proxy/a8KwcJ2WoFA_NGVWVxcLMZCSB9K6wx-x5g3O2xm8N1SLSg_viIKtGnNYVZ2nMcRznLKB0Ww-NQM_LTU4p6RtEqMZ3zJ8MyT2K1KHtNK2OP4GqzgwgRJQyanUpOiYqvblY5Vb=w1200-h630-p-k-no-nu

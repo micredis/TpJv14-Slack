@@ -3737,3 +3737,83 @@ Join_Selectovich [1 day ago]
 
 Yevhen Maksymovych [20 hours ago]
 @Join_Selectovich у тебя на аватарке просто лого из неё, вот и подумалось :slightly_smiling_face:
+
+
+SergeyA [5:57 PM]
+Hi! i don understand - where get right sources? this sources file: https://github.com/JavaWebinar/topjava/blob/doc/pom.xml    commit a 2 monts ago.  Help! How me check my project which original correct branch  ((
+pom.xml
+```<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ru.javawebinar</groupId>
+    <artifactId>topjava</artifactId>
+    <packaging>jar</packaging>
+
+    <version>1.0-SNAPSHOT</version>
+
+    <name>Calories Management</name>
+    <url>http://topjava.herokuapp.com/</url>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
+    <build>
+        <finalName>topjava</finalName>
+        <defaultGoal>install</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+    </dependencies>
+
+    <profiles>
+    </profiles>
+
+    <dependencyManagement>
+    </dependencyManagement>
+</project>```
+
+Show less
+JavaWebinar/topjavaAdded by GitHub
+
+
+shtramak [Aug 11th at 6:17 PM]
+https://github.com/JavaWebinar/topjava оно?
+JavaWebinar/topjava
+Stars
+----------------
+7
+
+Language
+----------------
+Java
+
+JavaWebinar/topjavaFeb 15th at 11:52 AM Added by GitHub
+
+
+1 reply
+SergeyA [1 day ago]
+Thank you! I was don't find it ))
+
+
+Kirilo [Aug 11th at 7:06 PM]
+Как можно артикль "a" ставить здесь: "a 2 monts"?
+
+
+1 reply
+Daniel [10 hours ago]
+Ну а весь остальной текст написан в лучших оксфордских традициях, конечно.
