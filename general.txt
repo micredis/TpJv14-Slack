@@ -4390,3 +4390,310 @@ spring-data-jpa.version одинаковая и там и там?
 
 SergeyA [6 hours ago]
 @sky я только 5й урок прохожу, патчи 5го еще не накатил, spring data нет
+
+shtramak [3 days ago]
+ну похоже, что в мавене не так либы подтянулись, а почему - хз
+
+
+shtramak [3 days ago]
+Переимпорть в мавене, Перезагрузи идею с инвалидацией кешей, сравни помники на компе и ноуте
+
+
+SergeyA [1 day ago]
+@shtramak Реимпорт первым делом пробовал,   Не помогает, pom одинаковые - гит же синхронизировал.  Попробую прочитать про инвалидацию кешей. 
+Ps у меня мак бук ios , окружение может влиять ? Вроде версии те же софта...
+Pps mac 2011го года не завидуйте сильно :) (edited)
+
+
+SergeyA [1 hour ago]
+не помогло (( Идею рестартовал с инвалидецией (переидексировалось все) , с рабочего компа ставил далее патчи до 5,5 на ноуте подтянул их но все по прежнему: поле name не хочет принимать ((
+@Grigory Kislin было у кого то такое? (edited)
+error resolve.png
+
+
+
+Grigory Kislin [7 minutes ago]
+@SergeyA це странно
+1. удали [maven_repo]\javax\persistence\javax.persistence-api  из локального maven repo
+2. запусти mvn compile - связано с idea либо нет
+3. посмотри на java.. может с ней проблемы (edited)
+
+
+Yevhen Maksymovych [Aug 13th at 10:39 AM]
+ребят, кто-то хорошо разбирается в спринге? я тут решил поэкспериментировать, перенести xml-конфиги в java-конфиги, все работает, но я, хоть убей, не могу понять, как дёргается WebApplicationInitializer
+
+
+16 replies
+Ignat [3 days ago]
+ ```public class CustomWebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+ @Override
+ protected Class<?>[] getRootConfigClasses() {
+  return new Class<?>[]{RootConfiguration.class};
+ }
+
+ @Override
+ protected Class<?>[] getServletConfigClasses() {
+  return new Class<?>[]{MvcConfiguration.class};
+ }
+
+ @Override
+ protected String[] getServletMappings() {
+  return new String[]{"/"};
+ }
+}```
+(edited)
+
+
+Ignat [3 days ago]
+Сейчас статью поищу откуда я этот темплейт брал.
+
+
+Ignat [3 days ago]
+https://dzone.com/articles/spring-1
+dzone.com
+Spring WebApplicationInitializer and ApplicationContextInitializer confusion - DZone Java
+These are two concepts that I mix up occasionally - a WebApplicationInitializer and an ApplicationContextInitializer, and wanted to describe each of them to... (31 kB)
+
+
+Yevhen Maksymovych [3 days ago]
+это ничего не объясняет, тут вот чего пишут:
+```Whereas the WebApplicationInitializer is used by a Servlet Container at startup of the web application and provides a way for programmatic creating a web application(replacement for a web.xml file)```
+
+
+Yevhen Maksymovych [3 days ago]
+но, блин, я в упор не понимаю, как, имплементировав WebApplicationInitializer, томкат про него узнаёт?
+
+
+Yevhen Maksymovych [3 days ago]
+вот весь WebApplicationInitializer:
+
+
+Yevhen Maksymovych [3 days ago]
+```public interface WebApplicationInitializer {
+    void onStartup(ServletContext var1) throws ServletException;
+}```
+
+
+Yevhen Maksymovych [3 days ago]
+т.е. на каком-то этапе в дело вступает спринг, и делает из конфы, которую я описал в этом файле, адаптер для сервлетконтекста томката, но кто поднимает спринг?
+
+
+Yevhen Maksymovych [3 days ago]
+я ещё понимаю, если бы он наследовал какой-то апачевский интерфейс, или какое-то апачевское апи, тогда апач при старте бы, к примеру, сканил классы на предмет расширяющих его классы, и инстанцировал бы их. но тут просто класс, наследующий пустой интерфейс, и томкат инстанцирует его без лишних слов
+
+
+Ignat [2 days ago]
+Хм. Вопрос интересный. По быстрому отдебажить у меня не получилось.
+
+
+Ignat [2 days ago]
+Нашел инфу https://stackoverflow.com/a/32550350/7470032
+Stack Overflow
+How does Tomcat exactly bootstrap the app without web.xml?
+I'm wondering how does Tomcat bootstrap my app on Spring MVC? I have an initializer: public class AppInitializer implements WebApplicationInitializer { @Override public void onStartup(
+ 
+ 
+
+
+Yevhen Maksymovych [2 days ago]
+понятно, так и думал, что всё на соглашении имён строится
+
+
+Yevhen Maksymovych [2 days ago]
+спасибо :slightly_smiling_face:
+
+
+Yevhen Maksymovych [2 days ago]
+короче, всё как в буте
+
+
+Ignat [2 days ago]
+Да не за что.  Мне самому стало интересно :grinning:  Я бы даже сказал, тебе спасибо за интересный вопрос. Заставило слазить под капот спринга и почитать доки:+1:
+
+
+SergeyA [1 day ago]
+Магия Спринг? )))
+
+
+Yevhen Maksymovych [10:40 AM]
+он не расширяет никакой апачевский интерфейс, чтобы апач мог его дёрнуть, это чисто спринговый интерфейс. Априори, томкату должно быть на него всё равно, но он просто грузится, и всё тут
+причём его дёргает org.apache.catalina.core.StandardContext
+откуда он про него знает??
+
+
+Yevhen Maksymovych [Aug 13th at 2:04 PM]
+ещё вопрос, мы в xml-конфиге разделяли на профили, в каждом из которых указывали свой каталог для сканирования компонентов. Как-то можно реализовать аналогичное в Java-конфиге? у аннотации @ComponentScan стоит @Target({ElementType.TYPE}), т.е. можно задать пекедж для скана только для класса в целом. @Conditional он не помечен, т.е. к профилям привязаться тоже непонятно как :confused: Отдельный конфиг под каждый профиль? (edited)
+
+
+6 replies
+shtramak [2 days ago]
+может быть, но конфиг же может вроде принимать несколько конфигов?
+
+
+Yevhen Maksymovych [2 days ago]
+да, но импортить конфиг нам тоже надо по условию. если просто импортнуть все, будет беда. а @Import тоже безкондиционный и для класса
+
+
+shtramak [2 days ago]
+не знаю, надо пробовать, мне кажется должно работать https://stackoverflow.com/a/16211385
+Stack Overflow
+What is the best practice for handling multiple profiles in Spring with java config?
+On a project I'm currently working on we have the need for multiple profiles, i.e. "default" and "test". To solve this, we've implemented a main context class, ApplicationContext.java, with 2 public
+ 
+
+
+Yevhen Maksymovych [2 days ago]
+да не, вопрос, вопрос не в том, как вайрить разные профили, тут вообще проблем нет, вопрос исключительно взаимодействия профилей и @ComponentScan
+
+
+shtramak [2 days ago]
+Ну по логике, какой конфиг берется в зависимости от профиля, его компонент скан и идет.  Но это мои догадки
+
+
+Grigory Kislin [2 days ago]
+это не оно? https://stackoverflow.com/a/27186301/548473
+Stack Overflow
+How to set a Spring profile to a package?
+I want to set a profile name to a whole package and I don't know how. If where is no easy way then I have to mark every class in the package and sub packages with @Profile annotation. <context:
+
+
+Ma3stro [Yesterday at 7:57 AM]
+Почему мы достаем юзера с ролями при помощи left join? У нас ведь для каждого юзера 100% есть какая-то роль, почему не inner join? (edited)
+
+
+2 replies
+Join_Selectovich [1 day ago]
+В данном случае правильно сработают оба варианта.
+
+
+Ignat [1 day ago]
+>У нас ведь для каждого юзера 100%
+Откуда такая уверенность? В интерфейсе админа вполне может быть возможность назначать и снимать с юзера роли. Если он снимет с юзера все роли, то как его потом достать? Вспоминать id? (edited)
+
+
+Prodigy [Today at 2:02 PM]
+Слушайте, коль тут такая дискуссия развенулась по поводу xml и java конфигов, интересно какое соотношение одних к другим в реальных проектах? я так понимаю что раз Григорий использует xml, то он популярнее java конфига. Какая тенденция вообще в отношении java конфигов? Насколько я понимаю с java конфигами больше кода... тогда какой смысл их использовать?
+
+
+31 replies
+e.pekhterev [10 hours ago]
+Григорий использует не чистое xml-конфигурирование, а смешенное с аннотациями.
+
+
+Andrey [10 hours ago]
+Java все-таки более гибкая чем xml, не все можно через xml, если сложная логика
+
+
+e.pekhterev [10 hours ago]
+ну как бы до аннотаций как то жили ведь раньше, т.е. можно чисто в xml все сделать, заинжектить все бины
+
+
+Andrey [10 hours ago]
+Плюс spring boot по умолчанию джава конфиги ждёт, и там обычно xml совсем не используется (хотя можно)
+
+
+Andrey [10 hours ago]
+И я не уверен, но не стал бы заявлять что xml популярнее в 2018, можно статистику поискать
+
+
+e.pekhterev [10 hours ago]
+да я и не заявляю так
+
+
+Andrey [9 hours ago]
+@e.pekhterev  Да это не наезд) просто мне кажется новый проект с xml вряд ли начнут
+
+
+Andrey [9 hours ago]
+https://stackoverflow.com/questions/29162278/benefits-of-javaconfig-over-xml-configurations-in-spring
+Stack Overflow
+Benefits of JavaConfig over XML configurations in Spring?
+Earlier the configurations used to be in hard coded in the code, later it was externalized to .property files (for sake of avoiding hard coded values, avoiding changing code for the sake of changing
+ 
+
+
+e.pekhterev [9 hours ago]
+@Andrey всё быстро меняется, ещё год назад и восьмерку не особо пользовали, а сейчас почти везде
+
+Prodigy [9 hours ago]
+джава конфигам уже сто лет в обед, но тем не менее Григорий использовал xml, вопрос тогда почему..
+
+Andrey [9 hours ago]
+Ну меняется то да, но вряд ли обратно к xml пойдет
+
+
+e.pekhterev [9 hours ago]
+topJava уже давно идёт, как виринт сложно быстро всё обучение переситроить
+
+
+Andrey [9 hours ago]
+@Prodigy это к Григорию вопрос) имхо большой разницы для нашего проекта нет, уже есть с xml, можно так и оставить, а если оч хочется то самому несложно поменять
+
+
+e.pekhterev [9 hours ago]
+с другой стороны мы должны уметь и xml конфигурить
+
+e.pekhterev [9 hours ago]
+так придется работать и со старыми проектами
+
+
+Prodigy [9 hours ago]
+почему тогда Григорий не добавил в проект опцию конфигурации в java стиле?) всё это покрыто тайной) (edited)
+
+Andrey [9 hours ago]
+Ты сам можешь добавить такую опцию)
+
+Andrey [9 hours ago]
+просто патчи накатывать не сможешь тогда нормально..
+
+Prodigy [9 hours ago]
+вопрос же не в том что я могу) а в том почему именно так)
+
+
+Andrey [9 hours ago]
+могу предположить, что изначально была какая-то заготовка (референсная имплементация) в xml, да и действительно дело давно вроде начиналось, тогда джава конфиг может только развивался, а менять сейчас особо смысла нет
+
+
+Stanislav [9 hours ago]
+Делаешь новую ветку, переносишь конфиги в Java = опыт конфиги Java, опыт миграции с xml
+
+
+
+Stanislav [9 hours ago]
+Ни кто же не запрещает, делаете свою ветку, делаете в ней что и как хотите, а может еще и пул реквест отправите.
+
+
+Kirilo [3 hours ago]
+юзай spring boot, там вообще все настройки в application.properties: ключ=значение :slightly_smiling_face: (edited)
+
+
+Andrey [3 hours ago]
+До тех пор пока что-то кастомизировать не придётся) (2 бд например), там велком ту обычный спринг
+
+Yevhen Maksymovych [3 hours ago]
+а бут - что, необычный? ))
+
+
+Kirilo [3 hours ago]
+ну, я впервые его начал использовать как раз в выпускном проекте и мне понравилось - все с уроков перенес без особых проблем. (edited)
+
+
+Andrey [3 hours ago]
+Ну для нашего проекта конечно бут попроще бы был, но основы то тоже надо знать
+
+Andrey [3 hours ago]
+@Yevhen Maksymovych магии много, в которой разбираться все равно придётся)
+
+
+Kirilo [3 hours ago]
+да. именно опираясь на полученные знания - тогда легко (edited)
+
+
+Kirilo [3 hours ago]
+раньше я бы не догадался, что у него встроенный Hibernate. А так, в логах увидел (edited)
+
+
+Grigory Kislin [16 minutes ago]
+если проект на boot - то там ~99% java config
+если на Spring без boot то мое мнение с потолка- 70% xml
+бо новые проекты делаются на boot, а старые никакого смысла на java config переводить нет

@@ -3817,3 +3817,83 @@ Kirilo [Aug 11th at 7:06 PM]
 1 reply
 Daniel [10 hours ago]
 Ну а весь остальной текст написан в лучших оксфордских традициях, конечно.
+
+
+SergeyA [Yesterday at 9:31 AM]
+Помогите: Не могу понять настройки JPA ((
+Почему у нас используется конструкция:
+<tx:annotation-driven/>
+а в интернете везеде стоит
+<tx:annotation-driven transaction-manager="transactionManager" />
+(тут например https://danielkvist.net/wiki/spring-jpa-hibernate-fundamentals)
+
+И что значит блок:
+       <property name="jpaPropertyMap">
+           <map>
+               <entry key="#{T(org.hibernate.cfg.AvailableSettings).FORMAT_SQL}" value="${hibernate.format_sql}"/>
+               <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_SQL_COMMENTS}"
+                      value="${hibernate.use_sql_comments}"/>
+               <entry key="#{T(org.hibernate.cfg.AvailableSettings).JPA_PROXY_COMPLIANCE}" value="false"/>
+               <!--<entry key="#{T(org.hibernate.cfg.AvailableSettings).HBM2DDL_AUTO}" value="${hibernate.hbm2ddl.auto}"/>-->
+           </map>
+       </property> (edited)
+
+
+
+12 replies
+Yevhen Maksymovych [1 day ago]
+это означает, что подключается менеджер транзакций, и их начнёт работать аннотация @Transactional
+
+Yevhen Maksymovych [1 day ago]
+фактически, это означает, что подключается бинпостпроцессор, который понимает эту аннотацию, и генерит корректную проксю для класса
+
+
+Yevhen Maksymovych [1 day ago]
+это упрощение с четвертого, кажется, спринга, если имя бина стандартное, его можно опускать
+
+
+
+SergeyA [1 day ago]
+Ок, кстати следующей строкой после упрощенного
+"<tx:annotation-driven/>"  идет блок:
+-------------------------------
+
+   <!-- Transaction manager for a single JPA EntityManagerFactory (alternative to JTA) -->
+   <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
+         p:entityManagerFactory-ref="entityManagerFactory"/>
+-------------------------------
+А при полном варианте
+"<tx:annotation-driven transaction-manager="transactionManager" />" вышеуказанный блок все равно нужен?  (очень сложно мне  это дается, все еще на 5м уроке сижу :disappointed:  ) (edited)
+
+
+Yevhen Maksymovych [1 day ago]
+не, смотри, какая фигня:
+
+
+Yevhen Maksymovych [1 day ago]
+когда в спринге ты объявляешь какой-то бин, и не задаёшь ему имя, имя генерится автоматически из имени класса
+
+
+Yevhen Maksymovych [1 day ago]
+если не задать bean id="transactionManager" для класса org.springframework.orm.jpa.JpaTransactionManager спринг автоматически создаст id jpaTransactionManager#1
+
+
+Yevhen Maksymovych [1 day ago]
+соответственно, если после этого положится на стандартные механизмы, например ,что <tx:annotation-driven /> по умолчанию подхватывает бин с id transactionManager, получится конфуз, потому что бина с таким ид у нас нет
+
+
+Yevhen Maksymovych [1 day ago]
+соответственно, надо или указать в таком случае <tx:annotation-driven transaction-manger="jpaTransactionManager#1" /> либо для JPATransactionManager указать другой id
+
+
+Yevhen Maksymovych [1 day ago]
+по-хорошему, это, конечно, путает, и для четкости надо бы указывать id бина и при создании бина, и при использовании, но идея тебе ругнётся в этом случае, дескать redundant объявление
+
+
+Yevhen Maksymovych [1 day ago]
+в спринге вообще очень многое строится на соглашении имён
+
+
+Grigory Kislin [1 day ago]
+1. transactionManager - имя по умолчанию для tx:annotation-driven
+2. jpaPropertyMap здесь разные настройки hibernate. можно с Ctrl+мышка шагнуть в константу

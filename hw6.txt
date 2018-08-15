@@ -1680,3 +1680,746 @@ e.pekhterev [7 hours ago]
 
 Join_Selectovich [3:16 PM]
 Вроде же какскадные изменения или в БД устанавливать нужно или на уровне Hibernate, т.е. в одном месте , а у нас оно и там и там (edited)
+
+
+Kirilo [12:05 PM]
+Интересно, что на это этапе в RootController мы вполне могли использовать метод setUser в таком виде:
+   @PostMapping("/users")
+   public String setUser(@RequestParam Integer userId) {
+       SecurityUtil.setAuthUserId(userId);
+       return "redirect:meals";
+   } (edited)
+
+
+Maksim K [Aug 13th at 12:06 PM]
+Товарищи, нужна помощь. Что-то я ваще уже по ходу туплю. У меня `request.getParameter("id")` возвращает всегда null. Не могу понять что за фигня. Вот мой метод delete к примеру.
+`@GetMapping("/meals/delete/{id}")
+   public String deleteMeal(HttpServletRequest request) {
+       int mealId = Integer.valueOf(request.getParameter("id"));
+       delete(mealId);
+       return "meals";
+   }`
+
+
+39 replies
+Kirilo [2 days ago]
+нужно дебажить, чтобы понимать, что происходит и откуда куда что попадает
+
+
+shtramak [2 days ago]
+ну у тебя @PathVariable. Скорее всего, если сотрешь {id}, будет работать
+
+
+shtramak [2 days ago]
+Но это  надо пробовать
+
+
+Stanislav [2 days ago]
+Не туда полез
+```...аннотации на параметры и адаптеры для LocalDate/Time мы введем позже```
+Если не знаешь аннотации, то делай по старинке, передавай через параметры, а не через uri
+
+
+Maksim K [2 days ago]
+а что с HttpServletRequest request не должно работать? только с @PathVariable?
+
+
+Stanislav [2 days ago]
+А где ты передаешь параметр что бы его получить через request.getParameter("id")?
+
+
+Stanislav [2 days ago]
+Если уж не в терпеж, почитай про @PathVariable и параметр "params" в @GetMapping и @PostMapping
+
+
+
+Ignat [2 days ago]
+Spring MVC должен передать `HttpServletRequest` если он сигнатуре метода указан. Другой вопрос, зачем он нужен, если тебе нужен только id. Юзай `@PathVariable`.
+
+
+Maksim K [2 days ago]
+я читал про это. видимо я просто не очень разобрался с HttpServletRequest request. получается в request мы можем передать параметр только в методе пост через форму jsp
+
+
+Ignat [2 days ago]
+С request'a можно параметр получить не только в POST запросе.
+
+
+shtramak [2 days ago]
+```<c:url var="updateLink" value="/meals/showmeals">
+<c:param name="mealId" value="${meal.id}"/>
+</c:url>
+<a href="${updateLink}">Update</a>```
+(edited)
+
+
+shtramak [2 days ago]
+типа такого тебе в get даст параметр
+
+
+Maksim K [2 days ago]
+ммм...ладно, ща че-нить еще почитаю про реквест
+
+
+Stanislav [2 days ago]
+Ты наверно не понимаешь что в твоем - @GetMapping("/meals/delete/{id}")  - нет параметров
+
+
+Stanislav [2 days ago]
+Это ссылка - url (path)
+
+
+Maksim K [2 days ago]
+ну вот я думал, что здесь {id} передается параметр)
+
+
+Stanislav [2 days ago]
+нет, параметр передается в @GetMapping("/meals/delete", params = "id")
+
+
+Stanislav [2 days ago]
+А так ты id загоняешь в path-url и его вытаскивать надо по другому
+
+Kirilo [2 days ago]
+Все так же работает, как в примере с сервлетом, у которого есть запрос и ответ. Просто здесь сам сервлет скрыт, но есть запрос и ответ к нему и от него :slightly_smiling_face: (edited)
+
+
+Stanislav [2 days ago]
+И если уж загонять в url то вот так @GetMapping("/meals/{id}/delete")
+
+
+Maksim K [2 days ago]
+а если параметр передается так @GetMapping("/meals/delete", params = "id"), то урл должен быть что-то типа `/meals/delete?id=123`
+
+
+Stanislav [2 days ago]
+да
+
+
+Maksim K [2 days ago]
+нда. по ходу я просто всего начитался и у меня каша в голове. уже все попутал. надо все переосмыслить) но в любом случае хорош, что спросил. уже кое-что прояснилось. а то жил бы так в неведении))
+
+
+Stanislav [2 days ago]
+Помимо чтения текста, советую читать исходники (берешь гит, в поиске вводишь ключевые слова и смотришь кто как делает). (edited)
+
+
+Kirilo [2 days ago]
+еще раз посмотри как с сервлетом все было, чтобы понимать, что происходит (edited)
+
+
+Maksim K [2 days ago]
+а еще почему надо так загонять параметр @GetMapping("/meals/{id}/delete"), а не так @GetMapping("/meals/delete/{id}")
+
+
+Maksim K [2 days ago]
+какая разница?
+
+Stanislav [2 days ago]
+сейчас, была ссылка
+
+
+Kirilo [2 days ago]
+как ссылки раставишь над методами контроллера, так и будет
+
+
+Stanislav [2 days ago]
+Руководствоваться логикой, сейчас кину ссылку
+
+Ignat [2 days ago]
+Если руководствоваться логикой, то удалять надо через `DELETE` а не `GET`
+
+Ignat [2 days ago]
+Тогда вопрос где ставить `id` самовыпилится сам собой
+
+Stanislav [2 days ago]
+https://blog.mwaysolutions.com/2014/06/05/10-best-practices-for-better-restful-api/
+
+
+Stanislav [2 days ago]
+https://habr.com/company/yandex/blog/265569/
+Хабр
+15 тривиальных фактов о правильной работе с протоколом HTTP
+Внимание! Реклама! Пост оплачен Капитаном Очевидность! Ниже под катом вы найдёте 15 пунктов, описывающих правильную организацию ресурсов, доступных по... (435 kB)
+
+
+Maksim K [2 days ago]
+ну вот, кстати, про это я тоже не понял. пробовал и ставить @DeleteMapping. Какая разница между гет и делит?
+
+
+Stanislav [2 days ago]
+Эти ссылки в выпускном проекте есть
+
+
+Maksim K [2 days ago]
+я читал по другим ссылкам. ща эти почитаю. спасибо. а выпускной я не начинал. мне бы тут все успеть и понять)
+
+
+Prodigy [2 days ago]
+а так, не?)
+```@RequestMapping(value = "edit/{id}", method = RequestMethod.GET)
+public String showEdit(@PathVariable("id") Integer id, Model model)```
+(edited)
+
+
+Grigory Kislin [2 days ago]
+@Maksim K параметры в @RequestMapping у нас будут на след. уроке. пока см. 1.3
+>  Можно по аналогии с RootController#setUser принимать HttpServletRequest request (аннотации на параметры и адаптеры для LocalDate/Time мы введем позже).
+тогда каши не будет:)
+
+
+Victor [Aug 13th at 3:07 PM]
+Сломалось моё приложение, пока спал:grin:. Вылетает на ошибке '''org.hibernate.HibernateException: Access to DialectResolutionInfo cannot be null when 'hibernate.dialect' not set''' попробовал загрузить HW5, та же ошибка. Думаю сносить репозитарий Maven. Help me, please...
+
+
+6 replies
+Ma3stro [2 days ago]
+А может попробовать установить диалект сначала?) (edited)
+
+
+Mihail Kedel [2 days ago]
++,тоже самое хотел сказать,https://stackoverflow.com/questions/26548505/org-hibernate-hibernateexception-access-to-dialectresolutioninfo-cannot-be-null
+Stack Overflow
+org.hibernate.HibernateException: Access to DialectResolutionInfo cannot be null when 'hibernate.dialect' not set
+I am trying run a spring-boot application which uses hibernate via spring-jpa, but i am getting this error: Caused by: org.hibernate.HibernateException: Access to DialectResolutionInfo cannot be n...
+ 
+
+
+Victor [2 days ago]
+У нас диалект сам устанавливается... Устанавливать не нужно, где-то на первых уроках это было.
+
+
+Grigory Kislin [2 days ago]
+это- нет коннекта к базе (edited)
+
+
+
+realcorwin [2 days ago]
+в следующий раз не будешь спать! :slightly_smiling_face:
+
+Victor [2 days ago]
+Спасибо!
+Говорила мне бабушка: Если что не так, перезагрузи комп... )))))
+
+
+Mihail Kedel [Aug 13th at 4:44 PM]
+@Merkulov говорил что писать @Autowired(required = false) над полем jpaUtil не совсем правильно,поэтому я попробовал изменять аннотацию Autowired(точнее её параметр required) прямо в runtim'е с помощью reflection,но падает та же ошибка.Подскажите кто reflection знает,что не так.Просто,как по мне,довольно интересная концепция. (edited)
+Untitled
+​
+@Override
+  @Before
+  public void setUp() throws Exception {
+    Field field = JdbcUserServiceTest.class.getDeclaredField("jpaUtil");
+    Annotation oldAutowired = field.getAnnotation(Autowired.class);
+    field.setAccessible(true);
+​
+    Annotation newAutowired = new Autowired(){
+​
+      @Override
+      public Class<? extends Annotation> annotationType() {
+        return null;
+      }
+​
+      @Override
+      public boolean required() {
+        return false;
+      }
+    };
+​
+    Map<Class<? extends Annotation>, Annotation> annotationMap =
+        (Map<Class<? extends Annotation>, Annotation>) field.get(JdbcUserServiceTest.class);
+    annotationMap.put(Autowired.class, newAutowired);
+  }
+Collapse
+
+
+6 replies
+Alexander Pilipenko [2 days ago]
+ИМХО ошибка возникает еще до выполнения твоего кода
+
+shtramak [2 days ago]
+Непонятно, что делает твой код, если честно.. Спринг работает с проксями, ты колдуешь над оригинальным классом. Если уж тебе хочется такие задумки делать, то это надо через BeanPostProcessor все делать (Борисов и спринг-поторошитель в помощь). Но непонятно зачем
+
+
+
+e.pekhterev [2 days ago]
+и зачем вы так делаете? там через наследование всё решается
+
+
+hav [2 days ago]
+Autowired можно не только над полем ставить...
+
+
+Alexander Pilipenko [2 days ago]
+Что-то у меня пока ни как не получается с помощью такого метода сдалать, чтобы тесты работали
+
+
+Nikolay [2 days ago]
+можно мок сделать еще для jdbc реализации
+
+
+dmitry_ov [Aug 13th at 6:34 PM]
+Коллеги, а кто как сравнивает свой репозиторий с "эталонным", который у Григория  ?
+Какие инструменты есть.
+Подходит ли Meld для такой задачи ? (edited)
+
+
+11 replies
+Victor [2 days ago]
+копипаст и смотри контроль версий :slightly_smiling_face:
+
+dmitry_ov [2 days ago]
+Подходит ли Meld для такой задачи ?
+
+
+Victor [2 days ago]
+в idea в git есть compare branches... сам не пользовался
+
+
+sky [2 days ago]
+пкм внутри класса  -> compare with clipboard - сравнивает со скопированным в буфер
+
+
+Stanislav [2 days ago]
+А зачем такое делать?:thinking_face:
+
+
+dmitry_ov [2 days ago]
+Убедиться, что правильно накатил патчи
+
+
+Yevhen Maksymovych [1 day ago]
+я писал инструкцию как-то в теме гита
+
+
+Yevhen Maksymovych [1 day ago]
+```git remote add -f b https://github.com/JavaWebinar/topjava.git
+git remote update
+git diff master remotes/b/master > canonical.patch
+git remote rm b```
+
+
+
+Yevhen Maksymovych [1 day ago]
+добавляем репозиторий Григория, и делаем дифф в файл. если что-то отличается, этот же файл можем потом накатить патчем
+
+
+Ignat [1 day ago]
+@Yevhen Maksymovych лучше конечно не `b` называть, а `upstream`. И понятней, и по уму чтоб сразу было.
+
+
+Ignat [1 day ago]
+Зачем Meld если compare with branch в idea сделает тоже самое только без дополнительных приседаний.
+
+
+turhanow [Yesterday at 11:57 AM]
+ребят, привет. не могу преодолеть тест апдейт...исключение:
+'java.sql.SQLException: statement is not in batch mode'
+batchUpdate делал по анологии с https://www.mkyong.com/spring/spring-jdbctemplate-batchupdate-example/
+почему пишет что не находится в пакетном режиме?
+
+
+6 replies
+Merkulov [1 day ago]
+какой у тебя sql запрос? напиши
+
+
+turhanow [1 day ago]
+UPDATE user_roles SET role=? WHERE user_id=?
+
+
+Merkulov [1 day ago]
+а если нужно вставить новую роль пользователю? есть запрос для вставки записи
+
+
+Merkulov [1 day ago]
+твой запрос обновляет только существующие записи в таблице, а если я при редактировании пользователя добавлю ему новую роль то этот запрос обновит то что есть по id пользователя записи и ничего не добавит, а ты, наверное, в тесте добавляешь новую роль и хочешь чтобы работало через batchUpdate, я думаю, что запрос не подходит для batchUpdate, типа не может вставить весь пакет обновляемых данных, хотя могу ошибаться. Делай строго по примеру выше который ты слал...
+
+
+Merkulov [1 day ago]
+Использование batch режима выполнения запросов обычно гораздо эффективнее. В этом режиме запросы не выполняются сразу, каждый по отдельности, а накапливаются и выполняются одним большим запросом с множеством данных. Например, если вы делаете несколько update запросов, то каждый запрос будет выполнен как отдельный самостоятельный запрос. В batch режиме ваши update запросы будут отправлены одним заданием, что производительнее.
+
+
+Merkulov [1 day ago]
+https://easyjava.ru/spring/spring-data-access/batch-operacii-v-spring-jdbc/
+EasyJava
+Batch операции в Spring JDBC
+Использование batch режима выполнения запросов обычно гораздо эффективнее. В этом режиме запросы не выполняются сразу, каждый по отдельности, а накапливаются и выполняются одним большим запросом с множеством данных. Например, если вы делаете несколько update запросов, то каждый... #h2 #jdbc #spring (39 kB)
+Jan 7th, 2016 at 3:13 PM
+
+
+Join_Selectovich [9:17 PM]
+В видео про кэш хибернейта видно что из spring-db.xml есть ссылка на файл с конфигурацией кеша *ehcache.xml* у нас же после наката патчей в spring-db.xml этого нет.
+Внимание вопрос!
+С какими же параметрами в вступит работу кэширование 2го уровня Hibernate?
+
+
+Join_Selectovich [Yesterday at 9:17 PM]
+https://drive.google.com/file/d/0B9Ye2auQ_NsFeTV0SUFfblk5NE0/view
+c 5ой минтуы
+
+
+7 replies
+sky [1 day ago]
+теперь у нас hibernate-jcache и ссылка https://imhoratiu.wordpress.com/2017/01/26/spring-4-with-ehcache-3-how-to (edited)
+
+
+Join_Selectovich [1 day ago]
+зашибись ) .  видео получается подустарело немного.
+и че-то ссылка не открывается.
+а этот jcache тоже работает с ehcache.xml?
+
+
+Join_Selectovich [1 day ago]
+еш-кэш ) - буду вспомиать этот файл когда детей кашей кормить буду :slightly_smiling_face:
+
+
+Grigory Kislin [1 day ago]
+@Join_Selectovich в уроке под видео есть - Кэш мигрировал на 3.x
+конфигурацию счас еще проверю- похоже что у нас идет по умолчанию
+
+
+
+Grigory Kislin [1 day ago]
+да, при запуске выдает WARN:
+22:08:19.342 WARN  o.h.cache.jcache.internal.JCacheRegionFactory.createCache:93 - HHH90001006: Missing cache[ru.javawebinar.topjava.model.User.roles] was created on-the-fly. The created cache will use a provider-specific default configuration: make sure you defined one. You can disable this warning by setting 'hibernate.javax.cache.missing_cache_strategy' to 'create'.
+
+22:08:19.353 WARN  o.h.cache.jcache.internal.JCacheRegionFactory.createCache:93 - HHH90001006: Missing cache[ru.javawebinar.topjava.model.User] was created on-the-fly. The created cache will use a provider-specific default configuration: make sure you defined one. You can disable this warning by setting
+'hibernate.javax.cache.missing_cache_strategy' to 'create'.
+
+https://github.com/hibernate/hibernate-orm/blob/master/documentation/src/main/asciidoc/userguide/chapters/caching/Caching.adoc#jcache-missing-cache-strategy (edited)
+
+
+Join_Selectovich [1 day ago]
+Как в этом всем можно ориентироваться? :shocked_face_with_exploding_head: столько всего неочевидного...
+
+
+Also sent to the channel
+Grigory Kislin [10 hours ago]
+@Join_Selectovich ну...
+- Кэш мигрировал на 3.x- видно в уроке..
+- url что я дал есть в `spring-db.xml` над пропертями- зайти и прочитать..
+ну и логи посмотреть исходя из этого... или можно даже без url
+те немного поискать и все есть
+просто начинать это делать- и все станет очевидно со временем
+
+
+Alex_Akkerman [11:00 PM]
+Доброе время суток, помогите разобраться в чем заминка, с клонировал  проект https://github.com/JavaWebinar/topjava.git запускаю вылетает ошибка   во вложении лог
+topjava.log 
+2018-08-14 22:54:54,134 INFO  org.springframework.web.context.ContextLoader.initWebApplicationContext:270 - Root WebApplicationContext: initialization started
+2018-08-14 22:54:54,194 INFO  o.s.web.context.support.XmlWebApplicationContext.prepareRefresh:590 - Refreshing Root WebApplicationContext: startup date [Tue Aug 14 22:54:54 EEST 2018]; root of context hierarchy
+2018-08-14 22:54:54,236 INFO  o.s.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions:316 - Loading XML bean definitions from class path resource [spring/spring-app.xml]
+2018-08-14 22:54:54,360 INFO  o.s.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions:316 - Loading XML bean definitions from class path resource [spring/spring-tools.xml]
+2018-08-14 22:54:54,540 INFO  o.s.beans.factory.xml.XmlBeanDefinitionReader.loadBeanDefinitions:316 - Loading XML bean definitions from class path resource [spring/spring-db.xml]
+2018-08-14 22:54:54,609 INFO  o.s.b.f.xml.DefaultBeanDefinitionDocumentReader.doRegisterBeanDefinitions:139 - Skipped XML bean definition file due to specified profiles [hsqldb] not matching: class path resource [spring/spring-db.xml]
+2018-08-14 22:54:54,617 INFO  o.s.b.f.xml.DefaultBeanDefinitionDocumentReader.doRegisterBeanDefinitions:139 - Skipped XML bean definition file due to specified profiles [tomcat] not matching: class path resource [spring/spring-db.xml]
+2018-08-14 22:54:54,619 INFO  o.s.b.f.xml.DefaultBeanDefinitionDocumentReader.doRegisterBeanDefinitions:139 - Skipped XML bean definition file due to specified profiles [jdbc] not matching: class path resource [spring/spring-db.xml]
+2018-08-14 22:54:54,636 INFO  o.s.b.f.xml.DefaultBeanDefinitionDocumentReader.doRegisterBeanDefinitions:139 - Skipped XML bean definition file due to specified profiles [jpa] not matching: class path resource [spring/spring-db.xml]
+2018-08-14 22:54:55,382 INFO  org.ehcache.xml.XmlConfiguration.parseConfiguration:177 - Loading Ehcache XML configuration from /home/alex/IdeaProjects/topjava/target/topjava/WEB-INF/classes/cache/ehcache.xml.
+2018-08-14 22:54:55,399 WARN  o.s.web.context.support.XmlWebApplicationContext.refresh:558 - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [spring/spring-db.xml]: Cannot create inner bean 'org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter#65a7c516' of type [org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter] while setting bean property 'jpaVendorAdapter'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter#65a7c516' defined in class path resource [spring/spring-db.xml]: Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.config.internalCacheAdvisor': Cannot resolve reference to bean 'org.springframework.cache.annotation.AnnotationCacheOperationSource#0' while setting bean property 'cacheOperationSource'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.annotation.AnnotationCacheOperationSource#0': Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.config.internalJCacheAdvisor': Cannot resolve reference to bean 'org.springframework.cache.jcache.interceptor.DefaultJCacheOperationSource#0' while setting bean property 'cacheOperationSource'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.interceptor.DefaultJCacheOperationSource#0': Cannot resolve reference to bean 'ehCacheManager' while setting bean property 'cacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'ehCacheManager' defined in class path resource [spring/spring-tools.xml]: Cannot create inner bean 'org.springframework.cache.jcache.JCacheManagerFactoryBean#61de3c07' of type [org.springframework.cache.jcache.JCacheManagerFactoryBean] while setting bean property 'cacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.JCacheManagerFactoryBean#61de3c07' defined in class path resource [spring/spring-tools.xml]: Invocation of init method failed; nested exception is java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException
+2018-08-14 22:54:55,411 ERROR org.springframework.web.context.ContextLoader.initWebApplicationContext:316 - Context initialization failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [spring/spring-db.xml]: Cannot create inner bean 'org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter#65a7c516' of type [org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter] while setting bean property 'jpaVendorAdapter'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter#65a7c516' defined in class path resource [spring/spring-db.xml]: Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.config.internalCacheAdvisor': Cannot resolve reference to bean 'org.springframework.cache.annotation.AnnotationCacheOperationSource#0' while setting bean property 'cacheOperationSource'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.annotation.AnnotationCacheOperationSource#0': Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.config.internalJCacheAdvisor': Cannot resolve reference to bean 'org.springframework.cache.jcache.interceptor.DefaultJCacheOperationSource#0' while setting bean property 'cacheOperationSource'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.interceptor.DefaultJCacheOperationSource#0': Cannot resolve reference to bean 'ehCacheManager' while setting bean property 'cacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'ehCacheManager' defined in class path resource [spring/spring-tools.xml]: Cannot create inner bean 'org.springframework.cache.jcache.JCacheManagerFactoryBean#61de3c07' of type [org.springframework.cache.jcache.JCacheManagerFactoryBean] while setting bean property 'cacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.JCacheManagerFactoryBean#61de3c07' defined in class path resource [spring/spring-tools.xml]: Invocation of init method failed; nested exception is java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveInnerBean(BeanDefinitionValueResolver.java:327)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:124)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1611)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1363)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:580)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:503)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:317)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1089)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:859)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+	at org.springframework.web.context.ContextLoader.configureAndRefreshWebApplicationContext(ContextLoader.java:409)
+	at org.springframework.web.context.ContextLoader.initWebApplicationContext(ContextLoader.java:291)
+	at org.springframework.web.context.ContextLoaderListener.contextInitialized(ContextLoaderListener.java:103)
+	at org.apache.catalina.core.StandardContext.listenerStart(StandardContext.java:4627)
+	at org.apache.catalina.core.StandardContext.startInternal(StandardContext.java:5091)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+	at org.apache.catalina.core.ContainerBase.addChildInternal(ContainerBase.java:742)
+	at org.apache.catalina.core.ContainerBase.addChild(ContainerBase.java:718)
+	at org.apache.catalina.core.StandardHost.addChild(StandardHost.java:703)
+	at org.apache.catalina.startup.HostConfig.manageApp(HostConfig.java:1737)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.apache.tomcat.util.modeler.BaseModelMBean.invoke(BaseModelMBean.java:287)
+	at java.management/com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.invoke(DefaultMBeanServerInterceptor.java:809)
+	at java.management/com.sun.jmx.mbeanserver.JmxMBeanServer.invoke(JmxMBeanServer.java:801)
+	at org.apache.catalina.mbeans.MBeanFactory.createStandardContext(MBeanFactory.java:456)
+	at org.apache.catalina.mbeans.MBeanFactory.createStandardContext(MBeanFactory.java:405)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at org.apache.tomcat.util.modeler.BaseModelMBean.invoke(BaseModelMBean.java:287)
+	at java.management/com.sun.jmx.interceptor.DefaultMBeanServerInterceptor.invoke(DefaultMBeanServerInterceptor.java:809)
+	at java.management/com.sun.jmx.mbeanserver.JmxMBeanServer.invoke(JmxMBeanServer.java:801)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.doOperation(RMIConnectionImpl.java:1466)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.access$300(RMIConnectionImpl.java:75)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl$PrivilegedOperation.run(RMIConnectionImpl.java:1307)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.doPrivilegedOperation(RMIConnectionImpl.java:1399)
+	at java.management.rmi/javax.management.remote.rmi.RMIConnectionImpl.invoke(RMIConnectionImpl.java:827)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
+	at java.rmi/sun.rmi.server.UnicastServerRef.dispatch(UnicastServerRef.java:359)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:200)
+	at java.rmi/sun.rmi.transport.Transport$1.run(Transport.java:197)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.rmi/sun.rmi.transport.Transport.serviceCall(Transport.java:196)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport.handleMessages(TCPTransport.java:567)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run0(TCPTransport.java:800)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.lambda$run$0(TCPTransport.java:682)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.rmi/sun.rmi.transport.tcp.TCPTransport$ConnectionHandler.run(TCPTransport.java:681)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1167)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:641)
+	at java.base/java.lang.Thread.run(Thread.java:844)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter#65a7c516' defined in class path resource [spring/spring-db.xml]: Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.config.internalCacheAdvisor': Cannot resolve reference to bean 'org.springframework.cache.annotation.AnnotationCacheOperationSource#0' while setting bean property 'cacheOperationSource'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.annotation.AnnotationCacheOperationSource#0': Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.config.internalJCacheAdvisor': Cannot resolve reference to bean 'org.springframework.cache.jcache.interceptor.DefaultJCacheOperationSource#0' while setting bean property 'cacheOperationSource'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.interceptor.DefaultJCacheOperationSource#0': Cannot resolve reference to bean 'ehCacheManager' while setting bean property 'cacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'ehCacheManager' defined in class path resource [spring/spring-tools.xml]: Cannot create inner bean 'org.springframework.cache.jcache.JCacheManagerFactoryBean#61de3c07' of type [org.springframework.cache.jcache.JCacheManagerFactoryBean] while setting bean property 'cacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.JCacheManagerFactoryBean#61de3c07' defined in class path resource [spring/spring-tools.xml]: Invocation of init method failed; nested exception is java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:589)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:503)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveInnerBean(BeanDefinitionValueResolver.java:312)
+	... 60 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.config.internalCacheAdvisor': Cannot resolve reference to bean 'org.springframework.cache.annotation.AnnotationCacheOperationSource#0' while setting bean property 'cacheOperationSource'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.annotation.AnnotationCacheOperationSource#0': Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.config.internalJCacheAdvisor': Cannot resolve reference to bean 'org.springframework.cache.jcache.interceptor.DefaultJCacheOperationSource#0' while setting bean property 'cacheOperationSource'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.interceptor.DefaultJCacheOperationSource#0': Cannot resolve reference to bean 'ehCacheManager' while setting bean property 'cacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'ehCacheManager' defined in class path resource [spring/spring-tools.xml]: Cannot create inner bean 'org.springframework.cache.jcache.JCacheManagerFactoryBean#61de3c07' of type [org.springframework.cache.jcache.JCacheManagerFactoryBean] while setting bean property 'cacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.JCacheManagerFactoryBean#61de3c07' defined in class path resource [spring/spring-tools.xml]: Invocation of init method failed; nested exception is java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:378)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:110)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1611)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1363)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:580)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:503)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:317)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:204)
+	at org.springframework.aop.framework.autoproxy.BeanFactoryAdvisorRetrievalHelper.findAdvisorBeans(BeanFactoryAdvisorRetrievalHelper.java:94)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findCandidateAdvisors(AbstractAdvisorAutoProxyCreator.java:109)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findEligibleAdvisors(AbstractAdvisorAutoProxyCreator.java:94)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.getAdvicesAndAdvisorsForBean(AbstractAdvisorAutoProxyCreator.java:76)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.wrapIfNecessary(AbstractAutoProxyCreator.java:352)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.postProcessAfterInitialization(AbstractAutoProxyCreator.java:304)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsAfterInitialization(AbstractAutowireCapableBeanFactory.java:439)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1712)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:581)
+	... 62 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.annotation.AnnotationCacheOperationSource#0': Initialization of bean failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.config.internalJCacheAdvisor': Cannot resolve reference to bean 'org.springframework.cache.jcache.interceptor.DefaultJCacheOperationSource#0' while setting bean property 'cacheOperationSource'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.interceptor.DefaultJCacheOperationSource#0': Cannot resolve reference to bean 'ehCacheManager' while setting bean property 'cacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'ehCacheManager' defined in class path resource [spring/spring-tools.xml]: Cannot create inner bean 'org.springframework.cache.jcache.JCacheManagerFactoryBean#61de3c07' of type [org.springframework.cache.jcache.JCacheManagerFactoryBean] while setting bean property 'cacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.JCacheManagerFactoryBean#61de3c07' defined in class path resource [spring/spring-tools.xml]: Invocation of init method failed; nested exception is java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:589)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:503)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:317)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:367)
+	... 80 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.config.internalJCacheAdvisor': Cannot resolve reference to bean 'org.springframework.cache.jcache.interceptor.DefaultJCacheOperationSource#0' while setting bean property 'cacheOperationSource'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.interceptor.DefaultJCacheOperationSource#0': Cannot resolve reference to bean 'ehCacheManager' while setting bean property 'cacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'ehCacheManager' defined in class path resource [spring/spring-tools.xml]: Cannot create inner bean 'org.springframework.cache.jcache.JCacheManagerFactoryBean#61de3c07' of type [org.springframework.cache.jcache.JCacheManagerFactoryBean] while setting bean property 'cacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.JCacheManagerFactoryBean#61de3c07' defined in class path resource [spring/spring-tools.xml]: Invocation of init method failed; nested exception is java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:378)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:110)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1611)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1363)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:580)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:503)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:317)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:204)
+	at org.springframework.aop.framework.autoproxy.BeanFactoryAdvisorRetrievalHelper.findAdvisorBeans(BeanFactoryAdvisorRetrievalHelper.java:94)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findCandidateAdvisors(AbstractAdvisorAutoProxyCreator.java:109)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findEligibleAdvisors(AbstractAdvisorAutoProxyCreator.java:94)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.getAdvicesAndAdvisorsForBean(AbstractAdvisorAutoProxyCreator.java:76)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.wrapIfNecessary(AbstractAutoProxyCreator.java:352)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.postProcessAfterInitialization(AbstractAutoProxyCreator.java:304)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsAfterInitialization(AbstractAutowireCapableBeanFactory.java:439)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1712)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:581)
+	... 86 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.interceptor.DefaultJCacheOperationSource#0': Cannot resolve reference to bean 'ehCacheManager' while setting bean property 'cacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'ehCacheManager' defined in class path resource [spring/spring-tools.xml]: Cannot create inner bean 'org.springframework.cache.jcache.JCacheManagerFactoryBean#61de3c07' of type [org.springframework.cache.jcache.JCacheManagerFactoryBean] while setting bean property 'cacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.JCacheManagerFactoryBean#61de3c07' defined in class path resource [spring/spring-tools.xml]: Invocation of init method failed; nested exception is java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:378)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:110)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1611)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1363)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:580)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:503)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:317)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:367)
+	... 104 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'ehCacheManager' defined in class path resource [spring/spring-tools.xml]: Cannot create inner bean 'org.springframework.cache.jcache.JCacheManagerFactoryBean#61de3c07' of type [org.springframework.cache.jcache.JCacheManagerFactoryBean] while setting bean property 'cacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.JCacheManagerFactoryBean#61de3c07' defined in class path resource [spring/spring-tools.xml]: Invocation of init method failed; nested exception is java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveInnerBean(BeanDefinitionValueResolver.java:327)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveValueIfNecessary(BeanDefinitionValueResolver.java:124)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyPropertyValues(AbstractAutowireCapableBeanFactory.java:1611)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1363)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:580)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:503)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:317)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:315)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveReference(BeanDefinitionValueResolver.java:367)
+	... 114 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.cache.jcache.JCacheManagerFactoryBean#61de3c07' defined in class path resource [spring/spring-tools.xml]: Invocation of init method failed; nested exception is java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1708)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:581)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:503)
+	at org.springframework.beans.factory.support.BeanDefinitionValueResolver.resolveInnerBean(BeanDefinitionValueResolver.java:312)
+	... 124 common frames omitted
+Caused by: java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException
+	at org.ehcache.xml.XmlConfiguration.parseConfiguration(XmlConfiguration.java:178)
+	at org.ehcache.xml.XmlConfiguration.<init>(XmlConfiguration.java:166)
+	at org.ehcache.xml.XmlConfiguration.<init>(XmlConfiguration.java:134)
+	at org.ehcache.jsr107.EhcacheCachingProvider$ConfigSupplier.getConfiguration(EhcacheCachingProvider.java:327)
+	at org.ehcache.jsr107.EhcacheCachingProvider.getCacheManager(EhcacheCachingProvider.java:127)
+	at org.ehcache.jsr107.EhcacheCachingProvider.getCacheManager(EhcacheCachingProvider.java:78)
+	at org.springframework.cache.jcache.JCacheManagerFactoryBean.afterPropertiesSet(JCacheManagerFactoryBean.java:82)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1767)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1704)
+	... 127 common frames omitted
+Caused by: java.lang.ClassNotFoundException: javax.xml.bind.JAXBException
+	at org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1292)
+	at org.apache.catalina.loader.WebappClassLoaderBase.loadClass(WebappClassLoaderBase.java:1121)
+	... 136 common frames omitted
+
+
+zippospb [23 hours ago]
+Причина почти сразу находится поиском по последнему в логе эксепшену
+
+
+
+zippospb [22 hours ago]
+И в 4 уроке Григорий давал ссылку с вариантом решения данной проблемы (edited)
+
+
+
+Alex_Akkerman [2 hours ago]
+Если вы используете Java 9, то возникают проблемы с JAXBException (пакет java.xml.bind). См. решение ?
+
+
+zippospb [2 hours ago]
+Да
+
+
+Grigory Kislin [1:42 PM]
+replied to a thread:
+
+@Join_Selectovich ну...
+- Кэш мигрировал на 3.x- видно в уроке..
+- url что я дал есть в `spring-db.xml` над пропертями- зайти и прочитать..
+ну и логи посмотреть исходя из этого... или можно даже без url
+те немного поискать и все есть
+просто начинать это делать- и все станет очевидно со временем
+
+Maksim K [4:10 PM]
+Помогите понять ошибку. При редактировании или создании еды вылазит эта ошибка
+```16:07:35.951 DEBUG o.s.w.s.handler.AbstractHandlerExceptionResolver.resolveException:136 - Resolving exception from handler [public java.lang.String ru.javawebinar.topjava.web.JspMealController.updateMeal(int,ru.javawebinar.topjava.model.Meal)]: org.springframework.validation.BindException: org.springframework.validation.BeanPropertyBindingResult: 1 errors
+Field error in object 'meal' on field 'dateTime': rejected value [2015-05-06T20:00]; codes [typeMismatch.meal.dateTime,typeMismatch.dateTime,typeMismatch.java.time.LocalDateTime,typeMismatch]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [meal.dateTime,dateTime]; arguments []; default message [dateTime]]; default message [Failed to convert property value of type 'java.lang.String' to required type 'java.time.LocalDateTime' for property 'dateTime'; nested exception is org.springframework.core.convert.ConversionFailedException: Failed to convert from type [java.lang.String] to type [@javax.persistence.Column @javax.validation.constraints.NotNull java.time.LocalDateTime] for value '2015-05-06T20:00'; nested exception is java.lang.IllegalArgumentException: Parse attempt failed for value [2015-05-06T20:00]]```
+Не могу понять почему не парсится дата.
+
+Yevhen Maksymovych [4:11 PM]
+ну, очевидно, нет конвертера из String'а в LocalDateTime
+
+
+Yevhen Maksymovych [Today at 4:11 PM]
+дальше по урокам мы его подключим, а пока - только руками
+
+
+21 replies
+Maksim K [7 hours ago]
+Так а где его подключить?
+
+
+Maksim K [7 hours ago]
+Он в mealForm должен быть? Просто когда нажимаю кнопку save на странице, то даже в метод пост не заходит. сразу вылазит ошибка.
+
+
+Yevhen Maksymovych [7 hours ago]
+ну да, ты наверняка указал какой-нибудь @RequestParam LocalDateTime dateTime, и падает все ещё на этапе валидации
+
+
+Alexander Pilipenko [7 hours ago]
+Лучше код покажи
+
+
+Yevhen Maksymovych [7 hours ago]
+если в контроллере хочешь напрямую взять из контроллера LocalDateTime, а не String, копни, например, сюда
+
+
+Yevhen Maksymovych [7 hours ago]
+https://stackoverflow.com/questions/40274353/how-to-use-localdatetime-requestparam-in-spring-i-get-failed-to-convert-string
+Stack Overflow
+How to use LocalDateTime RequestParam in Spring? I get "Failed to convert String to LocalDateTime"
+I use Spring Boot and included jackson-datatype-jsr310 with Maven: <dependency> <groupId>com.fasterxml.jackson.datatype</groupId> <artifactId>jackson-datatype-jsr31...
+ 
+
+
+Ignat [7 hours ago]
+Проще аннотацию на поле повесить
+
+
+Maksim K [7 hours ago]
+я ваще не понимаю. вот мой метод апдейт
+ ```@GetMapping("/meals/update/{id}")
+    public String updateForm(@PathVariable("id") int id, Model model) {
+        Meal meal = get(id);
+        model.addAttribute("meal", meal);
+        return "mealForm";
+    }```
+Здесь я достаю из базы еду и добавляю ее в модель. а потом перехожу на страницу милФорм. там отображается еда, которую я достал из базы. Я ее там изменяю и нажимаю сохранить и вылазить ошибка. И в метод пост не заходит. Может у меня этот метод неправильный.
+
+
+Yevhen Maksymovych [7 hours ago]
+ну там в топике про аннотацию тоже было
+
+
+Yevhen Maksymovych [7 hours ago]
+покажи, что у тебя висит на посте
+
+
+Yevhen Maksymovych [7 hours ago]
+у тебя в пост и не зайдёт, это же спринг. ты декларативно что-то объявляешь, бинпостпроцессор по этим аннотациям строит прокси для твоего класса, и по факту до того, как попасть в метод, вызывается логика прокси, которую ты заключал в аннотации, а потом уже твой код. у тебя падает где-то на этапе прокси, потому в методе ты и не можешь отдебажить по бряке
+
+
+e.pekhterev [7 hours ago]
+я чёт думал мы уже давно всё конвертим нормально
+
+
+Yevhen Maksymovych [7 hours ago]
+конвертим нормально, но строка датаВремя - слишком неоднозначная, чтобы спринг на себя взял выбор конвертера
+
+
+Maksim K [7 hours ago]
+@Yevhen Maksymovych спасибо за помощь. короче у меня был косяк с методом пост. не буду писать что там было, ибо стыдно( в общем надоело тупить и я взял и подсмотрел готовое решение. впервые за всю стажировку скатал кусок готового решения. мне ужасно стыдно. пойду напьюсь с горя(
+
+
+Ignat [6 hours ago]
+Копировать не стыдно, стыдно когда копируешь не разобравшись как и почему этот код работает.
+
+
+Егорро [6 hours ago]
+Была та же самая проблема, решилась чуть ли не сама собой - то ли Идею перезапустил, то ли когда пересобрал, вдруг начало опять нормально парсить. Причем самое смешное, что в дебаггере текущее значение парсилось нормально, а в работе падало с исключением
+
+
+e.pekhterev [6 hours ago]
+мы так или иначе копируем код из ссылок, которые нам даются в задании
+
+
+e.pekhterev [6 hours ago]
+и на работе я так понимаю тоже будем искать готовые решения, но оно много приятнее, когда находишь, перерабатываешь и сам чего то пишешь, а если списать - то да, кроме как напиться ничего больше не хочется
+
+
+Maksim K [6 hours ago]
+Да ладно, не утешайте меня)) Не напьюсь я. Подзавязал я с этим. Да и некогда. Еще есть сегодня важные дела. Самое обидно, что начитался этих книг, статей, насмотрелся видосов. И вот читаешь/смотришь и все так понятно кажется, а как надо что-то написать, то тупняк. Ну и х... с ним. Буду еще читать, смотреть пока не допру. На зло врагам, на радость маме)
+
+
+
+Grigory Kislin [14 minutes ago]
+есть еще вариант- не забегать вперед а делать по HW занятия
+
+
+Grigory Kislin [14 minutes ago]
+по нему принимаем `HttpServletRequest request`
