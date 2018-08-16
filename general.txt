@@ -4697,3 +4697,34 @@ Grigory Kislin [16 minutes ago]
 если проект на boot - то там ~99% java config
 если на Spring без boot то мое мнение с потолка- 70% xml
 бо новые проекты делаются на boot, а старые никакого смысла на java config переводить нет
+
+
+Grigory Kislin [1 day ago]
+PS: первое открытое занятие по spring boot  планирую начать публиковать в сентябре
+
+
+
+Prodigy [14 hours ago]
+@Grigory Kislin а есть уже программа обучения?
+
+
+Grigory Kislin [11 hours ago]
+в процессе все. планирую Spring Boot 2.1, Java 10/11, Maven/Gradle, Spring 5.1, Spring Data Rest, HATEOAS, Swagger, JWT, OAuth2, Thymleaf 3, база H2, возможно Vaadin 10 ...
+spring-cloud/микросервисы будет след. курсом (сюда не войдет) (edited)
+
+
+Grigory Kislin [Yesterday at 12:16 AM]
+@here
+*--------------------------------------------------------*
+*WELCOME to #hw7 !*
+*--------------------------------------------------------*
+
+
+2 replies
+Maksim K [1 day ago]
+Да ладно вам, я еще шестое  не сделал)))
+
+
+
+Tanya [20 hours ago]
+две недели было :wink:

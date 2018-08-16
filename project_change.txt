@@ -148,3 +148,23 @@ JavaWebinar
 `332269aa` - 6_15_spring_i18n
 Show less
 JavaWebinar/topjava
+
+
+GitHub APP [12:49 PM]
+JavaWebinar
+*13 new commits pushed to `master`*
+`c3658721` - 7_01_HW6_fix_tests
+`96825fe4` - 7_02_HW6_meals
+`a494e7ad` - 7_03_HW6_fix_relative_url_utf8
+`bf109ce9` - 7_04_HW6_optional_add_role
+`c8e7fe68` - 7_05_fix_hint_graph
+`5ff6d048` - 7_06_HW6_optional_jdbc
+`8f52fa35` - 7_07_controller_test
+`9b549ea3` - 7_08_JUnit5
+`a70ee7d3` - 7_09_rest_controller
+`cfd401ab` - 7_10_rest_test_jackson
+`e1080b03` - 7_11_jackson_object_mapper
+`75528000` - 7_12_json_assert_tests
+`eadbce96` - 7_13_soapui_utf8_converter
+Show less
+JavaWebinar/topjava

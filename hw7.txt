@@ -1,0 +1,138 @@
+Grigory Kislin [12:12 AM]
+joined #hw7.
+
+Grigory Kislin [12:13 AM]
+Добро пожаловать: https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson07.md
+JUnit5, REST контроллеры и их тестирование
+Успехов! (edited)
+
+Егорро [12:16 AM]
+joined #hw7 along with 18 others.
+
+
+realcorwin [Yesterday at 10:37 AM]
+@Grigory Kislin про JUnit5 смотреть только ролик 7_4, или про него есть и в других видео, если да, в каких?
+
+
+4 replies
+Stanislav [15 hours ago]
+Лень весь урок посмотреть и увидеть? Если нужно больше инфы о J5 то https://www.youtube.com/results?search_query=junit+5
+youtube.com
+junit 5 - YouTube
+Enjoy the videos and music you love, upload original content, and share it all with friends, family, and the world on YouTube.
+
+
+realcorwin [14 hours ago]
+Не лень, а времени нет по второму разу все видео пересматривать в поиске конкретной темы.
+
+
+Grigory Kislin [13 hours ago]
+только 7_4 + патч  7_08 (edited)
+
+
+realcorwin [11 hours ago]
+спасибо
+
+
+e.pekhterev [Yesterday at 4:54 PM]
+у кого-нибудь  есть проблема с @Autowired после патча Apply 7_08_JUnit5.patch?
+Pasted image at 2018-08-16, 4:54 PM
+
+
+
+17 replies
+Ignat [8 hours ago]
+Я ещё не накатывал патчи, но я думаю проблема не с @Autowired а с конфигурацией бинов.
+
+
+e.pekhterev [8 hours ago]
+вот эта штука похоже не отрабатывает
+@SpringJUnitConfig(locations = {
+       "classpath:spring/spring-app.xml",
+       "classpath:spring/spring-db.xml"
+})
+
+
+e.pekhterev [8 hours ago]
+Плиз хелп, всё перерыл
+
+
+Stanislav [8 hours ago]
+Все работает, просто идея тупит.
+
+
+e.pekhterev [8 hours ago]
+@Stanislav у тебя также подчеркивает?
+Просто у Григория видео вродь свежее и у него всё в порядке (edited)
+
+
+Stanislav [8 hours ago]
+Тоже подчеркивает, но все тесты и контролеры работают норм.
+
+
+e.pekhterev [8 hours ago]
+мда, спасибо)
+
+
+e.pekhterev [7 hours ago]
+как вот не очень хотелось бы на это забивать, может можно всё же починить?
+Pasted image at 2018-08-16, 5:55 PM
+
+
+
+Stanislav [7 hours ago]
+Как выше ты написал из-за SpringJUnitConfig....а дальше гугл
+
+
+e.pekhterev [7 hours ago]
+искал, не нашел пока ничего в качестве рабочего решения
+(инвалидаця кеша после удаления iml не помогает, с facets тоже всё  в порядке) (edited)
+
+
+Stanislav [7 hours ago]
+https://jira.spring.io/plugins/servlet/mobile#issue/SPR-17101
+
+
+Stanislav [7 hours ago]
+Может там что то прольет свет
+
+e.pekhterev [7 hours ago]
+прочитал, ничего не пролило)))
+
+
+e.pekhterev [7 hours ago]
+в общем похоже, что просто Идея не понимает и всё, у нас было:
+*@ContextConfiguration({*
+       *"classpath:spring/spring-app.xml",*
+       *"classpath:spring/spring-db.xml"*
+*})*
+*@ExtendWith(SpringExtension.class)*
+
+заменили на:
+*@SpringJUnitConfig(locations = {*
+       *"classpath:spring/spring-app.xml",*
+       *"classpath:spring/spring-db.xml"*
+*})*
+*//@ExtendWith(SpringExtension.class)*
+
+При этом:
+*@SpringJUnitConfig is a composed annotation that combines @ExtendWith(SpringExtension.class) from JUnit Jupiter with @ContextConfiguration from the Spring TestContext Framework.*
+
+Короче Идея мудила)))
+
+
+e.pekhterev [7 hours ago]
+@Stanislav так что ты был прав изначально, а зря потратил пару часов
+
+e.pekhterev [6 hours ago]
+а такой вариант вполне себе Идее понятен:
+*@ContextConfiguration({*
+      *"classpath:spring/spring-app.xml",*
+      *"classpath:spring/spring-db.xml"*
+*})*
+*@ExtendWith(SpringExtension.class)* (edited)
+
+
+e.pekhterev [6 hours ago]
+ахах)))
+Pasted image at 2018-08-16, 7:11 PM

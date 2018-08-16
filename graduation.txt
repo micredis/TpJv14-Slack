@@ -834,3 +834,19 @@ developerkiselev.blogspot.com
 @RestController vs. @Controller
 Spring MVC и REST  Spring - MVC фреймфорк, использующий аннотации, которые позволяют облегчить процесс создания RESTfull веб-сервиса....
 https://lh4.googleusercontent.com/proxy/a8KwcJ2WoFA_NGVWVxcLMZCSB9K6wx-x5g3O2xm8N1SLSg_viIKtGnNYVZ2nMcRznLKB0Ww-NQM_LTU4p6RtEqMZ3zJ8MyT2K1KHtNK2OP4GqzgwgRJQyanUpOiYqvblY5Vb=w1200-h630-p-k-no-nu
+
+
+Grigory Kislin [3 days ago]
+проще шагнуть в код @RestController и посмотреть, что там
+
+
+Kirilo [7:42 PM]
+В общим при переносе функциональности на spring boot оказалось, что jsp не рекомендуется использовать, а такой прием: <jsp:useBean id="..." type="..."  scope="request"/> и вовсе олдскул и не работает в буте.
+Но зато разобрался, как заполнить такую же форму, как для новой/обновленной еды(ресотраны блюда) используя thymeleaf.
+
+https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-developing-web-applications.html#boot-features-spring-mvc-template-engines
+
+https://stackoverflow.com/questions/11813290/is-it-possible-to-implement-jsp-usebean-as-an-annotation (edited)
+Stack Overflow
+Is it possible to implement JSP usebean as an annotation?
+I would like implement JSP useBean taglib as a class annotation... Is possible? How If so, what is the best (easy and efficient) way to do this? Example: <jsp:useBean id="p" class="beans.Pe...
