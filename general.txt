@@ -4728,3 +4728,39 @@ Maksim K [1 day ago]
 
 Tanya [20 hours ago]
 две недели было :wink:
+
+
+Jury Mironov [Aug 17th at 5:11 PM]
+Подскажите, пожалуйста,  зачем нам global_sequence 100000
+
+
+1 reply
+Artem [2 days ago]
+@Jury Mironov Это глобальный счетчик IDшников.
+
+
+Artem [Aug 17th at 5:11 PM]
+Коллеги. Чего-то я в основах запутался. Может ли кто-то подрбнее объяснить что тут происходит? Я понимаю, что это старт WebПриложения на спринге. Но что в данном случае подразумевают под ROOT context? Почему запускаются ДВА WebApplicationContext? И как один WebApplicationContext умудряется перекрывать второй?
+Снимок экрана от 2018-08-17 16-50-38.png
+
+
+
+4 replies
+Nikolay [2 days ago]
+https://www.google.ru/amp/s/howtodoinjava.com/spring-mvc/contextloaderlistener-vs-dispatcherservlet/amp/
+HowToDoInJava
+ContextLoaderListener vs DispatcherServlet - HowToDoInJava
+In XML based Spring MVC configuration, you must have seen two declarations in web.xml file i.e. ContextLoaderListener and DispatcherServlet. Let’s try to understand their purpose in framework and their differences. Root and child contexts Before reading further, please understand that – Spring can have multiple contexts at a time. One of them will be root … (75 kB)
+May 10th at 8:08 PM
+ 
+
+
+Artem [2 days ago]
+@Nikolay Отличный материал! Спасибо!
+
+Nikolay [2 days ago]
+первая ссылка в Гугле)
+
+
+Artem [2 days ago]
+@Nikolay Вот не надо! Я гуглил сначала. Значит запросы неправильно писал, но гуглил. А потом уже сюда пришел.

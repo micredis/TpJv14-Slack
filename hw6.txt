@@ -2423,3 +2423,195 @@ Grigory Kislin [14 minutes ago]
 
 Grigory Kislin [14 minutes ago]
 по нему принимаем `HttpServletRequest request`
+
+
+Maksim K [4 days ago]
+Уговорили) Сделал через `HttpServletRequest request`) Никаких `@PathVariable`
+Осталось только разобраться какого на странице добавления/редактирования еды не отображаются стили и будет ваще чудненько)
+
+
+Grigory Kislin [4 days ago]
+вкладка браузера Network помогает с url. и Ctrl+F5 - чистка кэша (edited)
+
+
+e.pekhterev [4 days ago]
+@Maksim K вот тебе волшебная таблетка для этого (ссылка собственно есть в задании) https://stackoverflow.com/questions/4764405/how-to-use-relative-paths-without-including-the-context-root-name
+Stack Overflow
+How to use relative paths without including the context root name?
+To working my static file (CSS, JS) I have to write absolute path like /AppName/templates/style/main.css. Is there any solution, that I could write relative path like style/main.css?
+ 
+
+
+Maksim K [3 days ago]
+Че-то не помогает таблетка(. Как почистил кэш так ваще перестали стили отображаться везде. В Хроме во вкладке sources сам файл style.css видит,но в нем пусто. И пишет ошибку `Failed to load resource: the server responded with a status of 405 ()`
+
+
+stea1th [Aug 18th at 3:52 PM]
+здрасти, а кто нибудь мне подскажет, почему вот это появляется No mapping found for HTTP request with URI [/topjava/css/style.css] in DispatcherServlet with name 'mvc-dispatcher' и не подтягивается css?
+
+
+16 replies
+shtramak [1 day ago]
+`<mvc:resources location=/css/ mapping=/css/**/ ></mvc:resources>` (edited)
+
+
+shtramak [1 day ago]
+Вот такую штуку добавил в спринг контекст?
+
+
+stea1th [1 day ago]
+Благодарствую.. Сейчас попробую
+
+
+shtramak [1 day ago]
+Написал примерно, это лучше загуглить
+
+stea1th [1 day ago]
+Там же есть что то подобное
+
+
+stea1th [1 day ago]
+<mvc:resources mapping="/resources/**" location="/resources/"/>
+
+
+stea1th [1 day ago]
+вот оно, но почему то не цепляет ее
+
+
+shtramak [1 day ago]
+У тебя css лежит в css, не в resources. Либо ссылку на css меняй, либо эту строку, либо файлы перекладывай в webapp/resources (edited)
+
+
+shtramak [1 day ago]
+Название у папки может быть любое
+
+
+stea1th [1 day ago]
+у меня оно лежит в resources/css
+
+
+stea1th [1 day ago]
+в webapp
+
+
+stea1th [1 day ago]
+в комментах стоит, что all resources inside folder src/main/webapp/resources are mapped so they can be referred to inside JSP files
+
+stea1th [1 day ago]
+но этого не происходит
+
+shtramak [1 day ago]
+<link type="text/css"
+         rel="stylesheet"
+         href="${pageContext.request.contextPath}/resources/css/style.css" />
+
+
+shtramak [1 day ago]
+Такая ссылка должна работать, но не знаю насколько правильный подход
+
+
+
+shtramak [1 day ago]
+Заметь, что не привязывается к твоему приложению topjava в пути
+
+
+stea1th [Yesterday at 2:25 PM]
+а кто нибудь может подсказать, как он сделал вариант с update... а то затык на нем какой то... и так поверну и сяк, а все не работает
+
+
+27 replies
+Yevhen Maksymovych [8 hours ago]
+а что за проблема? взял данные из формы, собрал мил, сохранил. Логика не меняется вообще, можно скопировать из старого метода
+
+
+stea1th [8 hours ago]
+блин, а почему у меня постоянно склеиваются /meals/meals, хотя я делаю редирект?
+
+
+stea1th [8 hours ago]
+делаю редирект return "redirect:meals"; c save и все равно получаю http://localhost:8080/topjava/meals/meals
+
+
+stea1th [8 hours ago]
+в чем можжет быть проблема?
+
+Yevhen Maksymovych [8 hours ago]
+а, да, это трабла. когда ты делаешь redirect:meals, у тебя редирект идёт от текущего пути. т.е. если ты до этого был на localhost/topjava/meals/list, к примеру, ты отредиректишься на localhost/topjava/meals/meals. если ты будешь указывать redirect:/meals, то редирект будет от корня, т.е. localhost/meals. у тебя два варианта, либо редиректиться от корня, но постоянно указывать app ctx, т.е. redirect:/topjava/meals (что не очень хорошо, т.к. хардкодить путь придётся), либо указывать в jsp <base>, от которого будут отсчитываться все пути.
+
+
+stea1th [8 hours ago]
+<form method="post" action="/topjava/meals">
+
+stea1th [8 hours ago]
+вот так сделал
+
+Yevhen Maksymovych [8 hours ago]
+ну, в контроллер должен попасть, если есть @PostMapping
+
+
+stea1th [8 hours ago]
+теперь все работает
+
+stea1th [8 hours ago]
+наконец то
+
+
+Yevhen Maksymovych [8 hours ago]
+но как бы абсолютные пути лучше не использовать
+
+
+Yevhen Maksymovych [8 hours ago]
+копни в сторону base tag
+
+Yevhen Maksymovych [8 hours ago]
+там в уроке даже где-то ссылка была
+
+stea1th [8 hours ago]
+сейчас поглядим
+
+
+stea1th [8 hours ago]
+${pageContext.request.contextPath}
+
+stea1th [8 hours ago]
+это?
+
+
+Yevhen Maksymovych [8 hours ago]
+во, оно
+
+
+stea1th [8 hours ago]
+попробую сейчас
+
+Yevhen Maksymovych [8 hours ago]
+тогда "/topjava" можно опускать, оно автомтом будет добавлять его
+
+
+stea1th [8 hours ago]
+да, работает
+
+
+stea1th [8 hours ago]
+супер :)))
+
+Yevhen Maksymovych [8 hours ago]
+это на случай, если сегодня ты отдеплоил по топжава, а завтра по другому пути
+
+stea1th [8 hours ago]
+вчера голову сломал на этом
+
+Yevhen Maksymovych [8 hours ago]
+:+1:
+
+
+stea1th [8 hours ago]
+спасибо :))
+
+
+Yevhen Maksymovych [8 hours ago]
+да не за что :slightly_smiling_face:
+
+
+stea1th [8 hours ago]
+в очередной раз выручил :slightly_smiling_face:

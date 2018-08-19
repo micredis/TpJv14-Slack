@@ -136,3 +136,538 @@ e.pekhterev [6 hours ago]
 e.pekhterev [6 hours ago]
 ахах)))
 Pasted image at 2018-08-16, 7:11 PM
+
+
+alexey [9:56 AM]
+Всем привет. Подскажите а что нужно тестировать в css файле?
+
+Ant [9:58 AM]
+проверить status и ContentType
+
+alexey [11:16 AM]
+спасибо
+
+
+alexey [Aug 17th at 1:08 PM]
+А у всех крокозябры после накатки патчей?
+112.jpg
+
+
+
+2 replies
+Kirilo [2 days ago]
+В Idea везде нужно utf8 выставить. (edited)
+
+
+Kirilo [2 days ago]
+encoding.jpg
+
+
+Alexander Pilipenko [Aug 17th at 1:13 PM]
+Проверь кодировку в файле с сообщениями app_ru.properties
+
+
+1 reply
+alexey [2 days ago]
+Она, спасибо
+
+
+Prodigy [Aug 17th at 2:16 PM]
+че-то я потерялся в этих уровнях абстракций и количестве контроллеров... рябит в глазах уже от этих абстрактных классов)
+
+
+
+21 replies
+Kirilo [2 days ago]
+ты можешь делать и по другому - это просто для обучения ООП сделано и реально не факт, что на таком маленьком проекте - удобно.
+
+
+Kirilo [2 days ago]
+Нам вообще достаточно только двух контроллеров для приложения: рэст и обычный.
+
+
+Prodigy [2 days ago]
+понятно что это проект учебный, но с абстракциями усложняет понимание что и зачем делается, даже на таком маленьком проекте
+
+
+Kirilo [2 days ago]
+Ну, да. Зато тренируешь глаз и мозги :slightly_smiling_face:
+
+
+Prodigy [2 days ago]
+Понятно что Григорий масштабней мыслит и он жонглирует этими абстракциями), но у меня реально мозг рвется)) (edited)
+
+
+Kirilo [2 days ago]
+Прыгаешь по всему коду, что откуда берется. Привыкаешь к проектам, там где этих файлов тьма
+
+
+Prodigy [2 days ago]
+хотя я делал поболее приложение, но там всё было проще)
+
+
+Prodigy [2 days ago]
+да, мозги точно тренируешь)
+
+
+Kirilo [2 days ago]
+здесь рассматривается много всяких проблем, а реально использовать придется не все, но зато запомнишь, что уже такое видел, может пригодится когда-то (edited)
+
+Prodigy [2 days ago]
+реально может быть всё гораздо хуже))
+
+
+Kirilo [2 days ago]
+наверное, там, где старые проекты (edited)
+
+
+Kirilo [2 days ago]
+Я после наших настраиваний контекста спринга и т.д. решился в винде видеодрайверы(файлы) и блютуз гарнитуры с диска C:\ на D:\ попереносить, пол дня реестр перебирал, менял пути, но в итоге все работает и SSD диск свободнее. :slightly_smiling_face: (edited)
+
+
+Prodigy [2 days ago]
+ну тоже доп. экспириенс)
+
+
+e.pekhterev [2 days ago]
+на бумаге набросай схему наследования классов, возможно будет полегче
+
+Stanislav [2 days ago]
+Так идея сама может строить график красивый, через пкм посмотрите
+
+
+e.pekhterev [2 days ago]
+можно и так)
+
+
+Prodigy [2 days ago]
+можно поподробнее что такое "пкм"?
+
+
+e.pekhterev [2 days ago]
+1. наводишь указатель мыши на интересующий тебя класс
+2. вызываешь контекстное меню (пкм - жмёшь на правую клавишу мыши)
+3. Diagrams -> Show Diagram -> Java Class Diagram
+
+
+e.pekhterev [2 days ago]
+ну либо спринговые диаграммы - там ещё показано и что автоваярится
+
+
+Prodigy [2 days ago]
+так я вижу только родителей класса который я выбираю, а как посмотреть диаграмму всего приложения?
+
+
+e.pekhterev [2 days ago]
+тут не подскажу
+
+
+Макс Куркудюк [3:59 PM]
+Підкажіть, чому дані посилання виділені червоним.
+Не знаходить дані файли.
+Але при запуску tomcat, у браузері сторінка відображається так, як потрібно...
+Виправляється, коли перейменовую файл mealForm.jsp, але коли змінюю назад на mealForm - шлях знову стає червоним... (edited)
+Снимwrwerwerweок.PNG 
+
+
+zippospb [Aug 18th at 1:37 AM]
+Можете мне объяснить, зачем в Optional надо делать собственный форматтер/конвертер для getBetween, если в аннотации DateTimeFormat можно воспользоваться полем "pattern"? (edited)
+
+
+13 replies
+Merkulov [1 day ago]
+Вроде как у нас есть уже конверторы для времени и дат в классах утилитах, почему бы их не заюзать?
+
+
+Merkulov [1 day ago]
+тоже непонятен этот момент
+
+
+zippospb [1 day ago]
+Если ты про DateTimeUtil, то он как раз для этого слабо подходит - мы с ним сможем работать только непосредственно в контроллере и дальше, а мы ведь хотим, чтобы в контроллер дата и время уже приходили в виде LocalDate и LocalTime.
+
+
+Merkulov [1 day ago]
+я так понял, что нужно делать конвертацию в контроллере
+Переделать MealRestController.getBetween на параметры LocalDate/LocalTime c раздельной фильтрацией по времени/дате, работающий при null значениях (см. демо и JspMealController.getBetween). Заменить @DateTimeFormat на свои LocalDate/LocalTime конверторы или форматтеры.
+
+
+Merkulov [1 day ago]
+в запросе у тебя приходят строки и эти строки ты конвертируешь, как в контроллер может приходить сразу LocalDate/LocalTime ?
+
+
+Merkulov [1 day ago]
+@DateTimeFormat тоже делает конвертациию приходящих параметров.
+
+zippospb [1 day ago]
+ну так если ты перед аргументом помимо @RequestParam еще и @DateTimeFormat указываешь, то в контроллер может приходить уже распарсенная дата/время/датавремя (edited)
+
+
+zippospb [1 day ago]
+тебе их конвертировать и не приходится - за тебя это делает спринг.
+
+
+Nikolay [15 hours ago]
+ну а так мы учим спринг парсить строчку без всяких аннотаций
+
+
+Merkulov [12 hours ago]
+ммм...ты ведь тоже можешь сделать конвертацию с помощью аннотации, так вопрос, приходит ли в контроллер уже распарсенное значение или спринг с помощью аннотации или конвертеров просто инкапсулирует конвертацию уже пришедших параметров в контроллер ???
+
+
+Nikolay [11 hours ago]
+если бы приходило уже распарсеное значение, зачем нам тогда аннотации нужны были бы
+
+
+Merkulov [11 hours ago]
+вот вот и я про это, я уже сделал через CoversionServise и все работает как надо, Spring очень умен) он просто все инкапсулирует, получается в контроллер приходит значение в виде строки и он его парсит и отдает нам то что нужно
+
+
+Merkulov [11 hours ago]
+кончено согласно тому как мы настроили конвертацию
+
+
+zippospb [1:37 AM]
+Или это для собственного экспириенса?
+
+
+tim [Aug 18th at 11:29 AM]
+Всем привет! Может что пропустил, но нигде не нашел пояснения...Не подскажите, что делает патч 7 05 fix hint graph?
+
+
+1 reply
+Alexander Pilipenko [1 day ago]
+Apply 7_05_fix_hint_graph.patch
+В JpaUserRepositoryImpl.getByEmail DISTINCT попадает в запрос, хотя он там не нужен. Это просто указание Hibernate не дублировать данные. Для оптимизации можно указать Hibernate делать запрос без distinct: 15.16.2. Using DISTINCT with entity queries
+Тест DataJpaUserServiceTest.testGetWithMeals() не работает для admin (у админа 2 роли и еда при JOIN дублируется). DISTINCT при несколький JOIN не помогает. Оставил в графе только meals. Корректно поставить тип LOAD, чтобы остальные ассоциации доставались по стратегии модели. Однако с типом по умолчанию FETCH роли также достаются (похоже что бага).
+
+
+sky [Yesterday at 10:08 AM]
+в 7_08 патче про JUnit5 добавляется message "JPA not supported" в assume. Вот так: Assumptions.assumeTrue(isJpaBased(), "JPA not supported").
+А разве не должно быть "JDBC not supported"? (edited)
+
+
+12 replies
+e.pekhterev [14 hours ago]
+Validate the given assumption.
+the message to be included in the TestAbortedException
+if the assumption is invalid throws TestAbortedException
+
+я тоже сначала засомневался)
+
+
+sky [14 hours ago]
+Вот отсюда - https://junit.org/junit5/docs/5.0.0/api/org/junit/jupiter/api/Assumptions.html: message это - the message to be included in the TestAbortedException if the assumption is invalid. Т.е. сообщение которое прикрепляется к эксепшену, если предположение НЕ верно. А мы предполагаем JPA
+
+
+e.pekhterev [14 hours ago]
+ещё раз, если у нас пойдут тесты для jdbc, то эссампшин будет indavalid, и тогда мы получим исключение с этим сообщением
+
+
+e.pekhterev [14 hours ago]
+так что всё норм
+
+
+sky [14 hours ago]
+Ну вот что выдает, когда запускаешь JdbcMealServiceTest -  org.opentest4j.TestAbortedException: Assumption failed: JPA not supported
+При чем тут JPA в этом случае? Я бы предпочел увидеть здесь сообщение типа "this test does not support JDBC realisation"
+
+
+sky [14 hours ago]
+или "validation only for JPA"
+
+e.pekhterev [14 hours ago]
+ну напиши Григорию, если тебе это не нравится)))
+
+
+sky [14 hours ago]
+Ты по прежнему считаешь что все норм?
+
+
+e.pekhterev [13 hours ago]
+да, на тестах для jdbc на этом тесте мы получаем сообщение, что нет поддержки JPA, соответственно тесты валидации пропускаются, не вижу никаких проблем.
+у меня был трабл вначале понять, когда это сообщение выдается.
+
+
+e.pekhterev [13 hours ago]
+основной смысл - jpa not supported - окей, значит пропускаем этот тест
+
+sky [13 hours ago]
+Можно и так трактовать в принципе.
+
+
+e.pekhterev [13 hours ago]
+так и нужно)
+
+
+sky [Yesterday at 10:08 AM]
+в 7_08 патче про JUnit5 добавляется message "JPA not supported" в assume. Вот так: Assumptions.assumeTrue(isJpaBased(), "JPA not supported").
+А разве не должно быть "JDBC not supported"? (edited)
+
+
+12 replies
+e.pekhterev [14 hours ago]
+Validate the given assumption.
+the message to be included in the TestAbortedException
+if the assumption is invalid throws TestAbortedException
+
+я тоже сначала засомневался)
+
+
+sky [14 hours ago]
+Вот отсюда - https://junit.org/junit5/docs/5.0.0/api/org/junit/jupiter/api/Assumptions.html: message это - the message to be included in the TestAbortedException if the assumption is invalid. Т.е. сообщение которое прикрепляется к эксепшену, если предположение НЕ верно. А мы предполагаем JPA
+
+
+e.pekhterev [14 hours ago]
+ещё раз, если у нас пойдут тесты для jdbc, то эссампшин будет indavalid, и тогда мы получим исключение с этим сообщением
+
+
+e.pekhterev [14 hours ago]
+так что всё норм
+
+
+sky [14 hours ago]
+Ну вот что выдает, когда запускаешь JdbcMealServiceTest -  org.opentest4j.TestAbortedException: Assumption failed: JPA not supported
+При чем тут JPA в этом случае? Я бы предпочел увидеть здесь сообщение типа "this test does not support JDBC realisation"
+
+
+sky [14 hours ago]
+или "validation only for JPA"
+
+e.pekhterev [14 hours ago]
+ну напиши Григорию, если тебе это не нравится)))
+
+
+sky [14 hours ago]
+Ты по прежнему считаешь что все норм?
+
+
+e.pekhterev [13 hours ago]
+да, на тестах для jdbc на этом тесте мы получаем сообщение, что нет поддержки JPA, соответственно тесты валидации пропускаются, не вижу никаких проблем.
+у меня был трабл вначале понять, когда это сообщение выдается.
+
+
+e.pekhterev [13 hours ago]
+основной смысл - jpa not supported - окей, значит пропускаем этот тест
+
+sky [13 hours ago]
+Можно и так трактовать в принципе.
+
+
+e.pekhterev [13 hours ago]
+так и нужно)
+
+
+Avaaron [5:22 PM]
+В опшионал последний пункт,  не могу въехать, что требуется.., просто все URL  для теста MealRestController  перечислить?
+
+Merkulov [5:23 PM]
+да все протестировать и записать все url запросы с методами
+я так понимаю
+
+Avaaron [5:25 PM]
+что-то как-то простенько... наверняка есть подвох
+
+
+Prodigy [Yesterday at 6:01 PM]
+    ```@Override
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void update(@RequestBody User user, @PathVariable("id") int id) {
+        super.update(user, id);
+    }```
+Мы здесь передаем юзера и его id, вопрос зачем?..... если мы передаем юзера то точно знаем его id, зачем еще доп параметром передавать id и потом проверять на соостветствие?
+Если можно кейс, где в этом есть смысл. Спасибо.
+
+
+29 replies
+Stanislav [6 hours ago]
+Мы здесь передаем юзера и его id, вопрос зачем? - ты имеешь ввиду @RequestBody User user, @PathVariable("id") int id ?
+
+
+Merkulov [6 hours ago]
+а если ты изменил id ?
+
+
+Stanislav [6 hours ago]
+Если да, то с чего ты взял что в User есть id?
+
+
+Merkulov [6 hours ago]
+имею ввиду у пользователя
+
+Stanislav [6 hours ago]
+Скопируй json который ты передаешь по урлу "/{id}"
+
+Stanislav [6 hours ago]
+У меня нет в user id, он и не нужен там, он в path-е
+
+
+Prodigy [6 hours ago]
+ну если мы передаем юзера в метод update значит id юзера уже есть.... тем более что он проверяется в методе update на соответствие
+
+
+Prodigy [6 hours ago]
+```public static void assureIdConsistent(AbstractBaseEntity entity, int id) {
+//      http://stackoverflow.com/a/32728226/548473
+        if (entity.isNew()) {
+            entity.setId(id);
+        } else if (entity.getId() != id) {
+            throw new IllegalArgumentException(entity + " must be with id=" + id);
+        }
+    }```
+
+
+Prodigy [6 hours ago]
+вот тут проверка происходит
+
+
+Stanislav [6 hours ago]
+И? Я не понимаю вопроса :slightly_smiling_face: В плане того, что все нормально, нет дублирования
+
+Stanislav [6 hours ago]
+В рест летит json без id, на конроллере он User (без id), id берется из path-а (@PathVariable("id") int id), передается в апдейт, там сетится
+
+Prodigy [6 hours ago]
+т.е. Я, как админ, дергаю метод update по ресту, где передаю зачем-то id пользователя и самого пользователя с уже существующим id..... зачем мне туда и юзера передавать и его id?) (edited)
+
+
+Stanislav [6 hours ago]
+```где передаю зачем-то id пользователя и самого пользователя с уже существующим id```
+покажи место где ты передаешь самого пользователя с уже существующим id
+
+
+Prodigy [6 hours ago]
+я делаю вывод из вот этого метода
+```public static void assureIdConsistent(AbstractBaseEntity entity, int id)```
+в котором проверяются id-шники
+
+
+Merkulov [6 hours ago]
+я думаю это делается ради безопасности, чтобы нельзя было подменить данные, возможно
+
+Prodigy [6 hours ago]
+если по твоей теории id не будет, то в результате проверки кинется эксепшен
+
+Stanislav [6 hours ago]
+Убери проверку-сеттер id assureIdConsistent и передай json для апдейта с id другого польщователя
+
+Stanislav [6 hours ago]
+         ```if (entity.isNew()) {
+            entity.setId(id);
+        } else if (entity.getId() != id) {
+            throw new IllegalArgumentException(entity + " must be with id=" + id);
+        }```
+ 
+В контроллере будет user с id (с json-а) если не будет этой проверке
+ ```else if (entity.getId() != id)``` 
+что будет
+
+
+Stanislav [6 hours ago]
+Там же и ссылка есть http://stackoverflow.com/a/32728226/548473
+Stack Overflow
+REST - put IDs in body or not?
+Let's say I want to have a RESTful resource for people, where the client is able to assign ID. A person looks like this: {"id": <UUID>, "name": "Jimmy"} Now, how should the client save (or ...
+ 
+
+
+Stanislav [6 hours ago]
+Без этой проверки я могу как пользователь апдейтить любого пользователя просто передав в json для апдейта id пользователя кого хочу заапдейтить
+
+Prodigy [6 hours ago]
+но я как админ вроде как могу любого пользователя апдейтить
+
+
+Avaaron [6 hours ago]
+что бы обновить что-то, надо что бы это что-то было
+
+
+Stanislav [6 hours ago]
+1. Как админ да, но админ человек и может допускать ошибки (передавать в json id не того) 2. Как пользователь ты можешь изменять свой профиль (апдейтить), но тебе ни чего не мешает в json передать id другого пользователя, хотя мешает, "наша" проверка.
+
+Prodigy [6 hours ago]
+а вот в `ProfileRestController` эта проверка действительно имеет смысл
+
+Stanislav [6 hours ago]
+Помимо безопасности, не маловажную роль играет "проверка на дурака"
+
+
+Stanislav [6 hours ago]
+Или копипаст, может он пакетно будет обновлять пользователей и не правильно сформирует скрипт с json-ом
+
+Stanislav [6 hours ago]
+это рест, а не вид
+
+Prodigy [6 hours ago]
+ну если смотреть с точки зрения безопасности, то я как юзер могу подменить id как в самом json-е так и id передать любой
+
+Prodigy [6 hours ago]
+не, наверное не смогу, там проверка на id авторизованного юзера
+
+
+hav [Yesterday at 9:02 PM]
+Объясните пожалуйста смысл этой проверки:
+```.andExpect(model().attribute("users", hasItem(
+                        allOf(
+                                hasProperty("id", is(START_SEQ)),
+                                hasProperty("name", is(USER.getName()))
+                        )```
+
+
+15 replies
+Stanislav [3 hours ago]
+Берет из модели атрибут, проверяет есть ли хоть один элемент со свойством-и.
+
+
+Stanislav [3 hours ago]
+allOf возвращает матчер, по которому будет проверять (имя свойства -> сравнение)
+
+
+hav [3 hours ago]
+Если я правильно понял, то проверяется что в коллекции users есть элемент с определенными полями. То есть проверяется только один элемент?
+
+
+Stanislav [3 hours ago]
+Проверяется есть ли хоть один элемент
+
+
+Stanislav [3 hours ago]
+есть разные hasItem, есть например hasItems
+
+
+hav [3 hours ago]
+Тест пройдет если есть один элемент, у которого `id=START_SEQ` и `name=USER.getName()`, а остальные элементы (ADMIN) не проверяются?
+
+
+hav [3 hours ago]
+В meals также можно проверить один элемент?
+
+
+Stanislav [3 hours ago]
+да, ты же можешь сам проверить, на примере meals, там как раз задание есть, попробуй тупо скопировать весь код для user и заменить на meals и поиграться
+
+Stanislav [3 hours ago]
+и лучше не верить, а самому поиграться :wink:
+
+
+hav [3 hours ago]
+Понял, спасибо. Я уже хотел проверять так все элементы из meals...
+
+
+Stanislav [3 hours ago]
+Ну в MealRestControllerTest не получится, там только в одном месте, где есть model
+
+
+Stanislav [3 hours ago]
+Только в RootControllerTest  testMeals()
+
+hav [3 hours ago]
+Я пока RootControllerTest делаю
+
+
+Stanislav [2 hours ago]
+http://www.vogella.com/tutorials/Hamcrest/article.html
+
+e.pekhterev [18 minutes ago]
+смотри 8-ой пункт подсказок - нужно сравнить всю еду пользователя если чего, не одну какую то, ну и нужно подумать какая это вообще должна быть еда (см. сам контроллер чего отдает):
+*8: Попробуйте в RootControllerTest.testMeals сделать сравнение через model().attribute("meals", expectedValue). Учтите, что вывод результатов через toString к сравнению отношения не имеет*

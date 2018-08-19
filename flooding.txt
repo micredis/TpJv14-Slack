@@ -2289,3 +2289,9 @@ Ignat [2 days ago]
 
 Grigory Kislin [2 days ago]
 согласен- можно, но сложнее. и ревью кода смотри чтобы было. (edited)
+
+
+stea1th [11:07 PM]
+Ребята, а кто мне подскажет, почему у меня это вылезло и что не в порядке?
+Exception in thread "main" org.springframework.beans.factory.xml.XmlBeanDefinitionStoreException: Line 43 in XML document from class path resource [spring/spring-db.xml] is invalid; nested exception is org.xml.sax.SAXParseException; lineNumber: 43; columnNumber: 52; cvc-complex-type.2.4.a: Invalid content was found starting with element 'bean'. One of '{"http://www.springframework.org/schema/beans":beans}' is expected
+на 43 строке у меня лежит это: p:packagesToScan="flug.project.**.model">
