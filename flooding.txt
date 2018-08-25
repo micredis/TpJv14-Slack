@@ -2295,3 +2295,423 @@ stea1th [11:07 PM]
 Ребята, а кто мне подскажет, почему у меня это вылезло и что не в порядке?
 Exception in thread "main" org.springframework.beans.factory.xml.XmlBeanDefinitionStoreException: Line 43 in XML document from class path resource [spring/spring-db.xml] is invalid; nested exception is org.xml.sax.SAXParseException; lineNumber: 43; columnNumber: 52; cvc-complex-type.2.4.a: Invalid content was found starting with element 'bean'. One of '{"http://www.springframework.org/schema/beans":beans}' is expected
 на 43 строке у меня лежит это: p:packagesToScan="flug.project.**.model">
+
+
+Михаил [Aug 20th at 6:12 PM]
+https://www.youtube.com/watch?v=trX5rXjHB9s
+YouTube Уроки Java
+Программисты ожидание vs реальность
+ 
+
+
+1 reply
+turhanow [5 days ago]
+реальность такова, что между IDE и google может быть еще  переводчик) (edited)
+
+
+Vladimir Gorbatenko [11:48 AM]
+https://cdn-tn.fishki.net/26/upload/post/2018/08/21/2681887/4767021890e542dd7212b1a9bc09b3fd.jpg
+https://cdn-tn.fishki.net/26/upload/post/2018/08/21/2681887/4767021890e542dd7212b1a9bc09b3fd.jpg
+
+Serg [4:08 PM]
+Сюда продублирую Москва. Промсвязьбанк. Ищем мидлов или тех кто себя считает мидлом и выше. ЗП 140 тыс. резюме слать chaschinsa@psbank.ru
+
+
+Prodigy [Aug 21st at 5:16 PM]
+у кого-то есть Spring in Action издание 5 или выше? (хотя я не уверен есть ли выше) (на английском) (edited)
+
+
+44 replies
+Yevhen Maksymovych [4 days ago]
+пятое издание выходит только осенью (или зимой)
+
+
+Prodigy [4 days ago]
+у меня ощущение было что я где то видел пятое
+
+
+Yevhen Maksymovych [4 days ago]
+вполне мог видеть, оно сейчас в MEAP-редакции (типа предварительная), и издательство обещает ещё как минимум одну такую редакцию, перед тем как она уйдёт в печать
+
+
+Ignat [4 days ago]
+Где-то валяется Spring 5.0 By Example
+
+
+Yevhen Maksymovych [4 days ago]
+Pasted image at 2018-08-21, 5:18 PM
+
+
+
+Yevhen Maksymovych [4 days ago]
+во, последнее обновление было с неделю назад
+
+
+Yevhen Maksymovych [4 days ago]
+а закончить обещают к ноябрю
+
+Yevhen Maksymovych [4 days ago]
+Pasted image at 2018-08-21, 5:20 PM
+ 
+
+
+Prodigy [4 days ago]
+я понял, значит почитаю четвертое издание
+
+
+Prodigy [4 days ago]
+а эту meap редакцию можно скачать?
+
+Yevhen Maksymovych [4 days ago]
+наверняка где-то в интернете найти можно
+
+
+Yevhen Maksymovych [4 days ago]
+я прям с сайта издательства качал
+
+
+Yevhen Maksymovych [4 days ago]
+за 30 баксов )))
+
+
+
+Prodigy [4 days ago]
+а что это за ценник у тебя?
+
+
+Prodigy [4 days ago]
+я нашел там такой:
+MEAP eBook $39.99
+pdf + ePub + kindle + liveBook
+
+
+Yevhen Maksymovych [4 days ago]
+я ещё с бумажной книжкой заказал
+
+
+Yevhen Maksymovych [4 days ago]
++доставка
+
+Yevhen Maksymovych [4 days ago]
+и акция была какая-то, 50% скидка
+
+
+Yevhen Maksymovych [4 days ago]
+в итоге вышло что-то в районе тридцатки
+
+
+Prodigy [4 days ago]
+пришел уже бумажный вариант?
+
+
+Yevhen Maksymovych [4 days ago]
+не, придёт когда напечатают
+
+
+Prodigy [4 days ago]
+ePub версия тоже присутствует?
+
+Prodigy [4 days ago]
+интересно на сколько удобно читать на ридере
+
+
+Prodigy [4 days ago]
+pdf очень мелковат
+
+Yevhen Maksymovych [4 days ago]
+Я ради киндла собсна покупал
+
+Yevhen Maksymovych [4 days ago]
+На киндле норм читать, свёрстано специально под него
+
+
+Prodigy [4 days ago]
+я тут давеча начинал читать книгу с версией для ридера, так там код был как бык поссал... книга норм, но читать невозможно было
+
+
+Prodigy [3 days ago]
+@Yevhen Maksymovych как тебе подфартило с акцией? часто там акции бывают?
+
+
+Yevhen Maksymovych [3 days ago]
+Вроде постоянно. Погуглил вообще Manning discount code, думаю, можно найти валидный
+
+
+Prodigy [3 days ago]
+да, спасибо.... нашел)
+
+Join_Selectovich [3 days ago]
+Почитал до 50 страницы "Spring в действии" - ну это просто сказочно, на сколько все просто и доходчиво объяснено.
+
+
+Prodigy [3 days ago]
+4 или 5 редакцию?
+
+
+Join_Selectovich [3 days ago]
+3ку )
+
+
+Prodigy [3 days ago]
+ахаха) а че так?
+
+
+Join_Selectovich [3 days ago]
+вроде те еще не перевели
+
+Join_Selectovich [3 days ago]
+я не думаю что концепции сильно поменялись в 4ом и 5ом издании
+
+Prodigy [3 days ago]
+4 вроде перевели.... а вот пятой версии смотрю под спринг бут больше ориентирован
+
+
+Yevhen Maksymovych [3 days ago]
+Поменялись. Пятая вообще все про бут
+
+
+Join_Selectovich [3 days ago]
+так что сейчас без бута этого ни куда?
+
+
+Prodigy [3 days ago]
+ну судя по всему идем в сторону бута
+
+
+Join_Selectovich [3 days ago]
+это какая-то принципиально новая концепция или это апгрейт предыдущих подходов? (edited)
+
+
+Prodigy [3 days ago]
+ну типа много спрятали всего под капот, а ты типа только руль крутишь и педальки давишь)
+
+
+Join_Selectovich [3 days ago]
+:slightly_smiling_face:
+
+
+Join_Selectovich [3 days ago]
+Pasted image at 2018-08-22, 3:53 PM
+
+
+Stanislav [Aug 21st at 5:57 PM]
+Такое есть
+PDF
+ProSpring5Eng_2017.pdf
+10 MB
+PDF
+ Click to view
+
+
+
+
+1 reply
+Prodigy [4 days ago]
+толковая книга?
+
+
+Михаил [6:05 PM]
+Pasted image at 2018-08-22, 6:05 PM 
+
+
+Prodigy [Yesterday at 12:29 PM]
+Гайз, есть такая проблема: допустим я хочу идти в ногу со временем и использовать в своем проекте data-jpa, НО... нужно реализовывать сложные запросы где нужно фильтровать данные в зависимости от того что юзер выбрал в браузере. Вероятно мне придется использовать `EntityManager` для реализации более сложных запросов. Могу ли я заинжектить EntityManager, ну на примере нашего приложения, в `DataJpaMealRepositoryImpl` и работать параллельно с ним там, где мне нужно ? (это для меня критикал квесчин, от этого будет зависеть буду ли я использовать data-jpa или jpa)
+
+
+41 replies
+Stanislav [1 day ago]
+Вопрос не понятен, чем тебе мешает data-jpa использовать сложные запросы
+
+
+Stanislav [1 day ago]
+У нас как раз реализация в проекте data-jpa дополняет
+
+
+Stanislav [1 day ago]
+Посмотри на DataJpaMealRepositoryImpl, это композиция
+
+Prodigy [1 day ago]
+ситуация такая, что в UI у юзера есть форма-фильтр, где ему дается порядка 15 различных полей для ввода данных, в зависимости от его выбора будет результат, так вот... то что выбрал юзер в фильтре прилетает на сервер, где я используя критерии jpa формирую запрос....  Я не знаю есть ли такие-же критерии в data-jpa, отсюда и вопрос (edited)
+
+
+Grigory Kislin [1 day ago]
+@Prodigy какими словами гуглил, что тебе он ответа не смог дать?? (edited)
+
+
+Stanislav [1 day ago]
+Ты разве в 4 уроке не делал задания на критерии?
+
+Stanislav [1 day ago]
+https://github.com/StanislavEsin/topjava/blob/c9b57955784f085fa9412da8b58ea413a747ad25/src/main/java/ru/javawebinar/topjava/repository/jpa/JpaMealRepositoryImpl.java
+src/main/java/ru/javawebinar/topjava/repository/jpa/JpaMealRepositoryImpl.java
+```package ru.javawebinar.topjava.repository.jpa;
+
+import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.User;```
+Show more…
+StanislavEsin/topjavaAdded by GitHub
+
+
+Stanislav [1 day ago]
+Есть лучше решение, без дублирования
+
+
+Stanislav [1 day ago]
+Но смысл ясен
+
+Prodigy [1 day ago]
+я не гуглил.... мне понятен jpa с его критериа, но мне не понятен data-jpa и как тут реализовать критерии
+
+
+Prodigy [1 day ago]
+в jpa всё понятно, ты мне кинул ссылку на реализацию jpa
+
+Stanislav [1 day ago]
+У Data-jpa нет критериев
+
+Stanislav [1 day ago]
+критерии есть у JPA
+
+
+Stanislav [1 day ago]
+https://easyjava.ru/spring/spring-data-project/ispolzovanie-jpa-criteria-v-spring-data-jpa/
+EasyJava
+Использование JPA Criteria в Spring Data Jpa
+JPA Criteria API это мощный механизм по генерации динамических и типобезопасных (при использовании Metamodel) запросов, который напрямую поддерживается в Spring Data Jpa, тем самым снимая ограничения других подходов к описанию запросов, но оставляя при это необходимый... #jpa #spring #springdatajpa (81 kB)
+Mar 6th, 2017 at 1:47 PM
+
+
+Stanislav [1 day ago]
+2 ссылка в поиске
+
+
+Prodigy [1 day ago]
+вот, т.к. у data-jpa нет критериа, то вероятно имеет смысл инжектить EntityManager, верно или нет?
+
+
+Stanislav [1 day ago]
+Допустим не верно, как ты будешь использовать критерии (они требует EM)?
+
+
+Stanislav [1 day ago]
+Верно, инжекти, в чем проблема
+
+
+Stanislav [1 day ago]
+Только правильно инжекти
+
+
+Stanislav [1 day ago]
+http://javacore.ru/item/68-jpa-spring.htm
+
+
+Prodigy [1 day ago]
+ну тут как бы интересно не будет ли каких-то проблем если заинжектить EntityManager, потому как инжектя EntityManager я добавляю еще один persistence unit в приложение
+
+
+Stanislav [1 day ago]
+Не что-то не то пишешь, почитай ссылки, посмотри бин entityManagerFactory, почитай про аннотацию @PersistenceContext.....
+
+
+Grigory Kislin [1 day ago]
+@Prodigy
+> я не гуглил...
+вот это на данный момент твоя самая большая ошибка...
+дошел до 8!! урока и не завел привычку гуглить перед тем, как задать вопрос (edited)
+
+
+Prodigy [1 day ago]
+какой смысл этих каналов тогда, если я и так могу у гугла получить все ответы?
+
+
+Stanislav [1 day ago]
+Будет интересно посмотреть реакцию твоей команды, когда ты им скажешь ''а какой смысл гуглить, когда есть вы, когда есть команда" :slightly_smiling_face:  Я считаю, что надо понимать, какие вопросы можно спрашивать (сложные, когда инфа так зарыта в нете, что ты не можешь ее найти, есть так же философия что уделять на поиски не больше 10 минут, а потом можно спросить), а когда лучше погуглить. В шахматах есть такой термин 'зевок' (когда ты пропустил ход-комбинацию которая как на ладони), вот тут как раз тот случай.
+
+
+Prodigy [1 day ago]
+это обучающий проект, и вопросы у людей возникают потому что есть недопонимание, а как я полагаю эти чаты и призваны помочь решить проблемы или подсказать человеку если он где-то чего-то не понимает
+
+
+Stanislav [1 day ago]
+Не так давно я обнаружил простой, но крайне эффективный способ того, как справляться с большим количеством желающих, чтобы вы сделали для них какую-нибудь нужную и не очень работу. Один простой принцип, и в наличии имеются:
+
+1) 90% дел, которые отсеиваются сами без вашего активного участия,
+2) те 10%, которые остаются – скорее всего действительно достойны того, чтобы вы им помогли
+
+Как же этого добиться? Очень просто – нужно попросить человека, которому что-то от вас нужно, сделать первый шаг. Кто-то просит заполнить какие-то документы? Пускай он их подготовит и положит вам на стол. Кто-то просит написать программу? Пускай подготовит максимально детальную спецификацию или что там в его компетенции. Подружка просит свозить ее за покупками? Пускай выпишет время работы и адреса торговых центров, чтобы вам было проще спланировать маршрут.
+
+Конечно, предполагается, что сделать эту работу надо больше для кого-то, чем для себя. И когда нет настроения придумывать дешевые отмазки, то, серьезно, просто попросите человека сделать первый шаг. И гарантированно 90% “просителей” как-то загадочно отсеиваются. Остаются только те, которым действительно нужно то, о чем они просят. Вот на таких людей и стоит тратить свое время.
+
+
+
+Stanislav [1 day ago]
+Ты даже не попытался сам разобраться в своей проблеме, даже после того как тебе скинули ссылки, ты их не прочитал - не проработал (мнение по последнему вопросу)..
+
+
+Stanislav [1 day ago]
+И не надо злиться-обижаться и т.д. Для тебя стараются
+ ```Дайте человеку одну рыбу, и он получит пропитание на день, научите его ловить рыбу, и он получит пропитание на всю жизнь```
+
+
+Prodigy [1 day ago]
+последняя ссылка было про то как добавить энтити менеджер... но вопрос был не в том чтобы просто его добавить, а добавить в контексте data-jpa
+
+
+Prodigy [1 day ago]
+чувствуешь разницу?
+
+
+Stanislav [24 hours ago]
+Может я идиот (а такое может быть) что значит в контексте data-jpa? У нас есть бин entityManagerFactory который создается на основании класса 'LocalContainerEntityManagerFactoryBean'. Так вот, '...ManagerFactoryBean' на какие мысли наводит? Эта фабрика (паттерн фабрика). Так вот, аннотация @PersistenceContext вытаскивает EntityManager с этого бина (с фабрики). (edited)
+
+
+Stanislav [24 hours ago]
+На том же сайте http://javacore.ru/item/24-jpa-spring.htm
+
+Stanislav [24 hours ago]
+Туда же http://www.javacore.ru/topic/17-jpa-spring.htm
+
+
+Prodigy [24 hours ago]
+Хорошо, смотри... у нас есть такой класс:
+```@Repository
+public class DataJpaMealRepositoryImpl implements MealRepository {
+
+    @Autowired
+    private CrudMealRepository crudMealRepository;
+........```
+предположим мы добавляем энтити менеджер
+```@Repository
+public class DataJpaMealRepositoryImpl implements MealRepository {
+
+    @Autowired
+    private CrudMealRepository crudMealRepository;
+
+    @PersistenceContext
+    private EntityManager em;
+........```
+ты хочешь сказать что и `crudMealRepository` и `em` по сути будут использовать один и тот же персистенс контекст?
+
+
+Stanislav [24 hours ago]
+Если будет одна транзакция, то да. - если не прав, то меня подправят.
+
+
+Stanislav [24 hours ago]
+Ты это легко можешь проверить. Логирование sql в одной транзакции найди один и тот же entity через data-jpa и em/
+
+
+Stanislav [24 hours ago]
+2 запроса sql покажет что разные контексты т.к. нету кэша 1 уровня
+
+
+Prodigy [24 hours ago]
+я так понимаю что ты уже проверил) и я делаю вывод что всё же у нас 2 разных контекста получается... окей... что из этого следует, что мы можем внутри одной транзакци пользоваться только одним контекстом, верно?
+
+
+Prodigy [24 hours ago]
+наверное это вопрос риторический)
+
+
+Stanislav [24 hours ago]
+Я ни чего не проверял, я логически размышляю основываясь на своих знаниях (я могу быть не прав!). А вот тебе как раз надо проверить. Ушел, на долго. (edited)

@@ -671,3 +671,626 @@ http://www.vogella.com/tutorials/Hamcrest/article.html
 e.pekhterev [18 minutes ago]
 смотри 8-ой пункт подсказок - нужно сравнить всю еду пользователя если чего, не одну какую то, ну и нужно подумать какая это вообще должна быть еда (см. сам контроллер чего отдает):
 *8: Попробуйте в RootControllerTest.testMeals сделать сравнение через model().attribute("meals", expectedValue). Учтите, что вывод результатов через toString к сравнению отношения не имеет*
+
+
+Jury Mironov [Aug 20th at 10:37 AM]
+У меня уже при первом патче HW6 конфликты
+
+
+8 replies
+Jury Mironov [5 days ago]
+ActiveProfiles(DATAJPA)
+   public class DataJpaUserServiceTest extends AbstractJpaUserServiceTest {
+       @Test
+       public void testGetWithMeals() throws Exception {
+           User user = service.getWithMeals(USER_ID);
+
+
+Stanislav [5 days ago]
+А где у тебя патч 6_06_HW5_optional_fetch_join.patch, в твоем репозитории его нету
+
+
+Jury Mironov [5 days ago]
+Да, в коммитах не вижу его, пропустил, видать... Как в таком случае лучше сделать? Revert на 6_05 и оттуда снова патчить?
+
+
+Stanislav [5 days ago]
+если не мучится, то наверно так лучше будет..иначе надо смотреть что в нем исправлено, что в других исправлено, не затрет ли 6_05 изменения которые внесли патчи > 6_05...
+
+
+Jury Mironov [5 days ago]
+спасибо
+
+
+Jury Mironov [5 days ago]
+Блин,  сбросил ветку, применил патчи,  а запушить нак и не смог.  Меня бесит гит.  Я не понимаю че ему мешает заменить все,  что было,  на то что есть сейчас. Pull с Rebese не прокатывал.  Удалил и запушил в новый репозиторий,  только вилка пропала
+
+
+Stanislav [5 days ago]
+https://www.ibm.com/developerworks/ru/library/l-git_3/index.html
+ibm.com
+Часть 3. Философия Git
+Продолжая разговор о философии Git, её архитектуре и идеологии, мы рассмотрим ряд важных команд и закрепим изученный материал на конкретных примерах.
+ 
+
+
+Stanislav [5 days ago]
+```Система управления версиями Git отталкивается в своем поведении от двух постулатов:
+
+"Ни один момент истории отменить нельзя, однако в будущем можно сделать такое изменение, которое исправит необходимые данные"........```
+
+
+Mihail Kedel [Aug 20th at 1:43 PM]
+"Реализовать MealRestController и протестировать его через MealRestControllerTest". У меня одного в проекте нет класса MealRestControllerTest,или его надо самому создать?
+
+
+2 replies
+Victor_D [5 days ago]
+да
+
+
+e.pekhterev [5 days ago]
+ctrl+shift+T
+
+
+turhanow [Aug 20th at 3:26 PM]
+всем привет, не могу разобраться с тестированием ресурсов. Допустим я передаю в perform через get "/meals", у меня по идее должны были подгрузиться css стили. не могу догнать как проверить это в andExpect... и в интеренете не могу найти пример тестирования css((
+
+
+10 replies
+Stanislav [5 days ago]
+Тебе нужно проверить доступность ресурса (в данном случае доступность css /resources/css/style.css). Статус ок и тип контента txt/css
+
+
+Stanislav [5 days ago]
+Можешь еще распечатать его (do print)
+
+
+turhanow [5 days ago]
+статус проверил и распечатал, а вот с доступностью проблемы((
+
+
+turhanow [5 days ago]
+вот сейчас здесь нашел пример https://stackoverflow.com/questions/32276750/how-to-unit-test-static-resources-served-by-spring-resourcehandlerregistry
+и я так же делал, но не делал форвард, а делал content().contentType
+Stack Overflow
+How to Unit Test static resources served by Spring ResourceHandlerRegistry
+I'm trying to unit test a new Spring MVC project. I have a passing test for the home controller serving index.jsp. I'm trying to test serving static resources served by the ResourceHandlerRegistry ...
+ 
+
+
+Stanislav [5 days ago]
+Скопируй ссылку из perform(get(
+
+turhanow [5 days ago]
+кажется разобрался,
+get("/resources/css/style.css")
+а потом
+content().contentType("text/css")
+
+вот только сомнения насчет правильности решения..что скажешь?)
+
+
+Stanislav [5 days ago]
+Практически, только контенттайп MediaType.valueOf("text/css")
+
+
+
+turhanow [5 days ago]
+спасибо дружище)) 2 часа сидел из за двух строчек))
+
+
+alexey [5 days ago]
+и это не предел(  я вот уже пол дня сижу с curl командами. post хоть убей не проходит( хотя на тестах все норм
+
+
+Stanislav [5 days ago]
+Скорее всего не правильно body json-ом заполняешь
+
+
+This message was deleted.
+
+
+1 reply
+Nikolay [5 days ago]
+скопируй все параметры из тестов
+
+
+Ivan Potapov [Aug 20th at 5:13 PM]
+Подскажите пожалуйста как отправить и получить LocalDateTime в теле http запроса, никак не могу разобраться. Если отправлять параметр по url проблем не возникает.
+
+
+6 replies
+Grigory Kislin [5 days ago]
+с post тоже нее должно тогда быть
+а delete и put сервлеты не поддерживают (edited)
+
+
+Ivan Potapov [5 days ago]
+@Grigory Kislin на данный момент есть такая реализация getBetween в rest контроллере. Но, допустим, я не хочу передавать параметры дат по url. Учитывая, что RequestBody в параметрах метода может быть только 1, правильно ли я понимаю, что для того, чтобы это реализовать нужно создать класс, который будет содержать в себе эти даты и время, чтобы можно было получить его как объект и передать нужные поля дальше в метод родителя или есть какая-нибудь другая реализация?
+Screenshot_1.png
+
+
+
+Stanislav [5 days ago]
+Это делается через конвертер (твоя реализация, которая реализует интерфейс спринга), в xml спец. образом настраивается конвертер, создается бин в котором прописываешь свою реализацию конвертера. И тогда спринг автоматом конвертирует твои даты и время которые передаются парметрами. -> смотри ссылки, в задании их 2-3 шт.
+
+
+
+Stanislav [5 days ago]
+Или гугл по ключевым словам "спринг, конвертер локалдат, конвертер локалдат параметры в запросе и т.д."
+
+
+Grigory Kislin [5 days ago]
+@Ivan Potapov поставь просто вместо @GetMapping -> @PostMapping
+и в форме поставь method=post. параметры будут передаваться в теле
+RequestBody - это для json
+
+
+Ivan Potapov [4 days ago]
+@Grigory Kislin спасибо, в итоге оказалось, что я просто неправильно пользовался Postman
+
+
+Gulnaz [Aug 20th at 6:49 PM]
+Привет, подскажите, почему не проходит
+`.andExpect(model().attribute("meals", MealsUtil.getWithExceeded(MEALS, USER.getCaloriesPerDay())));`
+в RootControllerTest.testMeals()?
+testMeals.JPG
+
+
+
+2 replies
+sky [5 days ago]
+https://topjava14.slack.com/archives/CCALMAKRC/p1534666950000100
+Daniel
+Я прошу прощения, у меня у одного в RootController testUsers() в методе perform отваливается по NullPointerException? Что-то я туплю...
+Thread in #hw7Aug 19th at 11:22 AM
+ 
+
+
+Gulnaz [5 days ago]
+Спасибо
+
+
+hav [Aug 21st at 10:11 AM]
+Не могу разобраться со своими конвертерами. Как их правильно зарегистрировать? Я делаю так:
+```<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean class="ru.javawebinar.topjava.util.converter.StringToLocalDateConverter"/>
+                <bean class="ru.javawebinar.topjava.util.converter.StringToLocalTimeConverter"/>
+            </set>
+        </property>
+    </bean>```
+Но тест не проходит, конверторы не подцепляются. Что я делаю не так?
+
+
+12 replies
+sky [4 days ago]
+Я еще вот это сделал <mvc:annotation-driven conversion-service="conversionService">, А еще использовал FormattingConversionServiceFactoryBean вместо твоего. Как понял форматтеры больше подходят в нашем случае (edited)
+
+
+hav [4 days ago]
+Спасибо, заработало, этой строчки и не хватало. Откуда инфо, есть ссылка?
+
+e.pekhterev [4 days ago]
+я бы ещё вот это поменял:
+<bean id="conversionService"
+           class="org.springframework.format.support.*FormattingConversionServiceFactoryBean* ">
+
+
+sky [4 days ago]
+с гугла/гитхаба вроде пример. Сейчас уже потерялся
+
+
+e.pekhterev [4 days ago]
+вот тут пример конфигурирования конвертеров и форматтеров для спринг в документации:
+https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#mvc-config-conversion
+
+
+
+e.pekhterev [4 days ago]
+в принципе копипаста работает)))
+
+
+hav [4 days ago]
+Надо внимательнее читать документацию...
+
+e.pekhterev [4 days ago]
+ну ссылку давали в задании по форматтерам как их делать, и там ниже в разделе конфигурирования дана ссылку и на конфигурирование в спринг, конечно же лучше читать - и ссылки все есть в уроке, и по этим ссылкам всё доступно показано и рассказано, всё делается без проблем
+
+
+e.pekhterev [4 days ago]
+Я кстати делал именно форматтеры, а не конвертеры
+
+
+Ma3stro [4 days ago]
+Можно же просто @DateTimeFormat(iso = TIME / DATE)
+
+
+e.pekhterev [4 days ago]
+если разговор про основную часть задания, то там применяется @DateTimeFormat
+
+
+e.pekhterev [4 days ago]
+а вот в опшинал всё должно работать автоматом без @DateTimeFormat
+
+
+This message was deleted.
+
+
+2 replies
+sky [4 days ago]
+чуть выше ветку эту глянь
+и подсказка № 8 (edited)
+
+
+matrocob [4 days ago]
+спасибо!)
+
+
+Join_Selectovich [Aug 21st at 2:06 PM]
+Поясните пожалуйста по видео 7_5_rest_controller.mp4. Почему в UserControrller использовалась Model, а в AdminUserRestController модели уже нет?
+
+
+17 replies
+e.pekhterev [4 days ago]
+насколько я понимаю в ресте модели и не может быть, мы не работаем с мордой напрямую
+
+
+e.pekhterev [4 days ago]
+насколько я понимаю в ресте модели и не может быть, мы не работаем с мордой напрямую (в смысле с jsp через SpringMVC)
+
+
+Join_Selectovich [4 days ago]
+Но "морда" это же View, а данные это Model, и вроде бы с чем бы мы не работали модель всегда должна же быть ?!
+
+
+e.pekhterev [4 days ago]
+именно в том виде как для Spring MVC - это нам не нужно, мы сразу данные, полученные с сервиса перегоняем/сериализуем в JSON и отдаём в запрос, да и получаем аналогичным образом (edited)
+
+
+Join_Selectovich [4 days ago]
+млин, так а что данные полученные от сервиса это не модель? я что-то плыву в этих MVC абстракциях.. (( (edited)
+
+e.pekhterev [4 days ago]
+тут другое mvc)))
+
+
+Join_Selectovich [4 days ago]
+мля, так они еще и разные бывают .... матка боска!
+
+
+e.pekhterev [4 days ago]
+ну как бы да, наверно ты прав, тоже модель, только другая)))
+
+
+e.pekhterev [4 days ago]
+в ресте мы гоняем туда-сюда трансфер объжект, сериализованный в JSON и дессериализованный из JSON,
+
+e.pekhterev [4 days ago]
+а в спринMVC мы закидываем наш трасфер обжект в объект Model через её атрибуты, и уже эту модель отправляем на морду/вьюху с контроллера.
+я так понимаю) (edited)
+
+
+
+e.pekhterev [4 days ago]
+про Model:
+Java-5-specific interface that defines a holder for model attributes. Primarily designed for adding attributes to the model. Allows for accessing the overall model as a java.util.Map
+
+
+e.pekhterev [4 days ago]
+в ресте у нас собственно вместо этого юзается JSON, который тоже по сути карта - набор ключей/значений
+
+e.pekhterev [4 days ago]
+ну либо XML, в зависимости от реализации
+
+Join_Selectovich [4 days ago]
+@e.pekhterev благодарю за пояснения
+
+e.pekhterev [4 days ago]
+да, кстати в нашем проекте мы для сохранения/обновления с jsp принимаем данные из формы через параметры рексвеста. На самом деле не самое хорошее решение (на мой взгляд).
+В тестовом задании сюда на topJava я использовал спринговую форму в jsp и в контроллере принимал уже готовый можно сказать трансфер обжект через аннотацию  @ModelAttribute (напрямую с формы).
+Вот тут можно посмотреть (метод, замапленный на урл "/books/saveOrUpdate")
+https://github.com/rootrock13/JavaRushTestTaskApplications/blob/master/src/main/java/com/rootrock13/testtask/controller/BookController.java
+src/main/java/com/rootrock13/testtask/controller/BookController.java
+```
+package com.rootrock13.testtask.controller;
+
+
+import com.rootrock13.testtask.model.Book; Show more…
+rootrock13/JavaRushTestTaskApplicationsAdded by GitHub
+(edited)
+
+
+e.pekhterev [4 days ago]
+а вот как форма выглядит (только там ещё бутстрап вставлен)
+https://github.com/rootrock13/JavaRushTestTaskApplications/blob/master/src/main/webapp/WEB-INF/pages/books/books_list.jsp
+src/main/webapp/WEB-INF/pages/books/books_list.jsp
+```
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %> Show more…
+rootrock13/JavaRushTestTaskApplicationsAdded by GitHub
+
+
+e.pekhterev [4 days ago]
+я поэтому сначала написал, что в спрингMVC мы гоняем туда сюда модель между мордой и контроллером
+
+
+tim [Aug 21st at 2:55 PM]
+Привет! Подскажите пожалуйста, в MealRestController должна передаваться информация о пользователе или она должна вычисляться на основе авторизации в случае с томкатом? по типу  public void delete(@PathVariable("id") int id, @PathVariable("userId") int userId)
+
+
+12 replies
+e.pekhterev [4 days ago]
+из авторизации, при этом не нужен тебе никакой  @PathVariable("userId") int userId
+
+
+
+Stanislav [4 days ago]
+Не должна. В настоящий момент у нас "заглушка" по авторизации (пользователь по умолчанию + по выбору), скоро прикрутим Spring Security (там уже будет как и должно быть).
+
+
+Stanislav [4 days ago]
++ (не в обиду) если такой вопрос возникает, то нет понимания rest и что такое авторизация, стоит почитать.
+
+
+e.pekhterev [4 days ago]
+@Stanislav про +(не в обиду) добавлю, что как бы мы ж не первый день проектом занимаемся и к этому моменту можно уже было и запомнить про заглушку авторизации
+
+
+Also sent to the channel
+tim [4 days ago]
+Про заглушку я знаю.... У ментя нет понимания как этот рестконтроллер функционально будут использоваться...
+
+e.pekhterev [4 days ago]
+да всё тоже самое как и в предыдущих версиях
+
+
+e.pekhterev [4 days ago]
+просто работает с реквестами http вместо свой собственной морды в проекте
+
+
+e.pekhterev [4 days ago]
+ну и плюс нюансы реста (его основные принцыпы за стейтлес и прочее)
+
+tim [4 days ago]
+Как делать рестконтроллер я примерно понял, но для каких целей он будет использоваться непонятно.. Ну вот примеру у меня есть андроид приложение я могу использовать его как простого клиента и  общаться по РЕСТ, а могу сделать второй сервер и переложить часть функционала на него
+
+Stanislav [4 days ago]
+Я так понимаю html+css+js ты не знаешь (хотя бы на базовом уровне), по этому у тебя нет понимания. В 8 уроке (следующий) как раз увидишь каа будет использоваться rest с Ajax-ом. А вообще, что тут понимать, это сервис, который по урлу позволяет тебе что то сделать (круд).
+
+
+Stanislav [4 days ago]
+Как ты будешь использовать? Да как угодно, в меру своих фантазий. У тебя есть инструмент, который позволяет делать то и то. Я даже не могу сформулировать, для меня это звучит так "есть молоток, я примерно понял как его делать, но для каких целей он будет использоваться непонятно". Ну молотком можно закалачивать гвозди, а можно череп разбить, а можно отбивную сделать и еще 1000+1 применение.
+
+
+Stanislav [4 days ago]
+П.с. и да, ты можешь
+```Ну вот примеру у меня есть андроид приложение я могу использовать его как простого клиента и  общаться по РЕСТ, а могу сделать второй сервер и переложить часть функционала на него```
+
+
+tim [3:54 PM]
+replied to a thread:
+Про заглушку я знаю.... У ментя нет понимания как этот рестконтроллер функционально будут использоваться...
+
+
+alexey [Aug 21st at 4:27 PM]
+Всем привет.Решил я тут по ресту вытянуть пользователя с его едой, хоть по заданию этого и не требовалось (исключительно ради интереса)! И получил в итоге "StackOverflowError". Бесконечный цикл вложенных в друг друга пользователей и еды( Кто нибудь знает как это побороть?
+
+
+14 replies
+Nikolay [4 days ago]
+Мне кажется, это было в лекциях.
+
+
+
+alexey [4 days ago]
+@JsonIgnore работает при сериализации. Я думал может есть что нибудь поизящнее, на уровне класса!?
+
+
+Nikolay [4 days ago]
+Можно DTO использовать
+
+
+alexey [4 days ago]
+Просто не понятно почему такой цикл получается если юзер LAZY и еда LAZY
+
+
+Prodigy [4 days ago]
+в уроке была тема что когда стоит Transactional над тестом то он зацикливается пытаясь друг у друга брать еду и юзера
+
+
+alexey [4 days ago]
+Так это не в тестах, а в самом приложении
+
+
+Prodigy [4 days ago]
+значит у тебя сериализация происходит в транзакции.... нужно исключать эти поля
+
+
+alexey [4 days ago]
+После  обращения в базу у нас уже такой цикл в экземпляре юзера который возвращается  при вызове " DataJpaUserRepositoryImpl.getWithMeals(int id)" . Посмотри в дебаге
+
+Prodigy [4 days ago]
+я еще не все патчи даже накатил, так что посмотреть наверное не смогу
+
+Prodigy [4 days ago]
+посмотри еще раз видео где эта проблема описывалась
+
+shtramak [4 days ago]
+А чем jsonIgnoreProperties не угодили?
+
+
+alexey [4 days ago]
+тем что работают при сериализации, а интересно как избавиться от этого на уровне ниже (т.е. еще до сериализации)
+
+
+alexey [3 days ago]
+Получилось избавиться от бесконечного вложения)
+
+
+alexey [3 days ago]
+Вытягиваем юзера, а потом отдельно еду
+
+
+Jury Mironov [Aug 21st at 6:22 PM]
+Exception in thread "main" java.lang.NoClassDefFoundError: junit/textui/ResultPrinter
+    at java.lang.Class.forName0(Native Method)
+    at java.lang.Class.forName(Class.java:264)
+    at com.intellij.rt.execution.application.AppMain.main(AppMain.java:123)
+Caused by: java.lang.ClassNotFoundException: junit.textui.ResultPrinter
+    at java.net.URLClassLoader.findClass(URLClassLoader.java:381)
+    at java.lang.ClassLoader.loadClass(ClassLoader.java:424)
+    at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331)
+    at java.lang.ClassLoader.loadClass(ClassLoader.java:357)
+    ... 3 more
+
+Process finished with exit code 1
+
+
+2 replies
+Jury Mironov [4 days ago]
+При запуске теста
+
+
+Jury Mironov [3 days ago]
+У меня версия идеи 2016 года,на новой все норм
+
+
+Jury Mironov [Aug 22nd at 10:39 AM]
+А как у нас админ попадает в контроллер админа, а обычный юзер в обычный контроллер?
+
+
+2 replies
+e.pekhterev [3 days ago]
+пока видимо доступ для всех, а потом, как добавится нормальная авторизация, то и будет разный доступ к контроллерам (предположение) (edited)
+
+
+
+zippospb [3 days ago]
+Так у тебя же url-ы у profileRestController и adminRestController разные
+
+
+Prodigy [Aug 22nd at 3:01 PM]
+для чего мы генерим эти две строки?
+
+        ```URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(created.getId()).toUri();
+
+        return ResponseEntity.created(uriOfNewResource).body(created);```
+
+
+
+13 replies
+e.pekhterev [3 days ago]
+при сохранении мы возвращаем сохраненный объект обратно, а эти строчки как раз и формируют наш возвращаемый объект (edited)
+
+Prodigy [3 days ago]
+почему просто не вернуть `User user` ?
+
+Prodigy [3 days ago]
+как это мы делаем в методе `get`
+
+e.pekhterev [3 days ago]
+мы возвращаем ResponseEntity
+
+
+e.pekhterev [3 days ago]
+мы работаем с http
+
+e.pekhterev [3 days ago]
+как http поймём твоего User-a? (edited)
+
+Prodigy [3 days ago]
+ну погоди... мы е в методе get возвращаем юзера
+```@Override
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public User get(@PathVariable("id") int id) {
+        return super.get(id);
+    }```
+
+
+Prodigy [3 days ago]
+здесь значит понимает
+
+Stanislav [3 days ago]
+Тут формируется заголовок http (что является не обязательной, но хорошей практикой). Как уроки-видео смотрите?
+
+
+
+e.pekhterev [3 days ago]
+точняк, заголовок
+
+
+Prodigy [3 days ago]
+конечно смотрим, только не всегда всё понятно там
+
+
+alexey [3 days ago]
+так это просто для того что бы красиво в headers инфа отображалась?
+
+
+Prodigy [3 days ago]
+это тайна покрытая мраком))
+
+
+Prodigy [Aug 22nd at 6:40 PM]
+я правильно понял задание, что в `getBetween` мы передаем 2 параметра `LocalDateTime` ? (не optional) (edited)
+
+
+1 reply
+Grigory Kislin [3 days ago]
+да. и в Optional рефакторим
+
+
+Crazz [1:46 PM]
+А вот скажите, это-
+     ```@PostMapping(value = "/filter", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<MealWithExceed> getBetween(@RequestBody BetweenDates betweenDates) {
+        LocalDate startDate = betweenDates.startDateTime.toLocalDate();
+        LocalDate endDate = betweenDates.stopDateTime.toLocalDate();
+        LocalTime startTime = betweenDates.startDateTime.toLocalTime();
+        LocalTime endTime = betweenDates.stopDateTime.toLocalTime();
+        return super.getBetween(startDate, startTime, endDate, endTime);
+    }
+
+    private static class BetweenDates {
+        private LocalDateTime stopDateTime, startDateTime;
+
+        public BetweenDates() {
+        }
+
+        public BetweenDates(LocalDateTime stopDateTime, LocalDateTime startDateTime) {
+            this.stopDateTime = stopDateTime;
+            this.startDateTime = startDateTime;
+        }
+    }```
+очень плохой велосипед и так делать не надо? (edited)
+
+Ma3stro [2:19 PM]
+ооой, а как тебе просто LocalDateTime передавать без объекта?
+
+
+Ma3stro [Yesterday at 2:19 PM]
+И в качестве параметра запроса через "?"
+
+
+4 replies
+Crazz [23 hours ago]
+а если я хочу через Post
+
+
+Crazz [23 hours ago]
+где то я читал в типа Best Practices что мол get обычно кешируется и по идее должен всегда отдавать однозначный ответ, а у нас ответы зависят от БД
+
+
+Ma3stro [23 hours ago]
+Если post, попробуй поиграться с передаваемыми параметрами, объект излишен
+
+
+Crazz [19 hours ago]
+Ну да, можно в requestBody ловить мапу

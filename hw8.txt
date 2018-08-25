@@ -1,0 +1,327 @@
+Grigory Kislin [1:55 AM]
+joined #hw8.
+
+Grigory Kislin [1:57 AM]
+Урок 8: CSS (Bootstrap), JavaScript (jQuery + plugins), AJAX, добавление к REST контроллерам базовой авторизации (в UI и тесты добавим на следующем уроке)
+https://github.com/JavaWebinar/topjava/blob/doc/doc/lesson08.md
+Успехов в изучении! Материала много, не старайтесь прочесть все за раз.
+Патчи вчекинил сразу, можно проверять классы по github (edited)
+
+Tanya [1:59 AM]
+joined #hw8 along with 18 others.
+
+
+sky [Aug 23rd at 7:11 PM]
+Подскажите, как в datatablesUtil.js в скопе оказывается переменная из userDatatables.js (ajaxUrl)? Ну по крайней мере идея видит и переходит по ctrl-лкм (значит ли это, что у них есть общий скоп, или это просто идея такая умная?). Причем, если создать js файл в любом месте ресурсов и прописать в нем переменную var, ее увидят все остальные js файлы. Если вопрос сильно ламерский, прошу особо не пинать
+
+
+7 replies
+pchurzin [1 day ago]
+переменные в js, если они объявлены вне функции будут находится в "глобальном" скоупе и будут видны из любого js файла, а также из любых функций, если только не будет объявлена переменная с таким же именем внутри функции
+
+
+sky [1 day ago]
+Понял, спасибо, вопрос закрыт.
+
+
+pchurzin [1 day ago]
+из этого также выходит, что если объявить переменную с таким же именем в другом файле, который загрузится позже, то это объявление перезатрет предыдущее.  для решения этих проблем используют т.н. замыкания. Но в двух словах трудно описать. На нашем проекте вряд ли они понадобятся.
+
+
+Stanislav [1 day ago]
+Почему замыкание называется замыканием? Я понимаю что это (область видимости) и как пользоваться (инкапсулировать), но не могу понять почему это так называется. (edited)
+
+
+pchurzin [1 day ago]
+думаю не придумали лучшего перевода для слова closure.
+
+
+pchurzin [1 day ago]
+https://en.wikipedia.org/wiki/Closure_(computer_programming)#History_and_etymology
+Wikipedia
+Closure (computer programming)
+In programming languages, a closure (also lexical closure or function closure) is a technique for implementing lexically scoped name binding in a language with first-class functions. Operationally, a closure is a record storing a function together with an environment. The environment is a mapping associating each free variable of the function (variables that are used locally, but defined in an enclosing scope) with the value or reference to which the name was bound when the closure was created. A Show more…
+
+
+svis [1 day ago]
+думаю это из математики такое соответствие, еще с 19-го века
+
+
+e.pekhterev [Yesterday at 12:15 AM]
+У кого-нибудь в spring-mvc.xml вот эта штука горит красным? (идея говорит - не могу резолвить локейшин - опять тупит мож быть?)
+><mvc:resources mapping="/webjars/**" location=" *classpath:/META-INF/resources/webjars/* "/>
+(edited)
+
+
+2 replies
+svis [1 day ago]
+У меня то же самое. Но кроме красного цвета все остальное вроде в порядке
+
+
+e.pekhterev [1 day ago]
+окей, спасибо)
+
+
+Kirilo [4:17 AM]
+Untitled 
+По моему вместо такой строчки в тесте:
+ mockMvc.perform(get(REST_URL + "between?startDateTime=2015-05-30T07:00&endDateTime=2015-05-31T11:00:00"))
+	 
+	 Красивее вот так:
+​
+	         mockMvc.perform(get(REST_URL + "between")
+            .param("startDateTime", "2015-05-30T00:00")
+            .param("endDateTime", "2018-08-31T23:59"))
+Collapse 
+
+Tanya [5:43 AM]
+в след патче так и есть
+
+
+Stanislav [Yesterday at 9:49 AM]
+Разве это нормально что в JS мы используем глобальные переменные?
+
+
+13 replies
+e.pekhterev [1 day ago]
+дядя Файн говорил - так не сделай, да
+
+
+Stanislav [1 day ago]
+не понял ответа :slightly_smiling_face:
+
+
+Stanislav [1 day ago]
+Во всех руководствах-видео-текст, пишут-говорят, не использовать глобальные переменные. По этому и интересно, а что изменилось то.
+
+
+e.pekhterev [1 day ago]
+Яков Файн в видео Введение в JS не советовал использовать глобальные переменные
+
+
+Stanislav [1 day ago]
+На JS не пишу, но см-выше
+
+
+e.pekhterev [1 day ago]
+да я тоже только тут начал
+
+
+Stanislav [1 day ago]
+Хотелось как раз посмотреть "эталон", как стоит делать, а не что бы просто работало.
+
+
+
+Grigory Kislin [1 day ago]
+@Stanislav слово "нормально" плохо к разработке применимо. если у тебя есть простые и красивые решения без глобальных переменных- с меня спасибо + бонусы:) (edited)
+
+
+Grigory Kislin [1 day ago]
+> не использовать глобальные переменные
+все же от контекста зависит. ни одно правило нельзя в лоб применять. если есть возможность не использовать- конечно (edited)
+
+
+Grigory Kislin [1 day ago]
+вообще у меня критерии такие
+1. безопасность (те без XSS, SQL injection, ...)
+2. просто, красиво, удобно пользоваться и рефакторить
+3. архитектурные и прочие рекомендации
+именно в этом порядке, если чтото конфликтует (edited)
+
+
+Stanislav [1 day ago]
+Я не спец в JS (от силы пары дней изучаю :slightly_smiling_face: ) но везде пишут-говорят (ни каких var, ни каких глобальных переменных). Да и какая разница какой язык, термин инкапсуляции, он же везде применим. На вскидку, разве не лучше было бы завести для наших целей объект со свойствами? Да и функции лежат сплошняком, глаза бегают не могут понять где что лежит..Хотя может и сказывается 'нет практики JS', может у них так принято 'все в кучи' :slightly_smiling_face:
+
+
+e.pekhterev [24 hours ago]
+в смысле никаких var?
+или вместо них let и const?
+
+
+Stanislav [23 hours ago]
+Да, let и const
+
+
+Prodigy [Yesterday at 10:27 AM]
+интересно, какова цель использования рест контроллеров в данном проекте? мы будем как то дергать рест с внешних девайсов?
+
+
+16 replies
+sky [1 day ago]
+вот же план семинара https://github.com/JavaWebinar/topjava/tree/doc
+ничего такого там нет
+
+Хотя ничего не мешает самостоятельно поизучать что-нибудь отсуда https://stackoverflow.com/questions/8267928/android-rest-client-sample
+
+Если вы вообще об этом кончено.. (edited)
+
+
+Prodigy [1 day ago]
+большое внимание в проекте уделяется рест контроллерам, и меньшее обычным контроллерам, хотя(как я понимаю) для работы через веб будут использоваться обычные контроллеры
+
+
+sky [1 day ago]
+Честно говоря не совсем осведомлен о последних тенденциях, но хочется верить, что хорошей практикой является разработка rest сервисов, к которым отедльно создаются web, android, ios и т.п. клиенты.
+
+
+
+Prodigy [1 day ago]
+для android и ios согласен, для web слабо себе представляю как это реализуется и нужно ли вообще
+
+
+sky [1 day ago]
+а если фронтенд на аутсорс отдавать?
+
+
+Prodigy [1 day ago]
+вполне вероятно что существуют кейсы где это удобно и правильно, я о них пока не знаю ничего)
+
+
+Stanislav [1 day ago]
+В настоящее время JSP/JSF мало где применяется (только в легаси). В настоящее время тренд бэк (рест) отдельно, веб (Реакт, Ангуляр и т.д.) отдельно.
+
+
+
+Stanislav [1 day ago]
+Если новый проект 100% не Java-шаблоны.
+
+
+Stanislav [1 day ago]
+Даже в каком то уроке было это сказано
+
+sky [1 day ago]
+Ну думаю, что для небольших проектов всякие там Thymeleaf и FreeMarker еще вполне жизнеспособны\
+
+
+Stanislav [1 day ago]
+Да и так на много легче когда бек отдельно, веб отдельно. Даешь api фронту, те делают то как и должно быть, красиво и функционально. У нас иная работа. Но основы фронта все равно мы должны знать. (edited)
+
+
+
+Alexander Pilipenko [1 day ago]
+5. AJAX. Datatables. jQuery
+JSP полезны, если надо с сервера отдать статический html с серверной логикой (условия, циклы), сформированный на основе модели. Для динамической отрисовки таблицы мы будем использовать REST и JSON на 9м уроке (работа с datatables через Ajax).
+
+
+Alexander Pilipenko [1 day ago]
+Т.е. rest контроллеры будем использовать
+
+
+Stanislav [1 day ago]
+Мы и так их уже используем. Просто Григорию захотелось разделить их (сохранить старую версию и создать по сути практически копию для Ajax)
+
+
+Stanislav [1 day ago]
+То же самое что и с DataJpa, Jpa, JDBC
+
+
+
+Grigory Kislin [1 day ago]
+1. rest это тренд. собственно в выпускном тоже он. мы только чз curl/... его дергаем. тенденция - да, разделять бэк и фронт.
+2. по поводу JSP/JSF/Thymeleaf  - все от UI проекта зависит. javaops.ru например- все на Thymeleaf .
+иногда вместе с js фреймворком используют
+
+
+alexey [Yesterday at 2:23 PM]
+Всем привет. Народ может кто нибудь пояснить по секьюрности? Вот мы в ...xml указали для пользователя "/**"  это значит что любой регистрированный пользователь может ходить по любому урлу кроме того который начинается с "rest/admin"? первый паттерн действует как исключение для второго? (edited)
+
+
+2 replies
+Prodigy [24 hours ago]
+щас на тебя накинутся что ты не загуглил перед тем как спросить))
+ 
+
+
+realcorwin [14 hours ago]
+Может, до всех дошло, что тратить своё время, чтобы сообщить кому-то, что он тратит их время, намного более глупое занятие, чем тратить чужое время, и они пройдут мимо, если они не захотят ответить что-то по существу вопроса.
+
+
+matrocob [Yesterday at 5:57 PM]
+кто-то блин разобрался со вторым пунктом, как сделать без дублирования и вынести в tr? (edited)
+
+
+4 replies
+matrocob [19 hours ago]
+я удалил в makeEditable
+$(".delete").click(function () {
+       deleteRow($(this).attr("id"));
+потом создал новую функцию
+function delete() {
+   $(".strr").click(function () {
+       deleteRow($(this).attr("id"));
+   });
+   $.ajaxSetup({cache: false});
+}
+в .jsp сделал
+<tr class="strr" data-mealExceed="${meal.exceed}" id="${meal.id} "> (edited)
+
+
+matrocob [19 hours ago]
+бред сделал, да?)) но оно работает)) (edited)
+
+
+Nikolay [19 hours ago]
+можно вынести id в tr, а в функцию передавать указатель на кнопку и в функции уже получать родителя и из него получать id
+
+
+hav [17 hours ago]
+Мой вариант: id вынес в tr, в makeEditable - `deleteRow($(this).parents("tr").attr("id"));`
+
+
+Gagarina6794 [Yesterday at 8:11 PM]
+function failNoty(jqXHR) { - хорошо что есть оповещание что что-то не по плану пошло, было бы еще хорошо если бы оповещало что именно не так сделанно, а то юзер передумает регистрироваться после энных проб неудачной регистрации (я вот реально уже забыла сколько символов надо в пароле вводить, пошла в энтити смотреть что не так))  )
+
+
+1 reply
+Ma3stro [18 hours ago]
+дальше будет обработка)
+
+
+Ma3stro [Yesterday at 8:31 PM]
+В нашем случае форматтер можно не делать (только если для тренировки). Можно спокойно вводить date=yyyy-MM-dd, time=10:00, будет работать.
+
+
+1 reply
+Gagarina6794 [18 hours ago]
+да. это по ходу потому что по умолчанию спринг уже включает подобные форматтеры
+
+
+Kirilo [9:29 PM]
+https://addons.mozilla.org/en-US/firefox/addon/restclient/ - rest инструмент для Firefox, может преобразовывать запросы в CURL (edited)
+chao/RESTClient
+RESTClient, a debugger for RESTful web services.
+Website
+http://www.restclient.net
+Stars
+634
+chao/RESTClientAug 13th, 2009Added by GitHub
+
+
+Dmitry Dimidyuk [Yesterday at 11:47 PM]
+Как сделать доступными ресурсы по адресу localhost:8080/topjava/resources? На видео не нашел ответа
+
+
+5 replies
+Merkulov [14 hours ago]
+https://www.baeldung.com/security-none-filters-none-access-permitAll
+Baeldung
+Spring Security - access permitAll, filters none, security none | Baeldung
+The differences between access="permitAll", filters="none", security="none" in Spring Security.
+May 22nd, 2013 at 9:37 PM
+ 
+
+
+Merkulov [14 hours ago]
+гуглится 25 секунд
+
+
+Merkulov [14 hours ago]
+хотя даже гуглить не надо такая же ссылка есть и в материалах 8 урока
+
+
+Merkulov [14 hours ago]
+и еще момент, можно разобраться в коде после накатки патчей и там есть ответ на твой вопрос
+
+
+Dmitry Dimidyuk [2 hours ago]
+Спасибо

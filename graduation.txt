@@ -840,13 +840,68 @@ Grigory Kislin [3 days ago]
 проще шагнуть в код @RestController и посмотреть, что там
 
 
-Kirilo [7:42 PM]
-В общим при переносе функциональности на spring boot оказалось, что jsp не рекомендуется использовать, а такой прием: <jsp:useBean id="..." type="..."  scope="request"/> и вовсе олдскул и не работает в буте.
-Но зато разобрался, как заполнить такую же форму, как для новой/обновленной еды(ресотраны блюда) используя thymeleaf.
+Kirilo [Aug 16th at 7:42 PM]
+В общем, при переносе функциональности на spring boot, оказалось, что jsp не рекомендуется использовать, а такой прием: <jsp:useBean id="..." type="..."  scope="request"/> и вовсе олдскул и не работает в буте.
+Но зато разобрался, как заполнить такую же форму, как для новой/обновленной еды(ресотраны, блюда) используя thymeleaf.
 
 https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-developing-web-applications.html#boot-features-spring-mvc-template-engines
 
-https://stackoverflow.com/questions/11813290/is-it-possible-to-implement-jsp-usebean-as-an-annotation (edited)
+https://stackoverflow.com/questions/11813290/is-it-possible-to-implement-jsp-usebean-as-an-annotation
 Stack Overflow
 Is it possible to implement JSP usebean as an annotation?
 I would like implement JSP useBean taglib as a class annotation... Is possible? How If so, what is the best (easy and efficient) way to do this? Example: <jsp:useBean id="p" class="beans.Pe...
+ 
+(edited)
+
+
+
+1 reply
+Grigory Kislin [5 days ago]
+у нас же нет UI в выпускном...
+но если уж делать- да, thymleaf (edited)
+
+
+matrocob [Aug 20th at 5:03 AM]
+Блин... ребят, что-то затупил на выпускном проекте... мне кажется жесть я придумал... Думал сделать TO, как в нашем проекте, типо создаем таблицу Юзера и делаем ТО -> UserVoted.java (добавляя при этом поле boolean voted)... Логику проголосовавшего пользователя можно вынести в UtilsVoted . Потом в контроллере для голосования мы бы доставали проголосовавшего или нет юзера через UtilsVoted и отдавали бы во фронт... Наверно это ужасно плохая реализация?
+
+
+10 replies
+Ma3stro [5 days ago]
+Мне кажется vote должно относиться не к юзеру, а к ресторану)
+
+
+zippospb [5 days ago]
+А зачем на фронтенде знать, проголосовал пользователь или нет? Все равно ведь бэкенд будет решать, можно пользователю первый раз проголосовать/ещё может передумать/не может передумать
+
+
+matrocob [5 days ago]
+ну типо после голосования поле булеан меняется в ТО и от туда плясать
+
+
+zippospb [5 days ago]
+Ну так оно никакой информации не несёт. Из этого булеан ты не узнаешь, можно ли проголосовать или нет,  да и за кого проголосал тоже не узнаешь
+
+
+Merkulov [5 days ago]
+блин, а я даже еще и не начинал делать выпускной проект(
+
+
+
+zippospb [5 days ago]
+Я пока только модели полностью сделал. Контроллеры не начинаю - жду следующего занятия,  когда про spring security будут рассказывать
+
+
+Grigory Kislin [5 days ago]
+1. лучше не ждать- делать что можно
+2. не фрон, а по рест. и реализацию не понял...
+для юзера надо реализовать просмотр своего голосования и действие "проголосовать за ресторан"
+
+
+Kirilo [2 days ago]
+Похоже, для того, чтобы переголосовать, нужно для юзера вводить поле с id ресторана и дату голосования.
+
+zippospb [1 day ago]
+@Kirilo а ты не делал отдельной сущности для голоса?
+
+Kirilo [1 day ago]
+@zippospb само голосование я сделал. Принцип: у каждого юзера есть поле "голосовал или нет", а рестораны накапливают колличество голосов каждый свое. Юзер перешел по ссылке на конкретный ресторан и таким образом отдал свой голос. (edited)
