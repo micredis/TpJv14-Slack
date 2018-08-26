@@ -2615,3 +2615,14 @@ Yevhen Maksymovych [8 hours ago]
 
 stea1th [8 hours ago]
 в очередной раз выручил :slightly_smiling_face:
+
+
+SergeyA [Yesterday at 12:37 PM]
+Всем привет!  в лог у нас пишется все, включая INFO.
+Как переключать уровни логирования? (INFO  - в  продакшене не пишут обычно в лог )
+
+
+1 reply
+Grigory Kislin [5 hours ago]
+пересмотри видео логирования.
+logback.xml

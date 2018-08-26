@@ -325,3 +325,168 @@ Merkulov [14 hours ago]
 
 Dmitry Dimidyuk [2 hours ago]
 Спасибо
+
+
+matrocob [Yesterday at 12:02 AM]
+блин... этот фильтр просто ужас... до сих пор не сделал правильного решения... два дня просидел, результат 0(((
+
+
+23 replies
+svis [1 day ago]
+Аналогично. :face_with_head_bandage: Есть подозрение что патчи криво накатились, буду по github topjava проверять
+
+
+matrocob [24 hours ago]
+да вряд ли... я тут с товарищем переписываюсь, у него тоже не получается... а еще ошибку 500 выбрасывает, типо JspMealController ошибка в 44 строке, т.к. вызывается метод updateorcreate... вообще жестяк..
+
+
+matrocob [24 hours ago]
+ajaxURL прописывает правильно, добавляет +"filter" и какого-то хрена тут вызывается filtr в JSPMeal контроллере, хотя ни намека не было на jsp сонтроллер
+
+
+zippospb [23 hours ago]
+надо искать проблему в meals.jsp. Скорее всего там стоит href на jspMealController
+
+
+matrocob [23 hours ago]
+та вот дело в том, что уже объискались... нету такой фигни
+
+
+matrocob [22 hours ago]
+Работает так: сперва выполняется фильтр по ajax контроллеру, а потом выполняется jsp контроллер
+
+zippospb [21 hours ago]
+скинь сюда как у тебя выглядит элемент кнопки, которая включает фильтр
+
+
+matrocob [21 hours ago]
+сейчас скину, погоди, идею запущу, думал спать уже ложится)
+
+
+matrocob [21 hours ago]
+<div class="form-group">
+           <div class="col-sm-8">
+               <button type="submit" class="btn btn-primary pull-right" onclick="filters()">Filter</button>
+           </div>
+       </div>
+   </form>
+
+
+matrocob [21 hours ago]
+вот сам фильтр:
+var ajaxUrl = "ajax/meals/";
+var datatableApi;
+function filters() {
+   $.ajax({
+       type: "POST",
+       url: ajaxUrl + 'filter',
+       data: $('#filter').serialize(),
+       success: function (data) {
+           updateTableByData(data);
+           successNoty("Filter");
+       }
+   });
+}
+
+
+sky [17 hours ago]
+Примерно такой же код для фильтров нормально отрабатывает. Только гетмаппинг, и еще неизвесно что у вас в updateTableByData(data) и в самом методе контроллера.
+
+matrocob [12 hours ago]
+function updateTableByData(data) {
+   datatableApi.clear().rows.add(data).draw();
+}
+
+
+matrocob [12 hours ago]
+а контроллер какой бы думали увидеть? в ajax контроллере обычный метод gettAll
+
+@RestController
+@RequestMapping(value = "/ajax/meals")
+public class MealAjaxController extends AbstractMealController{
+   @Override
+   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+   public List<MealWithExceed> getAll() {
+       return super.getAll();
+   } (edited)
+
+
+zippospb [11 hours ago]
+а у самой формы аттрибут url или action есть?
+
+
+Merkulov [11 hours ago]
+у меня почему-то данные не приходят, хотя запрос в базу уходит, были такие траблы?
+
+
+Merkulov [11 hours ago]
+проверил данные приходят в алерт вывод такой :
+```[object Object],[object Object],[object Object],[object Object],[object Object],[object Object]```
+
+
+Merkulov [11 hours ago]
+но только почему-то таблица не обновляется с этими данныеми
+
+
+Merkulov [11 hours ago]
+а все ок работает и с post запросом
+
+Merkulov [11 hours ago]
+все корректно
+
+Merkulov [10 hours ago]
+@zippospb разобрался?
+
+matrocob [10 hours ago]
+все получилось. обращайте внимание на каком браузере работаете... и получилось еще когда вынес кнопку фильтр за форму
+
+zippospb [10 hours ago]
+@Merkulov с фильтром? вчера еще, а насчет проблемы @matrocob я более чем уверен, что в meals.jsp где-то не убрана ссылка на маппинг MealJspController
+
+
+Merkulov [10 hours ago]
+а ну да кнопки нужно выносить, ибо на них вешаются методы из js, я так понял, короче, делается все по аналогии с users
+
+
+e.pekhterev [Yesterday at 3:59 PM]
+>The *jqXHR.success()*, jqXHR.error(), and jqXHR.complete() callbacks *will be deprecated in jQuery 1.8*. To prepare your code for their eventual removal, use jqXHR.done(), jqXHR.fail(), and jqXHR.always() instead.
+https://stackoverflow.com/questions/10931836/should-i-use-done-and-fail-for-new-jquery-ajax-code-instead-of-success-and
+Stack Overflow
+Should I use .done() and .fail() for new jQuery AJAX code instead of success and error
+I have coded like this: $.ajax({ cache: false, url: "/Admin/Contents/GetData", data: { accountID: AccountID }, success: function (data) { $('#CityID').html(data); }, er...
+ 
+(edited)
+
+
+2 replies
+Grigory Kislin [5 hours ago]
+да, перейдем:) можешь у себя сразу в решении так сделать
+
+
+
+e.pekhterev [4 hours ago]
+@Grigory Kislin побоялся исправлять, а то как обычно барышни заругают - мол не просили, не трогай))), уже всё закоммитил
+
+
+Stanislav [Yesterday at 5:59 PM]
+Кто нибудь 1 задание - создание meal через json (не параметрами!) делал-сделал? Через сериализацию формы и передача как параметр вкурсе как сделать, а именно передачей Json-а. Вопрос снят. (edited)
+
+
+5 replies
+e.pekhterev [7 hours ago]
+можно попробовать через спринговую форму (  <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>  ) и  @ModelAttribute, но сам не пробовал
+
+
+Stanislav [7 hours ago]
+Там проблема в формате даты, можно заморочится и написать на js форматер, но не может же быть с такими заморочками. Есть библеотека jquery.serializejson, в ней нет форматера, можно и самому объект data заполнять, но, я посмотрел в разных браузерах, формат инпута дата-тайп разный.
+
+
+Grigory Kislin [5 hours ago]
+@Stanislav а почему ты хочешь имеено в json? (edited)
+
+Stanislav [5 hours ago]
+@Grigory Kislin А для чего мы учили и делали рест?
+
+
+Stanislav [5 hours ago]
+@Grigory Kislin Я не хочу делать новый контролер, я хочу использовать какой у нас есть, рест.

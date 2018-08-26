@@ -3897,3 +3897,42 @@ Yevhen Maksymovych [1 day ago]
 Grigory Kislin [1 day ago]
 1. transactionManager - имя по умолчанию для tx:annotation-driven
 2. jpaPropertyMap здесь разные настройки hibernate. можно с Ctrl+мышка шагнуть в константу
+
+
+SergeyA [Aug 25th at 6:44 PM]
+Untitled
+Помогите понять - как работает UserServlet в методе "doPost" редирект "response.sendRedirect("meals");"  - тут передается управление на meals.jsp или на URL /meals (т.е. mealServlet ) ? 
+----------------------------------------------------
+public class UserServlet extends HttpServlet {
+  private static final Logger log = LoggerFactory.getLogger(UserServlet.class);
+  @Override
+  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    int userId = Integer.parseInt(request.getParameter("userId"));
+    SecurityUtil.setAuthUserId(userId);
+    response.sendRedirect("meals");
+  }
+  @Override
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    log.debug("forward to users");
+    request.getRequestDispatcher("/users.jsp").forward(request, response);
+  }
+}
+Collapse
+
+
+3 replies
+sky [1 day ago]
+Вот, попробуйте такие варианты:
+           response.sendRedirect("http://www.google.com");
+           response.sendRedirect("/index.jsp");
+           response.sendRedirect("users");
+И вот еще ссылка https://www.javatpoint.com/sendRedirect()-method
+
+
+
+SergeyA [1 day ago]
+точно - старый добрый способ - попробовать! :slightly_smiling_face:
+
+
+Grigory Kislin [5 hours ago]
+а в видео нет разве отличия редирект от форвард??
