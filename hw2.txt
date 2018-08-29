@@ -3845,3 +3845,16 @@ Prodigy [3 days ago]
 
 Jury Mironov [3 days ago]
 ошибся веткой, да HW3. Да у меня с патчами вечно хрень какая-то
+
+
+pal548 [Yesterday at 11:25 PM]
+если тут кто есть, вопрос по заданию Optional - делать как-то с помощью JavaScript ?
+
+
+2 replies
+Stanislav [14 hours ago]
+До 8 урока ни какого JS нету.
+
+
+Stanislav [14 hours ago]
+Где там ты увидел необходимость применения js :thinking_face:

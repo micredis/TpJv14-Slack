@@ -490,3 +490,284 @@ Stanislav [5 hours ago]
 
 Stanislav [5 hours ago]
 @Grigory Kislin Я не хочу делать новый контролер, я хочу использовать какой у нас есть, рест.
+
+
+Ma3stro [2 days ago]
+@Stanislav получилось?
+
+
+Stanislav [2 days ago]
+Да
+
+
+Ma3stro [Aug 27th at 6:18 PM]
+У кого-то была проблема с тем, что не определялись ресурсы?
+Pasted image at 2018-08-27, 8:17 PM
+
+
+
+7 replies
+e.pekhterev [1 day ago]
+попробуй начать с контрл+ф5
+
+
+Ma3stro [1 day ago]
+Не помогло, дёрнул даже из другого браузера.
+по /users ресурсы (js, в частности) нормально определяются
+
+
+Ma3stro [1 day ago]
+тьфу, не прописал в html. Невнимательность!
+
+
+e.pekhterev [1 day ago]
+быват
+
+
+e.pekhterev [1 day ago]
+ну в инструментарии тоже смотри, есть ли твои ресурсы и что в них
+
+
+e.pekhterev [1 day ago]
+Pasted image at 2018-08-27, 6:28 PM
+
+
+
+Ma3stro [1 day ago]
+Так и делал:)
+
+
+Daniel [Aug 27th at 10:06 PM]
+Товарищи, поясните мне, пожалуйста, второй пункт про дублирование, я что-то не понимаю. Если у нас все id еды или юзеров разные(а иначе и быть не может), то где там дублирование?
+
+
+15 replies
+Stanislav [1 day ago]
+В модальном окне
+
+
+Grigory Kislin [1 day ago]
+в таблице id в каждом td дублируются
+Ctrl+U в браузере смотреть (edited)
+
+
+Stanislav [1 day ago]
+Теперь я не понял :slightly_smiling_face: Я думал это из-за модального окна мы делаем...а где там дубли? сейчас скрин сделаю
+
+
+Daniel [1 day ago]
+@Stanislav правильно ли понимаю, что ты имеешь ввиду строку "<input type="hidden" id="id" name="id">"?
+
+
+Stanislav [1 day ago]
+@Grigory Kislin
+         ```<table class="table table-striped" id="datatable">
+            <thead>
+            <tr>
+                <th>Дата/Время</th>
+                <th>Описание</th>
+                <th>Калории</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            
+                
+                <tr data-mealExceed="true" data-elementId="100007">
+                    <td>
+                            
+                            
+                            
+                            2015-05-31 20:00
+                    </td>
+                    <td>Ужин</td>
+                    <td>510</td>
+                    <td><a><span class="fa fa-pencil"></span></a></td>
+                    <td><a class="delete" id="100007"><span class="fa fa-remove"></span></a></td>
+                </tr>
+            
+                
+                <tr data-mealExceed="true" data-elementId="100006">
+                    <td>
+                            
+                            
+                            
+                            2015-05-31 13:00
+                    </td>
+                    <td>Обед</td>
+                    <td>1000</td>
+                    <td><a><span class="fa fa-pencil"></span></a></td>
+                    <td><a class="delete" id="100006"><span class="fa fa-remove"></span></a></td>
+                </tr>
+            
+                
+                <tr data-mealExceed="true" data-elementId="100005">
+                    <td>
+                            
+                            
+                            
+                            2015-05-31 10:00
+                    </td>
+                    <td>Завтрак</td>
+                    <td>500</td>
+                    <td><a><span class="fa fa-pencil"></span></a></td>
+                    <td><a class="delete" id="100005"><span class="fa fa-remove"></span></a></td>
+                </tr>
+            
+                
+                <tr data-mealExceed="false" data-elementId="100004">
+                    <td>
+                            
+                            
+                            
+                            2015-05-30 20:00
+                    </td>
+                    <td>Ужин</td>
+                    <td>500</td>
+                    <td><a><span class="fa fa-pencil"></span></a></td>
+                    <td><a class="delete" id="100004"><span class="fa fa-remove"></span></a></td>
+                </tr>
+            
+                
+                <tr data-mealExceed="false" data-elementId="100003">
+                    <td>
+            
+        </table>``` 
+
+
+Stanislav [1 day ago]
+Где тут дубли?
+
+
+Daniel [1 day ago]
+Если про <td>, то дубль я лично только в users.jsp увидел: <a class="delete" id="100001"> и <input type="checkbox"
+                              checked id="100001"/>
+
+
+
+Stanislav [1 day ago]
+@Daniel Да я это имел ввиду. Но как сейчас выясняется не из-за этого. Жду ответа....
+
+Stanislav [1 day ago]
+Понятно) только в user.jsp
+
+Grigory Kislin [1 day ago]
+ ```<td><input type="checkbox"
+                               <c:if test="${user.enabled}">checked</c:if> id="${user.id}"/></td>
+<td><a class="delete" id="${user.id}"><span class="fa fa-remove"></span></a></td>```
+в `users.jsp` в таблице id в td дублируются (edited)
+
+
+Stanislav [1 day ago]
+@Grigory Kislin :smirk:  
+```... нужно избавиться от дублирования id="${user.id}" в строках таблиц users и meals```
+получается дублирование только в user.jsp, надо как то переписать предложение, что бы люди не путались.
+
+
+
+Daniel [1 day ago]
+@Stanislav а разве не получается в таком случае, что нам meals.jsp тоже придется приводить к такому же виду, т.к. придется редактировать общую функцию makeEditable()?
+
+
+Stanislav [1 day ago]
+@Daniel согласен, надо приводить, но смысл в предложении, из него следует что и в users и в meals есть дублирование (если это было не так, ты бы не создал такой вопрос :wink: ).
+
+
+Daniel [1 day ago]
+Ну да, ты прав вообщем-то.
+
+
+Grigory Kislin [1 day ago]
+fixed
+
+
+Grigory Kislin [12:13 AM]
+Хорошая ссылка от @svis
+https://handynotes.ru/2009/08/get-versus-pos.html
+к выбору в фильтре
+handynotes.ru
+Руководство по выбору между GET и POST
+Сподручный бложек фулстек веб разработчика. Заметки про PHP (Yii), JavaScript (jQuery), HTML, Linux, Nginx, MySQL и всё, что с этим связано.
+
+
+Daniel [Yesterday at 1:35 PM]
+Подскажите, пожалуйста: я соединил чекбоксы с базой, они работают как надо, но при обновлении таблицы getAll выдает старые значения из-за кэширования(убираю @Cacheable в сервисе - работает нормально) и все остается по-старому. Как это грамотно обойти?
+
+
+2 replies
+Ma3stro [24 hours ago]
+@CacheEvict попробуй
+
+
+Daniel [24 hours ago]
+Спасибо, помогло.
+
+
+Kirilo [Yesterday at 6:11 PM]
+Я в ужасе от фронтенда. Как же все уродливо выглядит - этот xml стиль совершенно другая планета...
+
+
+12 replies
+Gagarina6794 [19 hours ago]
+Ниче, первый раз с непривычки поташнивает, но потом привыкаешь :joy:
+
+
+Stanislav [19 hours ago]
+Ты про js или html?
+
+
+Stanislav [19 hours ago]
+Пиши на Ангуляре или Реакте, в чем проблема :)
+
+
+svis [19 hours ago]
+vue.js вроде попроще Ангуляра выглядит (это я на первый взгляд) и новый, может его поизучать? Как думаете?
+
+
+e.pekhterev [19 hours ago]
+и чего не нравится? всё довольно просто, надо только немного разобраться
+
+
+svis [19 hours ago]
+да каша какая-то. ИМХО.
+
+Kirilo [18 hours ago]
+@Stanislav да, когда оно все в куче, глаза разбегаются.
+
+
+realcorwin [16 hours ago]
+vue, говорят, взял лучшее от реакта и анга, и проще обоих. но сам я пока в этом не разбирался
+
+
+realcorwin [16 hours ago]
+когда я в прошлом потоке проходил этот курс, на фронтэнд я забил. этот курс, к счастью, не про фронтэнд :slightly_smiling_face:
+
+
+Kirilo [16 hours ago]
+ну, да. Та же ситуация. Но чтобы понять хоть как работает то, что показывает Григорий, приходится пересматривать все доп. материалы и то, тот же jQuery непонять как работает. Там вообще сполшная магия, как по мне. Не представляю как можно запомнить что с чем соединять, чтобы получить нужный эффект, там же функция в функции... (edited)
+
+
+realcorwin [14 hours ago]
+Всё, что знаешь, просто. Всё, что не знаешь, сложно. Просто Григорий не обучает, он показывает на примере. Когда я, к примеру, изучал математику в своей матшколе, у моего учителя на каждую тему были свои учебники, причём разные, и читать их надо было в определённом порядке, усваивая простые вещи в одних книгах, потом на их основе более сложные вещи в других книгах, а потом уже на их основе совсем уж сложные вещи в третьих книгах. Без вторых и первых книг, в третьих книгах была бы сплошная "магия". И понять её не смог бы даже самый продвинутый мозг. А так никакой "магии" не было, все было логично и понятно.
+
+
+realcorwin [14 hours ago]
+Давать знания - легко, но взять их сложно. Это как заучивать наизусть поваренную книгу. Давать понимание - сложно, но брать его - легко. Но это редкая удача - найти где брать понимание...
+
+
+Ma3stro [Yesterday at 7:36 PM]
+Как отрисовать таблицу после фильтра?
+По нажатию кнопки обращаюсь к js методу фильтра --> фильтр делает запрос на AjaxController, который возвращает лист в джейсоне, но как этот лист, собственно, отрисовать?
+
+
+3 replies
+Ma3stro [18 hours ago]
+Ранее мы на модель передавали соответсвующий аттрибут, но сейчас мы так не работаем
+
+
+Alexander Pilipenko [18 hours ago]
+Посмотри как сделано получение всей еды
+
+
+e.pekhterev [6 hours ago]
+@Ma3stro не делай отдельный метод для фильтра, нет смысла с учётом требований задания. делай стразу в функции updateTable
