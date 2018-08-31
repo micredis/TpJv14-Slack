@@ -1294,3 +1294,58 @@ Ma3stro [23 hours ago]
 
 Crazz [19 hours ago]
 Ну да, можно в requestBody ловить мапу
+
+
+Grigory Kislin [5 days ago]
+1. почему мапу?? делай нормальный пост и бери из тела боди параметры, как из get. тогда тебе не надо будет мудрить с формой и прикручивать к ней js
+
+
+Grigory Kislin [5 days ago]
+2. кэшируются только запросы, у которых стоит header кэширование. обычно на статический контент ставят
+
+
+Grigory Kislin [5 days ago]
+собственно проверяется лекго- вкладка Network в браузере
+
+
+fbochkarev [Yesterday at 5:26 PM]
+Ребят подскажите пожалуйста, пытаюсь создать еду через soupui пишет "HTTP Status 400  Bad Request", остальное (удаление, вывод, редактирование) делается нормально, не могу понять, почему не видит post запрос.
+
+
+9 replies
+Stanislav [20 hours ago]
+скопируй сюда запрос 'url'
+
+
+fbochkarev [20 hours ago]
+Pasted image at 2018-08-30, 4:42 PM
+
+
+
+sky [20 hours ago]
+с английским  текстом прокатывает?
+
+
+fbochkarev [20 hours ago]
+В закладке JSON просто: "The content you are trying to view cannot be viewed as JSON"
+
+
+Stanislav [20 hours ago]
+Попробуй во времени поставить еще :00  
+ ```2018-08-19T17:17:00```
+
+
+fbochkarev [20 hours ago]
+Хм, с английским прокатило.
+
+
+sky [20 hours ago]
+тогда encoding надо выставить utf8. Request properties в окне снизу слева (edited)
+
+
+fbochkarev [20 hours ago]
+это в soupui?
+
+
+sky [20 hours ago]
+Pasted image at 2018-08-30, 5:52 PM

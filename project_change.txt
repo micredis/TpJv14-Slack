@@ -185,3 +185,23 @@ JavaWebinar
 `2fbd6a13` - 8_09_add_security
 Show less
 JavaWebinar/topjava
+
+
+GitHub APP [11:33 AM]
+JavaWebinar
+*13 new commits pushed to `master`*
+`6f332a6e` - 9_0_fix
+`bc2bac10` - 9_01_HW8
+`a82a8a32` - 9_02_HW8_clear_filter
+`f7379848` - 9_03_HW8_enable_disable
+`8b9146e8` - 9_04_binding
+`399b0211` - 9_05_update
+`44580628` - 9_06_validation
+`9a9d5fce` - 9_07_datatable_via_ajax
+`fe09f925` - 9_08_js_i18n
+`6ff3d4bf` - 9_09_min_form_login
+`850ee12e` - 9_10_jsp_form_login
+`fd22688d` - 9_11_auth_via_user_service
+`ea0beb49` - 9_12_spring_security_test
+Show less
+JavaWebinar/topjava

@@ -771,3 +771,79 @@ Alexander Pilipenko [18 hours ago]
 
 e.pekhterev [6 hours ago]
 @Ma3stro не делай отдельный метод для фильтра, нет смысла с учётом требований задания. делай стразу в функции updateTable
+
+
+tim [Aug 29th at 5:27 PM]
+Подскажите кто сталкивался с таким эксепшеном.... Причем перезапускаю приложение ошибка пропадает.... Через некоторое время простоя опять появляется ???Type Exception Report
+
+Message Request processing failed; nested exception is org.springframework.transaction.CannotCreateTransactionException: Could not open JPA EntityManager for transaction; nested exception is org.hibernate.TransactionException: JDBC begin transaction failed:
+
+Description The server encountered an unexpected condition that prevented it from fulfilling the request.
+
+Exception
+
+org.springframework.web.util.NestedServletException: Request processing failed; nested exception is org.springframework.transaction.CannotCreateTransactionException: Could not open JPA EntityManager for transaction; nested exception is org.hibernate.TransactionException: JDBC begin transaction failed:
+    org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:982)
+    org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:877)
+    javax.servlet.http.HttpServlet.service(HttpServlet.java:660)
+    org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:851)
+    javax.servlet.http.HttpServlet.service(HttpServlet.java:741)
+    org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53)
+    org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200)
+    org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+    org.springframework.security.web.FilterChainProxy.doFilterInternal(FilterChainProxy.java:209)
+    org.springframework.security.web.FilterChainProxy.doFilter(FilterChainProxy.java:178)
+    org.springframework.web.filter.DelegatingFilterProxy.invokeDelegate(DelegatingFilterProxy.java:357)
+    org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:270)
+
+
+4 replies
+Grigory Kislin [1 day ago]
+странно. гуглил? может у тебя базу ктото держит паралельно?
+
+
+tim [1 day ago]
+что то похожее нашел https://stackoverflow.com/questions/31082606/after-a-long-idle-server-throws-error-could-not-open-jpa-entitymanager-for-tran А где параметры эти прописывать?spring.datasource.test-on-borrow=true
+spring.datasource.validation-query=SELECT 1
+Stack Overflow
+After a long idle server throws error 'Could not open JPA EntityManager for transaction' in spring-boot-starter-data-jpa with Mysql
+After a long idle server without accessing the database, error occurs. My build script: springBootVersion = '1.3.0.M1' "org.springframework.boot:spring-boot-starter-thymeleaf:${
+ 
+
+
+tim [1 day ago]
+Да и я работаю через удаленную базу по тем кредентшилам, что вы давали...
+
+
+Grigory Kislin [1 day ago]
+попробуй.
+       <bean id="dataSource"
+             class="org.apache.tomcat.jdbc.pool.DataSource"
+             ....
+             p:validationQuery="SELECT 1"
+             p:maxWait="20000"
+             p:testOnBorrow="true"
+             p:removeAbandoned="true"
+             p:testOnConnect="true"
+             p:testWhileIdle="true"/>
+             
+             
+AleksandrBLK [8:52 PM]
+А приходило 9 занятие?
+
+
+AleksandrBLK [Yesterday at 8:53 PM]
+вижу что выложили но на почту не приходило
+
+
+3 replies
+e.pekhterev [17 hours ago]
+пока вроде не было
+
+
+Grigory Kislin [16 hours ago]
+сорри, чсчас пришлю
+
+
+e.pekhterev [15 hours ago]
+пришло, спасибо)

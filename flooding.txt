@@ -2769,3 +2769,22 @@ stea1th [7 hours ago]
 
 stea1th [7 hours ago]
 А ты в js шаришь?
+
+
+Stanislav [Aug 29th at 6:29 PM]
+А почему в проекте ставится акцент на Spring 5, какие конкретно возможности Spring 5 мы используем в проекте? Вопрос возник от того, а стоит ли в резюме писать версию, ведь будут спрашивать, а я не понимаю какие нововведения мы от туда используем :slightly_smiling_face: Java 9, реактивность, Servlet 4.0, Tomcat 9.0, параллельное выполнение тестов? (edited)
+
+
+1 reply
+Grigory Kislin [1 day ago]
+спасибо, хороший вопрос. Надеюсь скоро сделаю видео миграции на Spring 5.
+пока только ссылки: http://javaops.ru/view/resources/spring5 (edited)
+
+
+Stanislav [6:10 PM]
+https://techrocks.ru/2018/08/29/just-in-time-learnning/
+Techrocks
+Знания вовремя: учите нужное тогда, когда оно нужно
+Вместо того чтобы пытаться усвоить 100% попавшейся вам информации просто на всякий случай, почему бы не учить все по мере необходимости?
+Aug 29th
+https://techrocks.ru/wp-content/uploads/2018/08/library-1700581_1280-435x290.jpg
