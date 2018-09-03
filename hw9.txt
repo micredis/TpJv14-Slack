@@ -155,3 +155,240 @@ Stanislav [15 hours ago]
 
 Grigory Kislin [12 hours ago]
 да, для некоторых общих классов тяжело пакет найти
+
+
+sky [Aug 31st at 5:02 PM]
+В замечаниях к 10му патчу есть такое -
+
+Закрыл доступ к /login для уже авторизованных в приложении пользователей (в spring-security.xml изменил permitAll на isAnonymous
+
+Теперь, при переходе на страницу /login получаем 403 ошибку (например при нажатии кнопки назад в браузере после авторизации)
+Можете объяснить чем конкретно плох доступ для всех на страницу логина, и как сделать редирект для авторизованного пользователя, если он пытается попасть на эту страницу, вместо того, чтоб показывать ему 403 (есть у меня мысль как это сделать, но она дурацкая, а нагуглить правильное решение с разбегу чет не вышло).
+
+
+4 replies
+sky [3 days ago]
+например вернуть permitAll() и в RootController в метод login добавить что-нибудь в духе
+if (SecurityUtil.safeGet() != null) {return "redirect:meals";}
+
+
+Victor [2 days ago]
+может можно через Spring Security это делать?
+
+
+Victor [2 days ago]
+http://javastudy.ru/spring-mvc/security/
+здесь настроено куда делать переадресацию, когда нет доступа. Но я не знаю как на наш проект перенести настройку.
+Может и подругому можно сделать.
+javastudy.ru
+Spring MVC и Spring Security. Пример настройки страницы логина, настройка ролей
+Spring MVC и Spring Security 4. Настройка Spring Security, создание страницы логина, настройка ролей, ограничение доступа к частям приложения с помощью аннотаций или xml настроек.
+
+
+Victor [2 days ago]
+https://docs.spring.io/spring-security/site/docs/3.1.x/reference/springsecurity-single.html#nsa-access-denied-handler
+   
+```<http entry-point-ref="bean">
+        <access-denied-handler error-page="/meals"/>
+</http>```
+еще как-то так, но настроить полностью я не смог (edited)
+
+
+zippospb [Sep 1st at 11:37 PM]
+Всем привет. может была у кого такая проблема: при формировании MealTo ругается что не может пропарсить dateTime, но при этом в MealTo этот DateTime вставляет нормально. (edited)
+
+
+21 replies
+zippospb [1 day ago]
+BindingResult выдает следующую ошибку:
+
+Field error in object 'mealTo' on field 'dateTime': rejected value [2015-05-31T20:00:00]; codes [typeMismatch.mealTo.dateTime,typeMismatch.dateTime,typeMismatch.java.time.LocalDateTime,typeMismatch]; arguments [org.springframework.context.support.DefaultMessageSourceResolvable: codes [mealTo.dateTime,dateTime]; arguments []; default message [dateTime]]; default message [Failed to convert property value of type 'java.lang.String' to required type 'java.time.LocalDateTime' for property 'dateTime'; nested exception is org.springframework.core.convert.ConversionFailedException: Failed to convert from type [java.lang.String] to type [java.time.LocalDateTime] for value '2015-05-31T20:00:00'; nested exception is java.lang.IllegalArgumentException: Parse attempt failed for value [2015-05-31T20:00:00]]
+
+
+Stanislav [1 day ago]
+@DataTimeFormat с iso над полем. Но нет смысла плодить DTO.
+
+
+Merkulov [1 day ago]
+а какое DTO Тогда использовать, если нет смысла плодить?
+
+
+zippospb [1 day ago]
+@Stanislav ну так MealWithExceed имеет лишнее поле Exceed, а Meal - @NotNull User.
+
+DateTimeFormat над полем стоит - без него дата вообще бы в Meal не вставлялась
+
+
+Merkulov [1 day ago]
+можно использовать обычный Meal просто брать из контекста секьюрити пользователя и вставлять в поле, но я думаю это плохая идея
+
+
+Merkulov [1 day ago]
+@zippospb поставь исо формат и все будет работать
+
+
+zippospb [1 day ago]
+изначально стояло @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+
+
+zippospb [1 day ago]
+в том и фишка, что в createOrUpdate Meal приходит с датой, но если включать валидацию, то ругается (edited)
+
+
+Merkulov [1 day ago]
+что еще стоит над полем
+
+
+Stanislav [1 day ago]
+Я использовал meal убрав notnull у юзера
+
+
+Stanislav [1 day ago]
+@zippospb сеттеры есть? Пустой конструктор есть?
+
+
+Stanislav [1 day ago]
+Хотя ошибка парса..хз
+
+
+zippospb [1 day ago]
+@Merkulov прошу прощения, наврал. у меня @DateTimeFormat стоит не над полем, а над параметром конструктора.
+
+@Stanislav Спасибо! Действительно забыл пустой конструктор. Самое удивительное, что когда объект формируется через сеттеры, эта странная ошибка ушла
+
+
+zippospb [1 day ago]
+@Stanislav ИМХО @NotNull с User убирать нельзя - это же валидация Entity, а сохранять в базу без User не получится
+
+
+Stanislav [1 day ago]
+@zippospb согласен :)
+
+
+e.pekhterev [21 hours ago]
+не знаю, поглядел реализации контроллеров-сервисов-репозиторией, нам собственно эта валидация юзера на NotNull вроде как и не нужна
+
+
+Merkulov [19 hours ago]
+цитата из книги Java Persistence API и Hibernate :
+"Уровни бизнес логики и хранения должны проверять приходящие от клиентов значения, прежде чем передавать их в хранилище. База данных SQL должна делать окончательную проверку, чтобы гарантировать целостность хранимой информации"
+
+
+Merkulov [19 hours ago]
+вот и нужно делать вывод, в одном случае у нас сущность, которая работает с базой, а в другом объект который нужен просто чтобы передавать информацию. И если вспомнить первый принцип SOLID, по первой букве, вроде, вывод однозначный :slightly_smiling_face:
+
+
+e.pekhterev [19 hours ago]
+т.е. делаем TO
+
+Merkulov [19 hours ago]
+ну как бы получается что так
+
+Merkulov [19 hours ago]
+в книге написано, что нужно проверять целостность данных на каждом уровне приложения
+
+
+Merkulov [Yesterday at 2:08 PM]
+всем привет, перед отправкой формы нужно форматировать dateTime, чтобы не было 'T', я это делаю с помощью манипулирования строкой, через string.substring(), может есть более красивое решение и правильное в js ?
+
+
+10 replies
+Merkulov [21 hours ago]
+точнее нужно наоборот добавить 'T'
+
+
+Merkulov [21 hours ago]
+я также сделал
+
+
+Stanislav [21 hours ago]
+тогда делай new Date(переменная со строкой даты)
+
+
+Merkulov [21 hours ago]
+у нас есть ссылка
+https://jquery-docs.ru/jQuery.ajax/#using-converters
+jquery-docs.ru
+jQuery.ajax()
+Выполняет асинхронный HTTP (Ajax) запрос.
+
+
+Merkulov [21 hours ago]
+зачем нам эти конверторы?
+
+Stanislav [21 hours ago]
+не понял, ты чего хочешь? :slightly_smiling_face:
+
+
+Merkulov [21 hours ago]
+я так понимаю эти конверторы нужны для перевода типов
+
+
+Merkulov [21 hours ago]
+нам нужно только форматировать дату так как нам нужно, вот и не пойму зачем нам дали эту ссылку про конверторы, я их лично нигде не использовал
+
+
+zippospb [8 hours ago]
+@Merkulov А как ты форматировал дату в модальном окне?
+
+
+Merkulov [2 hours ago]
+@zippospb перед отправкой запроса перехватывал форму и форматировал дату
+
+
+hav [Yesterday at 6:13 PM]
+Подскажите по валидации калорий. Если поле остается пустым, то выдает  NumberFormatException. Пробовал поставить @NotNull, не срабатывает...
+
+
+11 replies
+Merkulov [17 hours ago]
+@Valid используешь?
+
+
+hav [17 hours ago]
+Да. Если поставить 0 - выдает сообщение, прописанное в @Range
+
+
+Merkulov [17 hours ago]
+поставь не int , а Integer
+
+
+hav [16 hours ago]
+Пробовал, не получилось...
+
+
+Merkulov [16 hours ago]
+напиши как ты пробуешь, само поле с аннотациями
+
+
+hav [16 hours ago]
+поле:
+ ```@NotNull(message = "Calories must not be 0")
+    @Range(min = 10, max = 5000, message = "Calories must between 10 and 5000")
+    protected int calories;```
+, в контроллере
+```@PostMapping
+    public ResponseEntity<String> createOrUpdate(@Valid MealTo mealTo, BindingResult result)```
+
+
+Merkulov [16 hours ago]
+http://forum.spring.io/forum/spring-projects/web/80192-validation-empty-int-field?p=500395#post500395
+forum.spring.io
+Validation - Empty int field       - Spring Forum
+Discussion on developing web applications with Spring, including usage of Spring MVC and it's REST support, as well as the Web Flow, Flex, and Social projects.
+
+
+Merkulov [16 hours ago]
+у меня все работает отличие всего в Integer
+
+
+hav [16 hours ago]
+Разобрался. Я тип поля менял на Integer, а в сеттере оставался int.
+
+
+Merkulov [16 hours ago]
+ясненько
+
+
+Merkulov [16 hours ago]
+кстати, сообщение не обязательно писать там есть по умолчанию сообщения и выводятся в зависимости от локали
