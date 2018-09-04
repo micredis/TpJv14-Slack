@@ -392,3 +392,120 @@ Merkulov [16 hours ago]
 
 Merkulov [16 hours ago]
 кстати, сообщение не обязательно писать там есть по умолчанию сообщения и выводятся в зависимости от локали
+
+
+alexey [Yesterday at 1:35 PM]
+Народ, кто нибудь пробовал сделать дз без mealTo и без снятия валидации с юзера (with validation groups in Spring MVC)? (edited)
+
+
+17 replies
+e.pekhterev [1 day ago]
+я делал без MealTO, потом разгорелись дискуссии, переделал с MealTO. Но на всякий случай сделаю последний коммит без него.
+
+
+alexey [1 day ago]
+а как ты делал? с использованием групп валидации или как то по другому?
+
+
+e.pekhterev [1 day ago]
+да тоже самое, как и с MealTO, вся валидация в Meal классе уже и так стоит.
+
+
+alexey [1 day ago]
+с юзера валидацию снимал?
+
+
+alexey [1 day ago]
+или группами?
+
+
+e.pekhterev [1 day ago]
+ну как бы да) из-за этого и засомневались в этом решении
+
+
+alexey [1 day ago]
+http://blog.codeleak.pl/2014/08/validation-groups-in-spring-mvc.html
+blog.codeleak.pl
+Validation groups in Spring MVC
+Java, Java Enterprise, Spring related technologies blog by Rafał Borowiec
+ 
+
+
+alexey [1 day ago]
+без снятия валидации с юзера
+
+
+e.pekhterev [1 day ago]
+доделаю ДЗ и посмотрю
+
+
+alexey [1 day ago]
+Вопрос остался открытым. Господа делал кто нибудь без ТО и без снятия валидации с юзера??
+
+
+e.pekhterev [1 day ago]
+ну это уже другой вопрос)))
+
+
+Nikolay [1 day ago]
+ну я с группами сделал
+
+
+Joanna [19 hours ago]
+я сделала без MealTo, мне показалось, что было бы слишком жирновато, так как мы уже имеем классы Meal и MealWithExceed, а MealWithExceed наследуется от BaseTo, а тот от интерфейса HasId, так же как и UserTo
+
+
+Stanislav [15 hours ago]
+Сделал
+
+
+zippospb [13 hours ago]
+Хех. Теперь и я в последнем коммите убрал  ТО)))
+
+
+Merkulov [5 hours ago]
+Таня сказала, что MealTo не считает за ошибку, но сказала что можно сделать группами валидации, я сделал через группы без MealTo
+
+
+Merkulov [5 hours ago]
+там вообще вроде как все просто делаешь интерфейсы маркеры для групп и используешь ту или иную группу для валидации
+
+
+e.pekhterev [Yesterday at 1:38 PM]
+у кого-нибудь получилось сделать ограничение выбора времени в фильтре при работе с datetimepicker?
+такое ощущение, что minTime и maxTime ни разу не фурычат.
+
+
+2 replies
+Stanislav [22 hours ago]
+Все возможные примеры на сайте datetimepicker, тупо копированием.
+
+
+e.pekhterev [22 hours ago]
+пробовал
+
+
+Joanna [Yesterday at 6:56 PM]
+здравствуйте, вопрос: п.3 - тест на неавторизованный доступ, но мы уже имеем testGetUnAuth(). Что тут имеется в виду?
+
+
+3 replies
+e.pekhterev [19 hours ago]
+помсмотреть на тесты для юзера как сделалны
+
+
+zippospb [19 hours ago]
+Разные страницы могут иметь разный уровень доступа. У нас в users могут попасть только админы, а в meals любой авторизованный
+
+
+Joanna [4 hours ago]
+ок, спс
+
+
+Ivan Potapov [Today at 2:14 AM]
+А каким, собственно, образом row получает id? Просто берёт параметр id из Json объекта?
+
+
+1 reply
+Ivan Potapov [12 hours ago]
+https://editor.datatables.net/examples/advanced/jsonId.html

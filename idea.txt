@@ -1211,3 +1211,18 @@ Sole Noid [Aug 27th at 11:47 AM]
 1 reply
 Stanislav [2 days ago]
 Скриншот делай.
+
+
+Vladimir Gorbatenko [11:54 AM]
+Всем привет! Дайте пожалуйста ссылку на инструкцию активацию идеи через сайт JetBrains. Что-то я заблукал и не нахожу ее. (edited)
+
+izgarshev.pavel [11:55 AM]
+http://javaops.ru/auth/profile там была вроде
+Java Online Projects
+Java программист:от новичка до профессионала. Бесплатные первые занятия. Core,Web,Веб,Maven,Spring 5,Security,JPA(Hibernate),REST,AJAX,Botstrap,Enterprise
+Java программист:от новичка до профессионала. Бесплатные первые занятия. Core,Web,Веб,Maven,Spring 5,Security,JPA(Hibernate),REST,AJAX,Botstrap,Enterprise
+http://javaops.ru/static/img/title/topjava.png
+хотя после активации ссылка исчезает
+
+Vladimir Gorbatenko [11:58 AM]
+все нашлось, спасибо!
