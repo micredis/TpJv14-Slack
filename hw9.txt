@@ -509,3 +509,33 @@ Ivan Potapov [Today at 2:14 AM]
 1 reply
 Ivan Potapov [12 hours ago]
 https://editor.datatables.net/examples/advanced/jsonId.html
+
+
+matrocob [Yesterday at 4:24 PM]
+блин не понимаю... хочу сделать через точку datetimepiker, но проходит ошибка, только так пускает:
+format: 'Y-m-d',
+formatDate: 'Y-m-d'
+смотрел на http://topjava.herokuapp.com/meals
+там через 'Y-m-d' делается..
+И еще такой вопрос... хочу сделать ограничение по времени(не по дате), кто-то сделал? (edited)
+
+
+4 replies
+e.pekhterev [18 hours ago]
+привет, у меня норм через формат берёт, без формаДейт.
+сделал ограничение выбора даты, время не работает почему то, в гугле решение не нашел.
+
+
+matrocob [5 minutes ago]
+не, ну у меня тоже норм формат берет, единственное, вот так работать не получается :
+Y.m.d
+ошибку вроде 400 кидает..
+И по поводу времени, тоже не нашел ничего (edited)
+
+
+e.pekhterev [4 minutes ago]
+ну так тут вопрос уже ведь и в том, как у тебя форматтер на модели выставлен, так что правильно кидает))) (edited)
+
+
+matrocob [4 minutes ago]
+аа, точняк)) паттерн другой выставить надо)
