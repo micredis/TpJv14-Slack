@@ -26,3 +26,299 @@ set the channel topic: https://github.com/JavaWebinar/topjava/blob/doc/doc/lesso
 
 Nikolay [8:09 AM]
 joined #hw10 along with 8 others.
+
+tim [11:34 AM]
+Выложите, пожалуйста, изменения в project_change!
+
+e.pekhterev [12:34 PM]
+После этого патча некорректно отрабатывают тесты testUpdate() на рест-контроллерах и я так понял далее в патчах это не лечится (вместо ожидаемого статуса 200 получаем 204).
+Лечится просто: .andExpect(status().*isOk()*); -> .andExpect(status().*isNoContent()*);
+*Apply 10_0_fix.patch*
+>Из за баги в FireFox при пустом ответе от Ajax в консоль браузера выводится: Ошибка синтаксического анализа XML: корневой элемент не найден. Лечится @ResponseStatus(value = HttpStatus.*NO_CONTENT*).
+(edited)
+
+Avaaron [1:22 PM]
+у меня нет доступа по ссылке к hw10
+
+Avaaron [1:29 PM]
+точнее на страницу я попадаю, а дальше при ппереходе по любой ссылке мне предлагают запросить доступ у владельца гуглодиска.
+
+Merkulov [1:32 PM]
+переходи по ссылке Тани
+
+alexey [Yesterday at 4:13 PM]
+Народ такой вопрос: в profile.jsp мы используем userTo, и если в случае с  регистрацией понятно, что он туда попадает через  "model.addAttribute", то вот в случае с редактированием профиля не понятно откуда в профиле появляется userTo. Собственно сам вопрос: как userTo появляется в profile.jsp при редактировании?
+
+
+1 reply
+Gulnaz [22 hours ago]
+"The point is that @ModelAttribute is optional - if argument is not annotated and its type has no special meaning (i.e. it's not HttpServletRequest, ModelMap and so on), it's treated like @ModelAttribute-annotated argument.
+
+... If @ModelAttribute is omitted or has the empty value, default name is used (type name of the argument with the first letter decapitalized)."
+
+
+Gulnaz [4:40 PM]
+патч 10_11_global_exception, GlobalControllerExceptionHandler.java, стр.26 опечатка AuthorizedUser.safeGet(), исправьте на SecurityUtil.safeGet()
+
+Grigory Kislin [7:38 PM]
+@here
+Друзья, урок 10 вышел с ошибками
+26# GlobalControllerExceptionHandler - нужно `SecurityUtil.safeGet()`
+в тестах не заменил 200 на 204
+сегодня пришлю патч с правками
++ еще несколько правок будет от @Gagarina6794 b @e.pekhterev :slightly_smiling_face: (edited)
+
+
+Grigory Kislin [7:56 PM]
+Fix патч
+10_16_fix.patch 
+Index: src/test/java/ru/javawebinar/topjava/web/user/ProfileRestControllerTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/test/java/ru/javawebinar/topjava/web/user/ProfileRestControllerTest.java	(revision 091755e9f2f3dd63abdcb085ef8700fbf5c7efb1)
++++ src/test/java/ru/javawebinar/topjava/web/user/ProfileRestControllerTest.java	(date 1536252157892)
+@@ -31,7 +31,7 @@
+   }
+ 
+   @Test
+-  public void testGetUnAuth() throws Exception {
++  void testGetUnAuth() throws Exception {
+     mockMvc.perform(get(REST_URL))
+         .andExpect(status().isUnauthorized());
+   }
+@@ -52,7 +52,7 @@
+         .with(userHttpBasic(USER))
+         .content(JsonUtil.writeValue(updatedTo)))
+         .andDo(print())
+-        .andExpect(status().isOk());
++        .andExpect(status().isNoContent());
+ 
+     assertMatch(userService.getByEmail("newemail@ya.ru"), UserUtil.updateFromTo(new User(USER), updatedTo));
+   }
+Index: src/test/java/ru/javawebinar/topjava/web/user/AdminRestControllerTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/test/java/ru/javawebinar/topjava/web/user/AdminRestControllerTest.java	(revision 091755e9f2f3dd63abdcb085ef8700fbf5c7efb1)
++++ src/test/java/ru/javawebinar/topjava/web/user/AdminRestControllerTest.java	(date 1536252157900)
+@@ -35,7 +35,7 @@
+   }
+ 
+   @Test
+-  public void testGetNotFound() throws Exception {
++  void testGetNotFound() throws Exception {
+     mockMvc.perform(get(REST_URL + 1)
+         .with(userHttpBasic(ADMIN)))
+         .andExpect(status().isUnprocessableEntity())
+@@ -61,7 +61,7 @@
+   }
+ 
+   @Test
+-  public void testDeleteNotFound() throws Exception {
++  void testDeleteNotFound() throws Exception {
+     mockMvc.perform(delete(REST_URL + 1)
+         .with(userHttpBasic(ADMIN)))
+         .andExpect(status().isUnprocessableEntity())
+@@ -69,13 +69,13 @@
+   }
+ 
+   @Test
+-  public void testGetUnAuth() throws Exception {
++  void testGetUnAuth() throws Exception {
+     mockMvc.perform(get(REST_URL))
+         .andExpect(status().isUnauthorized());
+   }
+ 
+   @Test
+-  public void testGetForbidden() throws Exception {
++  void testGetForbidden() throws Exception {
+     mockMvc.perform(get(REST_URL)
+         .with(userHttpBasic(USER)))
+         .andExpect(status().isForbidden());
+@@ -90,7 +90,7 @@
+         .contentType(MediaType.APPLICATION_JSON)
+         .with(userHttpBasic(ADMIN))
+         .content(JsonUtil.writeValue(updated)))
+-        .andExpect(status().isOk());
++        .andExpect(status().isNoContent());
+ 
+     assertMatch(userService.get(USER_ID), updated);
+   }
+Index: src/test/java/ru/javawebinar/topjava/web/meal/MealRestControllerTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/test/java/ru/javawebinar/topjava/web/meal/MealRestControllerTest.java	(revision 091755e9f2f3dd63abdcb085ef8700fbf5c7efb1)
++++ src/test/java/ru/javawebinar/topjava/web/meal/MealRestControllerTest.java	(date 1536252157883)
+@@ -42,13 +42,13 @@
+   }
+ 
+   @Test
+-  public void testGetUnauth() throws Exception {
++  void testGetUnauth() throws Exception {
+     mockMvc.perform(get(REST_URL + MEAL1_ID))
+         .andExpect(status().isUnauthorized());
+   }
+ 
+   @Test
+-  public void testGetNotFound() throws Exception {
++  void testGetNotFound() throws Exception {
+     mockMvc.perform(get(REST_URL + ADMIN_MEAL_ID)
+         .with(userHttpBasic(USER)))
+         .andExpect(status().isUnprocessableEntity());
+@@ -63,7 +63,7 @@
+   }
+ 
+   @Test
+-  public void testDeleteNotFound() throws Exception {
++  void testDeleteNotFound() throws Exception {
+     mockMvc.perform(delete(REST_URL + ADMIN_MEAL_ID)
+         .with(userHttpBasic(USER)))
+         .andDo(print())
+@@ -78,7 +78,7 @@
+         .contentType(MediaType.APPLICATION_JSON)
+         .content(JsonUtil.writeValue(updated))
+         .with(userHttpBasic(USER)))
+-        .andExpect(status().isOk());
++        .andExpect(status().isNoContent());
+ 
+     assertMatch(service.get(MEAL1_ID, START_SEQ), updated);
+   }
+@@ -108,7 +108,8 @@
+         .andExpect(contentJson(MealsUtil.getWithExceeded(MEALS, USER.getCaloriesPerDay())));
+   }
+ 
+-  public void testFilter() throws Exception {
++  @Test
++  void testFilter() throws Exception {
+     mockMvc.perform(get(REST_URL + "filter")
+         .param("startDate", "2015-05-30").param("startTime", "07:00")
+         .param("endDate", "2015-05-31").param("endTime", "11:00")
+@@ -121,7 +122,7 @@
+   }
+ 
+   @Test
+-  public void testFilterAll() throws Exception {
++  void testFilterAll() throws Exception {
+     mockMvc.perform(get(REST_URL + "filter?startDate=&endTime=")
+         .with(userHttpBasic(USER)))
+         .andExpect(status().isOk())
+Index: src/main/webapp/resources/js/userDatatables.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/webapp/resources/js/userDatatables.js	(revision 091755e9f2f3dd63abdcb085ef8700fbf5c7efb1)
++++ src/main/webapp/resources/js/userDatatables.js	(date 1536250290703)
+@@ -6,7 +6,7 @@
+ }
+ 
+ function enable(chkbox, id) {
+-  var enabled = chkbox.is(":checked");
++  const enabled = chkbox.is(":checked");
+ // https://stackoverflow.com/a/22213543/548473
+   $.ajax({
+     url: ajaxUrl + id,
+Index: src/main/webapp/resources/js/mealDatatables.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/webapp/resources/js/mealDatatables.js	(revision 091755e9f2f3dd63abdcb085ef8700fbf5c7efb1)
++++ src/main/webapp/resources/js/mealDatatables.js	(date 1536250290691)
+@@ -18,7 +18,7 @@
+ $.ajaxSetup({
+   converters: {
+     "text json": function (stringData) {
+-      var json = JSON.parse(stringData);
++      const json = JSON.parse(stringData);
+       $(json).each(function () {
+         this.dateTime = this.dateTime.replace('T', ' ').substr(0, 16);
+       });
+@@ -69,8 +69,8 @@
+   });
+ 
+ // http://xdsoft.net/jqplugins/datetimepicker/
+-  var startDate = $('#startDate');
+-  var endDate = $('#endDate');
++  const startDate = $('#startDate');
++  const endDate = $('#endDate');
+   startDate.datetimepicker({
+     timepicker: false,
+     format: 'Y-m-d',
+Index: src/main/webapp/resources/js/datatablesUtil.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/webapp/resources/js/datatablesUtil.js	(revision 091755e9f2f3dd63abdcb085ef8700fbf5c7efb1)
++++ src/main/webapp/resources/js/datatablesUtil.js	(date 1536250290698)
+@@ -1,7 +1,6 @@
+-let form;
++const form = $('#detailsForm');
+ 
+ function makeEditable() {
+-  form = $('#detailsForm');
+   $(document).ajaxError(function (event, jqXHR, options, jsExc) {
+     failNoty(jqXHR);
+   });
+@@ -9,9 +8,9 @@
+   // solve problem with cache in IE: https://stackoverflow.com/a/4303862/548473
+   $.ajaxSetup({cache: false});
+ 
+-  var token = $("meta[name='_csrf']").attr("content");
+-  var header = $("meta[name='_csrf_header']").attr("content");
+-  $(document).ajaxSend(function(e, xhr, options) {
++  const token = $("meta[name='_csrf']").attr("content");
++  const header = $("meta[name='_csrf_header']").attr("content");
++  $(document).ajaxSend(function (e, xhr, options) {
+     xhr.setRequestHeader(header, token);
+   });
+ }
+@@ -80,7 +79,7 @@
+ function failNoty(jqXHR) {
+   closeNoty();
+   // https://stackoverflow.com/questions/48229776
+-  var errorInfo = JSON.parse(jqXHR.responseText);
++  const errorInfo = JSON.parse(jqXHR.responseText);
+   failedNote = new Noty({
+     text: "<span class='fa fa-lg fa-exclamation-circle'></span> &nbsp;" + i18n["common.errorStatus"] + ": " + jqXHR.status + "<br>" + errorInfo.type + "<br>" + errorInfo.detail,
+     type: "error",
+Index: src/main/webapp/WEB-INF/jsp/fragments/i18n.jsp
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/webapp/WEB-INF/jsp/fragments/i18n.jsp	(revision 091755e9f2f3dd63abdcb085ef8700fbf5c7efb1)
++++ src/main/webapp/WEB-INF/jsp/fragments/i18n.jsp	(date 1536250194715)
+@@ -3,7 +3,7 @@
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+ 
+ <script type="text/javascript">
+-  var i18n = [];
++  const i18n = [];
+   i18n["addTitle"] = '<spring:message code="${param.page}.add"/>';
+   i18n["editTitle"] = '<spring:message code="${param.page}.edit"/>';
+   <c:forEach var='key' items='<%=new String[]{"common.deleted", "common.saved", "common.enabled", "common.disabled", "common.errorStatus"}%>'>
+Index: src/main/java/ru/javawebinar/topjava/web/GlobalControllerExceptionHandler.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/java/ru/javawebinar/topjava/web/GlobalControllerExceptionHandler.java	(revision 091755e9f2f3dd63abdcb085ef8700fbf5c7efb1)
++++ src/main/java/ru/javawebinar/topjava/web/GlobalControllerExceptionHandler.java	(date 1536251776594)
+@@ -23,7 +23,7 @@
+     mav.addObject("message", ValidationUtil.getMessage(rootCause));
+ 
+     // Interceptor is not invoked, put userTo
+-    AuthorizedUser authorizedUser = AuthorizedUser.safeGet();
++    AuthorizedUser authorizedUser = SecurityUtil.safeGet();
+     if (authorizedUser != null) {
+       mav.addObject("userTo", authorizedUser.getUserTo());
+     }
+Collapse 
+или в google drive 10_16_fix: https://drive.google.com/open?id=1RHy7E8asVAPuz5JvR8GR_EORLGJza0Y7 (edited)

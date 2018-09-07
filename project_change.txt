@@ -205,3 +205,26 @@ JavaWebinar
 `ea0beb49` - 9_12_spring_security_test
 Show less
 JavaWebinar/topjava
+
+
+GitHub APP [3:01 PM]
+JavaWebinar
+*16 new commits pushed to `master`*
+`0b283df2` - 10_0_fix
+`06dac851` - 10_01_HW9_binding_ajax
+`b807e7fd` - 10_02_HW9_test
+`5b301cbe` - 10_03_HW9_datetimepicker
+`5730b770` - 10_04_jquery_converters
+`6d08bb60` - 10_05_persist_validate_group
+`3df56d1c` - 10_06_secure_tag_annotation
+`88f19f82` - 10_07_interceptor
+`1b80c602` - 10_08_profile_jsptag
+`fde57b61` - 10_09_registration
+`4a8ccfb8` - 10_10_not_found_422
+`c6d3faa7` - 10_11_global_exception
+`f4084653` - 10_12_controller_advice_exception
+`1ed5fd19` - 10_13_password_encoding
+`b72a5cd4` - 10_14_read_write_access
+`091755e9` - 10_15_csrf
+Show less
+JavaWebinar/topjava
