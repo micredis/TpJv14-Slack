@@ -942,3 +942,58 @@ ilya t. [Aug 31st at 5:47 PM]
 Grigory Kislin [3 days ago]
 да, всегда при определении API есть сомнения.
 на мой взгляд рестораны с едой делать нужно
+
+
+Jury Mironov [Sep 8th at 9:29 AM]
+Скопипастил AuthorizedUser в проект.  У нас user. getRoles возвращает сет и все норм,  у меня в выпускном пр.  тоже возвращает сет. Только у меня в констуркоре говорит,  что collection extends org. spring...user давай. Я не понимаю почему его сет не устраивает,  если в проекте учебном все устраивало
+
+
+5 replies
+Jury Mironov [2 days ago]
+Snap 2018-09-08 at 09.36.14.png
+
+
+
+Jury Mironov [2 days ago]
+Snap 2018-09-08 at 09.39.23.png
+
+
+
+Jury Mironov [2 days ago]
+Snap 2018-09-08 at 10.07.47.png
+
+
+
+sky [2 days ago]
+здесь была подсказка, теперь нет.. (edited)
+
+
+Grigory Kislin [1 day ago]
+@Jury Mironov попробуй разобраться, не подглядывая в ответ @sky . совсем простая задача для прошедшего topjava (edited)
+
+
+Kirilo [4:22 PM]
+С чем может быть связана проблема доступа к ресурсам? Когда сделал in memory, все ОК. Когда с базы берет, то аутентификацию проходит, а с авторизацией беда. Не принимает ни одну роль.
+There was an unexpected error (type=Forbidden, status=403).
+Forbidden
+
+Использую spring boot. Пароли не шифрую. Отключил вот так: auth.userDetailsService(userDetailsService()).passwordEncoder(NoOpPasswordEncoder.getInstance());
+Но и проблема именно с авторизацией. (edited)
+
+Kirilo [4:40 PM]
+Странно, фильтры перестали работать. Но почему, тогда, они в in memory работали?
+   protected void configure(HttpSecurity http) throws Exception {
+/*        http.csrf().disable().httpBasic().and()
+               .authorizeRequests()
+               .antMatchers("/").permitAll()
+               .antMatchers("/rest/admin/**").hasAnyRole("ADMIN")
+               .antMatchers("/rest/**").hasAnyRole("USER")
+               .anyRequest().authenticated();*/
+       http.authorizeRequests().anyRequest().fullyAuthenticated().and().
+               httpBasic().and().
+               csrf().disable();
+   }
+То, что закоментировано, работало в in memory, но не работает с базой (edited)
+
+Kirilo [10:10 PM]
+Разобрался. Оказывается Spring добавляет приставку "ROLE_" к ролям. Поэтому в базе и в конфигурационном файле названия должны отличаться.

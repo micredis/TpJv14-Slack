@@ -5344,3 +5344,59 @@ tim [1 day ago]
 
 dmitry_ov [24 hours ago]
 надо искать на github и в гугле :slightly_smiling_face:
+
+
+chimax [11:09 AM]
+@here Всем привет!
+Нам в команду требуется человек, который мог бы делать для нашего паблика в вк (https://vk.com/topjavaru) переводы статей с английского языка. Все статьи будут касатья It-тематики, в частности языка Java. Если вам интересно получить опыт работы в команде, потренироваться в переводе, поучаствовать в жизни нашего проекта, то пишите мне в личку!
+
+
+tim [Yesterday at 10:10 AM]
+Недавно почитал про технологию JSF(JavaServer Faces) - часть технологии  JAVA EE, как я понял намного проще писать фронтэнд. Почему бы не использовать JSF ? Какие подводные камни? Почему это широко не распространено? (edited)
+
+
+7 replies
+Grigory Kislin [1 day ago]
+1. про + и - : погугли.
+2. я не использовал, но не думаю, что проще. счас в основном js фреймворки используют (react, angular).
+для админки я бы vaadin взял.
+3. я вообще EE предпочитаю Spring. хотя бы из за spring-data и spring-boot. тренды у меня за 2016г-
+там JSF сжимается. https://zeroturnaround.com/rebellabs/java-tools-and-technologies-landscape-2016-trends/
+4. для нашего случая думаю что будет сложнее. но будет интересно, если ты попробуешь сделать на нем:) попадет в примеры доработок проекта 11 урока (edited)
+
+
+tim [24 hours ago]
+на нем... JSF имеете ввиду? Как я понял там нужен GlassFish
+
+tim [24 hours ago]
+GlassFish is the Open Source reference implementation for a Java EE application server. In addition to being an open source reference implementation of Java EE application server; GlassFish comes packed with core Java EE technologies such as: Servlets, Enterprise Java Beans (EJBs), Java Persistence API (JPA), JavaServer Faces (JSF), Java Message Service (JMS) as well as the default Java EE SDK.
+
+
+tim [24 hours ago]
+Томкат как я понял не сгодиться или я не прав?
+
+
+tim [21 hours ago]
+и еще меня мучает вопрос.... Можно ли полностью отказаться от   jsp и перенести логику на  javascript фреймворк, работая только по  rest-ajax? (что бы был чистый  HTML+CSS ) (edited)
+
+
+Kirilo [18 hours ago]
+https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-developing-web-applications.html#boot-features-spring-mvc-template-engines
+
+
+Grigory Kislin [14 hours ago]
+@tim 1. glashFish -> я бы лучше взял TomEE
+2.можно, почему нет
+
+
+SergeyA [12:04 PM]
+replied to a thread:
+
+@Grigory Kislin @Tanya help! Ссылки на знания не могу найти  :) 
+Вот скрин из лекции - где все эти ссылки? Из шапки скрина ссылка не работает :(
+Image from iOS 
+
+
+Grigory Kislin [12:15 PM]
+@SergeyA это старое. ссылки все в занятиях есть: https://github.com/JavaWebinar/topjava/tree/doc/doc
++ https://github.com/JavaOPs/topjava#Полезные-ресурсы (edited)
