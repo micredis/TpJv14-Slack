@@ -478,3 +478,97 @@ e.pekhterev [20 hours ago]
 
 Stanislav [19 hours ago]
 Уже разобрался :)
+
+
+zippospb [Yesterday at 12:54 AM]
+Блин. Второй день уже туплю. Объясните, что нужно сделать в  пункте 3.1? как вы добавили в bindingResult сообщение о неуникальности email? (edited)
+
+
+3 replies
+Stanislav [1 day ago]
+result.rejectValue("на какое поле ошибка", "текст сообщения");
+
+
+
+zippospb [1 day ago]
+Блин. высыпаться видимо надо!!!))) Я два дня тупил и думал как же мне в GlobalContollerExceptionHandler обработать DataIntegrityViolationException так, чтобы он корректно отобразился в profiles.jsp. А вот о том, что ловить эксепшн можно прямо в методе RootController я вообще не подумал!!!! (edited)
+
+
+zippospb [1 day ago]
+спасибо, тебе, добрый человек! =)))
+
+
+Stanislav [2:32 AM]
+У DataTable есть возможность менять язык
+ ```"language": {"url": ""}``` 
+Если ставить вместо url объект (json с переводом) то все нормально, а если подтягивать с CDN или прописывать внешний (свой) json не хочет работать. Ни кто не разбирался?
+
+
+Grigory Kislin [Yesterday at 11:25 PM]
+а зачем нам cdn?
+
+
+7 replies
+Stanislav [18 hours ago]
+вопрос не в том, нужен или нет (но и тут можно ответить, затем, зачем и все либы через cdn грузят многие). Вопрос в том, что не через cdn ни через (скачал json локали и прописал в url) не хочет работать. А если сразу объект (json) прям в language прописать, все нормально работает.
+
+
+Stanislav [18 hours ago]
+https://datatables.net/plug-ins/i18n/
+
+
+Stanislav [18 hours ago]
+не работает
+
+
+Stanislav [18 hours ago]
+вроде понял, только что :slightly_smiling_face:
+
+
+Stanislav [18 hours ago]
+https://datatables.net/manual/i18n
+
+
+Stanislav [18 hours ago]
+Ajax loading a translation - через ajax, а не как статический файл
+
+
+Stanislav [18 hours ago]
+Но все равно, через CDN не хочет. (edited)
+
+
+hav [Today at 1:39 PM]
+Помогите, застрял на первом пункте.  По ссылке написано что при ошибке валидации генерится MethodArgumentNotValidException.  Пытаюсь ее отловить в ExceptionInfoHandler, но получаю BindException. Что все-таки нужно отлавливать?
+
+
+2 replies
+Stanislav [4 hours ago]
+В начале лови то что выкидывает, по заданию дальше столкнешься с другим exception, тогда и будешь ловить то что прокидывается.
+
+
+
+hav [4 hours ago]
+Спасибо. Выяснил, что в AdminAjaxController генерится BindException, а в AdminRestController при отправке данных в json - MethodArgumentNotValidException.
+
+
+Alexander Pilipenko [Today at 5:36 PM]
+Привет.
+В документе https://xdsoft.net/jqplugins/datetimepicker/#lang
+написано, что для локализации DateTimePicker нужно использовать $.datetimepicker.setLocale('ru');
+
+У меня почему-то не работает :disappointed:
+
+Кто-нибудь с таким  сталкивался?
+xdsoft.net
+DateTimePicker
+DateTimePicker Best Period Picker search &text=&via=xdsoft_net arget= _blank title= Tweet >
+
+
+2 replies
+Stanislav [5 minutes ago]
+У меня все нормально работает.
+
+
+Stanislav [3 minutes ago]
+Перед реализацией startData-endData
+```$.datetimepicker.setLocale(переменная с тек. локалью - "ru" или "en" );```

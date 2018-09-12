@@ -997,3 +997,69 @@ Kirilo [4:40 PM]
 
 Kirilo [10:10 PM]
 Разобрался. Оказывается Spring добавляет приставку "ROLE_" к ролям. Поэтому в базе и в конфигурационном файле названия должны отличаться.
+
+
+alexey [Yesterday at 9:49 PM]
+Народ до какого числа нужно проект на проверку сдать?
+
+
+2 replies
+e.pekhterev [19 hours ago]
+если не ошибаюсь до 04.10
+ 
+
+
+Grigory Kislin [18 hours ago]
+если не участник masterjava. им до конца года.
+
+
+Jury Mironov [Today at 12:28 AM]
+Добавил security xml и имплементацию классов из проекта. У меня web.xml с сервлетом. Без security все деплоилось. Как добавил пишет ошибка 500  java.lang.IllegalStateException: No WebApplicationContext found: no ContextLoaderListener or DispatcherServlet registered? org.springframework.web.filter.DelegatingFilterProxy.doFilter(DelegatingFilterProxy.java:260)
+
+
+8 replies
+Jury Mironov [17 hours ago]
+Ок, говорят, что листнер добавь <listener>
+   <listener-class>
+       org.springframework.web.context.ContextLoaderListener
+   </listener-class>
+</listener>
+
+
+Jury Mironov [17 hours ago]
+Добавил, после этого ошибка, что- org.apache.catalina.core.StandardContext.startInternal One or more listeners failed to start. Full details will be found in the appropriate container log file
+
+
+Jury Mironov [17 hours ago]
+И хз че делать
+
+
+Jury Mironov [17 hours ago]
+https://github.com/mironoff2007/graduate_project/tree/master/src/main/webapp/resources/spring
+
+
+Jury Mironov [17 hours ago]
+https://github.com/mironoff2007/graduate_project/blob/master/src/main/webapp/WEB-INF/web.xml
+src/main/webapp/WEB-INF/web.xml
+```<?xml version="1.0" encoding="UTF-8"?>
+<web-app 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns="http://xmlns.jcp.org/xml/ns/javaee"``` 
+Show more…
+mironoff2007/graduate_projectAdded by GitHub
+
+
+Grigory Kislin [2 hours ago]
+прочитать вот это:
+> Full details will be found in the appropriate container log file
+действовать согласно указанию
+каталог лог файлов можно найти с строке запуска IDEA томката
+либо в томкат задеплоить самому (edited)
+
+
+Jury Mironov [9 minutes ago]
+Пишет,  типа нет applicationContext.xml.  Добавил,  написал туда импорты моих spring-db. xml,  security и. servlet файлов. Пишет типа файл spring-db. xml не найден
+
+
+Jury Mironov [1 minute ago]
+Я не очень понимаю все эти замуты с xml файлами.  Было их два, все было норм.  Был сервлет и ДБ,  теперь танцы с бубном.
