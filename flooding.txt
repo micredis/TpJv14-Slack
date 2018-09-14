@@ -2855,3 +2855,217 @@ Valery.Shkerdin [1 day ago]
 
 Grigory Kislin [20 hours ago]
 хороший псевдоним:)
+
+
+Yevhen Maksymovych Yesterday at 12:43 PM
+Ребят, помогите со Spring Binding, чёт в примере у нас всё так плавно прошло, а на практике уже полдня пытаюсь побороть:
+
+Yevhen Maksymovych 1 day ago
+Есть метод, принимает данные с фронта (ajax отправляет нам сериализованную форму), валидирует и обновляет в бд:
+ @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<Airport> create(@RequestBody MultiValueMap<String, String> formData) 
+работает корректно (edited)
+
+Yevhen Maksymovych 1 day ago
+Я хочу убрать ручной труд по маппингу данных формы в энтитю, и делаю так (как было у нас в уроках)
+    @PutMapping(value = "/{id}")
+    public void update(@PathVariable long id, @Valid Airport airport, BindingResult bindingResult) {
+        System.out.println(airport);
+    }
+
+Yevhen Maksymovych 1 day ago
+получаю в Airport все данные null, кроме id
+
+Yevhen Maksymovych 1 day ago
+Подозреваю, что не обрабатывает какой-то конвертер, который умеет из полезной нагрузки request'а доставать стринговые данные
+
+Yevhen Maksymovych 1 day ago
+в примере мы подключали целую простыню конвертеров, которые здесь я не подключаю (но я пробовал тянуть всю эту простыню в свой проект - не заработало)
+
+Yevhen Maksymovych 1 day ago
+вот эту простыню:
+mvc:annotation-driven conversion-service="conversionService">
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper" ref="objectMapper"/>
+            </bean>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/plain;charset=UTF-8</value>
+                        <value>text/html;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <bean class="org.springframework.format.support.FormattingConversionServiceFactoryBean" id="conversionService">
+        <property name="formatters">
+            <set>
+                <bean class="ru.javawebinar.topjava.web.converter.DateTimeFormatters.LocalTimeFormatter"/>
+                <bean class="ru.javawebinar.topjava.web.converter.DateTimeFormatters.LocalDateFormatter"/>
+            </set>
+        </property>
+    </bean>
+
+Yevhen Maksymovych 1 day ago
+нам она по сути нужна была, чтобы подцепить кастомные дейттаймформаттеры, здесь мне приходят одни стринги
+
+e.pekhterev 1 day ago
+сеттеры есть на все поля?
+Yevhen Maksymovych 1 day ago
+да
+e.pekhterev 1 day ago
+а у тебя аджакс ли?
+
+Yevhen Maksymovych 1 day ago
+ага
+
+e.pekhterev 1 day ago
+вроде должно работать, не понятно
+
+e.pekhterev 1 day ago
+а эта штука есть в sping-mvc?
+вроде нужна для сериализации json, хотя в голове уже каша - надо всё повторять.
+<bean class="ru.javawebinar.topjava.web.json.JacksonObjectMapper" id="objectMapper" factory-method="getMapper"/> (edited)
+
+e.pekhterev 1 day ago
+да, всё правильно, есть у тебя этот бин в сринг-mvc?
+https://www.baeldung.com/jackson-object-mapper-tutorial
+ Baeldung
+Intro to the Jackson ObjectMapper | Baeldung
+The article discusses Jackson's central ObjectMapper class, basic serialization and deserialization as well as configuring the two processes. (92 kB)
+Jul 18th, 2016 at 8:03 PM
+
+ 
+Stanislav 1 day ago
+JacksonObjectMapper смотри в web\json
+
+e.pekhterev 1 day ago
+я так понимаю его тоже можно в лоб копировать
+
+Yevhen Maksymovych 1 day ago
+щаз попробую, я вроде уже его добавлял
+
+Yevhen Maksymovych 1 day ago
+да не, мне в лоб не надо, там добавляется поддержка форматов, мне достаточно стандартного инстанса
+
+Stanislav 24 hours ago
+Бронирование/покупка авиабилетов? (edited)
+
+e.pekhterev 24 hours ago
+сомневаюсь - для дейтТайма форматтеры и конвертеры не хочет, значит тут дело не за бронь
+
+Grigory Kislin 22 hours ago
+@Yevhen Maksymovych так у тебя данные в каком формате приходят?
+
+Yevhen Maksymovych 22 hours ago
+@Grigory Kislin в APPLICATION_FORM_URLENCODED
+
+Grigory Kislin 21 hours ago
+тогда 1. json mapper ни при чем. 2. видишь ответ в Network? 3. Точно сететры есть и они соответствуют параметрам? 4. Можно подебажить биндинг. Поставь точку на сеттер нарпимер в topjava. И посмотри на этот маршрут вызовов у себя. (edited)
+
+Yevhen Maksymovych 21 hours ago
+ServletRequestDataBinder -> WebDataBinder и дальше по цепочке. Но уже на этом этапе PropertyValues, которое достаётся из сервлета, содержит один только id  из всей простыни
+
+Yevhen Maksymovych 20 hours ago
+уже целый день убил. смотрю в нашем приложении: на сервер уходит то же самое x-www-form-ulrencoded, ещё на этапе ServletRequestDataBinder у нас мапа со всеми параметрами. У меня же почему-то в ServletRequestDataBinder попадает только id. В упор не могу понять, где остальное по пути теряется.
+
+Yevhen Maksymovych 20 hours ago
+Чисто интуитивно предполагаю, что из-за того что ид - лонг, для него конвертер/форматтер отрабатывает, а для стрингов - нет
+
+Yevhen Maksymovych 20 hours ago
+но что надо втянуть в контекст, чтобы заработало для стрингов? и почему работает для мапы стрингов, но не работает просто для стрингов
+Grigory Kislin 20 hours ago
+все типовые конверторы уже настроены по умолчанию.  в request- видишь параметры?
+
+Yevhen Maksymovych 20 hours ago
+вижу их в инспекторе, но в самом реквесте в дебаге не очень понимаю, куда именно смотреть:
+Yevhen Maksymovych 20 hours ago
+
+Yevhen Maksymovych 20 hours ago
+тут в реквесте вагон и маленькая тележка пропертей, я уже по всем прошёлся, не могу найти, где лежит нагрузка
+
+Yevhen Maksymovych 20 hours ago
+
+Yevhen Maksymovych 20 hours ago
+когда доходит до ServletRequestDataBinder, оттуда достаётся мапа с одним-единственным ид
+
+Yevhen Maksymovych 20 hours ago
+
+Yevhen Maksymovych 20 hours ago
+меня несколько озадачивают ворнинги сверху
+Grigory Kislin 20 hours ago
+Alt+F8: req.getParameterMap()
+
+Yevhen Maksymovych 20 hours ago
+такое чувство, что я что-то просто совсем из виду выпускаю. щаз короче сделаю просто отдельный проект на два класса и попробую там замапить
+
+Tanya 18 hours ago
+а сам класс Airport покажи
+Yevhen Maksymovych 18 hours ago
+на работе на внутреннем репе лежит, уже не достучусь :disappointed:
+Tanya 18 hours ago
+ну хотя бы поля с геттерами/сеттерами (edited)
+e.pekhterev 18 hours ago
+@Tanya про геттеры/сеттеры спрашивал, выше, они есть (edited)
+
+Tanya 18 hours ago
+я видела что есть, но я хочу увидеть то, что в самом проекте, иногда ошибка на самом видном месте, поэтому и незаметна
+
+e.pekhterev 18 hours ago
+скорее всего
+
+e.pekhterev 18 hours ago
+всё как обычно))
+Yevhen Maksymovych 18 hours ago
+ну, завтра утром только смогу долезть. да ошибка 100% какая-то очевидная, уверен, что просто глаз замылился. Сейчас дома примерно это же попытаюсь повторить
+
+e.pekhterev 18 hours ago
+дома скорей всего не повторишь, а всё работать будет)))
+
+Yevhen Maksymovych 7 hours ago
+вот абсурд, но дома реально работает всё ))
+
+Yevhen Maksymovych 7 hours ago
+а вот, кажись, и выловил багу
+
+Yevhen Maksymovych 7 hours ago
+корректно x-www-form-urlencoded биндится только если данные приходят через POST, а не через PUT
+
+Yevhen Maksymovych 7 hours ago
+вот простенький проект из двух классов, в котором это не работает
+
+Yevhen Maksymovych 7 hours ago
+https://github.com/rundot/strangebehavior
+rundot/strangebehavior
+Just a test of strange Spring Binding behavior via POST/PUT
+Language
+Java
+Last updated
+a minute ago
+rundot/strangebehaviorToday at 6:55 AM Added by GitHub
+ 
+Yevhen Maksymovych 7 hours ago
+при этом put для 'application/json' работает корректно
+
+Yevhen Maksymovych 7 hours ago
+а вот, судя по всему, и ответ
+Yevhen Maksymovych 7 hours ago
+https://stackoverflow.com/questions/14416078/the-put-method-with-ajax-in-spring-3-2-doesnt-work
+ Stack Overflow
+The PUT Method with AJAX in Spring 3.2 doesn't work
+I'm trying to call a method in Spring (3.2.0) via AJAX using the following jQuery 1.6. function updateRoleEnabled(id) { $.ajax({ datatype:"json", ...
+ 
+ 
+ 
+Yevhen Maksymovych 7 hours ago
+конфликт спецификации сервлетов и механизмов конвертации спринга. типа по спеке servlet api форма должна приходить всегда постом
+
+Yevhen Maksymovych 3 hours ago
+есть даже спецом фильтр спринговый под такой случай
+
+Yevhen Maksymovych 3 hours ago
+org.springframework.web.filter.HttpPutFormContentFilter
+

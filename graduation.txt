@@ -1063,3 +1063,11 @@ Jury Mironov [9 minutes ago]
 
 Jury Mironov [1 minute ago]
 Я не очень понимаю все эти замуты с xml файлами.  Было их два, все было норм.  Был сервлет и ДБ,  теперь танцы с бубном.
+
+
+Jury Mironov [1 day ago]
+Я не понимаю,  до добавления секьюрити его не парило,  что нет контекста:face_with_rolling_eyes:
+
+
+Jury Mironov [1 day ago]
+Вроде пофиксил

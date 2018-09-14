@@ -235,3 +235,33 @@ JavaWebinar
 *1 new commit pushed to `master`*
 `23b26ced` - 10_16_fix
 JavaWebinar/topjava
+
+
+GitHubAPP3:48 PM
+JavaWebinarJavaWebinar
+14 new commits pushed to master
+5717722d - 11_0_1_fix
+09b99f06 - 11_0_2_fix
+6bf70dba - 11_0_3_fix
+dea865c3 - 11_01_HW10_fix_encoding
+a23fbd97 - 11_02_HW10_validation
+d916ef82 - 11_03_HW10_duplicate_email
+ee009be6 - 11_04_HW10_duplicate_datetime
+aeb58ead - 11_05_HW10_change_locale
+920177fe - 11_06_i18n
+7f207ed3 - 11_07_XSS
+3f503db7 - 11_08_404
+009999f0 - 11_09_auth_user
+d72ce86b - 11_10_restrict_modification
+72d99b86 - 11_11_heroku
+Show less
+<https://github.com/JavaWebinar/topjava|JavaWebinar/topjava>JavaWebinar/topjava
+GitHubAPP5:35 PM
+Pull request opened by NazarNazarNazar
+NazarNazarNazarNazarNazarNazar
+#5 Doc
+md. lessons
+<https://github.com/JavaWebinar/topjava|JavaWebinar/topjava>JavaWebinar/topjavaYesterday at 5:35 PM
+:white_check_mark: All checks have passed
+2/2 successful checks
+
