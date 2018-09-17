@@ -5564,3 +5564,14 @@ Alexander Pilipenko [29 minutes ago]
 
 izgarshev.pavel [19 minutes ago]
 @e.pekhterev точно, спс
+
+
+Ma3stro Sep 14th at 4:48 PM
+Делал git clone с JavaWebinar (была проблема с патчами), можно ли мне как-то пушить в мой собственный репозиторий? Либо перенести историю коммитов?
+
+Grigory Kislin 3 days ago
+На basejava через clone делаем:
+https://github.com/JavaOPs/basejava/blob/master/lesson/lesson1.md#Настройка-проекта (edited)
+
+Ma3stro 3 days ago
+Благодарю!
