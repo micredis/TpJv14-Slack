@@ -3090,3 +3090,41 @@ Ramil [1 day ago]
 
 izgarshev.pavel [18 hours ago]
 поздравляю!  Где?
+
+
+Ramil [3 days ago]
+redsys.ru новосиб
+
+
+Grigory Kislin [3 days ago]
+@Ramil подробности- как искал, как собес проходил, какие вопросы и пр. народу полезно
+
+
+Crazz [1 day ago]
+Поздравляю, мне тож сделали оффер на джуномидла удаленного. мое тестовое задание - https://github.com/dmitriipol1/store_test (edited)
+
+
+Yevhen Maksymovych [8:13 PM]
+ребят, подскажите такую штуку, может кто знает
+у меня есть два десятка сущностей, и, соответственно, два десятка справочников. часть полей одних сущностей ссылается на другие, обычное, короче дело
+есть веб-формы для редактирования этих справочников, где ссылочные данные загружаются аяксом в селекты, на бэке все это добро из формы я хочу автобиндить
+так как ссылочные сущности мне приходят c фронта в виде id, мне приходится для каждой сущности писать и подключать конвертер, который делает ровно одну операцию, по стринговому ид достаёт сущность из бд через дао (edited)
+нет какого-то способа это автоматизировать? чтобы пришедшие ид спринг сам преобразовал в энтитю, без моих конвертеров? может есть какой-то один унифицированный?
+
+
+Yevhen Maksymovych [Sep 17th at 8:23 PM]
+ну, т.е. для меня не проблема их написать, но учитывая, что спринг - про уменьшение boilerplate-кода, есть чуйка, что я что-то делаю не так
+
+
+2 replies
+Grigory Kislin [3 days ago]
+@Yevhen Maksymovych в so ответил:)
+https://stackoverflow.com/a/52374330/548473
+Stack Overflow
+How do I save an entity with foreign key without loading the related entity in JPA?
+I have two entities: Account { @Id Long id; } Preference { ... @ManyToOne private Account account; } When saving a Preference, I have the accountId, but I don't have an Account entity....
+ 
+
+
+Yevhen Maksymovych [1 day ago]
+спасибо :slightly_smiling_face: в итоге подумал, и всё равно перешёл на дто, и ModelMaper, решил что принимать энтити напрямую с формы вредно )

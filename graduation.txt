@@ -1075,3 +1075,277 @@ Jury Mironov [1 day ago]
 
 Kirilo [10:20 PM]
 Использую две сущности для сохранения изминений в голосовании и кладу в два разных репозитория в одном методе update(.., ...) сервиса. Правильно будет использовать над этим методом @Transactional в интерфейсе сервиса? (edited)
+
+
+Grigory Kislin [3 days ago]
+с @Transactional- да. а вот 2 сущности- неверно...
+означает дублирование в базе. опять же данные могут разойтись (edited)
+
+
+Kirilo [3 days ago]
+одна сущность - это юзер с измененным состояним после голосования, другая - это сущность голосования за определенный ресторан, она появляется, после того, как админ добавляет новое меню и накапливает в себе дневной результат. (edited)
+
+
+This message was deleted.
+ 
+Merkulov 2 days ago
+ну да, вроде так
+
+sky 2 days ago
+Ну тут как понимать задание. Голосовать за ресторан, в котором хочешь съесть ланч часов в 9 вечера уже как то не ок.
+
+e.pekhterev 2 days ago
+@sky, я собственно потому и задаю этот вопрос, хорошо Григорий тут ответил)))
+
+sky 2 days ago
+хорошо бы, или он уже где ответил? Тут вроде как тоже проверятся способность интерпретировать задание. Взглянуть на него с точки зрения фронта и м.б. потребителя (хотя вот это хз хз, можно ли вообще в такое свой нос совать). В задании (и где-то еще) правда несколько раз упоминается что сам текст задания надо читать внимательно. (edited)
+
+e.pekhterev 2 days ago
+@sky, в задании написано 5.4 Из потребностей приложения (которую надо самим придумать) реализовывать только очевидные сценарии. Те.- НИЧЕГО ЛИШНЕГО., т.е. по идее очедно делать полнсотью ограничение до 11:00, что для первого раза, что для повторного, но сомнения всё же есть, потому как у нас тут явно указаны кейсы именно для повторного голосования))) (edited)
+
+Merkulov 2 days ago
+наверное все таки должно быть ограничение, вдруг кто проголосует прям за 5 минут до ланча а кто за 1 минуту
+
+Kirilo 2 days ago
+там ничего не сказано о том, до какого времени голосовать. А сказано, что, если юзер захочет еще раз голосовать, то сделать он это может до 11:00. То есть я сделал, что голосовать вообще можно до полуночи, а дальше сможет только за меню следующего дня. Переголосовать до 11:00. А голосовать до 24:00 (edited)
+
+e.pekhterev 2 days ago
+консенсунс не достигнут))) (edited)
+Kirilo 2 days ago
+На практике, думаю, нужно было бы задать уточняющие вопросы у заказчика. Но так как имеем то, что имеем, то логику действий я описал выше.
+e.pekhterev 2 days ago
+@Kirilo согласен, я тоже так и думал, но решил уточнить
+
+Kirilo 2 days ago
+К тому же с таким подходом легко реализовать историю голосования. Что я и сделал :slightly_smiling_face:
+e.pekhterev 2 days ago
+в смысле? ты не обновляешь  голос, а создаешь новый? т.е. у тебя несколько голосов на юзера в день может быть? или чего? (edited)
+Kirilo 2 days ago
+переголосование. Я храню последний id ресторана, за который голосовал юзер в его сущности. (edited)
+
+e.pekhterev 2 days ago
+ну тогда не вижу никакой проблемы с историей, что с ограничением по времени для повторного голосования, что для полного голосования
+
+e.pekhterev 2 days ago
+тут момент другой, если у нас полное ограничение, то итоги голосования известны уже в 11.00, а при не полном ограничении результаты голосования можно узнать только в 00.00
+
+Kirilo 2 days ago
+результаты можно, ведь просто вытянуть в любое время. Например, если юзер проголосовал (edited)
+e.pekhterev 2 days ago
+и в этом плане + ещё о времени самого ланча ну очень нелогично делать ограничение голосования только для повторов
+Kirilo 2 days ago
+условия нет больше никакого. Сама задача некорректная
+
+e.pekhterev 2 days ago
+результаты можно, ведь просто вытянуть в любое время. Например, если юзер проголосовал
+я говорю о общем результате - например общую стату актуальную  по ресторанам  за день
+
+e.pekhterev 2 days ago
+окончательную
+Merkulov 2 days ago
+логично ведь что если ланча не было то можно за него голосовать а если был то что я могу проголосаовать в тот день за этот ланч который уже прошел?
+Kirilo 2 days ago
+ну, вот. Я вообще с этим не парюсь. У меня новая сущность для голосования появляется каждый день
+
+e.pekhterev 2 days ago
+Build a voting system for deciding where to have lunch
+по условии ты голосуешь за ресторан, в котором ты сегодня хочешь отланчевать
+
+Merkulov 2 days ago
+смысл голоса после проведения мероприятия?
+Kirilo 2 days ago
+так и обедать ты можешь либо когда. Постановка задачи недоработанная (edited)
+e.pekhterev 2 days ago
+и никак по другому
+Merkulov 2 days ago
+так зачем мы тогда голосуем за ресторан?
+Kirilo 2 days ago
+просто так
+
+Kirilo 2 days ago
+ты же можешь и не пообедать, если чп :slightly_smiling_face:
+
+e.pekhterev 2 days ago
+ну не всё очевидно, но тут голосуем за ресторан где хотим отланчевать - значит 100% до ланча, значит ограничение должно быть до 11:00
+
+Merkulov 2 days ago
+получается тупо
+Merkulov 2 days ago
+теряется смысл системы голосования, если не важно голосовали или нет)))
+Kirilo 2 days ago
+но о ограничении по времени ничего не сказано. И у всех может быть обед в разное время.
+e.pekhterev 2 days ago
+не хочешь ланчевать - не голосуешь, хочешь - голосуешь до 11:00
+
+Kirilo 2 days ago
+Задача просто на голосование. А обед можно заменить на просто прием пищи
+
+e.pekhterev 2 days ago
+в условии указано голосование за ланч, не за обед
+Merkulov 2 days ago
+тут смысл задачи голосование за ланч, а ты хочешь сделать чтоб это было не важно
+Kirilo 2 days ago
+Прочитай задание про переголосование. Там ограничение до 11:00 только для тех, кто повторно голосует
+
+e.pekhterev 2 days ago
+Задача просто на голосование. А обед можно заменить на просто прием пищи
+если было бы так, то не было бы вообще ограничений по времени
+
+e.pekhterev 2 days ago
+Прочитай задание про переголосование. Там ограничение до 11:00 только для тех, кто повторно голосует
+ну как бы оно в шапке ветки написано, потому и вопрос возник
+
+Kirilo 2 days ago
+Ну, так для тех, кто повторно голосует. А для остальных вообще ничего не сказано, ровно как и до которого часа может быть обед
+e.pekhterev 2 days ago
+ладно, надеюсь Григорий нас рассудит
+Merkulov 2 days ago
+логика должна была уже рассудить)
+
+Kirilo 2 days ago
+он уже писал, что делать только то, что написано
+
+Merkulov 2 days ago
+это ключевой момент
+
+Kirilo 2 days ago
+а ограничение только до 11 для тех, кто повторно голосует
+
+e.pekhterev 2 days ago
+если будут вопросы, то скажу, что у меня Spain-mode, после ланча сразу сиеста))))
+Kirilo 2 days ago
+он написал в комментариях к заданию, что подобные "хотелки" нужно описывать отдельно, как доработка задания от себя лично (edited)
+
+e.pekhterev 2 days ago
+@Kirilo я ни за первый вариант, ни за второй, пока вижу, что условия неоднозначные, но и с твоими доводами не согласен
+
+Merkulov 2 days ago
+@Kirilo приколи если выборы так проходили, выборы определенного числа, но ты можешь голосовать и после, но только это будет не важно)))
+sky 2 days ago
+Подумайте с точки зрения желающего пообедать. Вот вы зашли на сайт. Глянули че у кого сегодня на обед. То что вы голосуете, это конечно очень хорошо, но скорее всего вы просто выберите, что из топа рейтинга вам ближе географически.  И туда и пойдете. И это именно обед, который у большинства именно с 12 до часу. И к 11 уже неплохо бы определится. Смысла после этого времени голосовать особо нет.  Но в данное задание скорее надо воспринимать буквально. Только заложить возможность быстро переобуться..
+
+Kirilo 2 days ago
+это тестовая задача и ничего не имеет общего с реальной жизнью. Если так углубляться в вопрос, то нужно представить, что рестораны находятся в разных уголках города, а голосует юзер, допустим перед самым началом обеда. И что, он успеет к положеному времени? Не стоит заморачиваться как по мне, а просто придерживаться условий, что в задании и все.
+Kirilo 2 days ago
+@Merkulov ну это совсем бред. Ограничение голосование за текущий день. На следующий день голосует за другое меню (edited)
+
+Merkulov 2 days ago
+ты меня не правильно понял
+
+Merkulov 2 days ago
+я гоорил про текущий день
+Merkulov 2 days ago
+пример привел выборы
+Merkulov 2 days ago
+мы вообще говорим в контексте одного дня ставить ограничение по времени или нет
+
+Merkulov 2 days ago
+в любой задачи должен быть здравый смысл, иначе будет каша
+
+Merkulov 2 days ago
+думаю походу разберемся
+Kirilo 2 days ago
+много заморочек со временем возникнет и когда админ должен вносить меню и т.д. Вообще в даной постановке, ее нельзя применить к реальной жизни. Я ее воспринимаю просто, как тестовую задачу. (edited)
+
+sky 2 days ago
+Если предметная область достаточно близка, а пожрать все горазды, то почему бы не строить свое понимание ТЗ на этой основе, при этом без отклонений от этого ТЗ. Сказано что в любое время можно в первый раз проголовать - так и надо делать, но, то что вероятность того, что это поменяется тоже нужно просто сразу учитывать, а данный вопрос не то, чтобы прям большой архитектурный вопрос. Его решить потом можно будет парой строк кода..
+
+sky 2 days ago
+Про админов лучше вообще не начинать))
+Kirilo 2 days ago
+да и меню вносить в этот же день - это тупо и никто так не делает :slightly_smiling_face: (edited)
+e.pekhterev 2 days ago
+sky Сказано что в любое время можно в первый раз проголовать - так нигде не сказано
+
+e.pekhterev 2 days ago
+это только догадки
+
+sky 2 days ago
+ну это твоя догадка в первую очередь, не ожидал от тебя))
+Kirilo 2 days ago
+If user votes again the same day:
+   If it is before 11:00 we asume that he changed his mind.
+   If it is after 11:00 then it is too late, vote can't be changed
+
+Kirilo 2 days ago
+Исходя из этой фразы - голосование в тот же день - это огрничение для всех. А до 11 - для тех, что повторно (edited)
+
+e.pekhterev 2 days ago
+@sky, чего не ожидал)?
+
+sky 2 days ago
+того что именно ты будешь возражать, забей))
+
+Kirilo 2 days ago
+the same day! Не пол дня или первой половины (edited)
+e.pekhterev 2 days ago
+того что именно ты будешь возражать, забей))
+да не возражаю я, ты посмотри в шапку ветки, я же там пишу как раз про ваш же с Kirilo вариант
+
+Stanislav 1 day ago
+Обсуждения не о чем :grinning: Есть задача, есть вопросы, но нет заказчика, вы не в праве домысливать(реализовывать) логику за заказчика. Есть идеи реализации, но нет заказчика для обсуждения, предусмотрите в "архитектуре" возможность внесении правок-фич + коммит (если уж так хочется).
+
+
+
+This message was deleted.
+ 
+Kirilo 2 days ago
+це якщо ти будеш зберігати все в одній таблиці
+
+Макс Куркудюк 2 days ago
+Ок, дякую)
+
+
+Grigory Kislin [3:38 PM]
+@here
+Привет!
+форма для сдачи выпускного: https://goo.gl/RZVj6R
+у кого есть ревью  - буду писать его в канал группы проверки ДЗ
+оплатить ревью можно как "Техническое собеседование на позицию Java разработчик."- внизу своего javaops профиля (1950р)
+после оплаты пишете мне, я даю ссылку на группу проверки ДЗ, где надо будет сделать канал: свое_имя_hw (edited)
+
+Kirilo [10:46 PM]
+Пока делаю выпускной проект, узнаю массу нового. С джексоном познакомился и его аннотациями. Только что окончательно поборол зацикливание в json - это случалось, когда я пытался доставать ресторан вместе с едой. А @JsonIgnore прятал список еды и мне не подходил, причем вначале я его вообще тупо применял, не зная полностью что он делает. Оказывается есть другая аннотация для правильной серриализации сущностей связанных двусторонними отношениями. А вообще кошмарная тема. На столько граблей приходится наступать. В интернете столько информации, но пока сложишь это все в кучу... Просматриваю файлы topjava и только сейчас начинаю понимать некоторые вещи, которяе раньше вообще игнорировал. (edited)
+
+Jury Mironov [9:34 AM]
+20-Sep-2018 00:23:32.390 SEVERE [RMI TCP Connection(7)-127.0.0.1] org.apache.catalina.core.StandardContext.listenerStart Exception sending context initialized event to listener instance of class [org.springframework.web.context.ContextLoaderListener]
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.security.filterChains': Cannot resolve reference to bean 'filterChainProxy' while setting bean property 'sourceList' with key [1]; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'filterChainProxy': Cannot create inner bean '(inner bean)#6bf846c4' of type [org.springframework.security.web.authentication.www.BasicAuthenticationFilter] while setting constructor argument with key [3]; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name '(inner bean)#6bf846c4': Cannot resolve reference to bean 'org.springframework.security.authentication.ProviderManager#0' while setting constructor argument; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.security.authentication.ProviderManager#0': Cannot resolve reference to bean 'org.springframework.security.config.authentication.AuthenticationManagerFactoryBean#0' while setting constructor argument; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.security.config.authentication.AuthenticationManagerFactoryBean#0': FactoryBean threw exception on object creation; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.security.authenticationManager': Cannot resolve reference to bean 'org.springframework.security.authentication.dao.DaoAuthenticationProvider#0' while setting constructor argument with key [0]; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.security.authentication.dao.DaoAuthenticationProvider#0': Cannot resolve reference to bean 'userService' while setting bean property 'userDetailsService'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'userService' defined in ServletContext resource [/WEB-INF/resources/spring/spring-security.xml]: Instantiation of bean failed; nested exception is java.lang.IllegalStateException: No bean class specified on bean definition
+
+Jury Mironov [8 hours ago]
+Не понимаю, что не так. Копипастил из проекта. UserServiceImpl имплементирует UserDetailsService.
+
+
+Jury Mironov [8 hours ago]
+Но идея подчеркивает красным и пишет
+
+
+Jury Mironov [8 hours ago]
+Bean must be one of these types: org.springframework.security.core.userdetails.UserDetailsService,org.springframework.security.userdetails.UserDetailsService less... (Ctrl+F1)
+Inspection info:Checks bean reference for required bean type.
+
+
+Grigory Kislin [1 hour ago]
+проверь
+    ```<authentication-manager>
+        <authentication-provider user-service-ref="userService">```
+и
+```@Service("userService")
+public class UserServiceImpl implements UserService, UserDetailsService {```
+
+
+Ma3stro [Today at 5:48 PM]
+Кто-то сталкивался с проблемой невероятно долгой загрузки в режиме дебага? А без дебага запускается довольно быстро
+
+
+2 replies
+dmitry_ov [17 minutes ago]
+Tomcat под MacOS ?
+В Tomcat есть баг, надо гуглить work around
+
+
+Ma3stro [16 minutes ago]
+Неа, винда
+
+
+Ma3stro [5:58 PM]
+Подскажите, к чем приделать кэш? К ресторанам, голосам? Голоса регулярно добавляются, а рестораны регулярно обновляются, соответсвенно кэш будет всё время отчищаться

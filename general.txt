@@ -5575,3 +5575,116 @@ https://github.com/JavaOPs/basejava/blob/master/lesson/lesson1.md#Настрой
 
 Ma3stro 3 days ago
 Благодарю!
+
+
+Grigory Kislin [8:11 PM]
+Наконец-то доделал видео
+http://javaops.ru/view/resources/spring5#ref=slack
+Java Online Projects
+Новое в Spring 5. Миграция проекта Topjava
+Java программист:от новичка до профессионала. Бесплатные первые занятия. Core,Web,Веб,Maven,Spring 5,Security,JPA(Hibernate),REST,AJAX,Botstrap,Enterprise
+http://javaops.ru/static/img/title/spring5.png
+
+Sole Noid [11:24 AM]
+Пример работы класса DataOutputStream для записи данных в файл:
+https://metanit.com/java/tutorial/6.7.php
+
+Код работает, но в файл почему то какая-то абракадабра из символов записывается.
+В чём тут дело? Что надо ещё сделать? Или это у меня одного так?
+metanit.com
+Классы DataOutputStream и DataInputStream | Java
+Запись в файл данных примитивных типов в языке программирования Java, классы DataInputStream и DataOutputStream
+
+
+Ignat [1 day ago]
+Предположу, что там формат хранения не предполагает того, чтобы кожаные мешки могли читать. Считывает корректно?
+
+
+Sole Noid [1 day ago]
+Считывает корректно.
+Что за "кожаные мешки"?
+
+
+Ignat [1 day ago]
+Люди:grin:
+
+
+
+Sole Noid [1 day ago]
+:grinning:
+
+
+Sole Noid [1 day ago]
+Интересно. А как это определить что в этом случае сохранённые данные в файле и не должны быть читаемы?
+
+
+Ignat [1 day ago]
+Если глянуть сюда https://docs.oracle.com/javase/1.5.0/docs/api/java/io/DataOutputStream.html, то там написано, что запись идёт побайтово с инкрементом счётчика written. Как я понял, он оперирует массивами байт.
+
+
+Ignat [1 day ago]
+Вот пример метода
+     ```/**
+     * Writes a <code>char</code> to the underlying output stream as a
+     * 2-byte value, high byte first. If no exception is thrown, the
+     * counter <code>written</code> is incremented by <code>2</code>.
+     *
+     * @param      v   a <code>char</code> value to be written.
+     * @exception  IOException  if an I/O error occurs.
+     * @see        java.io.FilterOutputStream#out
+     */
+    public final void writeChar(int v) throws IOException {
+        out.write((v >>> 8) & 0xFF);
+        out.write((v >>> 0) & 0xFF);
+        incCount(2);
+    }```
+
+
+Grigory Kislin [1 day ago]
+а почему ты считаешь, что при записи в двоичном виде тебе они должны красиво видеться?
+
+Sole Noid [1 day ago]
+Ну, собственно, так я и не считаю, что в двоичном виде должны красиво видеться. Проблема была в том что изначально было неясно что в этом случае в двоичном виде файл будет хранить данные. Раньше с такими файлами не приходилось сталкиваться.
+
+
+ilya t. [Yesterday at 7:38 PM]
+Хотел бы спросить, что могут спросить на интервью по алгоритмам? Дошел до этой темы и что-то как-то засомневался, ведь тема алгоритмов весьма обширна, насколько глубоко нужно знать junior/middle разработчику? Какие вопросы могут спросить?  Знающие люди, ответьте) Кто был на интервью можете рассказать какие вопросы по этой теме вам задавали)
+
+
+9 replies
+Yevhen Maksymovych [22 hours ago]
+У меня на одном спрашивали про быструю сортировку. На другом - давали тестовое, там были ханойские башни, статистика и генетический алгоритм
+
+
+Yevhen Maksymovych [22 hours ago]
+Но, с другой стороны, ещё на двух про алгоритмы вообще не спрашивали ))
+
+
+ilya t. [22 hours ago]
+@Yevhen Maksymovych а быструю сортировку написать чтоли, или в чем принцип?
+
+
+Victor [22 hours ago]
+думаю, что нужно знать сортировки: пузырьком, вставки, выбора,  шелла, быструю, поразрядную. Как устроен алгоритм на словах и его эффективность в О-нотации. Деревья двоичные, красно-черные. Рекомендую по Лафорте читать.
+
+
+Yevhen Maksymovych [22 hours ago]
+в чем принцип, и какая эффективность. написать - я честно сразу признался, что не напишу ))
+
+
+Victor [21 hours ago]
+тоже, если не знаю, не пытаюсь сочинять. Отвечаю: не работал с, не использовал...
+
+
+Victor [21 hours ago]
+В общем считаю очень полезно хотя бы прочитать про алгоритмы.
+
+
+ilya t. [20 hours ago]
+@Victor ага, лафоре читал какое то время назад и собираюсь перечитать, реализацию красно черных деревьев я не очень понял) там ещё графы есть например, а у седжвика насколько я помню ещё куча тем, вот и задался вопросом потому что инфы много. Надеюсь лафоре достаточно)
+
+
+Grigory Kislin [1 hour ago]
+про O(N) статью прочти, основные надо знать
+и понимать- почему именно так
+поиск в отсортированном массиве

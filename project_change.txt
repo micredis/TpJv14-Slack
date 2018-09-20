@@ -265,3 +265,9 @@ md. lessons
 :white_check_mark: All checks have passed
 2/2 successful checks
 
+
+GitHub APP [3:04 PM]
+JavaWebinar
+*1 new commit pushed to `master`*
+`cc810ac1` - 11_12_fix
+JavaWebinar/topjava
