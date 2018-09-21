@@ -1122,3 +1122,58 @@ JUnit мб добавить можно...?
 
 matrocob [6:10 PM]
 https://hh.ru/resume/a6ebbccdff0591c2140039ed1f367047354a55 и мое можно тоже покритиковать ) буду исправлять тоже)
+
+
+sky [17 hours ago]
+в Тесты, экзамены ссылка - не ссылка
+
+
+matrocob [16 hours ago]
+@sky извини, не понял)
+
+
+Grigory Kislin [16 hours ago]
+согласен. не думаю что в тесты-эксзамены topjava
+еще- в России обычно вакансии на русском публикуют и резюме на них по русски надо
+
+
+sky [16 hours ago]
+Тесты, экзамены
+2018
+topjava
+http://javaops.ru, Java Middle
+
+Вот http://javaops.ru не тыкается у меня (edited)
+
+
+matrocob [16 hours ago]
+все, понял, убрал тесты))
+@Grigory Kislin
+а по поводу :
+```еще- в России обычно вакансии на русском публикуют и резюме на них по русски надо```
+вроде резюме на русском у меня или я где-то натупил?) (edited)
+
+
+matrocob [6:18 PM]
+ребят, кидаю вам ссылку, которая мне помогла тоже хорошо в продвижении! Отличный материал, особенно для тех, кто ни разу не был на собеседованиях еще. Интервью онлайн, которое было записано)
+https://www.youtube.com/channel/UCp26rn_Kog1AUJQ1Nx6QlNw
+P.S. ребят делитесь инфой, поможем друг другу! (edited)
+YouTube
+Stas Lozenko
+Все о Java и смежных технологиях
+
+
+Grigory Kislin [Yesterday at 6:39 PM]
+вот эта наверно - все mock интервью? https://www.youtube.com/playlist?list=PLrMbYGBDPsn8B_oQ5T9TPprdqggPbsEnL (edited)
+
+
+
+1 reply
+matrocob [17 hours ago]
+да)
+
+
+Yury [1:10 AM]
+Собственно говоря мое резюме. Замечания и предложения от опытных коллег приветствуются:
+https://drive.google.com/open?id=1HmMuhZNQUzaUyC7nd7WrfGiapezTxdw0
+https://drive.google.com/open?id=1A3e6xRFEWqwhml8Brnb97NDDTTscWt4p
