@@ -3128,3 +3128,14 @@ I have two entities: Account { @Id Long id; } Preference { ... @ManyToOne privat
 
 Yevhen Maksymovych [1 day ago]
 спасибо :slightly_smiling_face: в итоге подумал, и всё равно перешёл на дто, и ModelMaper, решил что принимать энтити напрямую с формы вредно )
+
+
+stea1th [1:55 PM]
+кто нибудт может помочь с деплоем программы не heroku?
+zf
+
+Victor [3:46 AM]
+вот прямо советую посмотреть, если тема логов вызывает сомнения:
+https://www.youtube.com/watch?v=qzqAUUgB3v8
+YouTubeJUG .ru
+Владимир Красильщик – Что надо знать о логировании прагматичному Java‑программисту

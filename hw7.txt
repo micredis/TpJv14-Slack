@@ -1349,3 +1349,14 @@ fbochkarev [20 hours ago]
 
 sky [20 hours ago]
 Pasted image at 2018-08-30, 5:52 PM
+
+
+dmitry_ov [Sep 23rd at 2:38 AM]
+Коллеги, так и не понял: `@EntityGraph` решает проблему N+1 ?
+@EntityGraph формирует запрос сразу к 2-м таблицам, выходит его можно использовать как решение
+Или я не так понял ? (edited)
+
+
+1 reply
+Grigory Kislin [3 days ago]
+так есть же логгирование запросов. там все видно

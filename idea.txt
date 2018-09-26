@@ -1226,3 +1226,136 @@ http://javaops.ru/static/img/title/topjava.png
 
 Vladimir Gorbatenko [11:58 AM]
 все нашлось, спасибо!
+
+
+dmitry_ov [Sep 22nd at 10:47 PM]
+Как в идее избавиться от ошибки при подсвечивании sql кода. Все работает, Idea говорит здесь ошибка . Изменения диалетка не помогли, datasource создал, итог тот же.
+Кто то знает, как это уведомление убрать ? (edited)
+Screen Shot 2018-09-22 at 22.45.06.png
+ 
+
+
+11 replies
+Victor [4 days ago]
+а что автофикс предлагает?
+
+
+Victor [4 days ago]
+может нужно другой метод, не update, использовать?
+
+
+dmitry_ov [4 days ago]
+Предлагает сменить диалект
+
+
+Victor [4 days ago]
+persistence->assign data sources и выбрать там data source не пробовал?
+
+
+dmitry_ov [4 days ago]
+Выше писал:
+“Изменения диалетка не помогли, datasource создал, итог тот же.” (edited)
+
+
+Victor [4 days ago]
+у меня раз просто перезагрузка идеи помогла... SQL у тебя точно такой же как и у меня.
+
+
+Victor [4 days ago]
+добавь alias попробуй, у тебя Постгрес?
+DELETE FROM meals m WHERE m.id=?
+
+
+Victor [4 days ago]
+или так DELETE FROM meals WHERE meals.id=?
+
+
+dmitry_ov [4 days ago]
+пересозда идеевский проект из исходников
+И все заработало
+
+
+dmitry_ov [4 days ago]
+Screen Shot 2018-09-23 at 01.23.15.png
+
+
+
+dmitry_ov [4 days ago]
+Какое то состояние идея хранит в своих файлах
+Сама косячит и не может подсказать как починить
+
+
+Tory12 [Sep 23rd at 3:32 PM]
+Всем привет, подскажите, пожалуйста, что нужно сделать? в проекте в idea показывает что TOPJAVA_ROOT_IS_UNDEFINED.
+Pasted image at 2018-09-23, 3:32 PM
+
+
+
+8 replies
+Yevhen Maksymovych [3 days ago]
+Установить переменную окружения TOPJAVA_ROOT
+
+
+Tory12 [3 days ago]
+А как это сделать?
+
+
+Yevhen Maksymovych [3 days ago]
+Windows или linux?
+
+
+Yevhen Maksymovych [3 days ago]
+Вообще, так же, как и JAVA_HOME
+
+
+Tory12 [3 days ago]
+Windows
+
+
+Yevhen Maksymovych [3 days ago]
+set TOPJAVA_ROOT=“c:/projects/...”
+
+
+Yevhen Maksymovych [3 days ago]
+Ну или какой там у тебя путь подставь
+
+
+Tory12 [3 days ago]
+Спасибо огромное :slightly_smiling_face:
+
+
+Tory12 [3:33 PM]
+JAVA_HOME настроила
+
+Grigory Kislin [3:52 PM]
+@Tory12 нужна переменная окружения TOPJAVA_ROOT как написано в занятии. видео смотришь? (edited)
+
+Tory12 [4:39 PM]
+Да, спасибо, разобралась
+
+Dmitry [5:08 PM]
+Всем привет,
+Перешел в качестве рабочей системы на линукс и вдруг - проблема с Идеей. При создании datasource не созраняется пароль.
+Соотвественно, на запустить скрипты из ide - ошибка "Сервер запросил парольную аутентификацию, но пароль не был указан."
+Никто случайно не сталкивался?
+
+Grigory Kislin [5:11 PM]
+да подглючивало и на виндах
+
+Dmitry [5:18 PM]
+А как решалось?
+
+Nikolay [5:34 PM]
+у меня все нормально
+может с правами где то накосячил
+
+Dmitry [5:36 PM]
+Наверное... Только не понятно где именно.
+
+Grigory Kislin [7:30 PM]
+да ввожу пароль и все. или у тебя постоянно сбрасывает? а версия какая? еще можно галочку read-only снять-записать-поставить.. или это от невозможности редактировать... (edited)
+
+Dmitry [7:40 PM]
+У меня - стоит галка "Сохранить пароль". Если ввожу пароль, нажимаю на "Apply", потом "Test Connection", то выпадает сообщение об ошибке.
+Если не нажимаю на "Apply", сразу жму на Тест, то тест соединения проходит.
+Но после нажатия на "Apply" снова пароль куда-то исчезает

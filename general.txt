@@ -5688,3 +5688,221 @@ Grigory Kislin [1 hour ago]
 про O(N) статью прочти, основные надо знать
 и понимать- почему именно так
 поиск в отсортированном массиве
+
+
+
+matrocob 4 days ago
+Читайте книгу: " алгоритмы и структуры данных Java". На собеседованиях 2 раза спрашивали и валил их. При мне посоветовал технический специалист, который прошел jr + topjava. В книге вроде все нормально и доходчиво написано, если что не понятно по книге -> я пишу в Ютубе название алгоритма и смотрю видосы, становится намного понятнее
+
+
+stea1th [2:06 PM]
+здрасти, кто нибудь может помочь в деплое на heroku?
+а то что то не могу разобраться
+
+
+stea1th [Sep 22nd at 2:59 PM]
+есть тут кто нибудь вообще?
+
+
+9 replies
+Victor [3 days ago]
+вообще есть, но herocu не хочет заниматься видно никто
+
+
+stea1th [3 days ago]
+а ты разбирался в деплое?
+
+
+Victor [3 days ago]
+нет
+
+
+stea1th [3 days ago]
+жалко... буду ждать, как кто нибудь появится
+
+
+Victor [3 days ago]
+там тебе видео сбросили ниже
+
+
+stea1th [3 days ago]
+я видео видел... дело не в topjava
+
+
+stea1th [3 days ago]
+я хотел свою программку в качестве теста занести
+
+
+Valery.Shkerdin [2 days ago]
+Что конкретно не получается? У них, вроде, пошаговые инструкции почти на все случаи жизни есть.
+
+
+stea1th [2 days ago]
+Все получилось, спасибо
+:grinning:
+
+
+Alexander Pilipenko [10:40 AM]
+Что не получается? https://drive.google.com/file/d/0B9Ye2auQ_NsFZkpVM19QWFBOQ2c/view
+
+izgarshev.pavel [9:49 PM]
+Task description
+Part 1
+We need to develop simple console bug tracker system:
+The system should have following capabilities:
+1.
+It should be console application
+2.
+All the data structures (Project,
+Users
+, Issues) should be stored in the filesystem in
+cluding
+relations between them
+3.
+It should have the ability to load Projects, Users, Issues to the application
+4.
+It should have the ability to display the list of entities for any type of object
+5.
+It should have the ability to generate the report of all Issues created f
+or specif
+ied Projects by
+specified User
+Details
+:
+•
+Data structures can be stored in memory. No database needed.
+•
+It is recommended to use logging libraries
+Part 2
+Description:
+1.
+Design database structure for the same system
+2.
+Prepare SQL script for filling table
+s
+3.
+Prepare SQL query for all Issues created for specified Projects by specified User
+Details:
+•
+It is recommended to use embed
+d
+ed database (
+SQLite
+, H2)
+Advanced Part (Optional)
+Part 1
+and
+Part 2
+can be combined in
+to
+one project. You can load data structures
+from filesystem
+directly in database and then use JDBC queries for retrieving data.
+
+
+Victor [20 hours ago]
+> All the data structures (Project,
+Users
+, Issues) should be stored in the filesystem in
+cluding
+я не могу понять, что тут конкретно просят сделать? Что значит сохранить сохранить Project, Issue structure? вроде сериализации доменной структуры?
+
+
+Victor [20 hours ago]
+Issue - имеется ввиду что нужно сохранить структуру проекта тогда, когда exception вылетит?
+
+
+izgarshev.pavel [19 hours ago]
+Я это вообще понял по-своему и сделал встроенную базу данных, к которой относились классы project, user, issue и сделал возможность CRUD через команды консоли. Никаких багов мое приложение не отлавливало, но работало с БД. В общем толком добиться, что от меня хотят я тоже не смог. Как итог - совет читать Эккеля и подобных.
+
+
+izgarshev.pavel [9:50 PM]
+Обещал скинуть пример тестового задания
+
+realcorwin [12:27 AM]
+Вдруг кому интересно. JSF под SB: https://auth0.com/blog/developing-jsf-applications-with-spring-boot/
+Auth0 - Blog
+Developing JSF applications with Spring Boot
+Spring Boot can leverage any type of applications, not only microservices. Let's build a JSF application with Spring Boot.
+
+
+Stanislav [Today at 1:18 AM]
+Можно как то в Идеи "отключить-игнорировать" класс-ы, что бы не участвовали в компиляции?
+
+
+15 replies
+Kirilo [17 hours ago]
+Интересный вопрос. А зачем это вообще нужно? (edited)
+
+
+Stanislav [17 hours ago]
+Рефакторинг. Например есть зависимость у множество классов, разбиваешь эту зависимость на 2-5 классов и теперь необходимо каждый класс исправлять, автоматом не получится т.к. есть общие методы, но разные реализации....Конкретно мне это надо для тестов, ни один тест не запустишь на проверку пока покеты не разберешь остальныех
+
+
+Kirilo [17 hours ago]
+Как-то все очень запутано. Я еще тесты не начинал делать. Хотя, остальное все сделал.
+
+Kirilo [17 hours ago]
+Кстати, проблема может быть в статических классах. Подсмотрел где-то в нэте. Всю статику убрал - перевел на инициализацию внутри конструкторов (edited)
+
+
+Stanislav [17 hours ago]
+:slightly_smiling_face: Проблема, а вернее вопрос, озвучен выше
+
+
+Stanislav [17 hours ago]
+Проблем ни каких нет :slightly_smiling_face:
+
+
+Stanislav [17 hours ago]
+Вопрос простой, мешает класс, удалять не хочу, возможно ли его как то пометить-исключить из компеляции
+
+
+Kirilo [17 hours ago]
+так у нас это решалось с помощью профилей в топджава. Собстенно для этого их Григорий и ввел. Разные реализации - разные классы в сборке (edited)
+
+
+Kirilo [17 hours ago]
+То бишь тебе нужно Спринг уведомить с помощью соответствующего профиля. Идея вообще не учавствует в сборке. Там можно только отметить визуально. (edited)
+
+
+Kirilo [16 hours ago]
+Еще, как вариант, сделай в отдельной ветке
+
+
+Stanislav [16 hours ago]
+Кирило извини, но ты не в ту сторону пишешь...
+
+
+Stanislav [16 hours ago]
+Тему закрываю, нашел.
+
+
+Kirilo [16 hours ago]
+Поделись, что нашел.
+
+
+Stanislav [16 hours ago]
+Settings->Compiler->Excludes
+
+
+Kirilo [16 hours ago]
+Интересно. Это, наверное, инфа для maven таким образом указывается (edited)
+
+
+zippospb [Today at 2:28 AM]
+Вот как так. Пишу тест на создание голоса. в классе голоса есть поля user, restaurant, date, time. Если просто прогонять тест, то ругается, что в возвращенном объекте restaurant = null. А если сделать breakpoint в контроллере сразу после сохранения голоса в базе и запустить в дебаге с остановом в этом месте, то тест проходит нормально!
+
+
+3 replies
+zippospb [16 hours ago]
+т.е. для нормального прогона теста оказывается достаточным остановиться в дебаге в определенном месте и сразу же продолжить выполнение программы
+
+
+Grigory Kislin [1 hour ago]
+в дебаге вызывается toString внути транзакции и все ок
+а если lazy и вышел из транзакции, то с hiubernate5 модулем сериализация не происходит
+
+
+realcorwin [34 minutes ago]
+как страшно жить :slightly_smiling_face:
