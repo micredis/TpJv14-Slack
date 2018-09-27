@@ -3139,3 +3139,7 @@ Victor [3:46 AM]
 https://www.youtube.com/watch?v=qzqAUUgB3v8
 YouTubeJUG .ru
 Владимир Красильщик – Что надо знать о логировании прагматичному Java‑программисту
+
+
+Yevhen Maksymovych [11:54 AM]
+ребят, кто мокито пользует? можно глупый короткий вопрос по нему?

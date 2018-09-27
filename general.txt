@@ -5906,3 +5906,84 @@ Grigory Kislin [1 hour ago]
 
 realcorwin [34 minutes ago]
 как страшно жить :slightly_smiling_face:
+
+
+zippospb [16 hours ago]
+Думал решу проблему поставив Eager, а вот кукиш. набор аннотаций над полем User и Restaurant одинаковый, но при fetch eager User не проксируется, а Restaurant проксируется
+
+
+Stanislav [15 hours ago]
+Еще как вариант, даже если Eager, есть вероятность использования repository.getOne
+
+
+alexey [Yesterday at 8:32 PM]
+Решил перевести наше приложение на Spring boot и все бы хорошо, но вот по не понятной мне причине хоть в юзере у еды и стоит fetchtype.lazy, но пользователь все равно достается с едой а еда с пользователем и в итоге получаю - "StackOverflowError". Подскажите пожалуйста, как не прибегая к аннотации @JsoneIgnore вылечить эту беду??
+
+
+1 reply
+zippospb [17 hours ago]
+погугли про JsonManagedReference и JsonBackReference
+
+
+Tim [Today at 8:54 AM]
+Привет всем, есть у кого задание выпускного проекта, хотел свериться че делать дальше - а ссылка на описание перестала работать, выдает 404
+
+
+6 replies
+Stanislav [8 hours ago]
+В папке проекта topjava файл graduation.md
+
+
+Tim [8 hours ago]
+https://github.com/JavaWebinar/topjava
+JavaWebinar/topjava
+Language
+----------------
+Java
+
+Last updated
+----------------
+9 hours ago
+
+JavaWebinar/topjavaYesterday at 11:14 PM Added by GitHub
+
+
+Tim [8 hours ago]
+там сейчас нет
+
+
+Stanislav [7 hours ago]
+В твоем проекте topjava есть файл
+
+
+Tim [7 hours ago]
+а, точно)
+
+
+Tim [7 hours ago]
+спасибо
+
+
+Tim [8:54 AM]
+?
+
+
+Tim [Today at 10:39 AM]
+Ребят, как я понял ТЗ, все юзеры голосуют за рестораны, а потом все идут исть в тот, который набрал большинство голосов. Я неправильно понял?
+
+
+3 replies
+e.pekhterev [6 hours ago]
+просто голосуют за тот ресторан, где сегодня хотят откушать ланч. про последствия ничего не сказано
+
+
+Tim [5 hours ago]
+то есть нам нужно просто записать их голос?
+
+
+e.pekhterev [4 hours ago]
+нужно записать, если выполняются условия задания
+
+
+Dmitry [2:17 PM]
+Камрады, кто проект с уроками забрал к себе в гит? Поделитесь пожалуйста. Я забрал, но что-то не то (
