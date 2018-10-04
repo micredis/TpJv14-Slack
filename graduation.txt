@@ -1667,3 +1667,25 @@ Tim [10:39 AM]
 
 Grigory Kislin [2:06 PM]
 @Tim куда они пойдут- почему тебя волнует?? тебе по ТЗ голос принять
+
+
+viges2201 [Yesterday at 4:33 PM]
+Кто подскажет org.hibernate.LazyInitializationException: could not initialize proxy [restaurant.model.User#100000] - no Session
+
+
+3 replies
+alexey [20 hours ago]
+в @Transactional засунь
+
+
+viges2201 [19 hours ago]
+Тут дело видимо в полях которые игнорировать нужно
+
+
+Kirilo [6 hours ago]
+MVC cofig  настраивать нужно. В ObjectMapper указывать Jackson(у) что сериализовать, что видеть. (edited)
+
+
+viges2201 [4:33 PM]
+не могу найти причину почему закрывается сессия
+делаю по аналогии с топджава
