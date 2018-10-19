@@ -6085,3 +6085,50 @@ bazz Today at 10:52 AM
 
 Join_Selectovich  1 hour ago
 #graduation
+
+
+Kirilo [6:39 PM]
+Java Developer
+Location: Gdańsk, Poland (possible relocation to Boston, US in the future)
+2 600 – 6 000 $
+Key Technical Skills:
+Java 8 (good understanding of new features added in Java :sunglasses:
+PL/SQL (ansi SQL preferred)
+Experience with any modern web framework (Spring, Play, Struts … )
+Understanding unit tests (junit, mockito, etc)
+Nice to have: Scala, Akka
+JPA2+ (Hibernate knowledge is a plus)
+
+Responsibilities for this position include:
+Work effectively on a global team with product managers and development engineers
+Participate in full lifecycle software development
+Work with Business Analysts in translating business requirements into high-level functional design specification
+Develop applications and features at the direction of the technical lead and Business Analysts
+Make best design and implementation decisions to ensure quality and efficiency
+Conduct code reviews with your peers
+Planning and working flexibly to a deadline
+Be able to triage issues in both production and pre-production environments by reviewing code and logs as necessary
+Adopt and champion continuous integration and agile development best practices to drive emergent design and solid implementation to ensure quality and efficiency
+
+Qualifications for this position include:
+3+ years Java project development experience
+3+ years PL/SQL project development experience
+Understanding of web service 3+ years development experience (Java)
+Experience in full life-cycle development
+Understanding of web applications
+Excellent IT understanding
+Good analytical orientation
+Excellent communication skills (English)
+Self-motivated, detail oriented, and highly responsible
+
+We offer:
+permanent contract from the very beginning
+Good salary dependent on skills and experience
+Private healthcare after 1 month
+Office in a convenient location
+Equipment needed for your work
+Complete training
+Good atmosphere of work, friendly, multicultural work environment
+Bonus for recommending a friend 2000 PLN
+https://djinni.co/r/39380-manager-at-sriinfotech-com/ (edited)
+:slightly_smiling_face:

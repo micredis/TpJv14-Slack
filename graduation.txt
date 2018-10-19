@@ -1714,3 +1714,41 @@ viges2201 [12 hours ago]
 
 viges2201 [3:01 PM]
 уже готовым методом
+
+
+bazz [Oct 15th at 2:58 PM]
+ребята а канал по работе/ собеседованиям есть?
+
+
+5 replies
+Grigory Kislin [4 days ago]
+в группе слак javaops есть interview, job_feedback, vacancies (вступить можно из профиля javaops)
+
+
+bazz [4 days ago]
+в профиле ничего не увидел,может ссылку?
+
+
+realcorwin [4 days ago]
+https://javaops.slack.com/
+
+
+bazz [3 days ago]
+туда нужно иметь приглашение? меня не пускает
+
+
+Victor [3 days ago]
+с сайта topjava по-моему получить можно
+
+
+bazz [11:36 AM]
+ребята а группа по выпускному проекту где? @Grigory Kislin (edited)
+
+Grigory Kislin [7:06 PM]
+есть канал #graduation группы нет
+
+bazz [9:08 AM]
+@Grigory Kislin сдавал свой выпускной на проверку, когда будут результаты?
+
+Grigory Kislin [4:56 PM]
+всем привет! проверку начал сегодня, извините за опоздание... в порядке сдачи отписываюсь (edited)
