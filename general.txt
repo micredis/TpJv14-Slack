@@ -6352,3 +6352,19 @@ Kirilo [Oct 23rd at 6:21 PM]
 1 reply
 Kirilo [1 day ago]
 Похоже, что нужно делать доступ с разных источников, чтобы такое обойти. https://ergonotes.ru/7-sposobov-zashhitit-sayt-ot-parsinga-i-kak-ih-oboyti/
+
+
+Grigory Kislin [12:09 PM]
+@here
+Внимание, в конце недели группу удаляю
+Общаться далее предлагаю в общей группе javaops: горячии вакансии в канале #vacancies
+Другие каналы:
+#help - помошь,
+#events - события,
+#interview - прохождение интервью,
+#job_feedback - отзывы о работе,
+#links - полезные ссылки,
+#test_task, #test_task_discussion - тестовые задания и обсуждение,
+#study - обучение
+#rss- подписка на RSS JUG, Хабрабабр, Типичный программист
+ссылка для присоединения: https://join.slack.com/t/javaops/shared_invite/enQtNDk5OTUyOTgxODE0LWQ3MWMzMDAxZTUyYmNhZDYwYTRlNDNjNGJkMWRkMTk2NTg2YTI3ZGQyM2RiMWMzY2QyNjIwNDlhNGU2OTUxZjU (edited) 
